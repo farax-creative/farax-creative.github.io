@@ -245,7 +245,8 @@
     border:1px solid var(--line-2); border-top-color:var(--line-3); border-left-color:var(--line-3);
     animation:sunspin 46s linear infinite}
   .sun-logo{width:94px; height:94px;
-    background-image:var(--farax-logo); background-size:contain; background-repeat:no-repeat; background-position:center}
+    background-image:var(--farax-logo); background-size:contain; background-repeat:no-repeat; background-position:center;
+    transform:translateY(2px)}  /* glyph reads a hair high optically; nudge down */
   .sun-cap{position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:14px; white-space:nowrap;
     font-family:var(--label); font-size:15px; letter-spacing:.28em; text-indent:.28em; color:var(--cream); text-align:center}
   .sun-cap small{display:block; font-family:var(--mono); font-size:8px; letter-spacing:.24em; color:var(--ink-3); text-indent:.24em; margin-top:5px}
@@ -483,6 +484,17 @@
     transition:border-color .18s, color .18s, background-color .18s}
   .links a .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s}
   .links a:hover{border-color:var(--line-3)}
+
+  /* "In this series" — internal nav from a series panel (Zap) down to its products */
+  .kids{display:flex; flex-direction:column; gap:11px}
+  .kid{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line-2);
+    padding:14px 16px; text-decoration:none; transition:border-color .18s, background-color .18s}
+  .kid-info{display:flex; flex-direction:column; gap:4px}
+  .kid-info b{font-family:var(--label); font-size:15px; letter-spacing:.08em; color:var(--ink); font-weight:600}
+  .kid-info em{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); font-style:normal}
+  .kid .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s}
+  .kid:hover{border-color:var(--line-3); background:rgba(255,243,234,.03)}
+  .kid:active{transform:scale(.99)}
 
   /* -------- ZAP THEME: the ONLY place --zap yellow is allowed --------
      Gated on #panel.zap, which JS sets ONLY for the live Zap Output node. */
@@ -955,7 +967,7 @@
       ]},
     zap:{ n:"02", status:"Series 01 — live", led:"live", title:"ZAP", sub:"THE SERIES · TWO PRODUCTS", glyph:"bolt",
       body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Two products circle it: <em>Zap Output</em> is live now, and <em>Zap Doctor</em> is still in development. Follow them to open each one.",
-      specs:[], links:[] },
+      specs:[], links:[], kids:["output","doctor"] },
     output:{ n:"03", status:"Live — available now", led:"live", title:"ZAP OUTPUT", sub:"RENDER PATH TOKENS", zap:true, glyph:"output", demo:true,
       body:"The live product in the Zap series. Insert render-path tokens with one click and watch the resolved path update live — before you ever hit render. The tool that ends the <em>overwritten-sequence</em> disaster.",
       specs:[
@@ -1403,6 +1415,16 @@
        `<h2 class="p-title">${d.title}</h2>`+
        `<p class="p-sub">${d.sub||""}</p>`+
        `<p class="p-body">${d.body}</p>`;
+    if(d.kids && d.kids.length){
+      h+=`<p class="tier-head">In this series</p><div class="kids">`+
+        d.kids.map(k=>{
+          const kd=DATA[k];
+          return `<a href="#${SLUGS[k]}" class="kid" data-open-node="${k}">`+
+            `<span class="kid-info"><b>${kd.title}</b><em>${kd.status}</em></span>`+
+            `<span class="ar">↗</span></a>`;
+        }).join("")+
+        `</div>`;
+    }
     if(d.demo){
       h+=`<p class="tier-head">Try it — build a path, then render</p>`+
         `<div class="p-demo">`+
@@ -1722,6 +1744,16 @@
   panelClose.addEventListener("click", closePanel);
   scrim.addEventListener("click", closePanel);
   addEventListener("keydown", e=>{ if(e.key==="Escape" && panel.classList.contains("open")) closePanel(); });
+
+  /* "In this series" rows (.kid) jump straight to a child product's panel.
+     Delegated on panelBody itself (never replaced, only its innerHTML is),
+     so this is wired once and needs no re-arming after each openPanel(). */
+  panelBody.addEventListener("click", e=>{
+    const row = e.target.closest("[data-open-node]");
+    if(!row) return;
+    e.preventDefault();
+    openPanel(row.dataset.openNode);
+  });
 
   /* ------------------ node activation (click / keyboard) ----------------
      Bodies keep orbiting; we do NOT chase them with the camera. A click
