@@ -145,7 +145,14 @@
        Enter/Space runs the same full-ceremony enterSystem() as the primary button.
        Restrained hover (soft achromatic glow + a hair of scale), matching the file's
        other hover weights. The "Enter the system" button stays the obvious primary CTA. */
-    cursor:pointer; border-radius:50%;
+    cursor:pointer;
+    /* v8-fix: NO border-radius on this element. CSS clips a background-image to the
+       element's border-radius even without overflow:hidden, so border-radius:50% here
+       cropped the non-circular "F" glyph (its top serif + bottom foot) into a circle.
+       The circular/orbital affordance is carried entirely by the two dashed orbit-ring
+       pseudo-elements below (which keep their own border-radius:50%). The keyboard
+       :focus-visible outline stays a small square hugging the mark — a rare, deliberate
+       state that sits well inside the dashed rings and reads as a normal focus box. */
     transition:transform .3s var(--ease), filter .3s var(--ease), opacity .3s var(--ease)}
   .lock-logo:hover{opacity:1; transform:scale(1.05); filter:drop-shadow(0 0 18px rgba(244,235,221,.22))}
   .lock-logo:active{transform:scale(1.0)}
@@ -231,6 +238,11 @@
       linear-gradient(var(--line) 1px, transparent 1px),
       linear-gradient(90deg, var(--line) 1px, transparent 1px);
     background-size:80px 80px; opacity:.5;
+    /* v-depth: decorative differential parallax. apply() writes --ppx/--ppy each frame so
+       these backdrop-only layers pan slightly less than the interactive nodes (reads as
+       "farther back"). Defaults to 0 -> no effect unless apply() drives it. Derivation +
+       reduced-motion handling live in apply(). */
+    transform:translate(var(--ppx,0px), var(--ppy,0px));
   }
   .grid.fine{background-size:16px 16px; opacity:.28;
     background-image:
@@ -351,7 +363,10 @@
      so the flat map reads with a hint of 3D. Warm-cream + achromatic (same family as
      the sun disc; NEVER the zap yellow). Static div, pointer-events none, behind nodes. */
   .plane-depth{position:absolute; left:1200px; top:780px; width:1680px; height:1680px;
-    transform:translate(-50%,-50%); pointer-events:none;
+    /* v-depth: base centering translate PLUS the decorative parallax offset (--ppx/--ppy,
+       written by apply(); defaults to 0). Order matters — centering first, then the small
+       parallax nudge — so the pool stays anchored on the sun at rest. */
+    transform:translate(-50%,-50%) translate(var(--ppx,0px), var(--ppy,0px)); pointer-events:none;
     background:radial-gradient(circle at center,
       rgba(244,235,221,.055), rgba(244,235,221,.02) 34%, transparent 62%)}
 
@@ -1323,6 +1338,11 @@
   const enterBtn = document.getElementById("enterBtn");
   const viewport = document.getElementById("mapViewport");
   const surface = document.getElementById("mapSurface");
+  // v-depth: purely-decorative backdrop layers (grid, fine grid, plane-depth). No
+  // hit-test, click handler, or position-math function references any of these — they are
+  // pure visual backdrop — so nudging them for a parallax depth cue can't desync the map.
+  const parallaxLayers = surface.querySelectorAll(".grid, .plane-depth");
+  const PARALLAX = 0.88;   // backdrop tracks 0.88x the foreground pan -> reads slightly farther back
   const dragHint = document.getElementById("dragHint");
   const panel = document.getElementById("panel");
   const scrim = document.getElementById("scrim");
@@ -1354,11 +1374,46 @@
   const zoomValEl = document.getElementById("zoomVal");
   const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
   function bounds(){
+    // v8-fix: at low zoom the scaled surface can be SMALLER than the viewport on an axis
+    // (e.g. SURF_W*0.7 = 1680px < a 1920px-wide desktop). The old form returned
+    // minX = vw - SURF_W*scale (a POSITIVE number) with maxX = 0 — an inverted range that
+    // clamp(v,min>0,max=0) collapses to a single forced value, jamming the map into a
+    // corner with no play. When the surface no longer fills an axis we CENTER it instead:
+    // minX === maxX at the equal-margin position, so that axis rests centered and any
+    // active drag rubber-bands symmetrically around it. When the surface DOES overflow the
+    // axis we keep the original clamp-to-edges behaviour (minX = vw - scaledW, maxX = 0).
     const vw = innerWidth, vh = innerHeight;
-    return { minX:Math.min(0,vw-SURF_W*scale), maxX:0, minY:Math.min(0,vh-SURF_H*scale), maxY:0 };
+    const sw = SURF_W*scale, sh = SURF_H*scale;
+    let minX, maxX, minY, maxY;
+    if(sw <= vw){ const cx = (vw - sw)/2; minX = maxX = cx; }
+    else { minX = vw - sw; maxX = 0; }
+    if(sh <= vh){ const cy = (vh - sh)/2; minY = maxY = cy; }
+    else { minY = vh - sh; maxY = 0; }
+    return { minX, maxX, minY, maxY };
   }
   function apply(){
     surface.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    /* v-depth: SAFE (decorative-layer-only) parallax depth cue. A literal perspective/
+       rotateX tilt on #mapSurface is NOT done here — it would break the linear
+       "surface point (ax,ay) paints at screen (tx+scale*ax, ty+scale*ay)" contract that
+       zoomTo()'s focal math, updateRecenter(), updateMiniView() and the hover-preview all
+       depend on. Instead the backdrop-only layers pan slightly less than the nodes.
+       Math: the parent (#mapSurface) paints a surface point P at screen (tx,ty)+scale*P.
+       Adding translate(d) to a CHILD shifts its net screen position by scale*d (the child
+       lives inside the scaled parent). To make a layer's pan-response track PARALLAX*(tx,ty)
+       instead of 1*(tx,ty) while keeping it registered at tx=ty=0, solve
+         tx + scale*dx = PARALLAX*tx  ->  dx = (PARALLAX-1)/scale * tx   (same for dy).
+       Net: screen_x = PARALLAX*tx + scale*P_x, so the backdrop moves PARALLAX-of the nodes'
+       pan and its home position (scale*P_x) is untouched. Check: PARALLAX=0.88, scale=1,
+       tx=-480 -> dx = -0.12*(-480) = +57.6px, net bg = 0.88*-480 = -422.4 vs nodes -480,
+       a ~58px lag across a full edge drag — subtle, no swim. Purely additive: reads
+       tx/ty/scale, writes only --ppx/--ppy on non-interactive layers (nothing any other
+       function consumes). Flattened under reduced-motion (vars stay 0 -> layers locked). */
+    if(!REDUCED && parallaxLayers.length){
+      const k = (PARALLAX - 1)/scale;
+      const ppx = (k*tx).toFixed(2)+"px", ppy = (k*ty).toFixed(2)+"px";
+      for(const el of parallaxLayers){ el.style.setProperty("--ppx", ppx); el.style.setProperty("--ppy", ppy); }
+    }
     cxEl.textContent = String(Math.abs(Math.round(tx))).padStart(4,"0");
     cyEl.textContent = String(Math.abs(Math.round(ty))).padStart(4,"0");
     if(zoomValEl) zoomValEl.textContent = Math.round(scale*100) + "%";
