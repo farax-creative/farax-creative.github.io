@@ -2423,6 +2423,12 @@
     const name=el.dataset.target;
     el.addEventListener("click", ()=>{ if(moved) return; hapticTap(); openPanel(name); });   // §6: one short buzz on the real node-open
     el.addEventListener("keydown", e=>{
+      // v13: the lock screen blocks mouse clicks here via stacking (no pointer-events:none
+      // on #lock itself), but keyboard Tab ignores stacking entirely -- without this guard
+      // a node behind the still-blurred lock could be silently focused and Enter/Space-
+      // activated, opening a panel while the lock is still up. Require entered() first,
+      // same as the focus-follow-camera behaviour below.
+      if(!entered()) return;
       if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(name); }
     });
     /* v12 keyboard-reach: bodies orbit continuously and the map is larger than the
