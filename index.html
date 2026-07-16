@@ -465,20 +465,27 @@
   .zoom-group .ctl-btn + .ctl-btn{margin-top:-1px}
   #zoomVal{font-size:8.5px; letter-spacing:.02em; font-variant-numeric:tabular-nums}
 
-  /* =========================== WAYPOINT BAR =========================== */
-  #dock{position:fixed; left:0; right:0; bottom:0; z-index:64; padding:20px 44px 22px;
-    background:linear-gradient(0deg, rgba(6,11,11,.94) 30%, transparent);
-    display:flex; align-items:flex-end; gap:22px}
-  #dock .dock-zero{font-family:var(--mono); font-size:9px; letter-spacing:.2em; color:var(--ink-3); padding-bottom:2px; white-space:nowrap}
-  #dock .track{position:relative; flex:1; display:flex; border-top:1px solid var(--line-2); padding-top:14px}
-  #dock .wp{position:relative; flex:1; text-align:left; background:none; border:none; cursor:pointer;
-    padding:0 12px 2px 0; transition:color .2s}
-  #dock .wp::before{content:""; position:absolute; top:-15px; left:0; width:1px; height:9px; background:var(--line-2); transition:background-color .2s, height .2s}
+  /* =========================== WAYPOINT RAIL =========================== */
+  /* v12 composition: the waypoint index was a full-width bottom bar — a generic
+     "map-HUD" trope. It is now a slim VERTICAL rail down the left edge, vertically
+     centred, each waypoint hanging off a shared vertical spine (border-left) with a
+     short horizontal tick. Purely positional — buildDock / markActive / the click
+     handler (centerOnSun + openPanel) are unchanged; no waypoint reads a screen
+     coordinate. Mobile restores the horizontal bottom bar (max-width:720px block). */
+  #dock{position:fixed; left:34px; top:50%; transform:translateY(-50%); z-index:64;
+    display:flex; flex-direction:column; align-items:stretch; gap:0; padding:4px 0}
+  #dock .dock-zero{font-family:var(--mono); font-size:8.5px; letter-spacing:.24em; color:var(--ink-3);
+    white-space:nowrap; margin:0 0 13px 16px}
+  #dock .track{position:relative; display:flex; flex-direction:column; gap:15px;
+    border-left:1px solid var(--line-2); padding-left:16px}
+  #dock .wp{position:relative; text-align:left; background:none; border:none; cursor:pointer;
+    padding:0; transition:color .2s}
+  #dock .wp::before{content:""; position:absolute; left:-16px; top:7px; width:9px; height:1px; background:var(--line-2); transition:background-color .2s, width .2s}
   #dock .wp .wp-name{display:block; font-family:var(--label); font-size:14px; letter-spacing:.1em; color:var(--ink-3); transition:color .2s}
-  #dock .wp .wp-stat{display:block; font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-4); margin-top:4px; transition:color .2s}
+  #dock .wp .wp-stat{display:block; font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-4); margin-top:3px; transition:color .2s}
   #dock .wp:hover .wp-name,#dock .wp:focus-visible .wp-name{color:var(--ink)}
   #dock .wp.active .wp-name{color:var(--cream)}
-  #dock .wp.active::before{background:var(--cream); height:13px}
+  #dock .wp.active::before{background:var(--cream); width:15px}
   #dock .wp.active .wp-stat{color:var(--ink-2)}
 
   /* "back to centre" button — top-centre, achromatic instrument look, hidden until
@@ -553,14 +560,18 @@
   .p-status{font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-2); margin:0 0 14px; display:flex; align-items:center; gap:9px}
   .p-status .led{width:6px; height:6px; border-radius:50%; background:var(--ink-3)}
   .p-title{font-family:var(--display); font-weight:400; font-size:46px; line-height:.96; letter-spacing:-.005em; margin:0 0 10px; color:var(--cream);
-    transform-origin:left center; animation:titleSettle .26s var(--ease) both}  /* §15: neutral-to-tight tracking for the large panel title */
+    transform-origin:left center; animation:titleSettle .34s var(--ease) both}  /* §15: neutral-to-tight tracking for the large panel title */
   /* §8 title "settle" on every open: opacity+scale ease in, critically damped (var(--ease)
      never overshoots). Retriggers naturally because openPanel rebuilds .p-title fresh each
      call. Both display fonts are SINGLE-WEIGHT, so a font-weight animation would snap or
      synthesize fake bold — this uses scale+opacity instead, which the real fonts support.
      The global reduced-motion guard nulls this animation -> instant appearance. */
-  @keyframes titleSettle{from{opacity:0; transform:scale(1.035)} to{opacity:1; transform:scale(1)}}
-  .p-sub{font-family:var(--label); font-size:14px; letter-spacing:.14em; color:var(--ink-2); margin:0 0 22px}
+  /* §B2 one bold, oversized type moment: the panel title now OVERSHOOTS large on open
+     (scale 1.16 -> 1), a brutalist scale-contrast beat. transform-origin:left keeps it
+     anchored to the left margin as it settles; var(--ease) is critically damped (no
+     bounce). The global reduced-motion guard nulls this -> instant final title. */
+  @keyframes titleSettle{from{opacity:0; transform:scale(1.16)} to{opacity:1; transform:scale(1)}}
+  .p-sub{font-family:var(--mono); font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-2); margin:0 0 22px}  /* §T: technical subtitle in mono (terminal read) */
   .p-body{font-family:var(--serif); font-size:15px; line-height:1.74; color:var(--ink-2); margin:0 0 26px}
   .p-body em{color:var(--ink); font-style:italic}
   /* real product evidence (Zap Output) — captured GIF of the live add-on, embedded as a data: URI */
@@ -867,13 +878,12 @@
      #helpBtn transition is restated here (after its base rule) so opacity joins its
      existing border/colour transitions instead of clobbering them. */
   body.pre-entry #minimap,
-  body.pre-entry #coords,
+  body.pre-entry #hudCluster,
   body.pre-entry #dock,
-  body.pre-entry #helpBtn,
-  body.pre-entry #viewCtl,
   body.pre-entry #hudLinks{opacity:0; pointer-events:none}
-  #minimap,#coords,#dock,#viewCtl,#hudLinks{transition:opacity .8s var(--ease)}
-  #helpBtn{transition:border-color .2s, color .2s, opacity .8s var(--ease)}
+  #minimap,#hudCluster,#dock,#hudLinks{transition:opacity .8s var(--ease)}
+  /* #coords / #viewCtl / #helpBtn now live INSIDE #hudCluster (one framed instrument
+     group), so the cluster's fade covers them — no per-element gating needed. */
 
   @media (max-width:720px){
     .id-cluster{left:26px; top:26px}
@@ -989,7 +999,7 @@
      system is entered (.ready, added on enter — it sits above the lock at z 132,
      so the gate keeps it off the lock screen). The list overlay is opaque, so the
      map (still orbiting) is simply hidden beneath it, never paused. */
-  #viewToggle{position:fixed; top:70px; right:26px; z-index:132; display:none;
+  #viewToggle{position:fixed; top:72px; left:44px; z-index:132; display:none;
     align-items:center; gap:7px; padding:8px 12px;
     background:rgba(6,11,11,.82); border:1px solid var(--line-2); color:var(--ink-2);
     font-family:var(--label); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
@@ -998,14 +1008,7 @@
   #viewToggle svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
   #listView{position:fixed; inset:0; z-index:130; background:var(--void); overflow-y:auto; display:none; padding:96px 22px 40px}
   #listView .lv-head{font-family:var(--mono); font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px}
-  .lv-row{display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; text-align:left;
-    background:none; border:0; border-top:1px solid var(--line); padding:18px 4px; cursor:pointer}
-  .lv-row:last-child{border-bottom:1px solid var(--line)}
-  .lv-row .lv-info{display:flex; flex-direction:column; gap:5px; min-width:0}
-  .lv-row .lv-name{font-family:var(--label); font-size:18px; letter-spacing:.08em; color:var(--cream)}
-  .lv-row .lv-stat{font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3)}
-  .lv-row .lv-ar{font-family:var(--mono); font-size:15px; color:var(--ink-3); flex:none}
-  .lv-row:active{background:rgba(244,235,221,.04)}
+  /* (the old plain .lv-row list was replaced by the §3 bento grid — see the v12 block below) */
 
   /* §4 — mobile bottom-sheet + grab handle. Desktop (>720) keeps the side
      slide-in entirely unchanged; every sheet rule lives inside the media query. */
@@ -1031,6 +1034,107 @@
   @media (prefers-reduced-transparency:reduce){
     #hudLinks a,#viewToggle{backdrop-filter:none; background:var(--void2)}
     #nodePreview,#nodePreview .np-play{backdrop-filter:none; background:var(--void2)}
+  }
+
+  /* =========================== v12 DIFFERENTIATION PASS ===========================
+     A harder "technical mono / terminal" read on the panel, a couple of squared /
+     heavier-weight chrome edges (brutalist), a consolidated control cluster, and a
+     desktop bento view. All achromatic — no new hue; yellow stays gated on #panel.zap.
+     Every animated addition (caret blink, title overshoot, card LED) degrades under the
+     global reduced-motion guard directly below. */
+
+  /* §T terminal identity -------------------------------------------------
+     A single blinking block caret after the you-are-here breadcrumb (step-end so it
+     snaps like a real text cursor), a quiet mono ">" prompt before the panel status
+     line and each "Recently" log entry, and a barely-there CRT scanline over the whole
+     panel surface. The scanline is static (no animation) and ~2.6% cream — a screen
+     texture far too low to touch text legibility. The reduced-motion guard freezes the
+     caret solid (still a legible cursor, not motion). */
+  .crumb-here::after{content:"_"; margin-left:1px; color:var(--ink-2); animation:caret-blink 1.1s step-end infinite}
+  @keyframes caret-blink{0%,49%{opacity:1} 50%,100%{opacity:0}}
+  .p-status .ps-prompt{color:var(--ink-3); font-weight:600; margin-right:1px}
+  .rtl-label::before{content:"> "; color:var(--ink-3)}
+  /* CRT scanline as a panel BACKGROUND layer: default background-attachment:scroll pins it
+     to the panel's border box (it does NOT scroll away with the content) and paints it
+     BEHIND text — so it can never touch legibility. ~2.6% cream. Nested opaque surfaces
+     (.spec / .pd-panel) sit on top, so the texture reads only in the panel's open areas. */
+  #panel{background-color:var(--void2);
+    background-image:repeating-linear-gradient(to bottom,
+      rgba(244,235,221,.026) 0px, rgba(244,235,221,.026) 1px, transparent 1px, transparent 3px)}
+
+  /* §B brutalist chrome — heavier, squared edges on the recenter pill (the cluster frame
+     below is the other, at 2px). Corners here are already square; this just thickens the
+     hairline to a deliberate 2px solid-ish weight. */
+  #recenter{border-width:2px; border-color:var(--line-3)}
+
+  /* §4 consolidated control cluster ------------------------------------
+     coords + zoom rail + sound + help folded into ONE framed instrument group in the
+     bottom-right corner (was three separate floating widgets in three places). A 2px
+     squared border ties them into a single unit. The inner elements drop their own fixed
+     positioning and flow inside the cluster; none reads a screen coordinate (coords only
+     writes text; zoom uses viewport-centre math; help just opens the guide), so relocating
+     them cannot desync the map. */
+  #hudCluster{position:fixed; right:40px; bottom:40px; z-index:66;
+    display:flex; flex-direction:column; align-items:stretch; gap:11px; padding:11px 12px 13px;
+    background:rgba(6,11,11,.72); border:2px solid var(--line-2);
+    backdrop-filter:blur(8px) saturate(120%); box-shadow:0 14px 36px rgba(0,0,0,.42)}
+  #hudCluster .hc-head{font-family:var(--mono); font-size:8px; letter-spacing:.3em; text-transform:uppercase;
+    color:var(--ink-3); padding-bottom:9px; border-bottom:1px solid var(--line)}
+  #hudCluster #coords{position:static; bottom:auto; left:auto}
+  #hudCluster #viewCtl{position:static; right:auto; bottom:auto; align-items:center}
+  #hudCluster #helpBtn{position:static; right:auto; bottom:auto; align-self:center}
+
+  /* §3 desktop bento view -----------------------------------------------
+     The list-view toggle + overlay now work on DESKTOP too (the .ready gate no longer
+     lives only inside the mobile media query), rendered as a bento grid of varied card
+     sizes instead of plain rows. Every card still calls the same openPanel(name). */
+  #viewToggle.ready{display:inline-flex}
+  #listView.on{display:block}
+  .bento{display:grid; gap:14px; max-width:1080px; margin:0 auto;
+    grid-template-columns:repeat(3,1fr); grid-auto-rows:minmax(122px,auto)}
+  .bento-card{position:relative; display:flex; flex-direction:column; justify-content:space-between;
+    text-align:left; background:var(--void2); border:1px solid var(--line-2); cursor:pointer;
+    padding:18px 18px 16px; overflow:hidden;
+    transition:border-color .18s, transform .18s var(--ease), box-shadow .18s var(--ease)}
+  .bento-card:hover{border-color:var(--line-3); transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.34)}
+  .bento-card:active{transform:scale(.995)}
+  .bento-card.hero{grid-column:span 2; grid-row:span 2; justify-content:flex-start}   /* output — live flagship */
+  .bento-card.wide{grid-column:span 2}                                                /* studio */
+  .bc-ar{position:absolute; top:15px; right:16px; font-family:var(--mono); font-size:13px; color:var(--ink-3)}
+  .bc-top{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:8.5px;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
+  .bc-led{width:6px; height:6px; border-radius:50%; background:var(--ink-3); flex:none}
+  .bc-led.is-live{background:var(--cream); animation:led-pulse 2.3s var(--ease) infinite}
+  .bc-title{font-family:var(--display); font-weight:400; font-size:30px; line-height:.98;
+    letter-spacing:-.005em; color:var(--cream); margin:12px 0 0}
+  .bento-card.hero .bc-title{font-size:clamp(38px,5.5vw,58px); margin-top:14px}
+  .bento-card.hero .bc-ar{color:var(--cream)}
+  .bc-sub{font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-2); margin:8px 0 0}
+  .bc-hero-img{display:block; width:calc(100% + 36px); height:154px; object-fit:cover; object-position:center top;
+    margin:-18px -18px 2px; border-bottom:1px solid var(--line-2)}
+
+  /* §4/§3 mobile — the control cluster reflows above the (restored) horizontal bottom
+     bar, and the bento collapses to a single column. */
+  @media (max-width:720px){
+    /* restore the horizontal bottom waypoint bar on phones (base #dock is now vertical) */
+    #dock{left:0; right:0; top:auto; bottom:0; transform:none; flex-direction:row; align-items:flex-end;
+      gap:14px; padding:16px 22px 18px; background:linear-gradient(0deg, rgba(6,11,11,.94) 30%, transparent)}
+    #dock .track{flex:1; flex-direction:row; gap:0; border-left:none; border-top:1px solid var(--line-2); padding-left:0; padding-top:14px}
+    #dock .wp{flex:1; padding:0 8px 2px 0}
+    #dock .wp::before{left:0; top:-15px; width:1px; height:9px}
+    #dock .wp.active::before{width:1px; height:13px}
+    /* control cluster sits above the bottom bar, still framed */
+    #hudCluster{right:20px; bottom:120px; padding:9px 10px 11px; gap:9px}
+    #hudCluster .hc-head{display:none}
+    #hudCluster #coords{font-size:9px}
+    /* list/map toggle back to its top-right phone spot (the minimap is hidden here) */
+    #viewToggle{top:70px; left:auto; right:26px}
+    /* single-column bento on phones — cards stack; the hero keeps its preview image */
+    .bento{grid-template-columns:1fr; max-width:520px}
+    .bento-card.hero,.bento-card.wide{grid-column:auto; grid-row:auto}
+  }
+  @media (prefers-reduced-transparency:reduce){
+    #hudCluster{backdrop-filter:none; background:var(--void2)}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1183,8 +1287,6 @@
   <div id="mmStage"><div id="mmView"></div></div>
 </div>
 
-<div id="coords" aria-hidden="true">POS X <b id="cx">0000</b><br>POS Y <b id="cy">0000</b></div>
-
 <!-- §10: persistent icon-only external links (revealed with the rest of the HUD on enter) -->
 <div id="hudLinks" aria-hidden="true"></div>
 
@@ -1197,18 +1299,23 @@
 <!-- §8b: decorative comet (viewport-fixed; JS animates it across on idle) -->
 <div id="comet" aria-hidden="true"></div>
 
-<button id="helpBtn" aria-label="Show the guide again" title="Guide">?</button>
-
-<!-- v8: view controls — sound toggle (muted by default) + zoom in/reset/out -->
-<div id="viewCtl" aria-hidden="true">
-  <button id="soundBtn" class="ctl-btn" type="button" aria-pressed="false" aria-label="Sound off" title="Sound — off">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><line x1="17" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="17" y2="15"/></svg>
-  </button>
-  <div class="zoom-group" role="group" aria-label="Zoom">
-    <button id="zoomIn" class="ctl-btn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
-    <button id="zoomVal" class="ctl-btn" type="button" aria-label="Reset view" title="Reset view">100%</button>
-    <button id="zoomOut" class="ctl-btn" type="button" aria-label="Zoom out" title="Zoom out">&#8722;</button>
+<!-- §4: consolidated control cluster — coords + zoom rail + sound + help, one framed group
+     in the bottom-right (was three separate corner widgets). Inner ids/handlers unchanged. -->
+<div id="hudCluster" aria-hidden="true">
+  <div class="hc-head">CONTROL</div>
+  <div id="coords">POS X <b id="cx">0000</b><br>POS Y <b id="cy">0000</b></div>
+  <!-- v8: view controls — sound toggle (muted by default) + zoom in/reset/out -->
+  <div id="viewCtl">
+    <button id="soundBtn" class="ctl-btn" type="button" aria-pressed="false" aria-label="Sound off" title="Sound — off">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><line x1="17" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="17" y2="15"/></svg>
+    </button>
+    <div class="zoom-group" role="group" aria-label="Zoom">
+      <button id="zoomIn" class="ctl-btn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+      <button id="zoomVal" class="ctl-btn" type="button" aria-label="Reset view" title="Reset view">100%</button>
+      <button id="zoomOut" class="ctl-btn" type="button" aria-label="Zoom out" title="Zoom out">&#8722;</button>
+    </div>
   </div>
+  <button id="helpBtn" aria-label="Show the guide again" title="Guide">?</button>
 </div>
 
 <div id="dock" aria-hidden="true">
@@ -1836,10 +1943,10 @@
         chain.map((c,i)=> i===chain.length-1
           ? `<span class="crumb-here" aria-current="page">${DATA[c].title}</span>`
           : `<a href="#${SLUGS[c]}" class="crumb-link" data-open-node="${c}">${DATA[c].title}</a>`
-            +`<span class="crumb-sep" aria-hidden="true">›</span>`
+            +`<span class="crumb-sep" aria-hidden="true">/</span>`   // §T: path-style separator (terminal read)
         ).join("")+`</nav>`;
     }
-    h+=`<p class="p-status"><span class="led${d.led==="live"?" is-live":""}"></span>${d.status}</p>`+
+    h+=`<p class="p-status"><span class="led${d.led==="live"?" is-live":""}"></span><span class="ps-prompt">&gt;</span>${d.status}</p>`+   // §T: mono prompt prefix
        `<h2 class="p-title">${d.title}</h2>`+
        `<p class="p-sub">${d.sub||""}</p>`+
        `<p class="p-body">${d.body}</p>`;
@@ -2662,19 +2769,32 @@
   const LV_KEY = "farax_listview";
   const ICON_LIST = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
   const ICON_MAP  = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="12" r="8.4"/><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"/></svg>';
+  // §3 bento view — the old plain-row list is now a varied-size card grid, available on
+  // desktop as well as mobile. BENTO_ORDER places the flagship first so grid auto-flow
+  // lands the hero (output, 2x2) top-left, the wide studio card on the bottom row, and
+  // the rest as 1x1 cells. Cards reuse title/status/sub straight from DATA and call the
+  // exact same openPanel(name) as the map nodes — no new copy, no new nav logic.
+  const BENTO_ORDER = ["output","zap","doctor","studio","next"];
   function buildListView(){
     if(!listView) return;
-    listView.innerHTML = `<p class="lv-head">Farax System — index</p>` +
-      ORDER.map(name=>{
+    listView.innerHTML = `<p class="lv-head">Farax System — index</p><div class="bento">` +
+      BENTO_ORDER.map(name=>{
         const d = DATA[name];
-        return `<button class="lv-row" type="button" data-target="${name}">`+
-          `<span class="lv-info"><span class="lv-name">${d.title}</span><span class="lv-stat">${d.status}</span></span>`+
-          `<span class="lv-ar">↗</span></button>`;
-      }).join("");
+        const size = name==="output" ? " hero" : (name==="studio" ? " wide" : "");
+        const live = d.led==="live";
+        const img  = (name==="output" && d.preview && d.preview.img)
+          ? `<img class="bc-hero-img" src="${d.preview.img}" alt="Zap Output — Free walkthrough preview">` : "";
+        return `<button class="bento-card${size}" type="button" data-target="${name}">`+
+          `<span class="bc-ar" aria-hidden="true">↗</span>`+
+          img+
+          `<span class="bc-top"><span class="bc-led${live?" is-live":""}"></span>${d.status}</span>`+
+          `<span class="bc-main"><span class="bc-title">${d.title}</span><span class="bc-sub">${d.sub||""}</span></span>`+
+        `</button>`;
+      }).join("") + `</div>`;
     listView.addEventListener("click", e=>{
-      const row = e.target.closest(".lv-row");
-      if(!row) return;
-      hapticTap(); openPanel(row.dataset.target);   // §6: list rows are real node-opens too
+      const card = e.target.closest(".bento-card");
+      if(!card) return;
+      hapticTap(); openPanel(card.dataset.target);   // §6: bento cards are real node-opens too
     });
   }
   function setListView(on){
@@ -2808,7 +2928,7 @@
     document.body.classList.remove("pre-entry");   // let the HUD fade up as the lock clears
     if(CURSOR_ON) document.getElementById("cursorGlow").classList.add("on");  // light the flashlight on reveal
     viewport.removeAttribute("aria-hidden");
-    ["minimap","coords","dock","helpBtn","viewCtl","hudLinks"].forEach(id=>document.getElementById(id).removeAttribute("aria-hidden"));
+    ["minimap","hudCluster","coords","dock","helpBtn","viewCtl","hudLinks"].forEach(id=>{ const el=document.getElementById(id); if(el) el.removeAttribute("aria-hidden"); });
     // frame the whole system around the sun. The camera is already pre-centred on the
     // sun at init (see the setPos() call by startOrbit below), so there's nowhere to
     // glide in FROM any more — the reveal is carried by the lock's blur-to-focus pull.
