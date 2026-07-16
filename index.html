@@ -2054,9 +2054,13 @@
       h+=`<div class="links">`+
         d.links.map(l=>{
           const ic = linkIcon(l[1]);   // §2: match a platform mark from the URL
-          return `<a href="${l[1]}" target="_blank" rel="noopener" class="${l[2]||""}">`+
+          const isGumroadBuy = l[1].includes("gumroad.com/l/");   // only real single-product buy pages become overlay buttons
+          const cls = `${l[2]||""}${isGumroadBuy?" gumroad-button":""}`.trim();
+          const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
+          const arrow = isGumroadBuy ? "→" : "↗";   // "↗" = leaves the page; overlay stays in-page, so "→"
+          return `<a href="${l[1]}"${nav} class="${cls}">`+
             `<span class="li-l">${ic?`<span class="li-ic">${ic}</span>`:""}<span>${l[0]}</span></span>`+
-            `<span class="ar">↗</span></a>`;
+            `<span class="ar">${arrow}</span></a>`;
         }).join("")+
         `</div>`;
     }
@@ -2812,9 +2816,12 @@
       ["Zap Output on Superhive", EXT.superhive, LINK_ICONS.superhive],
       ["Instagram — @faraxcreative", EXT.instagram, LINK_ICONS.instagram]
     ];
-    hudLinksEl.innerHTML = rows.filter(r=>r[1]).map(r=>
-      `<a href="${r[1]}" target="_blank" rel="noopener" aria-label="${r[0]}" title="${r[0]}">${r[2]}</a>`
-    ).join("");
+    hudLinksEl.innerHTML = rows.filter(r=>r[1]).map(r=>{
+      const isGumroadBuy = r[1].includes("gumroad.com/l/");
+      const cls = isGumroadBuy ? " gumroad-button" : "";
+      const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
+      return `<a href="${r[1]}"${nav} aria-label="${r[0]}" title="${r[0]}" class="${cls}">${r[2]}</a>`;
+    }).join("");
   }
 
   /* --- §5 mobile list-view fallback (opt-in, remembered for the session) --- */
@@ -3065,5 +3072,7 @@
   // screen (a deep-link boot dismisses it, so there's nothing to animate there).
   if(!lock.classList.contains("hidden")) runStatCount();
 </script>
+<!-- Only intentional external request on this site: Gumroad's overlay script intercepts .gumroad-button clicks to open checkout in an in-page popup (payment must reach Gumroad's servers). -->
+<script src="https://gumroad.com/js/gumroad.js"></script>
 </body>
 </html>
