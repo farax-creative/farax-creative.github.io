@@ -2415,16 +2415,36 @@
   });
 
   /* ------------------ node activation (click / keyboard) ----------------
-     Bodies keep orbiting; we do NOT chase them with the camera. A click
-     just slides the detail panel in over the live position. */
-  function wire(el){
+     A CLICK never chases the node — the detail panel just slides in over the
+     live orbiting position (unchanged). KEYBOARD focus is different: a Tab-
+     focused node is often off-screen, so the focus handler below glides the
+     camera to centre it (see the v12 note there). */
+  function wire(el, posKey){
     const name=el.dataset.target;
     el.addEventListener("click", ()=>{ if(moved) return; hapticTap(); openPanel(name); });   // §6: one short buzz on the real node-open
     el.addEventListener("keydown", e=>{
       if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(name); }
     });
+    /* v12 keyboard-reach: bodies orbit continuously and the map is larger than the
+       viewport, so a Tab-focused node is very often off-screen — a mouse-free user
+       could focus something they cannot see. When focus arrives via the KEYBOARD we
+       glide the camera to centre that node (same glideTo/easing the recenter button
+       uses). :focus-visible is exactly the browser's "focus came from the keyboard"
+       signal, so a mouse click — which focuses the node but is NOT :focus-visible —
+       never triggers a camera jump before the panel opens (click behaviour is left
+       untouched). Gated off while the lock screen is still up (no map yet) or the
+       list/bento view is showing (no map to pan). glideTo() already snaps instantly
+       under reduced-motion, so this inherits that convention for free. */
+    el.addEventListener("focus", ()=>{
+      if(!entered() || listOpen()) return;          // no map to pan (lock up / list view)
+      if(!el.matches(":focus-visible")) return;     // keyboard focus only — never a click
+      const p = positions[posKey];                  // live surface centre (positions.sun is kept updated too)
+      if(!p) return;
+      glideTo(innerWidth/2 - scale*p.x, innerHeight/2 - scale*p.y);
+    });
   }
-  [sunEl, ...BODY_ORDER.map(k=>bodies[k].el)].forEach(wire);
+  wire(sunEl, "sun");
+  for(const k of BODY_ORDER) wire(bodies[k].el, k);
 
   /* =========================== ONBOARDING GUIDE =========================== */
   const onboard = document.getElementById("onboard");
