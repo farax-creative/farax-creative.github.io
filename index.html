@@ -749,6 +749,116 @@
     #panel{padding:76px 18px 28px}
     .p-title{font-size:32px}
   }
+
+  /* =========================== v10 ADDITIONS ===========================
+     11 approved interactive features. All strictly achromatic (cream over
+     void) — no new hue; yellow stays gated behind #panel.zap elsewhere. Every
+     looping/continuous animation degrades under the global reduced-motion guard
+     (bottom of this stylesheet) or an explicit JS `REDUCED` branch. */
+
+  /* §1 — LED pulse on a "live" status dot. Only opacity/scale animate, so the
+     zap panel's yellow LED background override is never touched by this pulse;
+     the dot just breathes. The global reduced-motion guard freezes it static. */
+  @keyframes led-pulse{0%,100%{opacity:.5; transform:scale(.8)} 50%{opacity:1; transform:scale(1.15)}}
+  .p-status .led.is-live{animation:led-pulse 2.3s var(--ease) infinite}
+
+  /* §2/§11 — platform icon marks in .links rows. currentColor, so each mark
+     inherits its link's existing colour (achromatic, or the gated zap yellow on
+     the primary Gumroad row — same mechanism as the existing .ar arrow). */
+  .links a{gap:12px}
+  .li-l{display:flex; align-items:center; gap:11px; min-width:0}
+  .li-l > span{overflow:hidden; text-overflow:ellipsis}
+  .li-ic{flex:none; width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center}
+  .li-ic svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  .li-ic svg .fillmark{fill:currentColor; stroke:none}
+
+  /* §9 — quiet, static "Recently" list (studio panel). No timer, no motion. */
+  .recently{list-style:none; margin:0 0 26px; padding:0; display:flex; flex-direction:column; gap:9px}
+  .recently li{position:relative; padding-left:16px; font-family:var(--serif); font-size:13px; line-height:1.5; color:var(--ink-2)}
+  .recently li::before{content:""; position:absolute; left:1px; top:8px; width:5px; height:5px; border:1px solid var(--line-3); transform:rotate(45deg)}
+
+  /* §10 — persistent HUD external-link row (icon-only, quiet instrument look,
+     matches the help/zoom chips: blur 6, hairline border). Sits at z 66 < lock
+     100, so it stays hidden behind the lock screen until the system is entered. */
+  #hudLinks{position:fixed; left:44px; bottom:150px; z-index:66; display:flex; gap:8px}
+  #hudLinks a{width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+    background:rgba(6,11,11,.72); border:1px solid var(--line-2); color:var(--ink-2);
+    backdrop-filter:blur(6px); transition:border-color .2s, color .2s}
+  #hudLinks a:hover{border-color:var(--line-3); color:var(--cream)}
+  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  #hudLinks a svg .fillmark{fill:currentColor; stroke:none}
+
+  /* §8a — "system pulse" ring radiating out from the sun (triple-click egg).
+     Lives on the surface, centred on the system centre (1200,780), so it grows
+     out through the orbit rings. Achromatic. Reduced-motion swaps the travelling
+     scale for a brief static opacity flash (see .flash + the JS branch). */
+  #sysPulse{position:absolute; left:1200px; top:780px; width:24px; height:24px; margin:-12px 0 0 -12px;
+    border-radius:50%; border:1px solid var(--cream); opacity:0; pointer-events:none; z-index:4}
+  #sysPulse.go{animation:syspulse 1.15s var(--ease) forwards}
+  @keyframes syspulse{0%{opacity:.55; transform:scale(1)} 100%{opacity:0; transform:scale(64)}}
+  #sysPulse.flash{opacity:.4}
+
+  /* §8b — decorative comet. Viewport-fixed (independent of the map transform),
+     with a faint trailing tail. JS never schedules it under reduced-motion. */
+  #comet{position:fixed; left:0; top:12%; width:3px; height:3px; border-radius:50%;
+    background:var(--cream); box-shadow:0 0 7px 1px rgba(255,243,234,.55);
+    opacity:0; pointer-events:none; z-index:3}
+  #comet::after{content:""; position:absolute; right:3px; top:50%; width:64px; height:1px; transform:translateY(-50%);
+    background:linear-gradient(90deg, transparent, rgba(255,243,234,.5))}
+  #comet.go{animation:comet 1.7s linear forwards}
+  @keyframes comet{
+    0%{opacity:0; transform:translate(-12vw,-8vh) rotate(27deg)}
+    12%{opacity:.9} 82%{opacity:.9}
+    100%{opacity:0; transform:translate(98vw,66vh) rotate(27deg)}
+  }
+
+  /* §5 — mobile list-view fallback. The toggle only shows on mobile AND once the
+     system is entered (.ready, added on enter — it sits above the lock at z 132,
+     so the gate keeps it off the lock screen). The list overlay is opaque, so the
+     map (still orbiting) is simply hidden beneath it, never paused. */
+  #viewToggle{position:fixed; top:70px; right:26px; z-index:132; display:none;
+    align-items:center; gap:7px; padding:8px 12px;
+    background:rgba(6,11,11,.82); border:1px solid var(--line-2); color:var(--ink-2);
+    font-family:var(--label); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    cursor:pointer; backdrop-filter:blur(6px)}
+  #viewToggle:hover{border-color:var(--line-3); color:var(--cream)}
+  #viewToggle svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  #listView{position:fixed; inset:0; z-index:130; background:var(--void); overflow-y:auto; display:none; padding:96px 22px 40px}
+  #listView .lv-head{font-family:var(--mono); font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px}
+  .lv-row{display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; text-align:left;
+    background:none; border:0; border-top:1px solid var(--line); padding:18px 4px; cursor:pointer}
+  .lv-row:last-child{border-bottom:1px solid var(--line)}
+  .lv-row .lv-info{display:flex; flex-direction:column; gap:5px; min-width:0}
+  .lv-row .lv-name{font-family:var(--label); font-size:18px; letter-spacing:.08em; color:var(--cream)}
+  .lv-row .lv-stat{font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3)}
+  .lv-row .lv-ar{font-family:var(--mono); font-size:15px; color:var(--ink-3); flex:none}
+  .lv-row:active{background:rgba(255,243,234,.04)}
+
+  /* §4 — mobile bottom-sheet + grab handle. Desktop (>720) keeps the side
+     slide-in entirely unchanged; every sheet rule lives inside the media query. */
+  #panelGrip{display:none}
+  @media (max-width:720px){
+    #viewToggle.ready{display:inline-flex}
+    #listView.on{display:block}
+    #hudLinks{left:26px; bottom:200px}
+    #panel{
+      top:auto; left:0; right:0; bottom:0; width:100%; max-width:none;
+      max-height:85vh; border-left:none; border-top:1px solid var(--line-2);
+      border-radius:16px 16px 0 0; transform:translateY(102%); padding:58px 22px 34px}
+    #panel.open{transform:translateY(0)}
+    #panel .pnum{top:32px; left:22px}
+    #panel .close{top:24px; right:20px}
+    #panelGrip{display:block; position:absolute; top:0; left:50%; transform:translateX(-50%);
+      width:140px; height:30px; cursor:grab; touch-action:none; z-index:5}
+    #panelGrip::before{content:""; position:absolute; top:10px; left:50%; transform:translateX(-50%);
+      width:42px; height:4px; border-radius:2px; background:var(--line-3)}
+  }
+
+  /* §14 — keep the new translucent HUD chrome legible under reduced-transparency */
+  @media (prefers-reduced-transparency:reduce){
+    #hudLinks a,#viewToggle{backdrop-filter:none; background:var(--void2)}
+  }
+
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
   }
@@ -811,6 +921,9 @@
 
     <!-- v8-wow: faint depth pool on the orbital plane (achromatic, behind everything) -->
     <div class="plane-depth" aria-hidden="true"></div>
+
+    <!-- §8a: system-pulse ring — radiates from the sun on a triple-click (easter egg) -->
+    <div id="sysPulse" aria-hidden="true"></div>
 
     <!-- planet orbit rings, centred on the sun -->
     <div class="orbits">
@@ -895,6 +1008,18 @@
 
 <div id="coords" aria-hidden="true">POS X <b id="cx">0000</b><br>POS Y <b id="cy">0000</b></div>
 
+<!-- §10: persistent icon-only external links (revealed with the rest of the HUD on enter) -->
+<div id="hudLinks" aria-hidden="true"></div>
+
+<!-- §5: mobile-only map/list view toggle (JS fills icon + label; .ready shows it after enter) -->
+<button id="viewToggle" type="button" aria-label="Show list view"></button>
+
+<!-- §5: mobile list-view fallback overlay (JS-populated; map keeps orbiting beneath) -->
+<div id="listView" aria-hidden="true"></div>
+
+<!-- §8b: decorative comet (viewport-fixed; JS animates it across on idle) -->
+<div id="comet" aria-hidden="true"></div>
+
 <button id="helpBtn" aria-label="Show the guide again" title="Guide">?</button>
 
 <!-- v8: view controls — sound toggle (muted by default) + zoom in/reset/out -->
@@ -946,6 +1071,8 @@
 <!-- ============================= DETAIL PANEL ============================= -->
 <div id="scrim"></div>
 <aside id="panel" role="dialog" aria-modal="true" aria-label="Detail">
+  <!-- §4: mobile bottom-sheet grab handle (drag down to close; hidden on desktop) -->
+  <div id="panelGrip" aria-hidden="true"></div>
   <span class="pnum" id="pnum"></span>
   <button class="close" id="panelClose" aria-label="Close">×</button>
   <div id="panelBody"></div>
@@ -961,6 +1088,10 @@
   const DATA = {
     studio:{ n:"01", status:"Farax Creative — the studio", led:"", title:"FARAX", sub:"THE STUDIO",
       body:"Farax makes small, one-click tools for 3D production — one problem solved cleanly per tool. Every tool works on <em>native Blender data</em>, so a file never breaks just because the add-on is not installed. This is the centre the whole system turns around — <em>reach the studio directly below.</em>",
+      recent:[
+        "Zap Output — now also on Superhive",
+        "Homepage rebuilt as a living system"
+      ],
       specs:[], links:[
         ["Instagram — @faraxcreative","https://www.instagram.com/faraxcreative/",""],
         ["Email the studio — faraxcreative@gmail.com","mailto:faraxcreative@gmail.com",""]
@@ -1171,6 +1302,7 @@
 
   function down(x,y){
     dragging=true; moved=false; vx=vy=0;
+    stopIdle();   // §7: a real pointerdown hands control straight back from idle-drift
     cancelAnimationFrame(momentumRAF); cancelAnimationFrame(glideRAF);
     sx=x; sy=y; stx=tx; sty=ty; lastX=x; lastY=y; lastT=performance.now();
     viewport.classList.add("grabbing");
@@ -1183,11 +1315,21 @@
     vx=(x-lastX)/dt; vy=(y-lastY)/dt;
     lastX=x; lastY=y; lastT=now;
     dragMove(stx+dx, sty+dy);   // §9: 1:1 inside bounds, rubber-band resistance past them
+    /* §3: restrained drag-trail. A transient per-frame blur that only appears while
+       the pan is genuinely fast, clamped to 3px, and cleared the instant velocity
+       drops or the drag ends (up()). Direct style write — NEVER a persistent
+       will-change (see the #mapSurface zoom-fix note) or a lingering transition. */
+    if(!REDUCED){
+      const spd = Math.hypot(vx, vy);                 // px/ms
+      const bl = spd > 1.1 ? Math.min(3, (spd - 1.1) * 1.6) : 0;
+      surface.style.filter = bl > 0.05 ? `blur(${bl.toFixed(2)}px)` : "";
+    }
     if(moved) dragHint.classList.add("gone");
   }
   function up(){
     if(!dragging) return;
     dragging=false; viewport.classList.remove("grabbing");
+    surface.style.filter = "";   // §3: drop the drag-trail blur the instant the drag ends
     const b=bounds();
     /* §9: released mid-stretch (past an edge) -> spring back into bounds, no
        fling. glideTo() clamps its target to bounds() and zeroes velocity. */
@@ -1403,6 +1545,37 @@
     output:'<svg class="glyph out-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12 H12.5"></path><path d="M8.5 8 L12.5 12 L8.5 16"></path><path d="M16 5.5 H21 V18.5 H16"></path></svg>',
     doctor:'<svg class="glyph doc-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L20 5.5 L20 12 L12 21.5 L4 12 L4 5.5 Z"></path><path d="M8.5 11.5 L11 14 L15.5 8.5"></path></svg>'
   };
+
+  /* §2/§11 — small monochrome platform marks (currentColor). Simple abstracted
+     glyphs that read as the concept, NOT pixel-copies of trademarked logos:
+       gumroad = circled G · superhive = hive hexagon · youtube = play frame ·
+       instagram = camera square · mail = envelope. Shared by §10's HUD row. */
+  const LINK_ICONS = {
+    gumroad:  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.4"/><path d="M14.6 10.1a3.4 3.4 0 1 0 .5 3.9H12.2"/></svg>',
+    superhive:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 L19.4 7.6 V16.4 L12 20.8 L4.6 16.4 V7.6 Z"/></svg>',
+    youtube:  '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path class="fillmark" d="M10 9.4 L15.4 12 L10 14.6 Z"/></svg>',
+    instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="3.7"/><circle class="fillmark" cx="16.7" cy="7.3" r="1.05"/></svg>',
+    mail:     '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.6"/><path d="M3.6 7 L12 13 L20.4 7"/></svg>'
+  };
+  // pick a mark from a URL's domain/scheme (not by array index — stays correct if reordered)
+  function linkIcon(url){
+    const u = (url||"").toLowerCase();
+    if(u.startsWith("mailto:")) return LINK_ICONS.mail;
+    if(u.includes("gumroad.com")) return LINK_ICONS.gumroad;
+    if(u.includes("superhivemarket.com")) return LINK_ICONS.superhive;
+    if(u.includes("youtu.be") || u.includes("youtube.com")) return LINK_ICONS.youtube;
+    if(u.includes("instagram.com")) return LINK_ICONS.instagram;
+    return "";
+  }
+  // §10 HUD links pull their URLs straight from DATA, so nothing new can slip
+  // outside the approved allowlist (Gumroad / Superhive / Instagram only here).
+  const findLink = re => (DATA.output.links.concat(DATA.studio.links).find(l=>re.test(l[1]))||[])[1] || "";
+  const EXT = {
+    gumroad:   findLink(/gumroad\.com/),
+    superhive: findLink(/superhivemarket\.com/),
+    instagram: findLink(/instagram\.com/)
+  };
+
   let lastFocused=null;
   let favOutsideHandler=null;   // re-armed each initDemo() call; see there for why
   function openPanel(name){
@@ -1411,10 +1584,15 @@
     pnum.textContent="NODE "+d.n+" / 05";
     let h="";
     if(d.glyph && ICONS[d.glyph]) h+=`<div class="p-glyph">${ICONS[d.glyph]}</div>`;
-    h+=`<p class="p-status"><span class="led"></span>${d.status}</p>`+
+    h+=`<p class="p-status"><span class="led${d.led==="live"?" is-live":""}"></span>${d.status}</p>`+
        `<h2 class="p-title">${d.title}</h2>`+
        `<p class="p-sub">${d.sub||""}</p>`+
        `<p class="p-body">${d.body}</p>`;
+    if(d.recent && d.recent.length){   // §9: quiet static "Recently" list (studio panel)
+      h+=`<p class="tier-head">Recently</p><ul class="recently">`+
+        d.recent.map(r=>`<li>${r}</li>`).join("")+
+        `</ul>`;
+    }
     if(d.kids && d.kids.length){
       h+=`<p class="tier-head">In this series</p><div class="kids">`+
         d.kids.map(k=>{
@@ -1467,7 +1645,12 @@
     }
     if(d.links.length){
       h+=`<div class="links">`+
-        d.links.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener" class="${l[2]||""}"><span>${l[0]}</span><span class="ar">↗</span></a>`).join("")+
+        d.links.map(l=>{
+          const ic = linkIcon(l[1]);   // §2: match a platform mark from the URL
+          return `<a href="${l[1]}" target="_blank" rel="noopener" class="${l[2]||""}">`+
+            `<span class="li-l">${ic?`<span class="li-ic">${ic}</span>`:""}<span>${l[0]}</span></span>`+
+            `<span class="ar">↗</span></a>`;
+        }).join("")+
         `</div>`;
     }
     panelBody.innerHTML=h;
@@ -1740,6 +1923,7 @@
     panel.className=""; scrim.classList.remove("on");
     if(location.hash) history.replaceState(null, "", location.pathname+location.search);  // drop the deep-link hash
     if(lastFocused && lastFocused.focus) lastFocused.focus();
+    if(typeof scheduleIdle === "function") scheduleIdle();   // §7: restart the idle countdown once a panel closes
   }
   panelClose.addEventListener("click", closePanel);
   scrim.addEventListener("click", closePanel);
@@ -1760,7 +1944,7 @@
      just slides the detail panel in over the live position. */
   function wire(el){
     const name=el.dataset.target;
-    el.addEventListener("click", ()=>{ if(moved) return; openPanel(name); });
+    el.addEventListener("click", ()=>{ if(moved) return; hapticTap(); openPanel(name); });   // §6: one short buzz on the real node-open
     el.addEventListener("keydown", e=>{
       if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(name); }
     });
@@ -1991,13 +2175,186 @@
     if(audio.on) blip("tick");                   // quiet confirmation the moment it turns on
   });
 
+  /* ===================== v10 INTERACTIVE FEATURES =====================
+     Haptics · mobile list view · bottom-sheet swipe · idle-drift · comet ·
+     system-pulse egg · persistent HUD links. All achromatic; every looping
+     motion is JS-gated on REDUCED or killed by the global reduced-motion CSS. */
+  const listView   = document.getElementById("listView");
+  const viewToggle  = document.getElementById("viewToggle");
+  const panelGrip   = document.getElementById("panelGrip");
+  const cometEl     = document.getElementById("comet");
+  const sysPulseEl  = document.getElementById("sysPulse");
+  const hudLinksEl  = document.getElementById("hudLinks");
+  const listOpen = ()=> !!listView && listView.classList.contains("on");
+  const entered  = ()=> lock.classList.contains("hidden");
+
+  /* --- §6 haptic tap: one short buzz, ONLY on a real "opened a product" moment --- */
+  const canVibrate = ("vibrate" in navigator);
+  function hapticTap(){ if(canVibrate){ try{ navigator.vibrate(10); }catch(e){} } }
+
+  /* --- §10 persistent HUD external-link row (icon-only). URLs come from DATA. --- */
+  function buildHudLinks(){
+    if(!hudLinksEl) return;
+    const rows = [
+      ["Zap Output on Gumroad",   EXT.gumroad,   LINK_ICONS.gumroad],
+      ["Zap Output on Superhive", EXT.superhive, LINK_ICONS.superhive],
+      ["Instagram — @faraxcreative", EXT.instagram, LINK_ICONS.instagram]
+    ];
+    hudLinksEl.innerHTML = rows.filter(r=>r[1]).map(r=>
+      `<a href="${r[1]}" target="_blank" rel="noopener" aria-label="${r[0]}" title="${r[0]}">${r[2]}</a>`
+    ).join("");
+  }
+
+  /* --- §5 mobile list-view fallback (opt-in, remembered for the session) --- */
+  const LV_KEY = "farax_listview";
+  const ICON_LIST = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  const ICON_MAP  = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="12" r="8.4"/><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"/></svg>';
+  function buildListView(){
+    if(!listView) return;
+    listView.innerHTML = `<p class="lv-head">Farax System — index</p>` +
+      ORDER.map(name=>{
+        const d = DATA[name];
+        return `<button class="lv-row" type="button" data-target="${name}">`+
+          `<span class="lv-info"><span class="lv-name">${d.title}</span><span class="lv-stat">${d.status}</span></span>`+
+          `<span class="lv-ar">↗</span></button>`;
+      }).join("");
+    listView.addEventListener("click", e=>{
+      const row = e.target.closest(".lv-row");
+      if(!row) return;
+      hapticTap(); openPanel(row.dataset.target);   // §6: list rows are real node-opens too
+    });
+  }
+  function setListView(on){
+    if(!listView || !viewToggle) return;
+    listView.classList.toggle("on", on);
+    viewToggle.innerHTML = (on ? ICON_MAP : ICON_LIST) + `<span>${on ? "Map" : "List"}</span>`;
+    viewToggle.setAttribute("aria-label", on ? "Show map view" : "Show list view");
+    try{ sessionStorage.setItem(LV_KEY, on ? "1" : "0"); }catch(e){}
+    if(on) stopIdle();   // no point drifting the hidden map
+  }
+  if(viewToggle) viewToggle.addEventListener("click", ()=> setListView(!listOpen()));
+
+  /* --- §4 mobile bottom-sheet: swipe the grab handle down to close --- */
+  if(panelGrip){
+    let sheetDrag=false, sy0=0, sdy=0, slast=0, svel=0, sTime=0;
+    const isSheet = ()=> window.matchMedia("(max-width:720px)").matches;
+    panelGrip.addEventListener("pointerdown", e=>{
+      if(!isSheet() || !panel.classList.contains("open")) return;
+      sheetDrag=true; sy0=e.clientY; sdy=0; svel=0; slast=e.clientY; sTime=performance.now();
+      panel.style.transition = "none";                    // 1:1 tracking while dragging
+      try{ panelGrip.setPointerCapture(e.pointerId); }catch(err){}
+    });
+    panelGrip.addEventListener("pointermove", e=>{
+      if(!sheetDrag) return;
+      const now=performance.now(), dt=Math.max(1, now-sTime);
+      svel=(e.clientY-slast)/dt; slast=e.clientY; sTime=now;
+      let dy=e.clientY-sy0;
+      if(dy<0) dy = -rubberband(-dy, innerHeight);         // resist dragging up past rest
+      sdy=dy;
+      panel.style.transform = `translateY(${dy}px)`;
+    });
+    function endSheet(){
+      if(!sheetDrag) return;
+      sheetDrag=false;
+      const commit = sdy > 120 || svel > 0.5;              // far enough OR flicked down fast
+      if(!commit){                                         // spring back to the open rest
+        panel.style.transition = ""; panel.style.transform = "";
+        return;
+      }
+      if(REDUCED){                                         // instant close, no travel
+        panel.style.transition = ""; panel.style.transform = ""; closePanel(); return;
+      }
+      // animate the sheet out from its dragged position, then hand off to closePanel()
+      let done=false;
+      const finish = ()=>{
+        if(done) return; done=true;
+        panel.style.transition = ""; panel.style.transform = "";
+        closePanel();
+      };
+      panel.style.transition = "transform .3s var(--ease)";
+      requestAnimationFrame(()=>{ panel.style.transform = "translateY(102%)"; });
+      panel.addEventListener("transitionend", finish, {once:true});
+      setTimeout(finish, 400);                             // safety net
+    }
+    panelGrip.addEventListener("pointerup", endSheet);
+    panelGrip.addEventListener("pointercancel", endSheet);
+  }
+
+  /* --- §7 idle-mode ambient camera drift --- */
+  let idleTimer=0, idleRAF=0, idleActive=false, idleLast=0;
+  const IDLE_DELAY = 15000;
+  function idleBlocked(){
+    return !entered() || panel.classList.contains("open") || listOpen() || dragging || pinching;
+  }
+  function stopIdle(){ idleActive=false; if(idleRAF){ cancelAnimationFrame(idleRAF); idleRAF=0; } }
+  function scheduleIdle(){
+    if(REDUCED) return;
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(startIdle, IDLE_DELAY);
+  }
+  function startIdle(){
+    if(REDUCED || idleBlocked()) return;
+    idleActive=true; idleLast=0; idleRAF=requestAnimationFrame(idleStep);
+  }
+  function idleStep(ts){
+    if(!idleActive) return;
+    if(idleBlocked()){ stopIdle(); return; }
+    const dt = idleLast ? Math.min(0.05,(ts-idleLast)/1000) : 0; idleLast=ts;
+    const ang = ts*0.00004;         // heading turns very slowly over time
+    const speed = 6;                // px/s — screensaver-slow
+    setPos(tx + Math.cos(ang)*speed*dt, ty + Math.sin(ang)*speed*dt);   // same tx/ty as drag; clamped
+    idleRAF=requestAnimationFrame(idleStep);
+  }
+  function bumpActivity(){          // any real interaction hands control back instantly
+    if(REDUCED) return;
+    if(idleActive) stopIdle();
+    scheduleIdle();
+  }
+  ["mousemove","mousedown","wheel","keydown","touchstart"].forEach(ev=>
+    addEventListener(ev, bumpActivity, {passive:true}));
+
+  /* --- §8b decorative comet, only while idle (past lock, no panel/list open) --- */
+  let cometTimer=0;
+  function scheduleComet(){
+    if(REDUCED) return;
+    clearTimeout(cometTimer);
+    cometTimer = setTimeout(fireComet, 45000 + Math.random()*45000);   // ~45–90s
+  }
+  function fireComet(){
+    scheduleComet();
+    if(REDUCED || !cometEl) return;
+    if(!entered() || panel.classList.contains("open") || listOpen()) return;
+    cometEl.style.top = (6 + Math.random()*34) + "%";
+    cometEl.classList.remove("go"); void cometEl.offsetWidth; cometEl.classList.add("go");
+  }
+  if(cometEl) cometEl.addEventListener("animationend", ()=> cometEl.classList.remove("go"));
+
+  /* --- §8a system-pulse easter egg: triple-click the sun within 600ms --- */
+  let sunTaps = [];
+  function systemPulse(){
+    if(!sysPulseEl) return;
+    if(REDUCED){   // reduced-motion: a brief static opacity flash, no travelling ring
+      sysPulseEl.classList.add("flash");
+      setTimeout(()=> sysPulseEl.classList.remove("flash"), 160);
+      return;
+    }
+    sysPulseEl.classList.remove("go"); void sysPulseEl.offsetWidth; sysPulseEl.classList.add("go");
+  }
+  if(sysPulseEl) sysPulseEl.addEventListener("animationend", ()=> sysPulseEl.classList.remove("go"));
+  sunEl.addEventListener("click", ()=>{          // second listener; wire()'s open-panel still fires
+    const now = performance.now();
+    sunTaps.push(now);
+    sunTaps = sunTaps.filter(t => now - t <= 600);
+    if(sunTaps.length >= 3){ sunTaps = []; systemPulse(); }
+  });
+
   /* ------------------------------- entry -------------------------------- */
   function enterSystem(opts){
     const deep = opts && opts.deep;   // deep-link entry: skip the drag hint + onboarding tour
     lock.classList.add("hidden");
     if(CURSOR_ON) document.getElementById("cursorGlow").classList.add("on");  // light the flashlight on reveal
     viewport.removeAttribute("aria-hidden");
-    ["minimap","coords","dock","helpBtn","viewCtl"].forEach(id=>document.getElementById(id).removeAttribute("aria-hidden"));
+    ["minimap","coords","dock","helpBtn","viewCtl","hudLinks"].forEach(id=>document.getElementById(id).removeAttribute("aria-hidden"));
     // frame the whole system around the sun
     const fx = innerWidth/2 - SUN.x, fy = innerHeight/2 - SUN.y;
     if(REDUCED || deep){ setPos(fx,fy); }
@@ -2015,13 +2372,18 @@
       setTimeout(()=>dragHint.classList.add("gone"), 7000);
       maybeOnboard();
     }
+    // v10: reveal the mobile view toggle, restore a remembered list view, arm idle + comet
+    if(viewToggle) viewToggle.classList.add("ready");
+    try{ if(sessionStorage.getItem(LV_KEY)==="1") setListView(true); }catch(e){}
+    scheduleIdle();
+    scheduleComet();
   }
   enterBtn.addEventListener("click", ()=>enterSystem());
 
   addEventListener("resize", ()=>{ setPos(tx,ty); });
 
   /* -------------------------------- init -------------------------------- */
-  buildMini(); buildDock();
+  buildMini(); buildDock(); buildListView(); buildHudLinks();
   setPos(innerWidth/2 - SUN.x, innerHeight/2 - SUN.y);   // pre-position behind lock
   startOrbit();                                          // begin orbital motion
   markActive("output");
