@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Only intentional external request on this site: Gumroad's overlay script intercepts .gumroad-button clicks to open checkout in an in-page popup (payment must reach Gumroad's servers). Moved to <head> so the async bundle has the maximum time to load before a user can reach the buy button. -->
+<script src="https://gumroad.com/js/gumroad.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FARAX Creative — one-click tools for 3D</title>
@@ -718,7 +720,7 @@
        low against this bold display font — a fixed nudge is more reliable
        than fighting font-metric heuristics. */
     display:inline-flex; align-items:center; position:relative; top:-2px;
-    font-weight:700; font-size:7.5px; letter-spacing:.06em; line-height:1;
+    font-family:var(--mono); font-weight:700; font-size:7.5px; letter-spacing:.06em; line-height:1;
     padding:3px 6px; border-radius:999px; margin-left:6px;
     background:var(--ink-3); color:var(--void); border:1.5px solid var(--void);
   }
@@ -1415,9 +1417,8 @@
         ["Pro","Archive","Old takes swept to _old/ on their own."]
       ],
       links:[
-        ["Get it — Free $0 · Pro $5","https://faraxdesigns.gumroad.com/l/zap-output","primary"],
-        ["Also on Superhive","https://superhivemarket.com/products/zap-output",""],
-        ["Watch — Free walkthrough","https://youtu.be/5F5o5-IomRw",""],
+        ["Superhive","https://superhivemarket.com/products/zap-output","primary"],
+        ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-output",""],
         ["Watch — Pro walkthrough","https://youtu.be/VrTOiF-GIHM",""],
         ["User Manual","https://farax-creative.github.io/docs/zap-output.html",""]
       ]},
@@ -2812,8 +2813,8 @@
   function buildHudLinks(){
     if(!hudLinksEl) return;
     const rows = [
-      ["Zap Output on Gumroad",   EXT.gumroad,   LINK_ICONS.gumroad],
       ["Zap Output on Superhive", EXT.superhive, LINK_ICONS.superhive],
+      ["Zap Output on Gumroad",   EXT.gumroad,   LINK_ICONS.gumroad],
       ["Instagram — @faraxcreative", EXT.instagram, LINK_ICONS.instagram]
     ];
     hudLinksEl.innerHTML = rows.filter(r=>r[1]).map(r=>{
@@ -3072,7 +3073,5 @@
   // screen (a deep-link boot dismisses it, so there's nothing to animate there).
   if(!lock.classList.contains("hidden")) runStatCount();
 </script>
-<!-- Only intentional external request on this site: Gumroad's overlay script intercepts .gumroad-button clicks to open checkout in an in-page popup (payment must reach Gumroad's servers). -->
-<script src="https://gumroad.com/js/gumroad.js"></script>
 </body>
 </html>
