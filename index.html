@@ -97,10 +97,17 @@
   /* =========================== LOCK SCREEN =========================== */
   #lock{
     position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
-    background:radial-gradient(120% 90% at 50% 44%, #12181C 0%, var(--void) 62%);
-    transition:opacity .8s var(--ease), visibility .8s;
+    /* v8-entry: the lock is a translucent, out-of-focus PORTHOLE, not an opaque wall.
+       Alpha vignette stops (same colours as before) let the already-running orbit be
+       glimpsed hazy behind it; backdrop blur + dim read as "not yet in focus". The
+       lock's own text/logo/starfield are normal DOM in FRONT of the backdrop filter,
+       so they stay razor-sharp. On entry (.hidden) the blur pulls to 0 and the dim
+       lifts to 1 while the overlay fades — the reveal is now a focus-pull, not a cut. */
+    background:radial-gradient(120% 90% at 50% 44%, rgba(18,24,28,.5) 0%, rgba(11,13,16,.82) 62%);
+    backdrop-filter:blur(7px) brightness(.66);
+    transition:opacity .8s var(--ease), visibility .8s, backdrop-filter .9s var(--ease);
   }
-  #lock.hidden{opacity:0; visibility:hidden; pointer-events:none}
+  #lock.hidden{opacity:0; visibility:hidden; pointer-events:none; backdrop-filter:blur(0) brightness(1)}
   .starfield{position:absolute; inset:0; opacity:.55; pointer-events:none;
     background-image:
       radial-gradient(1px 1px at 18% 24%, var(--ink-4) 50%, transparent 51%),
@@ -133,7 +140,16 @@
   /* the real FARAX logo mark, above the monument wordmark */
   .lock-logo{position:relative; width:clamp(96px,15vw,150px); height:clamp(96px,15vw,150px); margin:0 auto 8px;
     background-image:var(--farax-logo); background-size:contain; background-repeat:no-repeat; background-position:center;
-    opacity:.96}
+    opacity:.96;
+    /* v8-entry: the FARAX mark is now an alternate "ignite" entry control — click or
+       Enter/Space runs the same full-ceremony enterSystem() as the primary button.
+       Restrained hover (soft achromatic glow + a hair of scale), matching the file's
+       other hover weights. The "Enter the system" button stays the obvious primary CTA. */
+    cursor:pointer; border-radius:50%;
+    transition:transform .3s var(--ease), filter .3s var(--ease), opacity .3s var(--ease)}
+  .lock-logo:hover{opacity:1; transform:scale(1.05); filter:drop-shadow(0 0 18px rgba(244,235,221,.22))}
+  .lock-logo:active{transform:scale(1.0)}
+  .lock-logo:focus-visible{outline:1px solid var(--line-3); outline-offset:8px}
   /* v8-live: two faint dashed orbit rings turning slowly around the FARAX mark — the
      documentary "instrument is idling" feel. Dashed so the rotation is legible without
      being loud; achromatic. Reduced-motion (global guard) freezes them into static rings. */
@@ -813,12 +829,36 @@
       backdrop-filter:none; background:var(--void2)}
     .body .node{backdrop-filter:none; background:var(--void)}
     #scrim.on{background:rgba(6,11,11,.8)}
+    /* v8-entry: no translucent porthole for reduced-transparency — restore the fully
+       opaque vignette wall and drop the blur, so the system is NOT glimpsed pre-entry.
+       Entry degrades to a plain opacity fade (still fine as a reveal). */
+    #lock{backdrop-filter:none;
+      background:radial-gradient(120% 90% at 50% 44%, #12181C 0%, var(--void) 62%)}
+    #lock.hidden{backdrop-filter:none}
   }
   @media (prefers-contrast:more){
     .ctl-btn,#helpBtn,#minimap,#recenter,#panel .close,
     .enter-btn,.links a,.pd-btn,.pd-chip{border-color:var(--line-3)}
     .body .name,#dock .wp .wp-name{color:var(--ink)}
   }
+
+  /* v8-entry: keep the instrument HUD dark until REAL entry. The lock is now a
+     translucent porthole, so without this the coordinate readout / zoom rail / minimap
+     / dock / help / HUD links would show through the haze as clutter — only the orbiting
+     system should be glimpsed pre-entry. enterSystem() drops .pre-entry from <body>, and
+     each element then fades up in step with the lock's focus-pull. opacity + pointer-events
+     ONLY (never display:none — that would kill the fade and the layout). Additive to the
+     per-element gating added later in enterSystem (e.g. #viewToggle's mobile .ready). The
+     #helpBtn transition is restated here (after its base rule) so opacity joins its
+     existing border/colour transitions instead of clobbering them. */
+  body.pre-entry #minimap,
+  body.pre-entry #coords,
+  body.pre-entry #dock,
+  body.pre-entry #helpBtn,
+  body.pre-entry #viewCtl,
+  body.pre-entry #hudLinks{opacity:0; pointer-events:none}
+  #minimap,#coords,#dock,#viewCtl,#hudLinks{transition:opacity .8s var(--ease)}
+  #helpBtn{transition:border-color .2s, color .2s, opacity .8s var(--ease)}
 
   @media (max-width:720px){
     .id-cluster{left:26px; top:26px}
@@ -984,7 +1024,7 @@
   }
 </style>
 </head>
-<body>
+<body class="pre-entry">
 
 <!-- persistent achromatic chrome -->
 <div class="bracket tl"><i class="h"></i><i class="v"></i></div>
@@ -1008,7 +1048,7 @@
   <div class="lock-inner">
     <div class="kicker"><span class="rule"></span><span>Farax Creative Studio</span><span class="rule"></span></div>
 
-    <div class="lock-logo" aria-hidden="true"></div>
+    <div class="lock-logo" id="igniteBtn" role="button" tabindex="0" aria-label="Ignite the system"></div>
     <div class="wordmark">
       <h1>FARAX</h1>
     </div>
@@ -2710,16 +2750,16 @@
   function enterSystem(opts){
     const deep = opts && opts.deep;   // deep-link entry: skip the drag hint + onboarding tour
     lock.classList.add("hidden");
+    document.body.classList.remove("pre-entry");   // let the HUD fade up as the lock clears
     if(CURSOR_ON) document.getElementById("cursorGlow").classList.add("on");  // light the flashlight on reveal
     viewport.removeAttribute("aria-hidden");
     ["minimap","coords","dock","helpBtn","viewCtl","hudLinks"].forEach(id=>document.getElementById(id).removeAttribute("aria-hidden"));
-    // frame the whole system around the sun
+    // frame the whole system around the sun. The camera is already pre-centred on the
+    // sun at init (see the setPos() call by startOrbit below), so there's nowhere to
+    // glide in FROM any more — the reveal is carried by the lock's blur-to-focus pull.
+    // This re-assert is a no-op unless the viewport was resized while the lock was up.
     const fx = innerWidth/2 - SUN.x, fy = innerHeight/2 - SUN.y;
-    if(REDUCED || deep){ setPos(fx,fy); }
-    else {
-      setPos(fx - 46, fy - 30);
-      requestAnimationFrame(()=>glideTo(fx,fy));
-    }
+    setPos(fx,fy);
     markActive("output");
     if(!deep && !REDUCED){                       // v8-wow: one-time "system wake" materialise
       viewport.classList.add("waking");
@@ -2737,6 +2777,17 @@
     scheduleComet();
   }
   enterBtn.addEventListener("click", ()=>enterSystem());
+  // alternate entry: the FARAX sun mark itself ignites the system — same full-ceremony
+  // enterSystem() as the primary button (an intuited shortcut, not a replacement). The
+  // primary "Enter the system" button stays the obvious, always-labelled CTA. Keyboard
+  // activation on Enter / Space, matching native button semantics (role="button").
+  const igniteBtn = document.getElementById("igniteBtn");
+  if(igniteBtn){
+    igniteBtn.addEventListener("click", ()=>enterSystem());
+    igniteBtn.addEventListener("keydown", e=>{
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); enterSystem(); }
+    });
+  }
   // fast path: same end state as a #zap-output deep-link (skip lock + onboarding, open Output)
   document.getElementById("livePath").addEventListener("click", ()=>{ enterSystem({deep:true}); openPanel("output"); });
 
@@ -2769,8 +2820,8 @@
 
   /* -------------------------------- init -------------------------------- */
   buildMini(); buildDock(); buildListView(); buildHudLinks();
-  setPos(innerWidth/2 - SUN.x, innerHeight/2 - SUN.y);   // pre-position behind lock
-  startOrbit();                                          // begin orbital motion
+  setPos(innerWidth/2 - SUN.x, innerHeight/2 - SUN.y);   // pre-centre on the sun BEFORE the lock is shown — the translucent porthole glimpses the real system, not an empty corner
+  startOrbit();                                          // begin orbital motion (already running under the lock)
   markActive("output");
 
   // deep-link on first load: /#zap-output jumps straight to the map with that panel open
