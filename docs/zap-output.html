@@ -234,9 +234,20 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p><strong>Requirements:</strong> Blender <strong>5.0 or newer</strong> (Path Templates are a 5.0 feature). <em>Folder per Pass</em> needs Blender <strong>5.1+</strong> (5.0 strips <code>/</code> from pass names).</p>
   </section>
 
-  <!-- 4 · QUICK START -->
+  <!-- 4 · UPDATES -->
   <section>
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">03</span> BASIC USAGE</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">03</span> UPDATES</div>
+    <h2>Getting new versions</h2>
+    <p>How updates reach you depends on where you got Zap Output.</p>
+    <h3>Gumroad <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.04em">(manual)</span></h3>
+    <p>Re-download the latest zip from your Gumroad library and reinstall it exactly the same way (<strong>Get Extensions &rarr; Install from Disk&hellip;</strong>). Farax Creative announces new versions by email and on socials, so keep an eye out.</p>
+    <h3>Superhive <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.04em">(automatic)</span></h3>
+    <p>Connect Superhive as a remote repository in Blender just once (<strong>Preferences &rarr; Get Extensions &rarr; Repositories</strong>). From then on Blender detects and installs updates for you &mdash; no manual re-download. See Superhive's own <a href="https://support.superhivemarket.com/article/335-connecting-superhive-as-a-remote-repository-in-blender">setup guide</a> for that one-time step.</p>
+  </section>
+
+  <!-- 5 · QUICK START -->
+  <section>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">04</span> BASIC USAGE</div>
     <h2>Quick start</h2>
     <ol class="steps">
       <li>In the Output panel, set <strong>Name</strong> (e.g. <code>S03</code>) and <strong>Folder</strong> (default <code>render</code>).</li>
@@ -246,20 +257,20 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p>The exact final path &mdash; frame counter and extension included (<code>..._v001_####.png</code>) &mdash; sits right above the File Path field the whole time, so you always see what Blender will actually write.</p>
   </section>
 
-  <!-- 5 · SCREEN REFERENCE -->
+  <!-- 6 · SCREEN REFERENCE -->
   <section>
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">04</span> SCREEN REFERENCE</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">05</span> SCREEN REFERENCE</div>
     <h2>Every control, one by one</h2>
 
     <h3>Output panel <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.04em">(Properties &rarr; Output)</span></h3>
     <div class="ref">
-      <div class="row"><p class="rt">Live path preview</p><p class="rd">Sits right above the File Path field and shows the resolved path including the frame counter and extension Blender will add (<code>..._v001_####.png</code>).</p></div>
+      <div class="row"><p class="rt">Live path preview <span class="tag free">Free</span></p><p class="rd">Sits right above the File Path field and shows the resolved path including the frame counter and extension Blender will add (<code>..._v001_####.png</code>).</p></div>
       <div class="row"><p class="rt">Date stamp <span class="tag free">Free</span></p><p class="rd">Inserts today's date (<code>260713</code>, YYMMDD) as plain text, or refreshes an old date already in the path. Blender's Path Templates don't have a date token yet.</p></div>
       <div class="row"><p class="rt">Version Up / Down <span class="tag free">Free</span></p><p class="rd"><code>v001</code> &rarr; <code>v002</code>. It scans the disk and skips versions that already have renders, so nothing is ever overwritten.</p></div>
-      <div class="row"><p class="rt">Copy path &middot; open / create folder</p><p class="rd">Copy the final path to the clipboard, open the output folder, or create it if it doesn't exist &mdash; all from the preview row.</p></div>
-      <div class="row"><p class="rt">Token buttons</p><p class="rd">Insert Blender's own native tokens &mdash; Name, File, Folder, Scene, Camera, FPS, Width, Height &mdash; with the correct separators. Nothing custom, no new syntax to type (or typo).</p></div>
+      <div class="row"><p class="rt">Copy path &middot; open / create folder <span class="tag free">Free</span></p><p class="rd">Copy the final path to the clipboard, open the output folder, or create it if it doesn't exist &mdash; all from the preview row.</p></div>
+      <div class="row"><p class="rt">Token buttons <span class="tag free">Free</span></p><p class="rd">Insert Blender's own native tokens &mdash; Name, File, Folder, Scene, Camera, FPS, Width, Height &mdash; with the correct separators. Nothing custom, no new syntax to type (or typo).</p></div>
       <div class="row"><p class="rt">Presets &amp; global favorite <span class="tag pro">Pro</span></p><p class="rd">Presets with placeholders (<code>{folder}</code> <code>{name}</code> <code>{date}</code>), editable in the add-on preferences, with one global <strong>&#9733; favorite</strong> applied in a single click &mdash; and it survives restarts.</p></div>
-      <div class="row"><p class="rt">Folder structure helpers</p><p class="rd">Render folder beside the blend file or one level up, <code>{scene_name}</code> / <code>{camera_name}</code> subfolders, and folder per version.</p></div>
+      <div class="row"><p class="rt">Folder structure helpers <span class="tag free">Free</span></p><p class="rd">Render folder beside the blend file or one level up, <code>{scene_name}</code> / <code>{camera_name}</code> subfolders, and folder per version.</p></div>
       <div class="row"><p class="rt">Camera folders <span class="tag pro">Pro</span></p><p class="rd">Keep <code>{camera_name}/</code> in the path and every camera you switch to renders into its own folder &mdash; no path edits.</p></div>
     </div>
 
@@ -284,9 +295,9 @@ details.chk .tbl-wrap table{font-size:12.5px}
     </div>
   </section>
 
-  <!-- 6 · FEATURE REFERENCE -->
+  <!-- 7 · FEATURE REFERENCE -->
   <section>
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">05</span> FEATURE REFERENCE</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">06</span> FEATURE REFERENCE</div>
     <h2>Free vs Pro</h2>
     <p class="lead">Free makes manual paths painless. Pro organizes them for you.</p>
     <div class="tbl-wrap">
@@ -314,9 +325,9 @@ details.chk .tbl-wrap table{font-size:12.5px}
     </div>
   </section>
 
-  <!-- 7 · SCENARIOS -->
+  <!-- 8 · SCENARIOS -->
   <section style="border-bottom:none">
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">06</span> COMMON SCENARIOS</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">07</span> COMMON SCENARIOS</div>
     <h2>How it fits your day</h2>
 
     <div class="scn">

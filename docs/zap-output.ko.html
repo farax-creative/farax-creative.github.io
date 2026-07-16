@@ -213,7 +213,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
   <div class="doc-head">
     <div class="kicker"><span class="pmt">&gt;</span> ZAP 시리즈 / 사용자 매뉴얼</div>
     <h1>ZAP OUTPUT</h1>
-    <div class="doc-sub">블렌더 5용 렌더 경로 토큰</div>
+    <div class="doc-sub">블렌더 5 렌더 경로 토큰</div>
     <div class="doc-meta">Blender 5.0+ &middot; Free + Pro &middot; 네이티브 Path Templates 기반</div>
   </div>
 
@@ -246,9 +246,20 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p><strong>요구 사항:</strong> 블렌더 <strong>5.0 이상</strong> (Path Templates는 5.0 기능입니다). <em>Folder per Pass</em>는 블렌더 <strong>5.1+</strong> 필요 (5.0은 패스 이름에서 <code>/</code>를 제거합니다).</p>
   </section>
 
-  <!-- 3 · QUICK START -->
+  <!-- 3 · UPDATES -->
   <section>
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">03</span> 기본 사용법</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">03</span> 업데이트</div>
+    <h2>새 버전 받기</h2>
+    <p>업데이트가 전달되는 방식은 Zap Output을 어디서 받았는지에 따라 다릅니다.</p>
+    <h3>Gumroad <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.04em">(수동)</span></h3>
+    <p>Gumroad 라이브러리에서 최신 zip을 다시 내려받아, 처음 설치할 때와 똑같은 방식(<strong>Get Extensions &rarr; Install from Disk&hellip;</strong>)으로 다시 설치하면 됩니다. 새 버전이 나오면 Farax Creative가 이메일과 SNS로 알리니 챙겨 보세요.</p>
+    <h3>Superhive <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.04em">(자동)</span></h3>
+    <p>블렌더에서 Superhive를 원격 저장소로 한 번만 연결해 두면(<strong>Preferences &rarr; Get Extensions &rarr; Repositories</strong>), 그 뒤로는 블렌더가 알아서 업데이트를 감지하고 설치해 줍니다 &mdash; 수동으로 다시 내려받을 필요가 없습니다. 이 최초 연결 방법은 Superhive의 <a href="https://support.superhivemarket.com/article/335-connecting-superhive-as-a-remote-repository-in-blender">공식 가이드</a>를 참고하세요.</p>
+  </section>
+
+  <!-- 4 · QUICK START -->
+  <section>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">04</span> 기본 사용법</div>
     <h2>빠른 시작</h2>
     <ol class="steps">
       <li>Output 패널에서 <strong>Name</strong>(예: <code>S03</code>)과 <strong>Folder</strong>(기본값 <code>render</code>)를 설정합니다.</li>
@@ -258,20 +269,20 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p>프레임 카운터와 확장자까지 포함한 정확한 최종 경로(<code>..._v001_####.png</code>)가 File Path 필드 바로 위에 항상 떠 있어서, 블렌더가 실제로 무엇을 쓸지 늘 볼 수 있습니다.</p>
   </section>
 
-  <!-- 4 · SCREEN REFERENCE -->
+  <!-- 5 · SCREEN REFERENCE -->
   <section>
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">04</span> 화면 요소 설명</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">05</span> 화면 요소 설명</div>
     <h2>컨트롤 하나하나</h2>
 
     <h3>Output 패널 <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:.04em">(Properties &rarr; Output)</span></h3>
     <div class="ref">
-      <div class="row"><p class="rt">경로 라이브 프리뷰</p><p class="rd">File Path 입력란 바로 위에 표시되며, 블렌더가 붙일 프레임 카운터와 확장자까지 포함한 최종 경로(<code>..._v001_####.png</code>)를 보여 줍니다.</p></div>
+      <div class="row"><p class="rt">경로 라이브 프리뷰 <span class="tag free">Free</span></p><p class="rd">File Path 입력란 바로 위에 표시되며, 블렌더가 붙일 프레임 카운터와 확장자까지 포함한 최종 경로(<code>..._v001_####.png</code>)를 보여 줍니다.</p></div>
       <div class="row"><p class="rt">날짜 스탬프 <span class="tag free">Free</span></p><p class="rd">오늘 날짜(<code>260713</code>, YYMMDD)를 일반 텍스트로 삽입하거나, 경로에 이미 있는 옛 날짜를 갱신합니다. 블렌더 Path Templates에는 아직 날짜 토큰이 없습니다.</p></div>
       <div class="row"><p class="rt">Version Up / Down <span class="tag free">Free</span></p><p class="rd"><code>v001</code> &rarr; <code>v002</code>. 디스크를 먼저 스캔해 이미 렌더가 있는 버전은 건너뛰므로 아무것도 덮어쓰지 않습니다.</p></div>
-      <div class="row"><p class="rt">경로 복사 &middot; 폴더 열기 / 생성</p><p class="rd">최종 경로를 클립보드에 복사하거나, 출력 폴더를 열거나, 없으면 만드는 것까지 프리뷰 줄에서 바로 할 수 있습니다.</p></div>
-      <div class="row"><p class="rt">토큰 버튼</p><p class="rd">블렌더 자체 네이티브 토큰 &mdash; Name, File, Folder, Scene, Camera, FPS, Width, Height &mdash; 을 올바른 구분자와 함께 삽입합니다. 커스텀 문법을 새로 외우거나(오타 낼 일도) 없습니다.</p></div>
+      <div class="row"><p class="rt">경로 복사 &middot; 폴더 열기 / 생성 <span class="tag free">Free</span></p><p class="rd">최종 경로를 클립보드에 복사하거나, 출력 폴더를 열거나, 없으면 만드는 것까지 프리뷰 줄에서 바로 할 수 있습니다.</p></div>
+      <div class="row"><p class="rt">토큰 버튼 <span class="tag free">Free</span></p><p class="rd">블렌더 자체 네이티브 토큰 &mdash; Name, File, Folder, Scene, Camera, FPS, Width, Height &mdash; 을 올바른 구분자와 함께 삽입합니다. 커스텀 문법을 새로 외우거나(오타 낼 일도) 없습니다.</p></div>
       <div class="row"><p class="rt">프리셋 &amp; 전역 즐겨찾기 <span class="tag pro">Pro</span></p><p class="rd">플레이스홀더(<code>{folder}</code> <code>{name}</code> <code>{date}</code>)가 들어간 프리셋을 애드온 환경설정에서 편집할 수 있고, 전역 <strong>&#9733; 즐겨찾기</strong> 하나를 클릭 한 번으로 적용합니다 &mdash; 재시작해도 유지됩니다.</p></div>
-      <div class="row"><p class="rt">폴더 구조 헬퍼</p><p class="rd">블렌드 파일 옆이나 한 단계 위 폴더에 렌더 폴더 생성, <code>{scene_name}</code> / <code>{camera_name}</code> 서브폴더, 버전별 폴더.</p></div>
+      <div class="row"><p class="rt">폴더 구조 헬퍼 <span class="tag free">Free</span></p><p class="rd">블렌드 파일 옆이나 한 단계 위 폴더에 렌더 폴더 생성, <code>{scene_name}</code> / <code>{camera_name}</code> 서브폴더, 버전별 폴더.</p></div>
       <div class="row"><p class="rt">카메라 폴더 <span class="tag pro">Pro</span></p><p class="rd">경로에 <code>{camera_name}/</code>을 넣어 두면, 전환하는 카메라마다 각자의 폴더로 렌더됩니다 &mdash; 경로를 손댈 필요 없이.</p></div>
     </div>
 
@@ -296,9 +307,9 @@ details.chk .tbl-wrap table{font-size:12.5px}
     </div>
   </section>
 
-  <!-- 5 · FEATURE REFERENCE -->
+  <!-- 6 · FEATURE REFERENCE -->
   <section>
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">05</span> 기능 레퍼런스</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">06</span> 기능 레퍼런스</div>
     <h2>Free vs Pro</h2>
     <p class="lead">Free = 수동 작업이 편해집니다. Pro = 손 안 대도 알아서 정리해 줍니다.</p>
     <div class="tbl-wrap">
@@ -326,9 +337,9 @@ details.chk .tbl-wrap table{font-size:12.5px}
     </div>
   </section>
 
-  <!-- 6 · SCENARIOS -->
+  <!-- 7 · SCENARIOS -->
   <section style="border-bottom:none">
-    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">06</span> 자주 쓰는 시나리오</div>
+    <div class="sec-label"><span class="pmt">&gt;</span><span class="num">07</span> 자주 쓰는 시나리오</div>
     <h2>하루 작업에 녹아드는 방식</h2>
 
     <div class="scn">
