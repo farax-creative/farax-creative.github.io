@@ -371,7 +371,13 @@
   #mmStage .mm-dot{position:absolute; width:5px; height:5px; border-radius:50%; background:var(--ink-3); transform:translate(-50%,-50%)}
   #mmStage .mm-dot.core{width:9px; height:9px; background:var(--cream)}
   #mmStage .mm-dot.live{background:var(--cream); box-shadow:0 0 0 3px rgba(255,243,234,.16)}
-  #mmView{position:absolute; border:1px solid var(--line-3); background:rgba(255,243,234,.05); pointer-events:none}
+  #mmView{position:absolute; border:1px solid var(--line-3); background:rgba(255,243,234,.05); pointer-events:none;
+    /* §16 wayfinding: a slow, restrained "you are here" breathe on the viewport rect
+       (box-shadow only — no transform, so the rect never looks like it is resizing).
+       Same restraint as the .led.is-live pulse; the global reduced-motion guard
+       (*{animation:none}) freezes it to a static, still-visible rect. */
+    animation:mmview-pulse 3.2s var(--ease) infinite}
+  @keyframes mmview-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,243,234,0)} 50%{box-shadow:0 0 7px 1px rgba(255,243,234,.16)}}
 
   /* coordinate readout, bottom-left */
   #coords{position:fixed; bottom:118px; left:44px; z-index:60; font-family:var(--mono);
@@ -470,7 +476,7 @@
   #panel{position:fixed; top:0; right:0; bottom:0; width:min(460px,94vw); z-index:150;
     background:var(--void2); border-left:1px solid var(--line-2);
     transform:translateX(102%); transition:transform .5s var(--ease);
-    padding:86px 38px 40px; overflow-y:auto}
+    padding:86px 38px 40px; overflow-y:auto; overflow-x:hidden}  /* overflow-x guards the §7 directional slide from a transient h-scrollbar */
   #panel.open{transform:translateX(0)}
   #panel .pnum{position:absolute; top:34px; left:38px; font-family:var(--mono); font-size:9px; letter-spacing:.24em; color:var(--ink-3)}
   #panel .close{position:absolute; top:30px; right:30px; width:34px; height:34px; cursor:pointer;
@@ -513,9 +519,13 @@
   .links{display:flex; flex-direction:column; gap:11px}
   .links a{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line-2);
     padding:14px 16px; font-family:var(--label); font-size:15px; letter-spacing:.1em; color:var(--ink);
-    transition:border-color .18s, color .18s, background-color .18s}
+    transition:border-color .18s, color .18s, background-color .18s, transform .18s var(--ease), box-shadow .18s var(--ease)}
   .links a .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s}
-  .links a:hover{border-color:var(--line-3)}
+  /* §7 craft: a small lift + soft shadow on hover (restrained — lighter than the
+     minimap/preview drop shadow, since these are small interactive rows). Applies
+     to .primary too; the zap override only adds background, so no visual conflict.
+     Reduced-motion drops the lift below (the border-colour cue remains). */
+  .links a:hover{border-color:var(--line-3); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.32)}
 
   /* "In this series" — internal nav from a series panel (Zap) down to its products */
   .kids{display:flex; flex-direction:column; gap:11px}
@@ -716,6 +726,14 @@
   #nodePreview .np-title{font-family:var(--label); font-size:13px; letter-spacing:.1em; color:var(--cream); margin:0}
   #nodePreview .np-cap{font-family:var(--mono); font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-2); margin:5px 0 0}
   #nodePreview .np-note{font-family:var(--mono); font-size:8.5px; letter-spacing:.18em; color:var(--ink-3); margin:4px 0 0}
+  /* §13 multimodal causality: a circular ▶ overlay on the output thumbnail that reads
+     "this is playable". JS positions it (magnetic follow) within the image; here it is
+     achromatic cream-over-void (never the yellow accent — it floats outside the panel).
+     pointer-events:none keeps it purely suggestive; it never intercepts the card. */
+  #nodePreview .np-play{position:absolute; left:0; top:0; z-index:2; width:44px; height:44px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; pointer-events:none; will-change:transform;
+    background:rgba(6,11,11,.55); border:1px solid rgba(255,243,234,.55); backdrop-filter:blur(2px)}
+  #nodePreview .np-play svg{width:15px; height:15px; margin-left:2px; fill:var(--cream)}
 
   /* hide the native cursor ONLY on fine-pointer devices, and only once JS has
      confirmed support by adding .cur-on to <html>. Touch/coarse never matches,
@@ -907,11 +925,12 @@
   /* §14 — keep the new translucent HUD chrome legible under reduced-transparency */
   @media (prefers-reduced-transparency:reduce){
     #hudLinks a,#viewToggle{backdrop-filter:none; background:var(--void2)}
-    #nodePreview{backdrop-filter:none; background:var(--void2)}
+    #nodePreview,#nodePreview .np-play{backdrop-filter:none; background:var(--void2)}
   }
 
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
+    .links a:hover{transform:none}   /* §7: keep the link-card lift out of the reduced-motion path (border cue stays) */
   }
 </style>
 </head>
@@ -1642,8 +1661,14 @@
 
   let lastFocused=null;
   let favOutsideHandler=null;   // re-armed each initDemo() call; see there for why
+  let currentPanelNode=null;    // §7: which node's panel is on screen right now (null when closed)
   function openPanel(name){
     const d=DATA[name]; if(!d) return;
+    // §7 spatial nav: capture what was open BEFORE this call so a genuine panel-to-
+    // panel internal jump (breadcrumb up / .kids down) can play a short directional
+    // cue. A fresh open from closed leaves wasOpen=false, so it keeps the instant swap.
+    const wasOpen  = panel.classList.contains("open");
+    const prevNode = currentPanelNode;
     blip("swell");                 // v8-sound: soft rise as a node/panel opens (no-op unless enabled)
     pnum.textContent="NODE "+d.n+" / 05";
     let h="";
@@ -1735,11 +1760,27 @@
     panelBody.innerHTML=h;
     panel.className = d.zap ? "open zap" : "open";   // yellow theme ONLY when d.zap (Zap Output)
     scrim.classList.add("on");
+    // §7 directional content transition — ONLY on real open->open internal nav, and
+    // never under reduced motion. Deeper (target is a CHILD of what was open, via the
+    // .kids list) slides in from the RIGHT; backing out (target is the PARENT, via a
+    // breadcrumb) slides in from the LEFT; any other jump is a plain cross-fade.
+    // Driven with the Web Animations API so it composes with — never restarts — the CSS
+    // `pbody` entrance (fresh-open only) and the `titleSettle` on the new title element.
+    if(wasOpen && !REDUCED && prevNode && prevNode!==name){
+      let from="translateX(0)";                                         // default: cross-fade
+      if(DATA[name].parent===prevNode)          from="translateX(26px)";   // deeper  -> in from right
+      else if((DATA[prevNode]||{}).parent===name) from="translateX(-26px)"; // back out -> in from left
+      panelBody.animate(
+        [{opacity:0, transform:from}, {opacity:1, transform:"translateX(0)"}],
+        {duration:220, easing:"cubic-bezier(.22,.61,.36,1)"}            // ~critically damped ease-out, no bounce
+      );
+    }
     markActive(name);
     if(d.demo) initDemo();
     if(SLUGS[name]) history.replaceState(null, "", "#"+SLUGS[name]);   // deep-link: reflect in URL
     lastFocused=document.activeElement;
     panelClose.focus();
+    currentPanelNode=name;        // §7: remember for the next internal-nav direction check
   }
 
   /* -------------------- live path-builder demo (Zap Output panel) --------------------
@@ -2000,6 +2041,7 @@
 
   function closePanel(){
     panel.className=""; scrim.classList.remove("on");
+    currentPanelNode=null;   // §7: closed -> next open is a fresh open, not internal nav
     if(location.hash) history.replaceState(null, "", location.pathname+location.search);  // drop the deep-link hash
     if(lastFocused && lastFocused.focus) lastFocused.focus();
     if(typeof scheduleIdle === "function") scheduleIdle();   // §7: restart the idle countdown once a panel closes
@@ -2242,7 +2284,38 @@
     const card = document.getElementById("nodePreview");
     const PREVIEW_DELAY = 320;                               // ms — long enough to ignore a fast mouse pass
     let hoverTimer = 0;
-    const hidePreview = ()=>{ clearTimeout(hoverTimer); if(card) card.classList.remove("on"); };
+
+    /* §13 magnetic play-icon: reuses the node magnetic-pull technique (a small spring
+       offset toward the live cursor, clamped so the disc never leaves the thumbnail).
+       Only ever runs for the OUTPUT card, since it is the only preview that carries an
+       <img> (.np-play is appended only when p.img). Fine-pointer already (whole block
+       is CURSOR_ON); MAG_ON adds the motion gate, so reduced motion shows it centred
+       and static. Purely a "this is playable" affordance — it navigates nowhere. */
+    let playRAF = 0, pmx = 0, pmy = 0;
+    const placePlay = (icon)=>{ icon.style.transform = `translate(${pmx.toFixed(1)}px,${pmy.toFixed(1)}px) translate(-50%,-50%)`; };
+    const stopPlayMag = ()=>{ if(playRAF) cancelAnimationFrame(playRAF); playRAF = 0; };
+    function startPlayMag(){
+      const icon = card.querySelector(".np-play"), img = card.querySelector(".np-img");
+      if(!icon || !img) return;                             // no image (zap/doctor) -> nothing to do
+      const cr0 = card.getBoundingClientRect(), ir0 = img.getBoundingClientRect();
+      pmx = ir0.left + ir0.width/2 - cr0.left;              // home = thumbnail centre, card-local
+      pmy = ir0.top  + ir0.height/2 - cr0.top;
+      placePlay(icon);
+      if(!MAG_ON) return;                                   // reduced motion: stays centred, no follow
+      const step = ()=>{
+        const cr = card.getBoundingClientRect(), ir = img.getBoundingClientRect();
+        const pad = icon.offsetWidth/2 + 4;                 // keep the whole disc inside the thumbnail
+        const tx = clamp(curX, ir.left+pad, ir.right-pad) - cr.left;   // cursor -> image bounds -> card-local
+        const ty = clamp(curY, ir.top +pad, ir.bottom-pad) - cr.top;
+        pmx += (tx - pmx) * 0.18;                           // same spring rate as MAG_EASE
+        pmy += (ty - pmy) * 0.18;
+        placePlay(icon);
+        playRAF = requestAnimationFrame(step);
+      };
+      playRAF = requestAnimationFrame(step);
+    }
+
+    const hidePreview = ()=>{ clearTimeout(hoverTimer); stopPlayMag(); if(card) card.classList.remove("on"); };
     function showPreview(name, disc){
       const d = DATA[name], p = d && d.preview;
       if(!p || !card || dragging) return;
@@ -2252,6 +2325,7 @@
       if(p.caption) html += `<p class="np-cap">${p.caption}</p>`;
       if(p.note)    html += `<p class="np-note">${p.note}</p>`;
       html += `</div>`;
+      if(p.img) html += `<span class="np-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>`;  // §13 playable affordance (image cards only)
       card.innerHTML = html;
       // centred above the disc, clamped to the viewport (opacity-hidden but still laid
       // out, so offsetWidth/Height measure correctly before we reveal it)
@@ -2264,6 +2338,7 @@
       card.style.left = Math.round(cx) + "px";
       card.style.top  = Math.round(cy) + "px";
       card.classList.add("on");
+      startPlayMag();                                       // §13: begin the magnetic play-icon (no-op without an image)
     }
     if(card){
       HOVER_NODES.forEach(node=>{
