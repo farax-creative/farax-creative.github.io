@@ -675,7 +675,7 @@
      transform, so this position:fixed child is contained by (and slides in/out with) the
      panel, yet stays put while #panelBody scrolls. Shown only when the open node has a
      real purchase link (JS toggles .on). */
-  .p-buy-tab{position:fixed; top:50%; left:-26px; transform:translateY(-50%); z-index:20;
+  .p-buy-tab{position:fixed; right:calc(min(460px,94vw) - 21px); top:50%; transform:translateY(-50%); z-index:160;
     display:none; flex-direction:column; gap:8px}
   .p-buy-tab.on{display:flex}
   .p-buy-tab a{width:47px; height:47px; border-radius:8px 0 0 8px; display:flex;
@@ -695,6 +695,12 @@
     border:1px solid var(--line-2)!important; border-right:none!important}
   .p-buy-tab a.gumroad-button:hover{color:var(--cream)!important; border-color:var(--line-3)!important; background:rgba(6,11,11,.85)!important}
   .p-buy-tab a.gumroad-button .logo-full{display:none!important}
+  /* §buy-tab: same "monochrome at rest -> brand colour on hover" pattern as the link rows */
+  .p-buy-tab a svg{filter:grayscale(1); transition:filter .3s var(--ease), transform .25s var(--ease)}
+  .p-buy-tab a:hover svg{filter:grayscale(0); transform:scale(1.15)}
+  .p-buy-tab a[href*="superhivemarket.com"]:hover{border-color:#EC6628}
+  .p-buy-tab a[href*="gumroad.com"]:hover{border-color:#FF90E8}
+  .p-buy-tab a[href*="youtube.com"]:hover,.p-buy-tab a[href*="youtu.be"]:hover{border-color:#FF0000}
   .links a.gumroad-button:active,#hudLinks a.gumroad-button:active{transform:none!important; box-shadow:none!important}
   #panel.zap .p-title::after{content:""; display:block; width:44px; height:3px; background:var(--zap); margin-top:14px}
 
@@ -1016,6 +1022,7 @@
   .links a[href*="gumroad.com"]:hover .li-ic svg,
   .links a[href*="youtube.com"]:hover .li-ic svg,.links a[href*="youtu.be"]:hover .li-ic svg{transform:scale(1.12)}
   .links a[href*="superhivemarket.com"]:hover .li-ic svg{color:#EC6628}   /* link-row hover reveal only; HUD icons stay monochrome (grayscale, no hover colour) */
+  .links a[href*="youtube.com"]:hover .li-ic svg,.links a[href*="youtu.be"]:hover .li-ic svg{color:var(--brand)}   /* YouTube mark uses currentColor (rect stroke + play-triangle fill) — flip it to brand red on hover */
 
   /* §9 (v11) — "Recently" as a compact drag/click/keyboard scrubbable timeline
      (studio panel). Achromatic. The knob/fill ease between stops; the global
@@ -1041,7 +1048,7 @@
     background:rgba(6,11,11,.72); border:1px solid var(--line-2); color:var(--ink-2);
     backdrop-filter:blur(6px); transition:border-color .2s, color .2s}
   #hudLinks a:hover{border-color:var(--line-3); color:var(--cream)}
-  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; filter:grayscale(1)}
+  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; filter:grayscale(1); display:block}   /* display:block kills the inline-SVG baseline gap that pushed non-camera marks off-centre in the flex box */
   #hudLinks a svg .fillmark{fill:currentColor; stroke:none}
 
   /* §8a — "system pulse" ring radiating out from the sun (triple-click egg).
@@ -1479,9 +1486,9 @@
   <span class="pnum" id="pnum"></span>
   <button class="close" id="panelClose" aria-label="Close">×</button>
   <div id="panelBody"></div>
-  <!-- §buy-tab: always-visible buy-link rail; filled + toggled in openPanel() -->
-  <div id="pBuyTab" class="p-buy-tab" aria-hidden="true"></div>
 </aside>
+<!-- §buy-tab: sibling of #panel (NOT a descendant) so #panel's overflow+transform never clips it; filled + toggled in openPanel()/closePanel() -->
+<div id="pBuyTab" class="p-buy-tab" aria-hidden="true"></div>
 
 <script>
   "use strict";
@@ -2026,6 +2033,9 @@
     if(u.includes("instagram.com")) return LINK_ICONS.instagram;
     return "";
   }
+  // §buy-tab fallback mark: links with no branded icon (e.g. the User Manual docs page)
+  // still get a generic document glyph so the rail never renders an empty tile.
+  const DOC_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
   // §10 HUD links pull their URLs straight from DATA, so nothing new can slip
   // outside the approved allowlist (Gumroad / Superhive / Instagram only here).
   const findLink = re => (DATA.output.links.concat(DATA.studio.links).find(l=>re.test(l[1]))||[])[1] || "";
@@ -2171,18 +2181,18 @@
         `</div>`;
     }
     panelBody.innerHTML=h;
-    // §buy-tab: fill the always-visible right-edge buy rail from this node's REAL
-    // purchase links only (Superhive product page / Gumroad single-product buy page).
+    // §buy-tab: fill the always-visible right-edge rail from EVERY link on this node
+    // (Superhive / Gumroad / YouTube walkthrough / User Manual) as an icon-only column.
     // Reuses the same href + gumroad-button class as the in-list links, so Gumroad's
-    // global observer wires the overlay checkout and Superhive opens in a new tab —
-    // no extra JS needed. Nodes without a buy link (studio/zap/doctor/next) get no rail.
-    const buyLinks = d.links.filter(l => /superhivemarket\.com|gumroad\.com\/l\//.test(l[1]));
-    if(buyLinks.length){
-      pBuyTab.innerHTML = buyLinks.map(l=>{
+    // global observer wires the overlay checkout and the rest open in a new tab —
+    // no extra JS needed. Nodes with no links (e.g. next) get no rail.
+    const railLinks = d.links;
+    if(railLinks.length){
+      pBuyTab.innerHTML = railLinks.map(l=>{
         const isGumroadBuy = l[1].includes("gumroad.com/l/");
         const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
         const cls = isGumroadBuy ? "gumroad-button" : "";
-        return `<a href="${l[1]}"${nav} class="${cls}" title="${l[0]}" aria-label="${l[0]}">${linkIcon(l[1])}</a>`;
+        return `<a href="${l[1]}"${nav} class="${cls}" title="${l[0]}" aria-label="${l[0]}">${linkIcon(l[1]) || DOC_ICON}</a>`;
       }).join("");
       pBuyTab.classList.add("on");
       pBuyTab.setAttribute("aria-hidden","false");
@@ -2525,6 +2535,7 @@
 
   function closePanel(){
     panel.className=""; scrim.classList.remove("on");
+    pBuyTab.classList.remove("on"); pBuyTab.setAttribute("aria-hidden","true");   // §buy-tab is a sibling of #panel now — hide the rail explicitly when the panel closes
     currentPanelNode=null;   // §7: closed -> next open is a fresh open, not internal nav
     if(location.hash) history.replaceState(null, "", location.pathname+location.search);  // drop the deep-link hash
     if(lastFocused && lastFocused.focus) lastFocused.focus();
