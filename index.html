@@ -1017,7 +1017,7 @@
   #viewToggle svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
   #listView{position:fixed; inset:0; z-index:130; background:var(--void); overflow-y:auto; display:none; padding:96px 22px 40px}
   #listView .lv-head{font-family:var(--mono); font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px}
-  /* (the old plain .lv-row list was replaced by the §3 bento grid — see the v12 block below) */
+  /* (the old plain .lv-row list is now the §3 "Active Grid" hover-reveal cards -- see the block below) */
 
   /* §4 — mobile bottom-sheet + grab handle. Desktop (>720) keeps the side
      slide-in entirely unchanged; every sheet rule lives inside the media query. */
@@ -1093,39 +1093,70 @@
   #hudCluster #viewCtl{position:static; right:auto; bottom:auto; align-items:center}
   #hudCluster #helpBtn{position:static; right:auto; bottom:auto; align-self:center}
 
-  /* §3 desktop bento view -----------------------------------------------
-     The list-view toggle + overlay now work on DESKTOP too (the .ready gate no longer
-     lives only inside the mobile media query), rendered as a bento grid of varied card
-     sizes instead of plain rows. Every card still calls the same openPanel(name). */
+  /* §3 desktop "Active Grid" list view --------------------------------------
+     The list-view toggle + overlay work on DESKTOP too (the .ready gate no longer
+     lives only inside the mobile media query). Cards render as a hover-reveal bento
+     of varied sizes: a compact face (index / status / title) with a second data layer
+     (description / specs / tiers) that slides open on hover / focus. Every card calls
+     the same openPanel(name) as the map nodes. Colour discipline: the yellow --zap
+     accent is gated to the live product (.lv-c-output) ONLY. The grid uses explicit
+     template-rows + named areas (NOT auto-rows) so the tall span cards get an exact
+     summed height and can never miscompute; each card also carries its own min-height
+     as a second floor against overlap. Every animated addition degrades under the
+     global reduced-motion guard. */
   #viewToggle.ready{display:inline-flex}
   #listView.on{display:block}
-  .bento{display:grid; gap:14px; max-width:1080px; margin:0 auto;
-    grid-template-columns:repeat(3,1fr); grid-auto-rows:minmax(122px,auto)}
-  .bento-card{position:relative; display:flex; flex-direction:column; justify-content:space-between;
-    text-align:left; background:var(--void2); border:1px solid var(--line-2); cursor:pointer;
-    padding:18px 18px 16px; overflow:hidden;
-    transition:border-color .18s, transform .18s var(--ease), box-shadow .18s var(--ease)}
-  .bento-card:hover{border-color:var(--line-3); transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.34)}
-  .bento-card:active{transform:scale(.995)}
-  .bento-card.hero{grid-column:span 2; grid-row:span 2; justify-content:flex-start}   /* output — live flagship */
-  .bento-card.wide{grid-column:span 2}                                                /* studio */
-  .bc-ar{position:absolute; top:15px; right:16px; font-family:var(--mono); font-size:13px; color:var(--ink-3)}
-  .bc-top{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:8.5px;
-    letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
-  .bc-led{width:6px; height:6px; border-radius:50%; background:var(--ink-3); flex:none}
-  .bc-led.is-live{background:var(--cream); animation:led-pulse 2.3s var(--ease) infinite}
-  .bc-title{font-family:var(--display); font-weight:400; font-size:30px; line-height:.98;
-    letter-spacing:-.005em; color:var(--cream); margin:12px 0 0}
-  .bento-card.hero .bc-title{font-size:clamp(38px,5.5vw,58px); margin-top:14px}
-  .bento-card.hero .bc-ar{color:var(--cream)}
-  .bc-sub{font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-2); margin:8px 0 0}
-  .bc-hero-img{display:block; width:calc(100% + 36px); height:154px; object-fit:cover; object-position:center top;
-    margin:-18px -18px 2px; border-bottom:1px solid var(--line-2)}
-  /* §BL Blender badge + version on the output card face — same unmodified logo sticker + mono
-     version chip, so the "Blender add-on" signal reads without opening the panel. */
-  .bc-compat{display:flex; align-items:center; gap:9px; margin-top:14px}
-  .bc-blogo{display:block; width:26px; height:auto; border-radius:4px; flex:none; box-shadow:0 2px 7px rgba(0,0,0,.32)}
-  .bc-ver{font-family:var(--mono); font-size:8.5px; letter-spacing:.06em; color:var(--ink-3); border:1px solid var(--line-2); border-radius:4px; padding:2px 6px}
+  .lv-grid{display:grid; gap:14px; max-width:1080px; margin:0 auto;
+    grid-template-columns:1.45fr 1fr 1fr; grid-template-rows:repeat(3,minmax(190px,1fr));
+    grid-template-areas:"output zap zap" "output doctor studio" "output next studio"}
+  .lv-c-output{grid-area:output; min-height:588px}
+  .lv-c-zap{grid-area:zap; min-height:190px}
+  .lv-c-doctor{grid-area:doctor; min-height:190px}
+  .lv-c-studio{grid-area:studio; min-height:394px}
+  .lv-c-next{grid-area:next; min-height:190px}
+  .lv-card{position:relative; display:flex; flex-direction:column; text-align:left;
+    background:var(--void2); border:1px solid var(--line-2); border-radius:4px;
+    padding:22px; overflow:hidden; cursor:pointer; isolation:isolate;
+    transition:border-color .5s var(--ease), transform .5s var(--ease), background .5s var(--ease)}
+  .lv-card::before{content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(244,235,221,.07), transparent 62%);
+    transition:opacity .5s var(--ease)}
+  .lv-card:hover{border-color:var(--line-3); transform:translateY(-3px)}
+  .lv-card:hover::before{opacity:1}
+  .lv-c-output::before{background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%), var(--zap-soft), transparent 60%)}   /* live product: the only yellow glow */
+  .lv-c-output:hover{border-color:rgba(255,200,40,.42)}
+  .lv-card-head{position:relative; z-index:2; display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
+  .lv-idx{font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--ink-3)}
+  .lv-status{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2);
+    display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); border-radius:100px; padding:4px 10px; white-space:nowrap}
+  .lv-status.live{color:var(--cream)}
+  .lv-c-output .lv-status.live{border-color:rgba(255,200,40,.32)}   /* live product only */
+  .lv-led{width:6px; height:6px; border-radius:50%; background:var(--ink-3); flex:none}
+  .lv-led.on{background:var(--cream); opacity:.75}                        /* series 01 live -- not the product */
+  .lv-led.dev{background:transparent; border:1px solid var(--line-2)}     /* in dev / planned */
+  .lv-led.live{background:var(--zap); animation:led-pulse 2.3s var(--ease) infinite}   /* live product only */
+  .lv-card-body{position:relative; z-index:2; margin-top:auto; transition:transform .5s var(--ease)}
+  .lv-subtitle{font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3); margin-bottom:12px}
+  .lv-title{font-family:var(--display); font-weight:400; text-transform:uppercase; letter-spacing:.015em; line-height:.9; font-size:clamp(28px,3.4vw,40px); color:var(--cream)}
+  .lv-c-output .lv-title{font-size:clamp(40px,5.2vw,68px)}
+  .lv-c-studio .lv-title{font-size:clamp(34px,4.2vw,52px)}
+  .lv-title .lv-accent{color:var(--zap)}   /* live product only */
+  .lv-reveal{position:relative; z-index:2; max-height:0; opacity:0; transform:translateY(10px); overflow:hidden; margin-top:0;
+    transition:max-height .5s var(--ease), opacity .5s var(--ease), transform .5s var(--ease), margin .5s var(--ease)}
+  .lv-card:hover .lv-reveal,.lv-card:focus-visible .lv-reveal{max-height:420px; opacity:1; transform:translateY(0); margin-top:16px}
+  .lv-card:hover .lv-card-body,.lv-card:focus-visible .lv-card-body{transform:translateY(-2px)}
+  .lv-desc{font-family:var(--serif); font-size:14px; line-height:1.55; color:var(--ink-2); max-width:46ch}
+  .lv-desc em{color:var(--cream); font-style:italic}
+  .lv-divider{height:1px; background:var(--line); margin:14px 0}
+  .lv-meta{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+  .lv-meta b{color:var(--ink-2); font-weight:400}
+  .lv-tiers{display:flex; gap:8px; margin-top:14px}
+  .lv-tier{font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 11px; border-radius:2px; border:1px solid var(--line); color:var(--ink-2)}
+  .lv-tier.pro{border-color:rgba(255,200,40,.4); color:var(--zap); background:var(--zap-soft)}   /* live product only */
+  .lv-hint{position:absolute; right:20px; bottom:18px; z-index:2; font-family:var(--mono); font-size:11px; color:var(--ink-3); letter-spacing:.1em; opacity:.5;
+    transition:opacity .5s var(--ease), transform .5s var(--ease)}
+  .lv-card:hover .lv-hint{opacity:0; transform:translateX(6px)}
+  .lv-ghost{position:absolute; z-index:0; right:-10px; top:-24px; font-family:var(--display); font-weight:400; font-size:clamp(120px,20vw,240px); line-height:1; color:rgba(255,200,40,.05); pointer-events:none; user-select:none}   /* live product only */
 
   /* §4/§3 mobile — the control cluster reflows above the (restored) horizontal bottom
      bar, and the bento collapses to a single column. */
@@ -1143,9 +1174,14 @@
     #hudCluster #coords{font-size:9px}
     /* list/map toggle back to its top-right phone spot (the minimap is hidden here) */
     #viewToggle{top:70px; left:auto; right:26px}
-    /* single-column bento on phones — cards stack; the hero keeps its preview image */
-    .bento{grid-template-columns:1fr; max-width:520px}
-    .bento-card.hero,.bento-card.wide{grid-column:auto; grid-row:auto}
+    /* "Active Grid" collapses to one stacked column on phones; the tall span cards drop
+       their multi-row areas so each card's own min-height is the only floor, and with no
+       hover the reveal layer is shown open. */
+    .lv-grid{grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:minmax(200px,auto);
+      grid-template-areas:"output" "zap" "doctor" "studio" "next"; max-width:520px}
+    .lv-c-output,.lv-c-studio{min-height:300px}
+    .lv-card .lv-reveal{max-height:none; opacity:1; transform:none; margin-top:16px}
+    .lv-hint{display:none}
   }
   @media (prefers-reduced-transparency:reduce){
     #hudCluster{backdrop-filter:none; background:var(--void2)}
@@ -1154,6 +1190,7 @@
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
     .links a:hover{transform:none}   /* §7: keep the link-card lift out of the reduced-motion path (border cue stays) */
+    .lv-card:hover{transform:none}   /* §3: keep the Active Grid lift out of the reduced-motion path (border cue stays) */
   }
 </style>
 </head>
@@ -2829,37 +2866,61 @@
   const LV_KEY = "farax_listview";
   const ICON_LIST = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
   const ICON_MAP  = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="12" r="8.4"/><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"/></svg>';
-  // §3 bento view — the old plain-row list is now a varied-size card grid, available on
-  // desktop as well as mobile. BENTO_ORDER places the flagship first so grid auto-flow
-  // lands the hero (output, 2x2) top-left, the wide studio card on the bottom row, and
-  // the rest as 1x1 cells. Cards reuse title/status/sub straight from DATA and call the
-  // exact same openPanel(name) as the map nodes — no new copy, no new nav logic.
+  // §3 "Active Grid" list view -- the old plain-row list is now a hover-reveal bento of
+  // varied-size cards, available on desktop as well as mobile. BENTO_ORDER drives the
+  // named grid areas (output flagship first). Cards reuse title/status/sub/body straight
+  // from DATA and call the exact same openPanel(name) as the map nodes -- no new copy.
   const BENTO_ORDER = ["output","zap","doctor","studio","next"];
   function buildListView(){
     if(!listView) return;
-    listView.innerHTML = `<p class="lv-head">Farax System — index</p><div class="bento">` +
+    const KIND = { output:"FLAGSHIP", zap:"SERIES", doctor:"PRODUCT", studio:"STUDIO", next:"PLANNED" };
+    listView.innerHTML = `<p class="lv-head">Farax System &mdash; index</p><div class="lv-grid">` +
       BENTO_ORDER.map(name=>{
         const d = DATA[name];
-        const size = name==="output" ? " hero" : (name==="studio" ? " wide" : "");
         const live = d.led==="live";
-        const img  = (name==="output" && d.preview && d.preview.img)
-          ? `<img class="bc-hero-img" src="${d.preview.img}" alt="Zap Output — Free walkthrough preview">` : "";
-        const compat = d.version   // §BL Blender-add-on signal on the card face: unmodified logo sticker + version chip
-          ? `<span class="bc-compat"><img class="bc-blogo" src="${BLENDER_BADGE}" alt="Blender add-on" width="26"><span class="bc-ver">[${d.version}]</span></span>`
-          : "";
-        return `<button class="bento-card${size}" type="button" data-target="${name}">`+
-          `<span class="bc-ar" aria-hidden="true">↗</span>`+
-          img+
-          `<span class="bc-top"><span class="bc-led${live?" is-live":""}"></span>${d.status}</span>`+
-          `<span class="bc-main"><span class="bc-title">${d.title}</span><span class="bc-sub">${d.sub||""}</span></span>`+
-          compat+
-        `</button>`;
+        // LED colour follows the site discipline: the live PRODUCT (output) is the only
+        // yellow marker; the live series (zap) reads cream; in-dev / planned read grey.
+        const ledCls = name==="output" ? "lv-led live" : (live ? "lv-led on" : (name==="studio" ? "" : "lv-led dev"));
+        const led = ledCls ? `<span class="${ledCls}"></span>` : "";
+        const statusCls = live ? " live" : "";
+        // yellow title accent only on the live product's last word
+        let titleHtml = d.title;
+        if(name==="output"){ const p = d.title.split(" "); const last = p.pop(); titleHtml = `${p.join(" ")} <span class="lv-accent">${last}</span>`; }
+        const stage = live ? "Live" : (name==="studio" ? "Core" : (name==="next" ? "Forming" : "Building"));
+        const meta = `<span>Index <b>${d.n}</b></span>` + (d.version ? `<span>Version <b>${d.version}</b></span>` : `<span>Stage <b>${stage}</b></span>`);
+        const tierSet = [...new Set((d.specs||[]).map(s=>s[0]))];
+        const tiers = tierSet.length ? `<div class="lv-tiers">`+tierSet.map(t=>`<span class="lv-tier${t==="Pro"?" pro":""}">${t}</span>`).join("")+`</div>` : "";
+        const ghost = name==="output" ? `<span class="lv-ghost" aria-hidden="true">${d.n}</span>` : "";
+        return `<article class="lv-card lv-c-${name}" tabindex="0" data-target="${name}">`+
+          ghost+
+          `<div class="lv-card-head"><span class="lv-idx">${d.n} / ${KIND[name]}</span>`+
+          `<span class="lv-status${statusCls}">${led}${d.status}</span></div>`+
+          `<div class="lv-card-body"><div class="lv-subtitle">${d.sub||""}</div>`+
+          `<h2 class="lv-title">${titleHtml}</h2></div>`+
+          `<div class="lv-reveal"><p class="lv-desc">${d.body}</p>`+
+          `<div class="lv-divider"></div><div class="lv-meta">${meta}</div>`+tiers+`</div>`+
+          `<span class="lv-hint">hover &rarr;</span>`+
+        `</article>`;
       }).join("") + `</div>`;
     listView.addEventListener("click", e=>{
-      const card = e.target.closest(".bento-card");
+      const card = e.target.closest(".lv-card");
       if(!card) return;
-      hapticTap(); openPanel(card.dataset.target);   // §6: bento cards are real node-opens too
+      hapticTap(); openPanel(card.dataset.target);   // §6: Active Grid cards are real node-opens too
     });
+    listView.addEventListener("keydown", e=>{
+      const card = e.target.closest(".lv-card");
+      if(!card) return;
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); hapticTap(); openPanel(card.dataset.target); }
+    });
+    if(!REDUCED){   // §3: cursor-tracking glow -- feed each card its local pointer position
+      listView.querySelectorAll(".lv-card").forEach(card=>{
+        card.addEventListener("pointermove", e=>{
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--mx", ((e.clientX-r.left)/r.width*100)+"%");
+          card.style.setProperty("--my", ((e.clientY-r.top)/r.height*100)+"%");
+        });
+      });
+    }
   }
   function setListView(on){
     if(!listView || !viewToggle) return;
@@ -3011,7 +3072,9 @@
     }
     // v10: reveal the mobile view toggle, restore a remembered list view, arm idle + comet
     if(viewToggle) viewToggle.classList.add("ready");
-    try{ if(sessionStorage.getItem(LV_KEY)==="1") setListView(true); }catch(e){}
+    let _restoredListView = false;
+    try{ _restoredListView = sessionStorage.getItem(LV_KEY)==="1"; }catch(e){}
+    setListView(_restoredListView);
     scheduleIdle();
     scheduleComet();
   }
