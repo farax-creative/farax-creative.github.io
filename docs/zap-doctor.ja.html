@@ -194,12 +194,22 @@ details.chk .tbl-wrap table{font-size:12.5px}
 .sev-w{border:1px solid var(--line-3); color:var(--cream)}
 .sev-s{border:1px solid var(--line); color:var(--ink-3)}
 .legend{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin:0 0 8px; display:flex; gap:16px; flex-wrap:wrap; align-items:center}
-.lang-select{appearance:none; -webkit-appearance:none; background:var(--void2); color:var(--cream);
-  border:1px solid var(--line-2); border-radius:3px; padding:4px 22px 4px 8px;
-  font-family:var(--mono); font-size:11px; letter-spacing:.04em; cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23F4EBDD' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
-  background-repeat:no-repeat; background-position:right 6px center}
-.lang-select:hover{border-color:var(--line-3)}
+.lang-switch{position:relative; display:inline-block; font-family:var(--mono)}
+.lang-current{display:inline-flex; align-items:center; gap:7px; background:var(--void2); color:var(--cream);
+  border:1px solid var(--line-2); border-radius:3px; padding:5px 10px; font-family:var(--mono); font-size:11px;
+  letter-spacing:.04em; cursor:pointer; line-height:1.4}
+.lang-current:hover{border-color:var(--line-3)}
+.lang-caret{font-size:9px; color:var(--ink-3); transition:transform .2s ease; display:inline-block}
+.lang-switch.open .lang-caret{transform:rotate(180deg)}
+.lang-menu{position:absolute; top:calc(100% + 4px); left:0; min-width:150px; z-index:50; list-style:none;
+  margin:0; padding:4px; background:var(--void2); border:1px solid var(--line-2); border-radius:4px;
+  box-shadow:0 14px 30px rgba(0,0,0,.5)}
+.lang-menu[hidden]{display:none}
+.lang-menu li{margin:0}
+.lang-menu li a{display:block; padding:7px 9px; font-family:var(--mono); font-size:11px; letter-spacing:.04em;
+  color:var(--ink-2); text-decoration:none; border-radius:3px; white-space:nowrap}
+.lang-menu li a:hover,.lang-menu li a:focus-visible{background:rgba(244,235,221,.07); color:var(--cream); outline:none}
+.lang-menu li[aria-selected="true"] a{color:var(--cream); font-weight:600}
 </style>
 </head>
 <body>
@@ -207,13 +217,16 @@ details.chk .tbl-wrap table{font-size:12.5px}
 <header class="top">
   <a class="mark" href="https://farax-creative.github.io/#zap-doctor"><span class="glyph"></span>FARAX CREATIVE</a>
   <span style="display:flex; align-items:center; gap:15px">
-    <select class="lang-select" onchange="if(this.value)location.href=this.value" aria-label="Manual language">
-          <option value="zap-doctor.html">EN — English</option>
-          <option value="zap-doctor.ko.html">KO — 한국어</option>
-          <option value="zap-doctor.ja.html" selected>JA — 日本語</option>
-          <option value="zap-doctor.pt.html">PT — Português</option>
-          <option value="zap-doctor.es.html">ES — Español</option>
-        </select>
+    <div class="lang-switch">
+      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">JA — 日本語<span class="lang-caret" aria-hidden="true">▾</span></button>
+      <ul class="lang-menu" role="listbox" hidden>
+        <li role="option" aria-selected="false"><a href="zap-doctor.html">EN — English</a></li>
+        <li role="option" aria-selected="false"><a href="zap-doctor.ko.html">KO — 한국어</a></li>
+        <li role="option" aria-selected="true"><a href="zap-doctor.ja.html">JA — 日本語</a></li>
+        <li role="option" aria-selected="false"><a href="zap-doctor.pt.html">PT — Português</a></li>
+        <li role="option" aria-selected="false"><a href="zap-doctor.es.html">ES — Español</a></li>
+      </ul>
+    </div>
     <a class="back" href="https://farax-creative.github.io/#zap-doctor">&larr; Zap Doctor に戻る</a>
   </span>
 </header>
@@ -455,6 +468,29 @@ details.chk .tbl-wrap table{font-size:12.5px}
       for (var j = 0; j < all.length; j++){ all[j].open = open; }
     });
   }
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll(".lang-switch").forEach(function(sw){
+    var btn = sw.querySelector(".lang-current");
+    var menu = sw.querySelector(".lang-menu");
+    if(!btn||!menu) return;
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var willOpen = menu.hidden;
+      menu.hidden = !willOpen;
+      sw.classList.toggle("open", willOpen);
+      btn.setAttribute("aria-expanded", String(willOpen));
+    });
+    menu.addEventListener("click", function(e){ e.stopPropagation(); });
+    document.addEventListener("click", function(){
+      if(!menu.hidden){ menu.hidden = true; sw.classList.remove("open"); btn.setAttribute("aria-expanded","false"); }
+    });
+    sw.addEventListener("keydown", function(e){
+      if(e.key === "Escape"){ menu.hidden = true; sw.classList.remove("open"); btn.setAttribute("aria-expanded","false"); btn.focus(); }
+    });
+  });
 })();
 </script>
 </body>
