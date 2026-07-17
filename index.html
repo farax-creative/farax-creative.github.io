@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Only intentional external request on this site: Gumroad's overlay script intercepts .gumroad-button clicks to open checkout in an in-page popup (payment must reach Gumroad's servers). Moved to <head> so the async bundle has the maximum time to load before a user can reach the buy button. -->
+<script src="https://gumroad.com/js/gumroad.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FARAX Creative — one-click tools for 3D</title>
@@ -605,15 +607,29 @@
   /* touch / no-hover fallback: keep the description permanently open */
   @media not (hover:hover){ .spec-more{margin-top:5px} }
   .links{display:flex; flex-direction:column; gap:11px}
-  .links a{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line-2);
+  .links a{position:relative; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line-2);
     padding:14px 16px; font-family:var(--label); font-size:15px; letter-spacing:.1em; color:var(--ink);
     transition:border-color .18s, color .18s, background-color .18s, transform .18s var(--ease), box-shadow .18s var(--ease)}
-  .links a .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s}
+  .links a .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s, transform .18s var(--ease)}
   /* §7 craft: a small lift + soft shadow on hover (restrained — lighter than the
      minimap/preview drop shadow, since these are small interactive rows). Applies
      to .primary too; the zap override only adds background, so no visual conflict.
      Reduced-motion drops the lift below (the border-colour cue remains). */
   .links a:hover{border-color:var(--line-3); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.32)}
+  /* §7 craft: brand-colour hover accents on panel link rows, scoped by href.
+     A thin left accent bar grows in, and border/arrow tint to each platform's
+     real brand colour (--brand). User Manual has no matching domain -> stays grey. */
+  .links a::before{content:""; position:absolute; left:0; top:0; bottom:0; width:0; background:var(--brand,var(--line-3)); transition:width .25s var(--ease); pointer-events:none}
+  .links a:hover::before{width:3px}
+  .links a[href*="superhivemarket.com"]{--brand:#EC6628}
+  .links a[href*="gumroad.com"]{--brand:#FF90E8}
+  .links a[href*="youtube.com"],.links a[href*="youtu.be"]{--brand:#FF0000}
+  .links a[href*="superhivemarket.com"]:hover,
+  .links a[href*="gumroad.com"]:hover,
+  .links a[href*="youtube.com"]:hover,.links a[href*="youtu.be"]:hover{border-color:var(--brand)}
+  .links a[href*="superhivemarket.com"]:hover .ar,
+  .links a[href*="gumroad.com"]:hover .ar,
+  .links a[href*="youtube.com"]:hover .ar,.links a[href*="youtu.be"]:hover .ar{color:var(--brand); transform:translateX(2px)}
 
   /* "In this series" — internal nav from a series panel (Zap) down to its products */
   .kids{display:flex; flex-direction:column; gap:11px}
@@ -636,6 +652,56 @@
   #panel.zap .links a.primary{border-color:var(--zap); color:var(--zap)}
   #panel.zap .links a.primary .ar{color:var(--zap)}
   #panel.zap .links a.primary:hover{background:var(--zap-soft)}
+  .links a.gumroad-button .logo-full,#hudLinks a.gumroad-button .logo-full{display:none!important}
+  /* Gumroad's own overlay.css forces background/border-radius/padding/color onto any .gumroad-button
+     element it finds (their default "Buy" chrome) -- reset it back to this site's own button styles. */
+  .links a.gumroad-button,#hudLinks a.gumroad-button{background:none!important; background-color:transparent!important; border-radius:0!important; color:var(--ink)!important}
+  .links a.gumroad-button{padding:14px 16px!important; font-size:15px!important; line-height:normal!important; gap:12px!important}
+  #hudLinks a.gumroad-button{padding:0!important; width:30px!important; height:30px!important; background:rgba(6,11,11,.72)!important; color:var(--ink-2)!important}
+  .links a.gumroad-button:hover{border-color:#FF90E8!important; transform:translateY(-2px)!important; box-shadow:0 8px 20px rgba(0,0,0,.32)!important; background:none!important; color:var(--ink)!important}
+  #hudLinks a.gumroad-button:hover{border-color:var(--line-3)!important; color:var(--cream)!important; background:rgba(6,11,11,.72)!important; transform:none!important; box-shadow:none!important}
+
+  /* §buy: Superhive link -> official purple->orange promo badge. Overrides both the
+     zap-yellow .primary rule above and the --brand hover accent; href-scoped + !important
+     so this filled gradient always wins regardless of source order. */
+  .links a[href*="superhivemarket.com"].primary{background:none!important; border-color:var(--line-2)!important; color:var(--ink)!important;
+    transition:background .4s var(--ease), border-color .3s, color .3s, transform .18s var(--ease), box-shadow .18s var(--ease)!important}
+  .links a[href*="superhivemarket.com"].primary .ar{color:var(--ink-3)!important; transition:color .3s, transform .18s var(--ease)}
+  .links a[href*="superhivemarket.com"].primary:hover{background:linear-gradient(90deg,#8B5CF6,#EC6628)!important; border-color:transparent!important; color:#fff!important}
+  .links a[href*="superhivemarket.com"].primary:hover .ar{color:#fff!important; transform:translateX(2px)}
+
+  /* §buy-tab: a sticky rail of buy-link icons pinned to the panel's right inner edge,
+     always reachable without scrolling down to the bottom link list. #panel carries a
+     transform, so this position:fixed child is contained by (and slides in/out with) the
+     panel, yet stays put while #panelBody scrolls. Shown only when the open node has a
+     real purchase link (JS toggles .on). */
+  .p-buy-tab{position:fixed; right:calc(min(460px,94vw) - 21px); top:50%; transform:translateY(-50%); z-index:160;
+    display:none; flex-direction:column; gap:8px}
+  .p-buy-tab.on{display:flex}
+  .p-buy-tab a{width:47px; height:47px; border-radius:8px 0 0 8px; display:flex;
+    align-items:center; justify-content:center; text-decoration:none;
+    background:rgba(6,11,11,.85); border:1px solid var(--line-2); border-right:none;
+    color:var(--ink-2); backdrop-filter:blur(6px); box-shadow:-6px 0 18px rgba(0,0,0,.4);
+    transition:transform .2s var(--ease), border-color .2s, color .2s}
+  .p-buy-tab a:hover{transform:scale(1.08); border-color:var(--line-3); color:var(--cream)}
+  .p-buy-tab a svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  .p-buy-tab a svg .fillmark{fill:currentColor; stroke:none}
+  .p-buy-tab a[href*="superhivemarket.com"]{background:linear-gradient(135deg,#8B5CF6,#EC6628); border-color:transparent; color:#fff}
+  .p-buy-tab a[href*="superhivemarket.com"]:hover{color:#fff; border-color:transparent}
+  /* Gumroad overlay.css forces its own "Buy" chrome onto any .gumroad-button — reset it
+     back to this rail's icon-button look (same pattern as the .links/#hudLinks resets). */
+  .p-buy-tab a.gumroad-button{background:rgba(6,11,11,.85)!important; border-radius:8px 0 0 8px!important;
+    padding:0!important; width:47px!important; height:47px!important; color:var(--ink-2)!important;
+    border:1px solid var(--line-2)!important; border-right:none!important}
+  .p-buy-tab a.gumroad-button:hover{color:var(--cream)!important; border-color:var(--line-3)!important; background:rgba(6,11,11,.85)!important}
+  .p-buy-tab a.gumroad-button .logo-full{display:none!important}
+  /* §buy-tab: same "monochrome at rest -> brand colour on hover" pattern as the link rows */
+  .p-buy-tab a svg{filter:grayscale(1); transition:filter .3s var(--ease), transform .25s var(--ease)}
+  .p-buy-tab a:hover svg{filter:grayscale(0); transform:scale(1.15)}
+  .p-buy-tab a[href*="superhivemarket.com"]:hover{border-color:#EC6628}
+  .p-buy-tab a[href*="gumroad.com"]:hover{border-color:#FF90E8}
+  .p-buy-tab a[href*="youtube.com"]:hover,.p-buy-tab a[href*="youtu.be"]:hover{border-color:#FF0000}
+  .links a.gumroad-button:active,#hudLinks a.gumroad-button:active{transform:none!important; box-shadow:none!important}
   #panel.zap .p-title::after{content:""; display:block; width:44px; height:3px; background:var(--zap); margin-top:14px}
 
   /* =========================== v7 ADDITIONS =========================== */
@@ -718,7 +784,7 @@
        low against this bold display font — a fixed nudge is more reliable
        than fighting font-metric heuristics. */
     display:inline-flex; align-items:center; position:relative; top:-2px;
-    font-weight:700; font-size:7.5px; letter-spacing:.06em; line-height:1;
+    font-family:var(--mono); font-weight:700; font-size:7.5px; letter-spacing:.06em; line-height:1;
     padding:3px 6px; border-radius:999px; margin-left:6px;
     background:var(--ink-3); color:var(--void); border:1.5px solid var(--void);
   }
@@ -948,8 +1014,15 @@
   .li-l{display:flex; align-items:center; gap:11px; min-width:0}
   .li-l > span{overflow:hidden; text-overflow:ellipsis}
   .li-ic{flex:none; width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center}
-  .li-ic svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  .li-ic svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s var(--ease)}
   .li-ic svg .fillmark{fill:currentColor; stroke:none}
+  .li-ic svg{filter:grayscale(1); transition:filter .3s var(--ease), transform .25s var(--ease)}
+  .links a:hover .li-ic svg{filter:grayscale(0)}
+  .links a[href*="superhivemarket.com"]:hover .li-ic svg,
+  .links a[href*="gumroad.com"]:hover .li-ic svg,
+  .links a[href*="youtube.com"]:hover .li-ic svg,.links a[href*="youtu.be"]:hover .li-ic svg{transform:scale(1.12)}
+  .links a[href*="superhivemarket.com"]:hover .li-ic svg{color:#EC6628}   /* link-row hover reveal only; HUD icons stay monochrome (grayscale, no hover colour) */
+  .links a[href*="youtube.com"]:hover .li-ic svg,.links a[href*="youtu.be"]:hover .li-ic svg{color:var(--brand)}   /* YouTube mark uses currentColor (rect stroke + play-triangle fill) — flip it to brand red on hover */
 
   /* §9 (v11) — "Recently" as a compact drag/click/keyboard scrubbable timeline
      (studio panel). Achromatic. The knob/fill ease between stops; the global
@@ -975,7 +1048,7 @@
     background:rgba(6,11,11,.72); border:1px solid var(--line-2); color:var(--ink-2);
     backdrop-filter:blur(6px); transition:border-color .2s, color .2s}
   #hudLinks a:hover{border-color:var(--line-3); color:var(--cream)}
-  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; filter:grayscale(1); display:block}   /* display:block kills the inline-SVG baseline gap that pushed non-camera marks off-centre in the flex box */
   #hudLinks a svg .fillmark{fill:currentColor; stroke:none}
 
   /* §8a — "system pulse" ring radiating out from the sun (triple-click egg).
@@ -1029,6 +1102,7 @@
       max-height:85vh; border-left:none; border-top:1px solid var(--line-2);
       border-radius:16px 16px 0 0; transform:translateY(102%); padding:58px 22px 34px}
     #panel.open{transform:translateY(0)}
+    .p-buy-tab{display:none!important}   /* §buy-tab hidden in the mobile bottom-sheet layout */
     #panel .pnum{top:32px; left:22px}
     #panel .close{top:24px; right:20px}
     #panelGrip{display:block; position:absolute; top:0; left:50%; transform:translateX(-50%);
@@ -1114,12 +1188,12 @@
   .lv-c-next{grid-area:next; min-height:190px}
   .lv-card{position:relative; display:flex; flex-direction:column; text-align:left;
     background:var(--void2); border:1px solid var(--line-2); border-radius:4px;
-    padding:22px; overflow:hidden; cursor:pointer; isolation:isolate;
+    padding:22px; overflow:visible; cursor:pointer; isolation:isolate;
     transition:border-color .5s var(--ease), transform .5s var(--ease), background .5s var(--ease)}
   .lv-card::before{content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0;
     background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(244,235,221,.07), transparent 62%);
     transition:opacity .5s var(--ease)}
-  .lv-card:hover{border-color:var(--line-3); transform:translateY(-3px)}
+  .lv-card:hover{border-color:var(--line-3); transform:translateY(-3px); z-index:10} .lv-card:focus-visible{z-index:10}
   .lv-card:hover::before{opacity:1}
   .lv-c-output::before{background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%), var(--zap-soft), transparent 60%)}   /* live product: the only yellow glow */
   .lv-c-output:hover{border-color:rgba(255,200,40,.42)}
@@ -1133,15 +1207,15 @@
   .lv-led.on{background:var(--cream); opacity:.75}                        /* series 01 live -- not the product */
   .lv-led.dev{background:transparent; border:1px solid var(--line-2)}     /* in dev / planned */
   .lv-led.live{background:var(--zap); animation:led-pulse 2.3s var(--ease) infinite}   /* live product only */
-  .lv-card-body{position:relative; z-index:2; margin-top:auto; transition:transform .5s var(--ease)}
+  .lv-card-body{position:relative; z-index:2; margin-top:auto; transition:transform .5s var(--ease)} .lv-c-output .lv-card-body{margin-top:32px}
   .lv-subtitle{font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3); margin-bottom:12px}
   .lv-title{font-family:var(--display); font-weight:400; text-transform:uppercase; letter-spacing:.015em; line-height:.9; font-size:clamp(28px,3.4vw,40px); color:var(--cream)}
   .lv-c-output .lv-title{font-size:clamp(40px,5.2vw,68px)}
   .lv-c-studio .lv-title{font-size:clamp(34px,4.2vw,52px)}
   .lv-title .lv-accent{color:var(--zap)}   /* live product only */
-  .lv-reveal{position:relative; z-index:2; max-height:0; opacity:0; transform:translateY(10px); overflow:hidden; margin-top:0;
-    transition:max-height .5s var(--ease), opacity .5s var(--ease), transform .5s var(--ease), margin .5s var(--ease)}
-  .lv-card:hover .lv-reveal,.lv-card:focus-visible .lv-reveal{max-height:420px; opacity:1; transform:translateY(0); margin-top:16px}
+  .lv-reveal{position:absolute; left:0; right:0; top:100%; z-index:5; background:var(--void2); border:1px solid var(--line-2); border-top:none; border-radius:0 0 4px 4px; padding:0 22px; max-height:0; opacity:0; overflow:hidden; pointer-events:none; box-shadow:0 14px 30px rgba(0,0,0,.4);
+    transition:max-height .5s var(--ease), opacity .5s var(--ease), padding .5s var(--ease)}
+  .lv-card:hover .lv-reveal,.lv-card:focus-visible .lv-reveal{max-height:420px; opacity:1; padding-bottom:20px; pointer-events:auto}
   .lv-card:hover .lv-card-body,.lv-card:focus-visible .lv-card-body{transform:translateY(-2px)}
   .lv-desc{font-family:var(--serif); font-size:14px; line-height:1.55; color:var(--ink-2); max-width:46ch}
   .lv-desc em{color:var(--cream); font-style:italic}
@@ -1178,7 +1252,7 @@
     .lv-grid{grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:minmax(200px,auto);
       grid-template-areas:"output" "zap" "doctor" "studio" "next"; max-width:520px}
     .lv-c-output,.lv-c-studio{min-height:300px}
-    .lv-card .lv-reveal{max-height:none; opacity:1; transform:none; margin-top:16px}
+    .lv-card .lv-reveal{position:static; max-height:none; opacity:1; padding:0; margin-top:16px; box-shadow:none; border:none; pointer-events:auto}
     .lv-hint{display:none}
   }
   @media (prefers-reduced-transparency:reduce){
@@ -1413,6 +1487,8 @@
   <button class="close" id="panelClose" aria-label="Close">×</button>
   <div id="panelBody"></div>
 </aside>
+<!-- §buy-tab: sibling of #panel (NOT a descendant) so #panel's overflow+transform never clips it; filled + toggled in openPanel()/closePanel() -->
+<div id="pBuyTab" class="p-buy-tab" aria-hidden="true"></div>
 
 <script>
   "use strict";
@@ -1452,9 +1528,8 @@
         ["Pro","Archive","Old takes swept to _old/ on their own."]
       ],
       links:[
-        ["Get it — Free $0 · Pro $5","https://faraxdesigns.gumroad.com/l/zap-output","primary"],
-        ["Also on Superhive","https://superhivemarket.com/products/zap-output",""],
-        ["Watch — Free walkthrough","https://youtu.be/5F5o5-IomRw",""],
+        ["Superhive","https://superhivemarket.com/products/zap-output","primary"],
+        ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-output",""],
         ["Watch — Pro walkthrough","https://youtu.be/VrTOiF-GIHM",""],
         ["User Manual","https://farax-creative.github.io/docs/zap-output.html",""]
       ]},
@@ -1506,6 +1581,7 @@
   const panel = document.getElementById("panel");
   const scrim = document.getElementById("scrim");
   const panelBody = document.getElementById("panelBody");
+  const pBuyTab = document.getElementById("pBuyTab");   // §buy-tab: sticky buy-link rail
   const panelClose = document.getElementById("panelClose");
   const pnum = document.getElementById("pnum");
   const cxEl = document.getElementById("cx");
@@ -1941,8 +2017,8 @@
        gumroad = circled G · superhive = hive hexagon · youtube = play frame ·
        instagram = camera square · mail = envelope. Shared by §10's HUD row. */
   const LINK_ICONS = {
-    gumroad:  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.4"/><path d="M14.6 10.1a3.4 3.4 0 1 0 .5 3.9H12.2"/></svg>',
-    superhive:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 L19.4 7.6 V16.4 L12 20.8 L4.6 16.4 V7.6 Z"/></svg>',
+    gumroad:  '<svg viewBox="0 0 81 81" aria-hidden="true"><path fill="#000" stroke="none" d="M43.741 80.186c20.455 0 37.037-16.582 37.037-37.037S64.196 6.112 43.741 6.112 6.704 22.694 6.704 43.149s16.582 37.037 37.037 37.037"/><path fill="#FF90E8" stroke="#000" stroke-width="1.557" d="M38.605 76.433c20.892 0 37.828-16.936 37.828-37.828 0-20.89-16.936-37.827-37.828-37.827C17.715.778.779 17.714.779 38.606c0 20.89 16.936 37.827 37.828 37.827Z"/><path fill="#000" stroke="none" d="M35.392 57.272c-10.849 0-17.23-8.701-17.23-19.526 0-11.249 7.02-20.375 20.421-20.375 13.828 0 18.508 9.339 18.72 14.645h-9.998c-.213-2.972-2.765-7.429-8.935-7.429-6.594 0-10.849 5.73-10.849 12.735s4.255 12.734 10.85 12.734c5.956 0 8.509-4.67 9.572-9.338H38.37v-3.82h20.087v19.525h-8.812v-12.31c-.638 4.458-3.404 13.16-14.253 13.16Z"/></svg>',
+    superhive:'<svg viewBox="70 3 1180 1313" aria-hidden="true"><path class="fillmark" transform="translate(0,1337) scale(0.1,-0.1)" d="M6375 13309 c-101 -13 -308 -71 -425 -120 -118 -49 -4413 -2524 -4559 -2627 -346 -245 -589 -625 -667 -1047 -18 -96 -19 -206 -19 -2755 l0 -2655 23 -112 c69 -340 233 -639 478 -873 153 -146 149 -143 959 -610 308 -178 702 -405 875 -505 173 -100 551 -318 840 -485 289 -167 768 -443 1065 -615 861 -498 892 -515 969 -551 210 -96 379 -134 636 -141 169 -5 212 -2 319 16 151 26 333 85 461 150 175 90 4419 2546 4502 2607 104 75 265 236 341 339 154 210 247 427 304 705 16 79 17 270 21 2650 2 1856 0 2600 -8 2690 -18 199 -82 418 -182 628 -60 127 -265 371 -418 499 -74 62 -175 126 -440 278 -151 87 -358 207 -460 265 -845 488 -1207 697 -1970 1138 -481 277 -1050 606 -1265 730 -214 125 -438 248 -496 274 -128 57 -282 102 -423 123 -112 16 -345 18 -461 4z m-819 -2279 c270 -42 526 -196 682 -409 27 -36 273 -454 546 -927 535 -929 523 -904 497 -1001 -15 -57 -68 -123 -120 -152 -54 -30 -142 -31 -226 -3 -33 11 -118 38 -190 60 -71 22 -238 74 -370 115 -132 42 -409 128 -615 192 -720 224 -763 240 -923 361 -312 234 -451 580 -386 956 60 345 328 661 649 766 148 49 315 64 456 42z m27 -2704 c21 -3 47 -8 57 -11 10 -3 29 -8 42 -10 50 -10 124 -28 133 -34 6 -3 17 -7 25 -9 51 -10 101 -28 165 -58 17 -8 32 -13 35 -12 3 1 31 -12 63 -31 31 -18 57 -30 57 -27 0 6 173 -93 180 -103 3 -5 25 -21 50 -36 25 -15 48 -33 52 -39 4 -6 8 -8 8 -3 0 4 8 -1 18 -10 10 -10 31 -27 46 -38 16 -11 39 -29 52 -40 13 -11 44 -38 70 -60 86 -73 245 -239 312 -325 37 -47 69 -87 73 -90 3 -3 13 -18 22 -35 8 -16 24 -39 34 -50 11 -11 39 -54 63 -95 24 -41 54 -85 66 -96 48 -45 184 -344 249 -546 85 -264 119 -479 119 -763 0 -234 -19 -377 -75 -567 -156 -525 -544 -887 -1043 -973 -99 -17 -335 -20 -435 -5 -79 11 -120 45 -127 106 -8 62 20 95 127 150 245 126 416 332 509 612 107 322 96 721 -30 1087 -47 135 -185 433 -236 509 -19 28 -40 59 -47 70 -7 10 -17 24 -23 30 -6 6 -15 18 -20 27 -43 76 -284 313 -409 404 -76 55 -123 86 -155 102 -19 10 -37 21 -38 26 -2 4 -8 5 -13 1 -5 -3 -9 0 -9 5 0 6 -3 10 -7 9 -5 -1 -42 15 -84 35 -42 20 -82 37 -88 37 -7 0 -22 5 -34 12 -12 7 -26 13 -32 14 -5 2 -21 6 -35 9 -14 3 -36 8 -50 11 -14 2 -32 7 -40 11 -26 11 -30 11 -190 29 -98 11 -114 11 -125 5 -5 -3 -26 -6 -45 -7 -30 -1 -92 -9 -140 -17 -8 -1 -19 -5 -25 -8 -5 -4 -35 -12 -65 -19 -30 -7 -64 -19 -75 -26 -11 -8 -26 -14 -33 -14 -16 0 -156 -80 -160 -92 -7 -17 -58 -35 -94 -33 -68 3 -107 60 -89 132 18 68 68 168 137 273 93 141 161 215 308 334 91 75 370 205 466 218 14 2 30 6 35 10 6 3 39 9 75 13 36 4 66 8 68 10 5 4 313 -3 355 -9z m1932 -276 c0 -1 16 -4 35 -5 19 -2 60 -6 90 -8 30 -3 87 -8 125 -12 39 -3 84 -9 100 -12 17 -4 44 -7 60 -8 160 -10 263 -33 335 -74 47 -27 120 -95 120 -111 0 -6 6 -10 14 -10 42 0 70 -191 43 -295 -9 -33 -72 -188 -141 -345 -91 -206 -134 -292 -155 -312 -57 -51 -149 -46 -169 10 -5 15 -30 92 -56 172 -67 207 -230 532 -301 604 -9 9 -13 16 -8 16 4 0 3 4 -2 8 -6 4 -33 34 -60 67 -28 33 -77 87 -110 120 -74 74 -82 107 -36 154 17 17 35 32 41 32 25 3 29 4 35 11 5 5 40 3 40 -2z m-2815 -1300 c25 -7 50 -13 55 -14 44 -10 95 -28 100 -36 3 -6 13 -10 21 -10 23 0 171 -87 244 -144 71 -54 181 -161 220 -214 14 -19 32 -41 41 -50 9 -10 36 -47 59 -84 24 -38 47 -68 51 -68 10 0 66 -108 104 -200 103 -253 124 -567 53 -800 -103 -335 -381 -536 -713 -517 -321 19 -650 224 -866 539 -32 47 -62 95 -65 105 -9 26 -74 173 -91 206 -8 15 -12 27 -8 27 3 0 -1 13 -9 28 -12 24 -46 140 -62 217 -29 132 -23 355 12 485 21 77 70 197 85 210 3 3 14 20 23 39 50 96 248 244 356 265 3 1 10 4 15 8 6 3 31 9 55 13 25 4 46 8 48 10 8 8 233 -4 272 -15z m3974 -420 c23 -12 55 -33 69 -48 14 -15 166 -270 338 -567 171 -297 397 -688 502 -869 204 -354 244 -443 273 -609 12 -67 15 -125 11 -217 -14 -308 -142 -561 -379 -750 -80 -64 -117 -86 -201 -119 -163 -64 -229 -76 -407 -75 -126 0 -171 4 -238 22 -217 57 -392 171 -545 357 -85 103 -156 286 -183 467 -28 191 -19 254 112 840 63 282 158 704 210 938 52 234 101 449 110 478 18 63 72 127 129 153 55 25 143 25 199 -1z"/></svg>',
     youtube:  '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path class="fillmark" d="M10 9.4 L15.4 12 L10 14.6 Z"/></svg>',
     instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="3.7"/><circle class="fillmark" cx="16.7" cy="7.3" r="1.05"/></svg>',
     mail:     '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.6"/><path d="M3.6 7 L12 13 L20.4 7"/></svg>'
@@ -1957,6 +2033,9 @@
     if(u.includes("instagram.com")) return LINK_ICONS.instagram;
     return "";
   }
+  // §buy-tab fallback mark: links with no branded icon (e.g. the User Manual docs page)
+  // still get a generic document glyph so the rail never renders an empty tile.
+  const DOC_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
   // §10 HUD links pull their URLs straight from DATA, so nothing new can slip
   // outside the approved allowlist (Gumroad / Superhive / Instagram only here).
   const findLink = re => (DATA.output.links.concat(DATA.studio.links).find(l=>re.test(l[1]))||[])[1] || "";
@@ -2091,13 +2170,37 @@
       h+=`<div class="links">`+
         d.links.map(l=>{
           const ic = linkIcon(l[1]);   // §2: match a platform mark from the URL
-          return `<a href="${l[1]}" target="_blank" rel="noopener" class="${l[2]||""}">`+
+          const isGumroadBuy = l[1].includes("gumroad.com/l/");   // only real single-product buy pages become overlay buttons
+          const cls = `${l[2]||""}${isGumroadBuy?" gumroad-button":""}`.trim();
+          const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
+          const arrow = isGumroadBuy ? "→" : "↗";   // "↗" = leaves the page; overlay stays in-page, so "→"
+          return `<a href="${l[1]}"${nav} class="${cls}">`+
             `<span class="li-l">${ic?`<span class="li-ic">${ic}</span>`:""}<span>${l[0]}</span></span>`+
-            `<span class="ar">↗</span></a>`;
+            `<span class="ar">${arrow}</span></a>`;
         }).join("")+
         `</div>`;
     }
     panelBody.innerHTML=h;
+    // §buy-tab: fill the always-visible right-edge rail from EVERY link on this node
+    // (Superhive / Gumroad / YouTube walkthrough / User Manual) as an icon-only column.
+    // Reuses the same href + gumroad-button class as the in-list links, so Gumroad's
+    // global observer wires the overlay checkout and the rest open in a new tab —
+    // no extra JS needed. Nodes with no links (e.g. next) get no rail.
+    const railLinks = d.links;
+    if(railLinks.length){
+      pBuyTab.innerHTML = railLinks.map(l=>{
+        const isGumroadBuy = l[1].includes("gumroad.com/l/");
+        const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
+        const cls = isGumroadBuy ? "gumroad-button" : "";
+        return `<a href="${l[1]}"${nav} class="${cls}" title="${l[0]}" aria-label="${l[0]}">${linkIcon(l[1]) || DOC_ICON}</a>`;
+      }).join("");
+      pBuyTab.classList.add("on");
+      pBuyTab.setAttribute("aria-hidden","false");
+    }else{
+      pBuyTab.innerHTML="";
+      pBuyTab.classList.remove("on");
+      pBuyTab.setAttribute("aria-hidden","true");
+    }
     panel.className = d.zap ? "open zap" : "open";   // yellow theme ONLY when d.zap (Zap Output)
     scrim.classList.add("on");
     // §7 directional content transition — ONLY on real open->open internal nav, and
@@ -2432,6 +2535,7 @@
 
   function closePanel(){
     panel.className=""; scrim.classList.remove("on");
+    pBuyTab.classList.remove("on"); pBuyTab.setAttribute("aria-hidden","true");   // §buy-tab is a sibling of #panel now — hide the rail explicitly when the panel closes
     currentPanelNode=null;   // §7: closed -> next open is a fresh open, not internal nav
     if(location.hash) history.replaceState(null, "", location.pathname+location.search);  // drop the deep-link hash
     if(lastFocused && lastFocused.focus) lastFocused.focus();
@@ -2845,13 +2949,16 @@
   function buildHudLinks(){
     if(!hudLinksEl) return;
     const rows = [
-      ["Zap Output on Gumroad",   EXT.gumroad,   LINK_ICONS.gumroad],
       ["Zap Output on Superhive", EXT.superhive, LINK_ICONS.superhive],
+      ["Zap Output on Gumroad",   EXT.gumroad,   LINK_ICONS.gumroad],
       ["Instagram — @faraxcreative", EXT.instagram, LINK_ICONS.instagram]
     ];
-    hudLinksEl.innerHTML = rows.filter(r=>r[1]).map(r=>
-      `<a href="${r[1]}" target="_blank" rel="noopener" aria-label="${r[0]}" title="${r[0]}">${r[2]}</a>`
-    ).join("");
+    hudLinksEl.innerHTML = rows.filter(r=>r[1]).map(r=>{
+      const isGumroadBuy = r[1].includes("gumroad.com/l/");
+      const cls = isGumroadBuy ? " gumroad-button" : "";
+      const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
+      return `<a href="${r[1]}"${nav} aria-label="${r[0]}" title="${r[0]}" class="${cls}">${r[2]}</a>`;
+    }).join("");
   }
 
   /* --- §5 mobile list-view fallback (opt-in, remembered for the session) --- */
