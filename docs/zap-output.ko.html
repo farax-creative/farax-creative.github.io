@@ -196,6 +196,12 @@ details.chk .tbl-wrap table{font-size:12.5px}
 .sev-w{border:1px solid var(--line-3); color:var(--cream)}
 .sev-s{border:1px solid var(--line); color:var(--ink-3)}
 .legend{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin:0 0 8px; display:flex; gap:16px; flex-wrap:wrap; align-items:center}
+.lang-select{appearance:none; -webkit-appearance:none; background:var(--void2); color:var(--cream);
+  border:1px solid var(--line-2); border-radius:3px; padding:4px 22px 4px 8px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23F4EBDD' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 6px center}
+.lang-select:hover{border-color:var(--line-3)}
 </style>
 </head>
 <body>
@@ -203,7 +209,13 @@ details.chk .tbl-wrap table{font-size:12.5px}
 <header class="top">
   <a class="mark" href="https://farax-creative.github.io/#zap-output"><span class="glyph"></span>FARAX CREATIVE</a>
   <span style="display:flex; align-items:center; gap:15px">
-    <span style="font-family:var(--mono); font-size:12px; letter-spacing:.03em; color:var(--ink-3)"><a class="back" href="zap-output.html">EN</a> <span class="pmt">/</span> <span style="color:var(--cream)">KOR</span></span>
+    <select class="lang-select" onchange="if(this.value)location.href=this.value" aria-label="Manual language">
+          <option value="zap-output.html">EN — English</option>
+          <option value="zap-output.ko.html" selected>KO — 한국어</option>
+          <option value="zap-output.ja.html">JA — 日本語</option>
+          <option value="zap-output.pt.html">PT — Português</option>
+          <option value="zap-output.es.html">ES — Español</option>
+        </select>
     <a class="back" href="https://farax-creative.github.io/#zap-output">&larr; Zap Output으로 돌아가기</a>
   </span>
 </header>
