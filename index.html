@@ -660,6 +660,43 @@
   #hudLinks a.gumroad-button{padding:0!important; width:30px!important; height:30px!important; background:rgba(6,11,11,.72)!important; color:var(--ink-2)!important}
   .links a.gumroad-button:hover{border-color:#FF90E8!important; transform:translateY(-2px)!important; box-shadow:0 8px 20px rgba(0,0,0,.32)!important; background:none!important; color:var(--ink)!important}
   #hudLinks a.gumroad-button:hover{border-color:var(--line-3)!important; color:var(--cream)!important; background:rgba(6,11,11,.72)!important; transform:none!important; box-shadow:none!important}
+
+  /* §buy: Superhive link -> official purple->orange promo badge. Overrides both the
+     zap-yellow .primary rule above and the --brand hover accent; href-scoped + !important
+     so this filled gradient always wins regardless of source order. */
+  .links a[href*="superhivemarket.com"].primary{
+    background:linear-gradient(90deg,#8B5CF6,#EC6628)!important;
+    border-color:transparent!important; color:#fff!important}
+  .links a[href*="superhivemarket.com"].primary .ar{color:#fff!important}
+  .links a[href*="superhivemarket.com"].primary::before{display:none}  /* left accent bar is redundant on a fully-filled badge */
+  .links a[href*="superhivemarket.com"].primary:hover{background:linear-gradient(90deg,#7C4DE0,#D65A22)!important; border-color:transparent!important; color:#fff!important}
+  .links a[href*="superhivemarket.com"].primary:hover .ar{color:#fff!important}
+
+  /* §buy-tab: a sticky rail of buy-link icons pinned to the panel's right inner edge,
+     always reachable without scrolling down to the bottom link list. #panel carries a
+     transform, so this position:fixed child is contained by (and slides in/out with) the
+     panel, yet stays put while #panelBody scrolls. Shown only when the open node has a
+     real purchase link (JS toggles .on). */
+  .p-buy-tab{position:fixed; top:50%; right:0; transform:translateY(-50%); z-index:20;
+    display:none; flex-direction:column; gap:8px}
+  .p-buy-tab.on{display:flex}
+  .p-buy-tab a{width:38px; height:38px; border-radius:8px 0 0 8px; display:flex;
+    align-items:center; justify-content:center; text-decoration:none;
+    background:rgba(6,11,11,.85); border:1px solid var(--line-2); border-right:none;
+    color:var(--ink-2); backdrop-filter:blur(6px);
+    transition:transform .2s var(--ease), border-color .2s, color .2s}
+  .p-buy-tab a:hover{transform:scale(1.08); border-color:var(--line-3); color:var(--cream)}
+  .p-buy-tab a svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  .p-buy-tab a svg .fillmark{fill:currentColor; stroke:none}
+  .p-buy-tab a[href*="superhivemarket.com"]{background:linear-gradient(135deg,#8B5CF6,#EC6628); border-color:transparent; color:#fff}
+  .p-buy-tab a[href*="superhivemarket.com"]:hover{color:#fff; border-color:transparent}
+  /* Gumroad overlay.css forces its own "Buy" chrome onto any .gumroad-button — reset it
+     back to this rail's icon-button look (same pattern as the .links/#hudLinks resets). */
+  .p-buy-tab a.gumroad-button{background:rgba(6,11,11,.85)!important; border-radius:8px 0 0 8px!important;
+    padding:0!important; width:38px!important; height:38px!important; color:var(--ink-2)!important;
+    border:1px solid var(--line-2)!important; border-right:none!important}
+  .p-buy-tab a.gumroad-button:hover{color:var(--cream)!important; border-color:var(--line-3)!important; background:rgba(6,11,11,.85)!important}
+  .p-buy-tab a.gumroad-button .logo-full{display:none!important}
   .links a.gumroad-button:active,#hudLinks a.gumroad-button:active{transform:none!important; box-shadow:none!important}
   #panel.zap .p-title::after{content:""; display:block; width:44px; height:3px; background:var(--zap); margin-top:14px}
 
@@ -1059,6 +1096,7 @@
       max-height:85vh; border-left:none; border-top:1px solid var(--line-2);
       border-radius:16px 16px 0 0; transform:translateY(102%); padding:58px 22px 34px}
     #panel.open{transform:translateY(0)}
+    .p-buy-tab{display:none!important}   /* §buy-tab hidden in the mobile bottom-sheet layout */
     #panel .pnum{top:32px; left:22px}
     #panel .close{top:24px; right:20px}
     #panelGrip{display:block; position:absolute; top:0; left:50%; transform:translateX(-50%);
@@ -1442,6 +1480,8 @@
   <span class="pnum" id="pnum"></span>
   <button class="close" id="panelClose" aria-label="Close">×</button>
   <div id="panelBody"></div>
+  <!-- §buy-tab: always-visible buy-link rail; filled + toggled in openPanel() -->
+  <div id="pBuyTab" class="p-buy-tab" aria-hidden="true"></div>
 </aside>
 
 <script>
@@ -1535,6 +1575,7 @@
   const panel = document.getElementById("panel");
   const scrim = document.getElementById("scrim");
   const panelBody = document.getElementById("panelBody");
+  const pBuyTab = document.getElementById("pBuyTab");   // §buy-tab: sticky buy-link rail
   const panelClose = document.getElementById("panelClose");
   const pnum = document.getElementById("pnum");
   const cxEl = document.getElementById("cx");
@@ -2131,6 +2172,26 @@
         `</div>`;
     }
     panelBody.innerHTML=h;
+    // §buy-tab: fill the always-visible right-edge buy rail from this node's REAL
+    // purchase links only (Superhive product page / Gumroad single-product buy page).
+    // Reuses the same href + gumroad-button class as the in-list links, so Gumroad's
+    // global observer wires the overlay checkout and Superhive opens in a new tab —
+    // no extra JS needed. Nodes without a buy link (studio/zap/doctor/next) get no rail.
+    const buyLinks = d.links.filter(l => /superhivemarket\.com|gumroad\.com\/l\//.test(l[1]));
+    if(buyLinks.length){
+      pBuyTab.innerHTML = buyLinks.map(l=>{
+        const isGumroadBuy = l[1].includes("gumroad.com/l/");
+        const nav = isGumroadBuy ? "" : ` target="_blank" rel="noopener"`;
+        const cls = isGumroadBuy ? "gumroad-button" : "";
+        return `<a href="${l[1]}"${nav} class="${cls}" title="${l[0]}" aria-label="${l[0]}">${linkIcon(l[1])}</a>`;
+      }).join("");
+      pBuyTab.classList.add("on");
+      pBuyTab.setAttribute("aria-hidden","false");
+    }else{
+      pBuyTab.innerHTML="";
+      pBuyTab.classList.remove("on");
+      pBuyTab.setAttribute("aria-hidden","true");
+    }
     panel.className = d.zap ? "open zap" : "open";   // yellow theme ONLY when d.zap (Zap Output)
     scrim.classList.add("on");
     // §7 directional content transition — ONLY on real open->open internal nav, and
