@@ -607,15 +607,29 @@
   /* touch / no-hover fallback: keep the description permanently open */
   @media not (hover:hover){ .spec-more{margin-top:5px} }
   .links{display:flex; flex-direction:column; gap:11px}
-  .links a{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line-2);
+  .links a{position:relative; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line-2);
     padding:14px 16px; font-family:var(--label); font-size:15px; letter-spacing:.1em; color:var(--ink);
     transition:border-color .18s, color .18s, background-color .18s, transform .18s var(--ease), box-shadow .18s var(--ease)}
-  .links a .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s}
+  .links a .ar{font-family:var(--mono); font-size:12px; color:var(--ink-3); transition:color .18s, transform .18s var(--ease)}
   /* §7 craft: a small lift + soft shadow on hover (restrained — lighter than the
      minimap/preview drop shadow, since these are small interactive rows). Applies
      to .primary too; the zap override only adds background, so no visual conflict.
      Reduced-motion drops the lift below (the border-colour cue remains). */
   .links a:hover{border-color:var(--line-3); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.32)}
+  /* §7 craft: brand-colour hover accents on panel link rows, scoped by href.
+     A thin left accent bar grows in, and border/arrow tint to each platform's
+     real brand colour (--brand). User Manual has no matching domain -> stays grey. */
+  .links a::before{content:""; position:absolute; left:0; top:0; bottom:0; width:0; background:var(--brand,var(--line-3)); transition:width .25s var(--ease); pointer-events:none}
+  .links a:hover::before{width:3px}
+  .links a[href*="superhivemarket.com"]{--brand:#EC6628}
+  .links a[href*="gumroad.com"]{--brand:#FF90E8}
+  .links a[href*="youtube.com"],.links a[href*="youtu.be"]{--brand:#FF0000}
+  .links a[href*="superhivemarket.com"]:hover,
+  .links a[href*="gumroad.com"]:hover,
+  .links a[href*="youtube.com"]:hover,.links a[href*="youtu.be"]:hover{border-color:var(--brand)}
+  .links a[href*="superhivemarket.com"]:hover .ar,
+  .links a[href*="gumroad.com"]:hover .ar,
+  .links a[href*="youtube.com"]:hover .ar,.links a[href*="youtu.be"]:hover .ar{color:var(--brand); transform:translateX(2px)}
 
   /* "In this series" — internal nav from a series panel (Zap) down to its products */
   .kids{display:flex; flex-direction:column; gap:11px}
@@ -644,7 +658,7 @@
   .links a.gumroad-button,#hudLinks a.gumroad-button{background:none!important; background-color:transparent!important; border-radius:0!important; color:var(--ink)!important}
   .links a.gumroad-button{padding:14px 16px!important; font-size:15px!important; line-height:normal!important; gap:12px!important}
   #hudLinks a.gumroad-button{padding:0!important; width:30px!important; height:30px!important; background:rgba(6,11,11,.72)!important; color:var(--ink-2)!important}
-  .links a.gumroad-button:hover{border-color:var(--line-3)!important; transform:translateY(-2px)!important; box-shadow:0 8px 20px rgba(0,0,0,.32)!important; background:none!important; color:var(--ink)!important}
+  .links a.gumroad-button:hover{border-color:#FF90E8!important; transform:translateY(-2px)!important; box-shadow:0 8px 20px rgba(0,0,0,.32)!important; background:none!important; color:var(--ink)!important}
   #hudLinks a.gumroad-button:hover{border-color:var(--line-3)!important; color:var(--cream)!important; background:rgba(6,11,11,.72)!important; transform:none!important; box-shadow:none!important}
   .links a.gumroad-button:active,#hudLinks a.gumroad-button:active{transform:none!important; box-shadow:none!important}
   #panel.zap .p-title::after{content:""; display:block; width:44px; height:3px; background:var(--zap); margin-top:14px}
@@ -959,8 +973,11 @@
   .li-l{display:flex; align-items:center; gap:11px; min-width:0}
   .li-l > span{overflow:hidden; text-overflow:ellipsis}
   .li-ic{flex:none; width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center}
-  .li-ic svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  .li-ic svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s var(--ease)}
   .li-ic svg .fillmark{fill:currentColor; stroke:none}
+  .links a[href*="superhivemarket.com"]:hover .li-ic svg,
+  .links a[href*="gumroad.com"]:hover .li-ic svg,
+  .links a[href*="youtube.com"]:hover .li-ic svg,.links a[href*="youtu.be"]:hover .li-ic svg{transform:scale(1.12)}
   .links a[href*="superhivemarket.com"]:hover .li-ic svg,
   #hudLinks a[href*="superhivemarket.com"]:hover{color:#EC6628}   /* 3rd-party brand hint: Superhive orange, scoped to superhivemarket.com hover only */
 
