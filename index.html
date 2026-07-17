@@ -664,36 +664,34 @@
   /* §buy: Superhive link -> official purple->orange promo badge. Overrides both the
      zap-yellow .primary rule above and the --brand hover accent; href-scoped + !important
      so this filled gradient always wins regardless of source order. */
-  .links a[href*="superhivemarket.com"].primary{
-    background:linear-gradient(90deg,#8B5CF6,#EC6628)!important;
-    border-color:transparent!important; color:#fff!important}
-  .links a[href*="superhivemarket.com"].primary .ar{color:#fff!important}
-  .links a[href*="superhivemarket.com"].primary::before{display:none}  /* left accent bar is redundant on a fully-filled badge */
-  .links a[href*="superhivemarket.com"].primary:hover{background:linear-gradient(90deg,#7C4DE0,#D65A22)!important; border-color:transparent!important; color:#fff!important}
-  .links a[href*="superhivemarket.com"].primary:hover .ar{color:#fff!important}
+  .links a[href*="superhivemarket.com"].primary{background:none!important; border-color:var(--line-2)!important; color:var(--ink)!important;
+    transition:background .4s var(--ease), border-color .3s, color .3s, transform .18s var(--ease), box-shadow .18s var(--ease)!important}
+  .links a[href*="superhivemarket.com"].primary .ar{color:var(--ink-3)!important; transition:color .3s, transform .18s var(--ease)}
+  .links a[href*="superhivemarket.com"].primary:hover{background:linear-gradient(90deg,#8B5CF6,#EC6628)!important; border-color:transparent!important; color:#fff!important}
+  .links a[href*="superhivemarket.com"].primary:hover .ar{color:#fff!important; transform:translateX(2px)}
 
   /* §buy-tab: a sticky rail of buy-link icons pinned to the panel's right inner edge,
      always reachable without scrolling down to the bottom link list. #panel carries a
      transform, so this position:fixed child is contained by (and slides in/out with) the
      panel, yet stays put while #panelBody scrolls. Shown only when the open node has a
      real purchase link (JS toggles .on). */
-  .p-buy-tab{position:fixed; top:50%; right:0; transform:translateY(-50%); z-index:20;
+  .p-buy-tab{position:fixed; top:50%; left:-26px; transform:translateY(-50%); z-index:20;
     display:none; flex-direction:column; gap:8px}
   .p-buy-tab.on{display:flex}
-  .p-buy-tab a{width:38px; height:38px; border-radius:8px 0 0 8px; display:flex;
+  .p-buy-tab a{width:47px; height:47px; border-radius:8px 0 0 8px; display:flex;
     align-items:center; justify-content:center; text-decoration:none;
     background:rgba(6,11,11,.85); border:1px solid var(--line-2); border-right:none;
-    color:var(--ink-2); backdrop-filter:blur(6px);
+    color:var(--ink-2); backdrop-filter:blur(6px); box-shadow:-6px 0 18px rgba(0,0,0,.4);
     transition:transform .2s var(--ease), border-color .2s, color .2s}
   .p-buy-tab a:hover{transform:scale(1.08); border-color:var(--line-3); color:var(--cream)}
-  .p-buy-tab a svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  .p-buy-tab a svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
   .p-buy-tab a svg .fillmark{fill:currentColor; stroke:none}
   .p-buy-tab a[href*="superhivemarket.com"]{background:linear-gradient(135deg,#8B5CF6,#EC6628); border-color:transparent; color:#fff}
   .p-buy-tab a[href*="superhivemarket.com"]:hover{color:#fff; border-color:transparent}
   /* Gumroad overlay.css forces its own "Buy" chrome onto any .gumroad-button — reset it
      back to this rail's icon-button look (same pattern as the .links/#hudLinks resets). */
   .p-buy-tab a.gumroad-button{background:rgba(6,11,11,.85)!important; border-radius:8px 0 0 8px!important;
-    padding:0!important; width:38px!important; height:38px!important; color:var(--ink-2)!important;
+    padding:0!important; width:47px!important; height:47px!important; color:var(--ink-2)!important;
     border:1px solid var(--line-2)!important; border-right:none!important}
   .p-buy-tab a.gumroad-button:hover{color:var(--cream)!important; border-color:var(--line-3)!important; background:rgba(6,11,11,.85)!important}
   .p-buy-tab a.gumroad-button .logo-full{display:none!important}
@@ -1012,11 +1010,12 @@
   .li-ic{flex:none; width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center}
   .li-ic svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s var(--ease)}
   .li-ic svg .fillmark{fill:currentColor; stroke:none}
+  .li-ic svg{filter:grayscale(1); transition:filter .3s var(--ease), transform .25s var(--ease)}
+  .links a:hover .li-ic svg{filter:grayscale(0)}
   .links a[href*="superhivemarket.com"]:hover .li-ic svg,
   .links a[href*="gumroad.com"]:hover .li-ic svg,
   .links a[href*="youtube.com"]:hover .li-ic svg,.links a[href*="youtu.be"]:hover .li-ic svg{transform:scale(1.12)}
-  .links a[href*="superhivemarket.com"]:hover .li-ic svg,
-  #hudLinks a[href*="superhivemarket.com"]:hover{color:#EC6628}   /* 3rd-party brand hint: Superhive orange, scoped to superhivemarket.com hover only */
+  .links a[href*="superhivemarket.com"]:hover .li-ic svg{color:#EC6628}   /* link-row hover reveal only; HUD icons stay monochrome (grayscale, no hover colour) */
 
   /* §9 (v11) — "Recently" as a compact drag/click/keyboard scrubbable timeline
      (studio panel). Achromatic. The knob/fill ease between stops; the global
@@ -1042,7 +1041,7 @@
     background:rgba(6,11,11,.72); border:1px solid var(--line-2); color:var(--ink-2);
     backdrop-filter:blur(6px); transition:border-color .2s, color .2s}
   #hudLinks a:hover{border-color:var(--line-3); color:var(--cream)}
-  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+  #hudLinks a svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; filter:grayscale(1)}
   #hudLinks a svg .fillmark{fill:currentColor; stroke:none}
 
   /* §8a — "system pulse" ring radiating out from the sun (triple-click egg).
