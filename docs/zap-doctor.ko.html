@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zap Doctor — 사용자 매뉴얼 · Farax Creative</title>
-<meta name="description" content="Zap Doctor 사용자 매뉴얼 — 블렌더 렌더 프리플라이트 체커. 설치, 사용법, 화면 요소, 28개 체크 전체 목록, 자주 나오는 시나리오.">
+<meta name="description" content="Zap Doctor 사용자 매뉴얼 — 블렌더 렌더 프리플라이트 체커. 설치, 사용법, 화면 요소, 30개 체크 전체 목록, 자주 나오는 시나리오.">
 
 <style>
 /* =====================================================================
@@ -239,7 +239,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <div class="kicker"><span class="pmt">&gt;</span> ZAP 시리즈 / 사용자 매뉴얼</div>
     <h1>ZAP DOCTOR</h1>
     <div class="doc-sub">블렌더 렌더 프리플라이트 체커</div>
-    <div class="doc-meta">Blender 4.2+ (Extensions 플랫폼) &middot; Cycles &amp; EEVEE &middot; 28개 체크 (v1.1)</div>
+    <div class="doc-meta">Blender 4.2+ (Extensions 플랫폼) &middot; Cycles &amp; EEVEE &middot; 30개 체크 (v1.1)</div>
   </div>
 
   <!-- 1 · HOOK -->
@@ -343,7 +343,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
   <!-- 5 · FULL CHECK REFERENCE -->
   <section>
     <div class="sec-label"><span class="pmt">&gt;</span><span class="num">05</span> 체크 레퍼런스</div>
-    <h2>28개 체크 전체</h2>
+    <h2>30개 체크 전체</h2>
     <p class="legend">
       <span><span class="sev sev-e">E</span> Error</span>
       <span><span class="sev sev-w">W</span> Warning</span>
@@ -382,7 +382,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     </details>
 
     <details class="chk">
-      <summary>Scene &mdash; 씬 상태 <span class="cnt">5개 체크</span></summary>
+      <summary>Scene &mdash; 씬 상태 <span class="cnt">7개 체크</span></summary>
       <div class="tbl-wrap"><table>
         <thead><tr><th>ID</th><th>이름</th><th>심각도</th><th>무슨 뜻인지</th><th>Fix가 하는 일</th></tr></thead>
         <tbody>
@@ -391,6 +391,8 @@ details.chk .tbl-wrap table{font-size:12.5px}
           <tr><td>SCN03</td><td>Modifier viewport/render visibility mismatch</td><td><span class="sev sev-w">W</span></td><td>모디파이어의 뷰포트/렌더 표시가 서로 다릅니다.</td><td><strong>토글 아이콘 2개</strong>(뷰포트 / 렌더).</td></tr>
           <tr><td>SCN04</td><td>Scene has no active camera</td><td><span class="sev sev-e">E</span></td><td>활성 카메라가 없어 렌더가 실패합니다.</td><td>&mdash;</td></tr>
           <tr><td>SCN05</td><td>Simulations not baked or not covering the frame range</td><td><span class="sev sev-w">W</span></td><td>시뮬레이션이 베이크 안 됐거나 캐시가 프레임 범위를 못 덮습니다.</td><td>&mdash;</td></tr>
+          <tr><td>SCN06</td><td>No render-visible lights and a dark world</td><td><span class="sev sev-w">W</span></td><td>빛을 내는 것이 없고 월드도 어두워서 렌더가 새까맣게 나올 수 있습니다.</td><td>&mdash;</td></tr>
+          <tr><td>SCN07</td><td>Objects fall entirely outside the camera clipping range</td><td><span class="sev sev-w">W</span></td><td>오브젝트가 Clip Start보다 가깝거나 Clip End보다 멀어서 카메라에 잡히지 않습니다.</td><td>&mdash;</td></tr>
         </tbody>
       </table></div>
     </details>
@@ -459,7 +461,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
 </footer>
 
 <script>
-/* Collapse All / Expand All for the 28-check reference (progressive
+/* Collapse All / Expand All for the 30-check reference (progressive
    enhancement — the <details> blocks work on their own without this). */
 (function(){
   var btns = document.querySelectorAll('.toolbar button[data-all]');

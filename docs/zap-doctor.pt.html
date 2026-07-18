@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zap Doctor — Manual do Usuário · Farax Creative</title>
-<meta name="description" content="Manual do Zap Doctor — um verificador de preflight de render para o Blender. Instalação, uso, referência da interface, a lista completa de 28 verificações e cenários comuns.">
+<meta name="description" content="Manual do Zap Doctor — um verificador de preflight de render para o Blender. Instalação, uso, referência da interface, a lista completa de 30 verificações e cenários comuns.">
 
 <style>
 /* =====================================================================
@@ -238,7 +238,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <div class="kicker"><span class="pmt">&gt;</span> SÉRIE ZAP / MANUAL DO USUÁRIO</div>
     <h1>ZAP DOCTOR</h1>
     <div class="doc-sub">VERIFICADOR DE PREFLIGHT DE RENDER PARA O BLENDER</div>
-    <div class="doc-meta">Blender 4.2+ (plataforma de Extensions) &middot; Cycles &amp; EEVEE &middot; 28 verificações (v1.1)</div>
+    <div class="doc-meta">Blender 4.2+ (plataforma de Extensions) &middot; Cycles &amp; EEVEE &middot; 30 verificações (v1.1)</div>
   </div>
 
   <!-- 1 · HOOK -->
@@ -342,7 +342,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
   <!-- 5 · FULL CHECK REFERENCE -->
   <section>
     <div class="sec-label"><span class="pmt">&gt;</span><span class="num">05</span> REFERÊNCIA DE VERIFICAÇÕES</div>
-    <h2>As 28 verificações</h2>
+    <h2>As 30 verificações</h2>
     <p class="legend">
       <span><span class="sev sev-e">E</span> Error</span>
       <span><span class="sev sev-w">W</span> Warning</span>
@@ -381,7 +381,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     </details>
 
     <details class="chk">
-      <summary>Scene &mdash; estado da cena <span class="cnt">5 verificações</span></summary>
+      <summary>Scene &mdash; estado da cena <span class="cnt">7 verificações</span></summary>
       <div class="tbl-wrap"><table>
         <thead><tr><th>ID</th><th>Nome</th><th>Sev.</th><th>O que significa</th><th>O que o Fix faz</th></tr></thead>
         <tbody>
@@ -390,6 +390,8 @@ details.chk .tbl-wrap table{font-size:12.5px}
           <tr><td>SCN03</td><td>Modifier viewport/render visibility mismatch</td><td><span class="sev sev-w">W</span></td><td>A visibilidade de viewport e de render de um modifier são diferentes.</td><td><strong>Dois ícones de alternância</strong> (viewport / render).</td></tr>
           <tr><td>SCN04</td><td>Scene has no active camera</td><td><span class="sev sev-e">E</span></td><td>Sem câmera ativa, então o render falha.</td><td>&mdash;</td></tr>
           <tr><td>SCN05</td><td>Simulations not baked or not covering the frame range</td><td><span class="sev sev-w">W</span></td><td>Uma simulação não está bakeada, ou o cache dela não cobre o intervalo de frames.</td><td>&mdash;</td></tr>
+          <tr><td>SCN06</td><td>No render-visible lights and a dark world</td><td><span class="sev sev-w">W</span></td><td>Nada emite luz e o mundo está escuro, então o render pode sair preto.</td><td>&mdash;</td></tr>
+          <tr><td>SCN07</td><td>Objects fall entirely outside the camera clipping range</td><td><span class="sev sev-w">W</span></td><td>Os objetos ficam mais perto que o Clip Start ou além do Clip End, então a câmera não os vê.</td><td>&mdash;</td></tr>
         </tbody>
       </table></div>
     </details>
@@ -458,7 +460,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
 </footer>
 
 <script>
-/* Collapse All / Expand All for the 28-check reference (progressive
+/* Collapse All / Expand All for the 30-check reference (progressive
    enhancement — the <details> blocks work on their own without this). */
 (function(){
   var btns = document.querySelectorAll('.toolbar button[data-all]');
