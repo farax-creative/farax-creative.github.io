@@ -375,7 +375,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
         <thead><tr><th>ID</th><th>Name</th><th>Sev.</th><th>What it means</th><th>What Fix does</th></tr></thead>
         <tbody>
           <tr><td>SCN01</td><td>Visible in viewport but disabled in renders</td><td><span class="sev sev-w">W</span></td><td>Shows in the viewport but is off for render, so it won't appear.</td><td><strong>Toggle icons</strong> (eye / monitor / camera), not a Fix button.</td></tr>
-          <tr><td>SCN02</td><td>Hidden in viewport but still renders</td><td><span class="sev sev-w">W</span></td><td>Hidden in the viewport but still shows up in the render.</td><td><strong>Toggle icons</strong> (eye / monitor / camera).</td></tr>
+          <tr><td>SCN02</td><td>Hidden in viewport but still renders</td><td><span class="sev sev-w">W</span></td><td>Objects hidden in the viewport that still reach the render — usually whole collections switched off while you work.</td><td>Reported as one summary line; no Fix (switching many objects off for render at once would do more harm than the warning).</td></tr>
           <tr><td>SCN03</td><td>Modifier viewport/render visibility mismatch</td><td><span class="sev sev-w">W</span></td><td>A modifier's viewport and render visibility differ.</td><td><strong>Two toggle icons</strong> (viewport / render).</td></tr>
           <tr><td>SCN04</td><td>Scene has no active camera</td><td><span class="sev sev-e">E</span></td><td>No active camera, so the render fails.</td><td>&mdash;</td></tr>
           <tr><td>SCN05</td><td>Simulations not baked or not covering the frame range</td><td><span class="sev sev-w">W</span></td><td>A simulation isn't baked, or its cache doesn't cover the frame range.</td><td>&mdash;</td></tr>
