@@ -385,7 +385,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
         <thead><tr><th>ID</th><th>名前</th><th>深刻度</th><th>内容</th><th>Fix の動作</th></tr></thead>
         <tbody>
           <tr><td>SCN01</td><td>ビューポートでは表示、レンダーでは無効</td><td><span class="sev sev-w">W</span></td><td>ビューポートには表示されますが、レンダーではオフのため写りません。</td><td><strong>トグルアイコン</strong>（eye / monitor / camera）。Fix ボタンではありません。</td></tr>
-          <tr><td>SCN02</td><td>ビューポートで非表示だがレンダリングされる</td><td><span class="sev sev-w">W</span></td><td>ビューポートで非表示なのにレンダリングされるオブジェクト — 作業中にオフにしたコレクション全体であることがほとんどです。</td><td>1行に集約して通知するのみ。修正ボタンはありません（多数のオブジェクトを一括でレンダリング対象外にする方が危険なため）。</td></tr>
+          <tr><td>SCN02</td><td>ビューポートで非表示だがレンダリングされる</td><td><span class="sev sev-s">S</span></td><td>ビューポートで非表示なのにレンダリングされるオブジェクト — 作業中にオフにしたコレクション全体であることがほとんどです。</td><td>1行に集約して通知するのみ。修正ボタンはありません（多数のオブジェクトを一括でレンダリング対象外にする方が危険なため）。</td></tr>
           <tr><td>SCN03</td><td>モディファイアの viewport/render 表示が不一致</td><td><span class="sev sev-w">W</span></td><td>モディファイアの viewport 表示と render 表示が食い違っています。</td><td><strong>2つのトグルアイコン</strong>（viewport / render）。</td></tr>
           <tr><td>SCN04</td><td>シーンにアクティブカメラがない</td><td><span class="sev sev-e">E</span></td><td>アクティブカメラがなく、レンダーが失敗します。</td><td>&mdash;</td></tr>
           <tr><td>SCN05</td><td>シミュレーションが未ベイク、またはフレーム範囲を満たしていない</td><td><span class="sev sev-w">W</span></td><td>シミュレーションがベイクされていないか、キャッシュがフレーム範囲をカバーしていません。</td><td>&mdash;</td></tr>
