@@ -150,6 +150,11 @@ CONTENT["en"] = """
     image has no file on disk to point at, so Zap Board packs it into the
     <code>.blend</code> the moment you paste. You do not need to do anything,
     and the card survives a reload.</p>
+  
+    <p class="note"><b>Paste and Reveal File are Windows only.</b> Both hand
+    off to a Windows tool - PowerShell for the clipboard, Explorer for
+    Reveal File. On macOS and Linux they do nothing and say so. Use
+    <b>Import Images&hellip;</b> or drag and drop instead of pasting.</p>
   </section>
 
   <section>
@@ -319,6 +324,11 @@ CONTENT["ko"] = """
     이미지는 디스크에 가리킬 파일이 없기 때문에, Zap Board가 붙여넣는 순간
     <code>.blend</code> 안에 넣습니다. 따로 할 일은 없고 다시 열어도 카드가
     남아 있습니다.</p>
+  
+    <p class="note"><b>붙여넣기와 Reveal File은 윈도우 전용입니다.</b> 둘 다
+    윈도우 도구에 넘기기 때문입니다 — 클립보드는 PowerShell, Reveal File은
+    탐색기. macOS와 리눅스에서는 아무 일도 하지 않고 그렇다고 알려줍니다.
+    붙여넣기 대신 <b>Import Images&hellip;</b>나 끌어다 놓기를 쓰세요.</p>
   </section>
 
   <section>
@@ -487,6 +497,12 @@ CONTENT["ja"] = """
     画像にはディスク上の参照先ファイルが存在しないため、Zap Board はペースト
     した瞬間に <code>.blend</code> へパックします。特別な操作は必要なく、
     読み込み直してもカードは残ります。</p>
+  
+    <p class="note"><b>ペーストと Reveal File は Windows 専用です。</b>どちらも
+    Windows のツールに処理を渡すためです — クリップボードは PowerShell、
+    Reveal File はエクスプローラー。macOS と Linux では何も実行せず、その旨を
+    表示します。ペーストの代わりに <b>Import Images&hellip;</b> か
+    ドラッグ＆ドロップを使ってください。</p>
   </section>
 
   <section>
@@ -660,6 +676,12 @@ CONTENT["pt"] = """
     colada não tem arquivo em disco para apontar, então o Zap Board a empacota
     dentro do <code>.blend</code> no momento em que você cola. Você não precisa
     fazer nada, e o card sobrevive a um recarregamento.</p>
+  
+    <p class="note"><b>Colar e Reveal File s&atilde;o s&oacute; para Windows.</b>
+    Os dois passam a tarefa para uma ferramenta do Windows - PowerShell para
+    a &aacute;rea de transfer&ecirc;ncia, Explorer para o Reveal File. No macOS
+    e no Linux eles n&atilde;o fazem nada e avisam. Use
+    <b>Import Images&hellip;</b> ou arraste e solte em vez de colar.</p>
   </section>
 
   <section>
@@ -840,6 +862,11 @@ CONTENT["es"] = """
     imagen pegada no tiene ningún archivo en disco al que apuntar, así que Zap
     Board la empaqueta dentro del <code>.blend</code> en el momento de pegarla.
     No tienes que hacer nada, y la tarjeta sobrevive a una recarga.</p>
+  
+    <p class="note"><b>Pegar y Reveal File son solo para Windows.</b> Ambos
+    delegan en una herramienta de Windows - PowerShell para el portapapeles,
+    Explorer para Reveal File. En macOS y Linux no hacen nada y lo indican.
+    Usa <b>Import Images&hellip;</b> o arrastrar y soltar en lugar de pegar.</p>
   </section>
 
   <section>
