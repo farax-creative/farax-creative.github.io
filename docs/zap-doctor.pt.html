@@ -238,7 +238,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <div class="kicker"><span class="pmt">&gt;</span> SÉRIE ZAP / MANUAL DO USUÁRIO</div>
     <h1>ZAP DOCTOR</h1>
     <div class="doc-sub">VERIFICADOR DE PREFLIGHT DE RENDER PARA O BLENDER</div>
-    <div class="doc-meta">Blender 4.2+ (plataforma de Extensions) &middot; Cycles &amp; EEVEE &middot; 30 verificações (v1.1)</div>
+    <div class="doc-meta">Blender 4.3+ (plataforma de Extensions) &middot; Cycles &amp; EEVEE &middot; 30 verificações (v1.2)</div>
   </div>
 
   <!-- 1 · HOOK -->
@@ -281,7 +281,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p>Depois de um escaneamento, uma barra horizontal <strong>Scene Health</strong> aparece no topo com uma porcentagem, tipo <code>Scene Health 72%</code>.</p>
     <ul>
       <li>Nenhum problema &rarr; o medidor enche e mostra <strong>&ldquo;Ready to Render&rdquo;</strong>.</li>
-      <li>Os problemas reduzem o medidor por <strong>decaimento multiplicativo</strong> &mdash; cada problema multiplica a pontuação por uma taxa fixa: um Error &times;0,65, um Warning &times;0,90, um Suggestion &times;0,98. Quanto mais problemas, mais a pontuação se aproxima de 0 (nunca negativa), e os Errors pesam muito mais que os Warnings.</li>
+      <li>Os problemas reduzem o medidor por <strong>decaimento multiplicativo</strong> &mdash; cada problema multiplica a pontuação por uma taxa fixa: um Error &times;0,80, um Warning &times;0,96, um Suggestion &times;1,00 (Suggestions nunca custam nada &mdash; são conselhos, não falhas). Dois limites impedem que a repetição domine: uma verificação conta no máximo duas vezes para Errors e cinco para Warnings, e nenhuma categoria pode puxar o medidor abaixo de 0,60 da própria contribuição. O medidor responde <em>quantos tipos de coisa estão errados</em>, não quantos objetos cada tipo atinge.</li>
     </ul>
     <p>Logo abaixo do medidor há um resumo de uma linha, tipo <code>2 errors &middot; 5 warnings &middot; 3 suggestions</code> (qualquer contagem que seja zero é omitida).</p>
 

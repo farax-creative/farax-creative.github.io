@@ -227,7 +227,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <div class="kicker"><span class="pmt">&gt;</span> ZAP SERIES / USER MANUAL</div>
     <h1>ZAP DOCTOR</h1>
     <div class="doc-sub">RENDER PREFLIGHT CHECKER FOR BLENDER</div>
-    <div class="doc-meta">Blender 4.2+ (Extensions platform) &middot; Cycles &amp; EEVEE &middot; 30 checks (v1.1)</div>
+    <div class="doc-meta">Blender 4.3+ (Extensions platform) &middot; Cycles &amp; EEVEE &middot; 30 checks (v1.2)</div>
   </div>
 
   <!-- 1 · HOOK -->
@@ -270,7 +270,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p>After a scan, a horizontal <strong>Scene Health</strong> bar appears at the top with a percentage, like <code>Scene Health 72%</code>.</p>
     <ul>
       <li>No problems at all &rarr; the gauge fills and reads <strong>&ldquo;Ready to Render&rdquo;</strong>.</li>
-      <li>Problems shrink the gauge by <strong>multiplicative decay</strong> &mdash; each issue multiplies the score down by a fixed ratio: one Error &times;0.65, one Warning &times;0.90, one Suggestion &times;0.98. More issues push the score toward 0 (never negative), and Errors bite far harder than Warnings.</li>
+      <li>Problems shrink the gauge by <strong>multiplicative decay</strong> &mdash; each issue multiplies the score down by a fixed ratio: one Error &times;0.80, one Warning &times;0.96, one Suggestion &times;1.00 (Suggestions never cost anything &mdash; they are advice, not faults). Two bounds keep repetition from taking over: one check counts at most twice for Errors and five times for Warnings, and no single category may pull the gauge below 0.60 of its own contribution. The gauge answers <em>how many kinds of thing are wrong</em>, not how many objects each kind touches.</li>
     </ul>
     <p>Just below the gauge is a one-line summary like <code>2 errors &middot; 5 warnings &middot; 3 suggestions</code> (any count that's zero is omitted).</p>
 

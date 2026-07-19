@@ -233,7 +233,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <div class="kicker"><span class="pmt">&gt;</span> SERIE ZAP / MANUAL DE USUARIO</div>
     <h1>ZAP DOCTOR</h1>
     <div class="doc-sub">VERIFICACIÓN PREVIA AL RENDER PARA BLENDER</div>
-    <div class="doc-meta">Blender 4.2+ (plataforma Extensions) &middot; Cycles &amp; EEVEE &middot; 30 comprobaciones (v1.1)</div>
+    <div class="doc-meta">Blender 4.3+ (plataforma Extensions) &middot; Cycles &amp; EEVEE &middot; 30 comprobaciones (v1.2)</div>
   </div>
 
   <!-- 1 · HOOK -->
@@ -276,7 +276,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p>Tras un escaneo, aparece arriba una barra horizontal <strong>Scene Health</strong> con un porcentaje, como <code>Scene Health 72%</code>.</p>
     <ul>
       <li>Sin problemas de ningún tipo &rarr; el indicador se llena y marca <strong>&ldquo;Ready to Render&rdquo;</strong>.</li>
-      <li>Los problemas encogen el indicador por <strong>decaimiento multiplicativo</strong> &mdash; cada problema multiplica la puntuación a la baja por una proporción fija: un Error &times;0.65, un Warning &times;0.90, una Suggestion &times;0.98. Cuantos más problemas, más se acerca la puntuación a 0 (nunca negativa), y los Errors muerden mucho más fuerte que los Warnings.</li>
+      <li>Los problemas encogen el indicador por <strong>decaimiento multiplicativo</strong> &mdash; cada problema multiplica la puntuación a la baja por una proporción fija: un Error &times;0.80, un Warning &times;0.96, una Suggestion &times;1.00 (las Suggestions nunca restan &mdash; son consejos, no fallos). Dos límites evitan que la repetición domine: una comprobación cuenta como máximo dos veces para Errors y cinco para Warnings, y ninguna categoría puede bajar el indicador por debajo de 0.60 de su propia aportación. El indicador responde a <em>cuántos tipos de cosa están mal</em>, no a cuántos objetos toca cada tipo.</li>
     </ul>
     <p>Justo debajo del indicador hay un resumen de una línea como <code>2 errors &middot; 5 warnings &middot; 3 suggestions</code> (cualquier recuento que sea cero se omite).</p>
 

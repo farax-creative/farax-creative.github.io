@@ -237,7 +237,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <div class="kicker"><span class="pmt">&gt;</span> ZAPシリーズ / ユーザーマニュアル</div>
     <h1>ZAP DOCTOR</h1>
     <div class="doc-sub">Blender 用レンダープリフライトチェッカー</div>
-    <div class="doc-meta">Blender 4.2+（Extensions プラットフォーム） &middot; Cycles &amp; EEVEE &middot; 30項目のチェック (v1.1)</div>
+    <div class="doc-meta">Blender 4.3+（Extensions プラットフォーム） &middot; Cycles &amp; EEVEE &middot; 30項目のチェック (v1.2)</div>
   </div>
 
   <!-- 1 · HOOK -->
@@ -280,7 +280,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <p>スキャンが終わると、上部に横棒の <strong>Scene Health</strong> ゲージが現れ、<code>Scene Health 72%</code> のようにパーセンテージが表示されます。</p>
     <ul>
       <li>問題が一つもなければ &rarr; ゲージが満タンになり <strong>&ldquo;Ready to Render&rdquo;</strong> と表示されます。</li>
-      <li>問題があるとゲージは <strong>乗算式の減衰</strong> で下がります &mdash; 問題一つにつき、スコアが一定の比率で掛け算されて下がります: Error 一つで &times;0.65、Warning 一つで &times;0.90、Suggestion 一つで &times;0.98。問題が増えるほどスコアは 0 に近づきますが（マイナスにはならず）、Error は Warning よりずっと大きく効きます。</li>
+      <li>問題があるとゲージは <strong>乗算式の減衰</strong> で下がります &mdash; 問題一つにつき、スコアが一定の比率で掛け算されて下がります: Error 一つで &times;0.80、Warning 一つで &times;0.96、Suggestion 一つで &times;1.00（Suggestion は助言なので、いくつあってもスコアは下がりません）。同じ問題の繰り返しが支配しないよう上限が二つあります &mdash; 一つのチェックが数えられるのは Error は 2 回、Warning は 5 回まで。またどのカテゴリも自身の寄与を 0.60 倍より下には引き下げられません。ゲージは<em>何行が悪いか</em>ではなく<em>何種類が悪いか</em>を示します。</li>
     </ul>
     <p>ゲージのすぐ下には <code>2 errors &middot; 5 warnings &middot; 3 suggestions</code> のような一行サマリーが出ます（数が 0 の項目は省略されます）。</p>
 
