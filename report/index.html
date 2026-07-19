@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report a Bug · Farax Creative</title>
+<meta name="description" content="Report a bug in a Farax Creative add-on.">
+<meta name="robots" content="noindex">
+
+<style>
+  @font-face{
+    font-family:"Farax Display";
+    src:url("../assets/fonts/farax-display.ttf") format("truetype");
+    font-display:swap;
+  }
+  @font-face{
+    font-family:"Farax Label";
+    src:url("../assets/fonts/farax-label.ttf") format("truetype");
+    font-display:swap;
+  }
+
+  :root{
+    --void:#0B0D10;
+    --ink:#F4EBDD;
+    --zap:#FFC828;
+    --line:rgba(244,235,221,.13);
+    --display:"Farax Display","Arial Narrow",sans-serif;
+    --label:"Farax Label","Arial Narrow",sans-serif;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:var(--label);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:2rem 1.25rem;
+  }
+
+  main{max-width:34rem;width:100%}
+
+  h1{
+    font-family:var(--display);
+    font-size:clamp(1.75rem,6vw,2.75rem);
+    letter-spacing:.02em;
+    margin:0 0 .75rem;
+  }
+
+  p{margin:0 0 1.25rem;line-height:1.55;opacity:.85}
+
+  a{color:var(--zap)}
+
+  .go{
+    display:inline-block;
+    font-family:var(--display);
+    font-size:1.05rem;
+    letter-spacing:.04em;
+    text-decoration:none;
+    color:var(--void);
+    background:var(--zap);
+    padding:.7rem 1.4rem;
+    border:0;
+  }
+
+  .details{
+    margin-top:2rem;
+    padding-top:1.25rem;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:.8rem;
+    opacity:.55;
+    line-height:1.7;
+  }
+  .details span{display:block}
+</style>
+</head>
+<body>
+<main>
+  <h1>Report a Bug</h1>
+
+  <!-- Kept as static text, not a spinner: if the redirect below is blocked
+       (extension, strict privacy mode, JS off) this still reads as a working
+       page with a link, instead of a dead "loading" state. -->
+  <p id="status">Opening the bug report form&hellip;</p>
+
+  <p><a class="go" id="manual-link" href="#">Open the form</a></p>
+
+  <p style="font-size:.85rem;opacity:.6">
+    Write in any language &mdash; English, &#54620;&#44397;&#50612;,
+    &#26085;&#26412;&#35486;, Espa&ntilde;ol, Portugu&ecirc;s.
+    Prefer email? <a href="mailto:faraxcreative@gmail.com">faraxcreative@gmail.com</a>
+  </p>
+
+  <div class="details" id="details" hidden></div>
+</main>
+
+<script>
+/* =====================================================================
+   The one place the form lives.
+
+   Add-ons and manual pages link here, never straight at the form. Builds
+   already installed in someone's Blender can never have their URL changed,
+   so every link points at this page instead: swap the form, edit these
+   constants, and every shipped link follows.
+   ===================================================================== */
+var FORM_URL = "__FORM_URL__";
+
+/* Prefill field ids, taken from the form's own prefill link. */
+var ENTRY = {
+  product: "__ENTRY_PRODUCT__",
+  addon:   "__ENTRY_ADDON__",
+  blender: "__ENTRY_BLENDER__",
+  os:      "__ENTRY_OS__"
+};
+
+/* Old names still arriving from already-shipped builds and manual pages.
+   The form only knows its current choice names, so translate on the way in
+   rather than leaving a stale link landing on a blank product field. */
+var PRODUCT_ALIASES = {
+  "zap slots": "Zap Viewer"
+};
+
+function param(name){
+  var match = new RegExp("[?&]" + name + "=([^&]*)").exec(
+    window.location.search);
+  if (!match) { return ""; }
+  // '+' is a space in a query string; decodeURIComponent doesn't know that
+  return decodeURIComponent(match[1].replace(/\+/g, " "));
+}
+
+function canonicalProduct(value){
+  var alias = PRODUCT_ALIASES[value.trim().toLowerCase()];
+  return alias || value;
+}
+
+function buildUrl(){
+  var values = {
+    product: canonicalProduct(param("product")),
+    addon:   param("addon"),
+    blender: param("blender"),
+    os:      param("os")
+  };
+
+  var parts = [];
+  var shown = [];
+  for (var key in ENTRY){
+    if (!Object.prototype.hasOwnProperty.call(ENTRY, key)) { continue; }
+    var value = values[key];
+    if (!value) { continue; }
+    parts.push(ENTRY[key] + "=" + encodeURIComponent(value));
+    shown.push(key + ": " + value);
+  }
+
+  return {
+    // No parameters at all -> a plain empty form, which is still a working
+    // report route for anyone who typed the address by hand.
+    url: parts.length ? FORM_URL + "?" + parts.join("&") : FORM_URL,
+    shown: shown
+  };
+}
+
+(function(){
+  var built = buildUrl();
+  document.getElementById("manual-link").href = built.url;
+
+  if (built.shown.length){
+    var box = document.getElementById("details");
+    box.hidden = false;
+    box.innerHTML = "Sending along:";
+    for (var i = 0; i < built.shown.length; i++){
+      var line = document.createElement("span");
+      line.textContent = built.shown[i];
+      box.appendChild(line);
+    }
+  }
+
+  // Short pause before leaving: long enough that the page reads as a real
+  // step rather than a flicker, short enough not to feel like a wall.
+  window.setTimeout(function(){
+    window.location.replace(built.url);
+  }, 900);
+
+  // If we're still here afterwards the redirect was blocked -- say so plainly
+  // instead of leaving "Opening..." on screen forever.
+  window.setTimeout(function(){
+    document.getElementById("status").textContent =
+      "If the form didn't open automatically, use the button below.";
+  }, 2500);
+})();
+</script>
+</body>
+</html>

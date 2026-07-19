@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zap Slots — User Manual · Farax Creative</title>
-<meta name="description" content="User manual for Zap Slots — a Picture-Viewer-style render history for Blender. Install, everyday use, screen reference, importing renders, and what is not in this release.">
+<title>Zap Viewer — Manual de Usuario · Farax Creative</title>
+<meta name="description" content="Manual de Zap Viewer — un historial de renders al estilo Picture Viewer para Blender. Instalación, uso diario y referencia de pantalla.">
 
 <style>
 /* =====================================================================
@@ -205,141 +205,145 @@ details.chk .tbl-wrap table{font-size:12.5px}
 <body>
 
 <header class="top">
-  <a class="mark" href="https://farax-creative.github.io/#zap-slots"><span class="glyph"></span>FARAX CREATIVE</a>
+  <a class="mark" href="https://farax-creative.github.io/#zap-viewer"><span class="glyph"></span>FARAX CREATIVE</a>
   <span style="display:flex; align-items:center; gap:15px">
     <div class="lang-switch">
-      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">EN — English<span class="lang-caret" aria-hidden="true">▾</span></button>
+      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">ES — Español<span class="lang-caret" aria-hidden="true">▾</span></button>
       <ul class="lang-menu" role="listbox" hidden>
-        <li role="option" aria-selected="false" aria-selected="true"><a href="zap-slots.html">EN — English</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.ko.html">KO — 한국어</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.ja.html">JA — 日本語</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.pt.html">PT — Português</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.es.html">ES — Español</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.html">EN — English</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.ko.html">KO — 한국어</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.ja.html">JA — 日本語</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.pt.html">PT — Português</a></li>
+        <li role="option" aria-selected="false" aria-selected="true"><a href="zap-viewer.es.html">ES — Español</a></li>
       </ul>
     </div>
-    <a class="back" href="https://farax-creative.github.io/#zap-slots">&larr; Back to Zap Slots</a>
+    <a class="back" href="https://farax-creative.github.io/#zap-viewer">&larr; Volver a Zap Viewer</a>
   </span>
 </header>
 
 <main class="wrap">
 
-  <h1>Zap Slots — User Manual</h1>
-  <p class="lede">A Picture-Viewer-style render history for Blender. Every
-  render you make — an F12 still or a whole animation — is saved to disk on its
-  own and added to a history list you can label, replay and compare. A good
-  test render is never silently overwritten.</p>
+  <h1>Zap Viewer — Manual de Usuario</h1>
+  <p class="lede">Un historial de renders al estilo Picture Viewer para Blender.
+  Cada render que haces — un still con F12 o una animación entera — se guarda en
+  disco por su cuenta y se añade a una lista que puedes etiquetar, reproducir y
+  comparar. Un buen render de prueba nunca se sobrescribe en silencio.</p>
 
   <section>
-    <h2>30-second version</h2>
+    <h2>Versión de 30 segundos</h2>
     <ol>
-      <li>Install it. There is nothing to configure.</li>
-      <li>Render (F12). The <b>Zap Slots Viewer</b> window opens by itself.</li>
-      <li>The moment the render finishes it is <b>saved to disk and added to
-      the history list</b>. No button to press.</li>
-      <li>Click any entry to see it again. Pick two and <b>compare them A/B</b>.</li>
-      <li>Close Blender, reopen the file — the history is still there.</li>
+      <li>Instálalo. No hay nada que configurar.</li>
+      <li>Renderiza (F12). La ventana <b>Zap Viewer</b> se abre sola.</li>
+      <li>En cuanto el render termina, queda <b>guardado en disco y añadido al
+      historial</b>. Ningún botón que pulsar.</li>
+      <li>Haz clic en cualquier entrada para volver a verla. Elige dos y
+      <b>compáralas A/B</b>.</li>
+      <li>Cierra Blender y reabre el archivo — el historial sigue ahí.</li>
     </ol>
   </section>
 
   <section>
-    <h2>Requirements</h2>
-    <p>Blender <b>5.0 or newer</b>. Verified on 5.0.1, 5.1.2 and 5.2.</p>
+    <h2>Requisitos</h2>
+    <p>Blender <b>5.0 o superior</b>. Verificado en 5.0.1, 5.1.2 y 5.2.</p>
   </section>
 
   <section>
-    <h2>Installing</h2>
+    <h2>Instalación</h2>
     <ol>
-      <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; the drop-down
-      in the corner &rsaquo; <b>Install from Disk…</b></li>
-      <li>Pick <code>zap_slots-2.8.0.zip</code>.</li>
-      <li>That is all. The Viewer opens on your next render.</li>
+      <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; el menú de
+      la esquina &rsaquo; <b>Install from Disk…</b></li>
+      <li>Elige <code>zap_viewer-2.8.0.zip</code>.</li>
+      <li>Ya está. El Viewer se abre en tu siguiente render.</li>
     </ol>
   </section>
 
   <section>
-    <h2>Everyday use</h2>
-    <h3>Just render</h3>
-    <p>Press F12, or render an animation. The Viewer window opens and shows the
-    live Render Result while Blender works, then swaps to the finished entry.
-    A still becomes one <b>Still</b> entry; an animation becomes one
-    <b>Sequence</b> entry — a dated folder of frames, not one entry per frame.</p>
+    <h2>Uso diario</h2>
+    <h3>Solo renderiza</h3>
+    <p>Pulsa F12 o renderiza una animación. La ventana del Viewer se abre y
+    muestra el Render Result en vivo mientras Blender trabaja, y luego cambia a
+    la entrada terminada. Un still se convierte en una entrada <b>Still</b>; una
+    animación en una entrada <b>Sequence</b> — una carpeta de frames con fecha,
+    no una entrada por frame.</p>
 
-    <h3>Look at an older render</h3>
-    <p>Click it in the history list. A Still opens full size; a Sequence is
-    ready to scrub and play.</p>
+    <h3>Ver un render antiguo</h3>
+    <p>Haz clic en él en la lista. Un Still se abre a tamaño completo; una
+    Sequence llega lista para recorrer y reproducir.</p>
 
-    <h3>Label it</h3>
-    <p>Type into the entry's name field — "v3 key light warmer", whatever you
-    will recognise tomorrow. Labels are saved with the .blend.</p>
+    <h3>Etiquetar</h3>
+    <p>Escribe en el campo de nombre de la entrada — "v3 key light más cálida",
+    lo que vayas a reconocer mañana. Las etiquetas se guardan con el .blend.</p>
 
-    <h3>Compare two versions</h3>
-    <p>Select one and press <b>Set A</b>, select another and press <b>Set B</b>,
-    then <b>Compare</b>. The Viewer splits between them with a wipe you can
-    drag. Zap Slots refuses to compare two different resolutions rather than
-    stretching one to fit — that would falsify what you are looking at.</p>
+    <h3>Comparar dos versiones</h3>
+    <p>Selecciona una y pulsa <b>Set A</b>, selecciona otra y pulsa <b>Set B</b>,
+    y luego <b>Compare</b>. El Viewer se divide entre ambas con una línea que
+    puedes arrastrar. Zap Viewer se niega a comparar resoluciones distintas en
+    lugar de estirar una — eso falsearía lo que estás viendo.</p>
   </section>
 
   <section>
-    <h2>Screen reference</h2>
-    <h3>The Viewer window</h3>
-    <p>Zap Slots lives in its own window, like C4D's Picture Viewer, rather than
-    buried in a Properties tab. One window per session: the next render reuses
-    it. The big view fills the window and the history list is docked in the
-    sidebar (press <b>N</b> if it is hidden).</p>
+    <h2>Referencia de pantalla</h2>
+    <h3>La ventana del Viewer</h3>
+    <p>Zap Viewer vive en su propia ventana, como el Picture Viewer de C4D, en
+    lugar de estar enterrado en una pestaña de Properties. Una ventana por
+    sesión: el siguiente render reutiliza la misma. La vista grande ocupa la
+    ventana y la lista queda en la barra lateral (pulsa <b>N</b> si está
+    oculta).</p>
 
-    <h3>Transport bar</h3>
-    <p>Along the bottom: jump to start, step back, play/pause, step forward,
-    jump to end, loop, and playback settings. The frame field shows where you
-    are; the Start/End fields narrow playback to a range.</p>
-    <p><b>Playback is separate from your scene.</b> Playing a render here does
-    not move the scene's playhead, so your 3D viewport does not animate along
-    with it. Arrow keys scrub the viewer, Shift+arrows jump to the ends of the
-    play range, and Space plays — but only inside the Viewer window.</p>
+    <h3>Barra de reproducción</h3>
+    <p>Abajo: ir al inicio, retroceder un frame, play/pausa, avanzar un frame,
+    ir al final, bucle y ajustes de reproducción. El campo de frame indica dónde
+    estás; los campos Start/End limitan la reproducción a un rango.</p>
+    <p><b>La reproducción está separada de tu escena.</b> Reproducir un render
+    aquí no mueve el playhead de la escena, así que tu viewport 3D no se anima
+    con él. Las flechas recorren los frames, Shift+flechas saltan a los extremos
+    del rango y Space reproduce — pero solo dentro de la ventana del Viewer.</p>
 
-    <h3>Tabs</h3>
+    <h3>Pestañas</h3>
     <ul>
-      <li><b>History</b> — the list, with thumbnails, labels and times.</li>
-      <li><b>Info</b> — resolution, render time and, for a Sequence, how long
-      each frame took (see below).</li>
-      <li><b>Layer</b> — what layers the shown image has, and a note about
-      multilayer EXR (see "Not in this release").</li>
+      <li><b>History</b> — la lista, con miniaturas, etiquetas y horas.</li>
+      <li><b>Info</b> — resolución, tiempo de render y, para una Sequence,
+      cuánto tardó cada frame (ver abajo).</li>
+      <li><b>Layer</b> — qué capas tiene la imagen mostrada, y una nota sobre
+      EXR multicapa (ver "Fuera de esta versión").</li>
     </ul>
 
     <h3>Navigator</h3>
-    <p>A small overview of the whole image in the top-left corner, with a
-    rectangle showing where your current zoom sits inside it.</p>
+    <p>Una vista reducida de la imagen completa en la esquina superior
+    izquierda, con un rectángulo que muestra dónde está tu zoom actual.</p>
 
     <h3>Refresh / Import / Remove / Clear</h3>
     <ul>
-      <li><b>Refresh</b> — rescan the history folder for renders not yet listed.</li>
-      <li><b>Import</b> — add renders from any other folder (see below).</li>
-      <li><b>Remove</b> — take the selected entry out of the list.</li>
-      <li><b>Clear</b> — empty the list.</li>
+      <li><b>Refresh</b> — vuelve a escanear la carpeta del historial buscando
+      renders que aún no están en la lista.</li>
+      <li><b>Import</b> — añade renders desde cualquier otra carpeta (ver abajo).</li>
+      <li><b>Remove</b> — saca la entrada seleccionada de la lista.</li>
+      <li><b>Clear</b> — vacía la lista.</li>
     </ul>
-    <p><b>Remove and Clear do not delete your files.</b> They only stop tracking
-    them. Even Remove's "Also delete files" option refuses to touch anything
-    outside your history folder — an imported folder is never deleted.</p>
+    <p><b>Remove y Clear no borran tus archivos.</b> Solo dejan de seguirlos.
+    Incluso la opción "Also delete files" de Remove se niega a tocar nada fuera
+    de tu carpeta de historial — una carpeta importada nunca se borra.</p>
   </section>
 
   <section>
-    <h2>Importing renders from a folder</h2>
-    <p>Press <b>Import</b> and pick a folder to bring in renders Zap Slots did
-    not make: an older project, a render farm's output, a folder a colleague
-    sent over.</p>
+    <h2>Importar renders desde una carpeta</h2>
+    <p>Pulsa <b>Import</b> y elige una carpeta para traer renders que Zap Viewer
+    no hizo: un proyecto antiguo, la salida de una render farm, una carpeta que
+    te mandó un compañero.</p>
     <ul>
-      <li><b>Nothing is copied or moved.</b> The entries point at the files
-      where they already are.</li>
-      <li>A flat run of numbered frames — <code>frame_0001.png</code> …
-      <code>frame_0250.png</code> — comes in as <b>one Sequence</b>, not as 250
-      separate stills.</li>
-      <li>Importing the same folder twice adds nothing the second time.</li>
+      <li><b>No se copia ni se mueve nada.</b> Las entradas apuntan a los
+      archivos donde ya están.</li>
+      <li>Una serie numerada — <code>frame_0001.png</code> …
+      <code>frame_0250.png</code> — entra como <b>una Sequence</b>, no como 250
+      stills sueltos.</li>
+      <li>Importar la misma carpeta dos veces no añade nada la segunda vez.</li>
     </ul>
   </section>
 
   <section>
-    <h2>Per-frame render times</h2>
-    <p>Select a Sequence and open the <b>Info</b> tab. Zap Slots records how
-    long each frame took while it rendered:</p>
+    <h2>Tiempo de render por frame</h2>
+    <p>Selecciona una Sequence y abre la pestaña <b>Info</b>. Zap Viewer registra
+    cuánto tardó cada frame mientras se renderizaba:</p>
     <pre><code>Average per frame: 6s (48 frames)
 
 Per-frame render time
@@ -347,51 +351,54 @@ Per-frame render time
   Frame 7         18s
   ...
   slowest 12 of 48 frames</code></pre>
-    <p>The <b>slowest</b> frames are listed first, because "which frame cost me"
-    is the question this answers. It updates live as each frame lands, so you
-    can watch it during a render.</p>
+    <p>Los frames <b>más lentos</b> aparecen primero, porque "qué frame me
+    costó caro" es la pregunta que esto responde. Se actualiza en vivo según
+    cada frame termina, así que puedes seguirlo durante el render.</p>
   </section>
 
   <section>
-    <h2>Where files go, and staying put</h2>
-    <p>By default the history folder is <code>zap_slots_history</code> next to
-    your .blend (or next to your render output if the file is unsaved). You can
-    set it explicitly in the panel. Names are timestamps —
-    <code>20260717_143022.png</code> for a still,
-    <code>20260717_143530/</code> for a sequence folder.</p>
-    <p>Because every entry is a real file on disk, quitting Blender loses
-    nothing. Reopen the .blend and Zap Slots rescans the folder and rebuilds the
-    list, thumbnails included.</p>
-    <p>Zap Slots does not touch your render settings, Blender's own render slots
-    or the sequence editor, and it never opens a window in a headless render —
-    so it is safe on a farm.</p>
+    <h2>Dónde van los archivos, y permanencia</h2>
+    <p>Por defecto la carpeta del historial es <code>zap_slots_history</code>
+    junto a tu .blend (o junto a la salida de render si el archivo no está
+    guardado). Puedes fijarla explícitamente en el panel. Los nombres son
+    timestamps — <code>20260717_143022.png</code> para un still,
+    <code>20260717_143530/</code> para una carpeta de secuencia.</p>
+    <p>Como cada entrada es un archivo real en disco, cerrar Blender no pierde
+    nada. Reabre el .blend y Zap Viewer vuelve a escanear la carpeta y reconstruye
+    la lista, miniaturas incluidas.</p>
+    <p>Zap Viewer no toca tus ajustes de render, los render slots propios de
+    Blender ni el sequencer, y nunca abre una ventana en un render headless —
+    así que es seguro en una farm.</p>
   </section>
 
   <section style="border-bottom:none">
-    <h2>Not in this release</h2>
-    <h3>Multilayer EXR history — coming soon</h3>
-    <p>Renders save and replay normally, but a saved <b>still</b> is flattened
-    to its combined result, so its passes are not kept in the history copy.
-    Blender writes no file at all for an interactive F12 still, so Zap Slots has
-    to produce one from the Render Result, and every route available for that
-    discards the layers. If you need the history copy to carry passes, render to
-    single-layer EXR for now. The Layer tab says the same thing in the interface
-    rather than letting you find out later.</p>
+    <h2>Fuera de esta versión</h2>
+    <h3>Historial de EXR multicapa — próximamente</h3>
+    <p>Los renders se guardan y reproducen con normalidad, pero un <b>still</b>
+    guardado se aplana a su resultado combinado, así que sus passes no quedan en
+    la copia del historial. Blender no escribe ningún archivo para un still F12
+    interactivo, así que Zap Viewer tiene que producir uno a partir del Render
+    Result, y todas las rutas disponibles para eso descartan las capas. Si
+    necesitas que la copia del historial lleve los passes, renderiza a EXR de
+    una sola capa por ahora. La pestaña Layer dice lo mismo en la interfaz, en
+    vez de dejar que lo descubras después.</p>
 
-    <h3>Clicking the timeline to seek</h3>
-    <p>The transport bar's buttons, the frame field and the arrow keys move the
-    playhead. Clicking directly on a timeline strip to jump is not wired yet.</p>
+    <h3>Hacer clic en la timeline para navegar</h3>
+    <p>Los botones de la barra, el campo de frame y las flechas mueven el
+    playhead. Hacer clic directamente en una franja de timeline para saltar
+    todavía no está implementado.</p>
   </section>
 
 </main>
 
 <footer>
   <div class="fl">
-    <a href="https://farax-creative.github.io/#zap-slots">&larr; Back to Zap Slots</a>
+    <a href="https://farax-creative.github.io/#zap-viewer">&larr; Volver a Zap Viewer</a>
     <a href="https://www.instagram.com/faraxcreative/">Instagram</a>
+    <a href="https://farax-creative.github.io/report/?product=Zap%20Viewer">Reportar un error</a>
     <a href="mailto:faraxcreative@gmail.com">faraxcreative@gmail.com</a>
   </div>
-  FARAX CREATIVE &middot; Zap series &middot; Zap Slots
+  FARAX CREATIVE &middot; Serie Zap &middot; Zap Viewer
 </footer>
 
 

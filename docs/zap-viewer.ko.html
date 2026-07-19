@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zap Slots — ユーザーマニュアル · Farax Creative</title>
-<meta name="description" content="Zap Slots ユーザーマニュアル — Blender 用のピクチャービューア風レンダー履歴。インストール、基本操作、画面リファレンス、レンダーの読み込み。">
+<title>Zap Viewer — 사용자 매뉴얼 · Farax Creative</title>
+<meta name="description" content="Zap Viewer 사용자 매뉴얼 — 블렌더용 픽처 뷰어 스타일 렌더 히스토리. 설치, 기본 사용법, 화면 설명, 렌더 불러오기, 이번 버전에서 빠진 것.">
 
 <style>
 /* =====================================================================
@@ -205,139 +205,139 @@ details.chk .tbl-wrap table{font-size:12.5px}
 <body>
 
 <header class="top">
-  <a class="mark" href="https://farax-creative.github.io/#zap-slots"><span class="glyph"></span>FARAX CREATIVE</a>
+  <a class="mark" href="https://farax-creative.github.io/#zap-viewer"><span class="glyph"></span>FARAX CREATIVE</a>
   <span style="display:flex; align-items:center; gap:15px">
     <div class="lang-switch">
-      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">JA — 日本語<span class="lang-caret" aria-hidden="true">▾</span></button>
+      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">KO — 한국어<span class="lang-caret" aria-hidden="true">▾</span></button>
       <ul class="lang-menu" role="listbox" hidden>
-        <li role="option" aria-selected="false"><a href="zap-slots.html">EN — English</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.ko.html">KO — 한국어</a></li>
-        <li role="option" aria-selected="false" aria-selected="true"><a href="zap-slots.ja.html">JA — 日本語</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.pt.html">PT — Português</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.es.html">ES — Español</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.html">EN — English</a></li>
+        <li role="option" aria-selected="false" aria-selected="true"><a href="zap-viewer.ko.html">KO — 한국어</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.ja.html">JA — 日本語</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.pt.html">PT — Português</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.es.html">ES — Español</a></li>
       </ul>
     </div>
-    <a class="back" href="https://farax-creative.github.io/#zap-slots">&larr; Zap Slots に戻る</a>
+    <a class="back" href="https://farax-creative.github.io/#zap-viewer">&larr; Zap Viewer로 돌아가기</a>
   </span>
 </header>
 
 <main class="wrap">
 
-  <h1>Zap Slots — ユーザーマニュアル</h1>
-  <p class="lede">Blender 用のピクチャービューア風レンダー履歴です。F12 の静止画
-  でもアニメーションでも、レンダーが終わると自動的にディスクへ保存され、ラベル付け・
-  再生・比較ができる履歴リストに追加されます。うまくいったテストレンダーが黙って
-  上書きされることはありません。</p>
+  <h1>Zap Viewer — 사용자 매뉴얼</h1>
+  <p class="lede">블렌더용 픽처 뷰어 스타일 렌더 히스토리입니다. F12 스틸이든
+  애니메이션이든, 렌더가 끝나면 알아서 디스크에 저장되고 이름표를 달거나 다시
+  재생하고 비교할 수 있는 목록에 추가됩니다. 잘 나온 테스트 렌더가 조용히
+  덮어써지는 일이 없습니다.</p>
 
   <section>
-    <h2>30秒でわかる</h2>
+    <h2>30초 요약</h2>
     <ol>
-      <li>インストールするだけ。設定は不要です。</li>
-      <li>レンダー（F12）すると <b>Zap Slots Viewer</b> ウィンドウが自動で開きます。</li>
-      <li>レンダー完了と同時に<b>ディスクへ保存され履歴に追加</b>されます。
-      ボタンを押す必要はありません。</li>
-      <li>履歴の項目をクリックすれば再表示。2つ選んで <b>A/B 比較</b> も可能です。</li>
-      <li>Blender を終了して開き直しても履歴は残っています。</li>
+      <li>설치하면 끝입니다. 설정할 것이 없습니다.</li>
+      <li>렌더(F12)하면 <b>Zap Viewer</b> 창이 저절로 열립니다.</li>
+      <li>렌더가 끝나는 순간 <b>디스크에 저장되고 히스토리 목록에 추가</b>됩니다.
+      버튼을 누를 필요가 없습니다.</li>
+      <li>목록에서 아무거나 클릭하면 다시 볼 수 있고, 두 개를 골라
+      <b>A/B 비교</b>도 됩니다.</li>
+      <li>블렌더를 껐다 다시 열어도 히스토리는 그대로입니다.</li>
     </ol>
   </section>
 
   <section>
-    <h2>動作環境</h2>
-    <p>Blender <b>5.0 以降</b>。5.0.1・5.1.2・5.2 で検証済みです。</p>
+    <h2>요구 사항</h2>
+    <p>블렌더 <b>5.0 이상</b>. 5.0.1 · 5.1.2 · 5.2에서 검증했습니다.</p>
   </section>
 
   <section>
-    <h2>インストール</h2>
+    <h2>설치</h2>
     <ol>
-      <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; 右上の
-      ドロップダウン &rsaquo; <b>Install from Disk…</b></li>
-      <li><code>zap_slots-2.8.0.zip</code> を選択します。</li>
-      <li>以上です。次のレンダーから Viewer が開きます。</li>
+      <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; 우측 상단
+      드롭다운 &rsaquo; <b>Install from Disk…</b></li>
+      <li><code>zap_viewer-2.8.0.zip</code>을 선택합니다.</li>
+      <li>끝입니다. 다음 렌더부터 Viewer가 열립니다.</li>
     </ol>
   </section>
 
   <section>
-    <h2>基本的な使い方</h2>
-    <h3>レンダーするだけ</h3>
-    <p>F12 を押すか、アニメーションをレンダーします。Viewer ウィンドウが開き、
-    レンダー中はライブの Render Result を表示し、完了すると保存済みの項目に
-    切り替わります。静止画は <b>Still</b> 項目 1つ、アニメーションは
-    <b>Sequence</b> 項目 1つ（日付フォルダ）になります。フレームごとに項目が
-    増えることはありません。</p>
+    <h2>기본 사용법</h2>
+    <h3>그냥 렌더하면 됩니다</h3>
+    <p>F12를 누르거나 애니메이션을 렌더하세요. Viewer 창이 열리면서 렌더가
+    도는 동안 실시간 결과를 보여주고, 끝나면 저장된 항목으로 바뀝니다. 스틸은
+    <b>Still</b> 항목 하나, 애니메이션은 <b>Sequence</b> 항목 하나(날짜별 프레임
+    폴더)로 들어갑니다 — 프레임마다 항목이 생기지 않습니다.</p>
 
-    <h3>過去のレンダーを見る</h3>
-    <p>履歴リストでクリックします。Still は原寸で、Sequence はスクラブ・再生
-    できる状態で開きます。</p>
+    <h3>예전 렌더 다시 보기</h3>
+    <p>목록에서 클릭하면 됩니다. Still은 원본 크기로, Sequence는 바로 스크럽·
+    재생할 수 있는 상태로 열립니다.</p>
 
-    <h3>ラベルを付ける</h3>
-    <p>項目の名前欄に入力します。「v3 キーライト暖かめ」など、明日の自分が
-    わかる言葉で十分です。.blend と一緒に保存されます。</p>
+    <h3>이름표 달기</h3>
+    <p>항목의 이름 칸에 입력하세요 — "v3 키라이트 따뜻하게" 처럼 내일의 내가
+    알아볼 말이면 됩니다. .blend와 함께 저장됩니다.</p>
 
-    <h3>2つを比較する</h3>
-    <p>1つ選んで <b>Set A</b>、別のものを選んで <b>Set B</b>、そして
-    <b>Compare</b>。ドラッグできる境界線で画面が分割されます。解像度が違う場合、
-    Zap Slots は引き伸ばして合わせず比較を拒否します — それでは見ているものが
-    偽りになるからです。</p>
+    <h3>두 버전 비교하기</h3>
+    <p>하나 고르고 <b>Set A</b>, 다른 것 고르고 <b>Set B</b>, 그리고
+    <b>Compare</b>. 드래그할 수 있는 경계선으로 화면이 나뉩니다. 해상도가 다르면
+    Zap Viewer는 늘려 맞추지 않고 비교를 거부합니다 — 그렇게 하면 보고 있는 것이
+    거짓이 되기 때문입니다.</p>
   </section>
 
   <section>
-    <h2>画面リファレンス</h2>
-    <h3>Viewer ウィンドウ</h3>
-    <p>プロパティタブの奥ではなく、C4D のピクチャービューアのように<b>専用
-    ウィンドウ</b>を使います。セッションにつき 1つで、次のレンダーも同じ
-    ウィンドウを再利用します。大きなプレビューがウィンドウを占め、履歴リストは
-    サイドバーにあります（表示されていなければ <b>N</b>）。</p>
+    <h2>화면 설명</h2>
+    <h3>Viewer 창</h3>
+    <p>프로퍼티 탭 구석이 아니라, C4D 픽처 뷰어처럼 <b>전용 창</b>을 씁니다.
+    세션당 하나이고 다음 렌더가 같은 창을 재사용합니다. 큰 미리보기가 창을
+    채우고 히스토리 목록은 사이드바에 있습니다(안 보이면 <b>N</b>).</p>
 
-    <h3>再生バー</h3>
-    <p>下部に、先頭へ・戻る・再生/停止・進む・末尾へ・ループ・再生設定が並びます。
-    フレーム欄は現在位置、Start/End 欄は再生範囲を指定します。</p>
-    <p><b>再生はシーンから独立しています。</b>ここでレンダーを再生しても
-    シーンのプレイヘッドは動かないので、3D ビューポートが一緒に動くことは
-    ありません。矢印キーでスクラブ、Shift+矢印で範囲の先頭・末尾へ、Space で
-    再生 — いずれも Viewer ウィンドウ内でのみ動作します。</p>
+    <h3>재생 바</h3>
+    <p>아래쪽에 처음으로 · 뒤로 · 재생/정지 · 앞으로 · 끝으로 · 반복 · 재생 설정이
+    있습니다. 프레임 칸은 현재 위치를, Start/End 칸은 재생 구간을 정합니다.</p>
+    <p><b>재생은 씬과 분리돼 있습니다.</b> 여기서 렌더를 재생해도 씬의 플레이헤드가
+    움직이지 않으므로 3D 뷰포트가 같이 움직이지 않습니다. 화살표 키로 스크럽,
+    Shift+화살표로 구간 처음·끝 이동, Space로 재생 — 모두 Viewer 창 안에서만
+    동작합니다.</p>
 
-    <h3>タブ</h3>
+    <h3>탭</h3>
     <ul>
-      <li><b>History</b> — サムネイル・ラベル・時刻付きのリスト。</li>
-      <li><b>Info</b> — 解像度、レンダー時間、Sequence ならフレームごとの
-      所要時間（下記）。</li>
-      <li><b>Layer</b> — 表示中の画像のレイヤー状態と、マルチレイヤー EXR に
-      関する注記（「今回のリリースに含まれないもの」参照）。</li>
+      <li><b>History</b> — 썸네일·이름표·시각이 있는 목록.</li>
+      <li><b>Info</b> — 해상도, 렌더 시간, 그리고 Sequence면 프레임별 소요 시간
+      (아래 참고).</li>
+      <li><b>Layer</b> — 지금 이미지의 레이어 상태와 멀티레이어 EXR 안내
+      ("이번 버전에서 빠진 것" 참고).</li>
     </ul>
 
     <h3>Navigator</h3>
-    <p>左上に画像全体の縮小表示が出て、現在ズームしている範囲が矩形で示されます。</p>
+    <p>좌측 상단에 전체 이미지 축소판이 뜨고, 지금 확대해서 보는 영역이 사각형으로
+    표시됩니다.</p>
 
     <h3>Refresh / Import / Remove / Clear</h3>
     <ul>
-      <li><b>Refresh</b> — 履歴フォルダを再スキャンして未登録のレンダーを探します。</li>
-      <li><b>Import</b> — 他のフォルダのレンダーを取り込みます（下記）。</li>
-      <li><b>Remove</b> — 選択した項目をリストから外します。</li>
-      <li><b>Clear</b> — リストを空にします。</li>
+      <li><b>Refresh</b> — 히스토리 폴더를 다시 훑어 목록에 없는 렌더를 찾습니다.</li>
+      <li><b>Import</b> — 다른 폴더의 렌더를 불러옵니다(아래 참고).</li>
+      <li><b>Remove</b> — 선택한 항목을 목록에서 뺍니다.</li>
+      <li><b>Clear</b> — 목록을 비웁니다.</li>
     </ul>
-    <p><b>Remove と Clear はファイルを削除しません。</b>リストから外れるだけです。
-    Remove の「Also delete files」オプションも<b>履歴フォルダの外には一切
-    触れません</b> — 取り込んだフォルダが削除されることはありません。</p>
+    <p><b>Remove와 Clear는 파일을 지우지 않습니다.</b> 목록에서만 빠집니다.
+    Remove의 "Also delete files" 옵션도 <b>히스토리 폴더 밖은 절대 건드리지
+    않습니다</b> — 불러온 폴더는 삭제되지 않습니다.</p>
   </section>
 
   <section>
-    <h2>フォルダからレンダーを取り込む</h2>
-    <p><b>Import</b> を押してフォルダを選ぶと、Zap Slots が作ったものでない
-    レンダーも履歴に入ります — 昔のプロジェクト、レンダーファームの出力、
-    同僚から届いたフォルダなど。</p>
+    <h2>다른 폴더에서 렌더 불러오기</h2>
+    <p><b>Import</b>를 누르고 폴더를 고르면 Zap Viewer가 만들지 않은 렌더도
+    목록에 들어옵니다 — 예전 프로젝트, 렌더팜 출력, 동료가 보내준 폴더 등.</p>
     <ul>
-      <li><b>コピーも移動もしません。</b>項目は元の場所のファイルを指します。</li>
-      <li><code>frame_0001.png</code> … <code>frame_0250.png</code> のような
-      連番のまとまりは <b>1つの Sequence</b> として入ります。250個の静止画に
-      分割されることはありません。</li>
-      <li>同じフォルダを 2回取り込んでも重複しません。</li>
+      <li><b>파일을 복사하거나 옮기지 않습니다.</b> 항목은 원래 자리의 파일을
+      가리킵니다.</li>
+      <li><code>frame_0001.png</code> … <code>frame_0250.png</code> 처럼 번호가
+      이어지는 묶음은 <b>Sequence 한 개</b>로 들어옵니다. 스틸 250개로 쪼개지지
+      않습니다.</li>
+      <li>같은 폴더를 두 번 불러와도 중복으로 쌓이지 않습니다.</li>
     </ul>
   </section>
 
   <section>
-    <h2>フレームごとのレンダー時間</h2>
-    <p>Sequence を選んで <b>Info</b> タブを開きます。レンダー中に各フレームが
-    何秒かかったかが記録されています:</p>
+    <h2>프레임별 렌더 시간</h2>
+    <p>Sequence를 고르고 <b>Info</b> 탭을 여세요. 렌더 중에 각 프레임이 몇 초
+    걸렸는지 기록됩니다:</p>
     <pre><code>Average per frame: 6s (48 frames)
 
 Per-frame render time
@@ -345,49 +345,48 @@ Per-frame render time
   Frame 7         18s
   ...
   slowest 12 of 48 frames</code></pre>
-    <p><b>最も時間がかかったフレームから</b>表示されます — 「どのフレームが
-    重かったか」がこのリストの答えるべき問いだからです。レンダー中も、
-    フレームが終わるたびにリアルタイムで更新されます。</p>
+    <p><b>가장 오래 걸린 프레임부터</b> 보여줍니다 — "어느 프레임이 비쌌나"가
+    이 목록이 답하는 질문이기 때문입니다. 렌더가 도는 중에도 프레임이 하나씩
+    끝날 때마다 실시간으로 갱신됩니다.</p>
   </section>
 
   <section>
-    <h2>保存先と永続性</h2>
-    <p>既定では .blend の隣の <code>zap_slots_history</code> フォルダです
-    （未保存ならレンダー出力先の隣）。パネルで明示的に指定もできます。
-    ファイル名はタイムスタンプで、静止画は <code>20260717_143022.png</code>、
-    シーケンスは <code>20260717_143530/</code> フォルダです。</p>
-    <p>すべての項目が実ファイルなので、Blender を終了しても何も失われません。
-    .blend を開き直すとフォルダを再スキャンし、サムネイル込みでリストを
-    復元します。</p>
-    <p>レンダー設定・Blender 自身のレンダースロット・シーケンスエディタには
-    一切触れず、ヘッドレスレンダーではウィンドウを開きません — ファームでも
-    安全です。</p>
+    <h2>저장 위치와 지속성</h2>
+    <p>기본값은 .blend 옆의 <code>zap_slots_history</code> 폴더입니다(저장 안 된
+    파일이면 렌더 출력 폴더 옆). 패널에서 직접 지정할 수도 있습니다. 파일명은
+    타임스탬프입니다 — 스틸은 <code>20260717_143022.png</code>, 시퀀스는
+    <code>20260717_143530/</code> 폴더.</p>
+    <p>모든 항목이 실제 디스크 파일이라 블렌더를 꺼도 아무것도 잃지 않습니다.
+    .blend를 다시 열면 폴더를 다시 훑어 썸네일까지 복원합니다.</p>
+    <p>렌더 설정·블렌더 자체 렌더 슬롯·시퀀스 에디터를 전혀 건드리지 않고,
+    헤드리스 렌더에서는 창을 열지 않습니다 — 렌더팜에서 안전합니다.</p>
   </section>
 
   <section style="border-bottom:none">
-    <h2>今回のリリースに含まれないもの</h2>
-    <h3>マルチレイヤー EXR の履歴 — 近日対応</h3>
-    <p>レンダーの保存と再生は正常ですが、保存された<b>静止画</b>は合成結果に
-    統合されるため、パスが履歴のコピーに残りません。Blender は対話的な F12
-    静止画に対してファイルを一切書き出さないため、Zap Slots が Render Result
-    から生成する必要があり、そのために使えるどの経路もレイヤーを破棄します。
-    履歴のコピーにパスが必要な場合は、当面<b>シングルレイヤー EXR</b> で
-    レンダーしてください。Layer タブにも同じ案内を表示しています。</p>
+    <h2>이번 버전에서 빠진 것</h2>
+    <h3>멀티레이어 EXR 히스토리 — 준비 중</h3>
+    <p>렌더 저장과 재생은 정상이지만, 저장된 <b>스틸</b>은 합쳐진 결과로 저장되어
+    패스가 히스토리 사본에 보존되지 않습니다. 블렌더가 F12 스틸에 대해서는 파일을
+    아예 쓰지 않기 때문에 Zap Viewer가 렌더 결과에서 직접 만들어야 하는데, 그
+    경로들이 모두 레이어를 버립니다. 히스토리 사본에 패스가 필요하시면 당분간
+    <b>단일 레이어 EXR</b>로 렌더해 주세요. Layer 탭에도 같은 안내가 표시되므로
+    나중에 알게 되는 일은 없습니다.</p>
 
-    <h3>タイムラインのクリックによるシーク</h3>
-    <p>再生バーのボタン、フレーム欄、矢印キーで移動します。タイムライン帯を
-    直接クリックしてジャンプする機能はまだ実装されていません。</p>
+    <h3>타임라인 클릭으로 이동</h3>
+    <p>재생 바의 버튼, 프레임 칸, 화살표 키로 이동합니다. 타임라인 막대를 직접
+    클릭해서 점프하는 기능은 아직 연결돼 있지 않습니다.</p>
   </section>
 
 </main>
 
 <footer>
   <div class="fl">
-    <a href="https://farax-creative.github.io/#zap-slots">&larr; Zap Slots に戻る</a>
+    <a href="https://farax-creative.github.io/#zap-viewer">&larr; Zap Viewer로 돌아가기</a>
     <a href="https://www.instagram.com/faraxcreative/">Instagram</a>
+    <a href="https://farax-creative.github.io/report/?product=Zap%20Viewer">버그 제보</a>
     <a href="mailto:faraxcreative@gmail.com">faraxcreative@gmail.com</a>
   </div>
-  FARAX CREATIVE &middot; Zap シリーズ &middot; Zap Slots
+  FARAX CREATIVE &middot; Zap 시리즈 &middot; Zap Viewer
 </footer>
 
 

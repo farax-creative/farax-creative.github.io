@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="pt">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zap Slots — Manual do Usuário · Farax Creative</title>
-<meta name="description" content="Manual do Zap Slots — um histórico de renders no estilo Picture Viewer para o Blender. Instalação, uso diário e referência de tela.">
+<title>Zap Viewer — ユーザーマニュアル · Farax Creative</title>
+<meta name="description" content="Zap Viewer ユーザーマニュアル — Blender 用のピクチャービューア風レンダー履歴。インストール、基本操作、画面リファレンス、レンダーの読み込み。">
 
 <style>
 /* =====================================================================
@@ -205,147 +205,139 @@ details.chk .tbl-wrap table{font-size:12.5px}
 <body>
 
 <header class="top">
-  <a class="mark" href="https://farax-creative.github.io/#zap-slots"><span class="glyph"></span>FARAX CREATIVE</a>
+  <a class="mark" href="https://farax-creative.github.io/#zap-viewer"><span class="glyph"></span>FARAX CREATIVE</a>
   <span style="display:flex; align-items:center; gap:15px">
     <div class="lang-switch">
-      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">PT — Português<span class="lang-caret" aria-hidden="true">▾</span></button>
+      <button type="button" class="lang-current" aria-haspopup="listbox" aria-expanded="false">JA — 日本語<span class="lang-caret" aria-hidden="true">▾</span></button>
       <ul class="lang-menu" role="listbox" hidden>
-        <li role="option" aria-selected="false"><a href="zap-slots.html">EN — English</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.ko.html">KO — 한국어</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.ja.html">JA — 日本語</a></li>
-        <li role="option" aria-selected="false" aria-selected="true"><a href="zap-slots.pt.html">PT — Português</a></li>
-        <li role="option" aria-selected="false"><a href="zap-slots.es.html">ES — Español</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.html">EN — English</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.ko.html">KO — 한국어</a></li>
+        <li role="option" aria-selected="false" aria-selected="true"><a href="zap-viewer.ja.html">JA — 日本語</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.pt.html">PT — Português</a></li>
+        <li role="option" aria-selected="false"><a href="zap-viewer.es.html">ES — Español</a></li>
       </ul>
     </div>
-    <a class="back" href="https://farax-creative.github.io/#zap-slots">&larr; Voltar para Zap Slots</a>
+    <a class="back" href="https://farax-creative.github.io/#zap-viewer">&larr; Zap Viewer に戻る</a>
   </span>
 </header>
 
 <main class="wrap">
 
-  <h1>Zap Slots — Manual do Usuário</h1>
-  <p class="lede">Um histórico de renders no estilo Picture Viewer para o
-  Blender. Todo render que você faz — um still com F12 ou uma animação inteira —
-  é salvo em disco sozinho e adicionado a uma lista que você pode rotular,
-  reproduzir e comparar. Um bom render de teste nunca é sobrescrito em
-  silêncio.</p>
+  <h1>Zap Viewer — ユーザーマニュアル</h1>
+  <p class="lede">Blender 用のピクチャービューア風レンダー履歴です。F12 の静止画
+  でもアニメーションでも、レンダーが終わると自動的にディスクへ保存され、ラベル付け・
+  再生・比較ができる履歴リストに追加されます。うまくいったテストレンダーが黙って
+  上書きされることはありません。</p>
 
   <section>
-    <h2>Versão de 30 segundos</h2>
+    <h2>30秒でわかる</h2>
     <ol>
-      <li>Instale. Não há nada para configurar.</li>
-      <li>Renderize (F12). A janela <b>Zap Slots Viewer</b> abre sozinha.</li>
-      <li>Assim que o render termina, ele é <b>salvo em disco e adicionado ao
-      histórico</b>. Nenhum botão para apertar.</li>
-      <li>Clique em qualquer entrada para vê-la de novo. Escolha duas e
-      <b>compare A/B</b>.</li>
-      <li>Feche o Blender e reabra o arquivo — o histórico continua lá.</li>
+      <li>インストールするだけ。設定は不要です。</li>
+      <li>レンダー（F12）すると <b>Zap Viewer</b> ウィンドウが自動で開きます。</li>
+      <li>レンダー完了と同時に<b>ディスクへ保存され履歴に追加</b>されます。
+      ボタンを押す必要はありません。</li>
+      <li>履歴の項目をクリックすれば再表示。2つ選んで <b>A/B 比較</b> も可能です。</li>
+      <li>Blender を終了して開き直しても履歴は残っています。</li>
     </ol>
   </section>
 
   <section>
-    <h2>Requisitos</h2>
-    <p>Blender <b>5.0 ou mais recente</b>. Verificado em 5.0.1, 5.1.2 e 5.2.</p>
+    <h2>動作環境</h2>
+    <p>Blender <b>5.0 以降</b>。5.0.1・5.1.2・5.2 で検証済みです。</p>
   </section>
 
   <section>
-    <h2>Instalação</h2>
+    <h2>インストール</h2>
     <ol>
-      <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; menu no
-      canto &rsaquo; <b>Install from Disk…</b></li>
-      <li>Escolha <code>zap_slots-2.8.0.zip</code>.</li>
-      <li>Pronto. O Viewer abre no seu próximo render.</li>
+      <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; 右上の
+      ドロップダウン &rsaquo; <b>Install from Disk…</b></li>
+      <li><code>zap_viewer-2.8.0.zip</code> を選択します。</li>
+      <li>以上です。次のレンダーから Viewer が開きます。</li>
     </ol>
   </section>
 
   <section>
-    <h2>Uso no dia a dia</h2>
-    <h3>É só renderizar</h3>
-    <p>Aperte F12 ou renderize uma animação. A janela do Viewer abre e mostra o
-    Render Result ao vivo enquanto o Blender trabalha, depois troca para a
-    entrada finalizada. Um still vira uma entrada <b>Still</b>; uma animação
-    vira uma entrada <b>Sequence</b> — uma pasta de frames com data, não uma
-    entrada por frame.</p>
+    <h2>基本的な使い方</h2>
+    <h3>レンダーするだけ</h3>
+    <p>F12 を押すか、アニメーションをレンダーします。Viewer ウィンドウが開き、
+    レンダー中はライブの Render Result を表示し、完了すると保存済みの項目に
+    切り替わります。静止画は <b>Still</b> 項目 1つ、アニメーションは
+    <b>Sequence</b> 項目 1つ（日付フォルダ）になります。フレームごとに項目が
+    増えることはありません。</p>
 
-    <h3>Ver um render antigo</h3>
-    <p>Clique nele na lista. Um Still abre em tamanho real; uma Sequence já vem
-    pronta para percorrer e reproduzir.</p>
+    <h3>過去のレンダーを見る</h3>
+    <p>履歴リストでクリックします。Still は原寸で、Sequence はスクラブ・再生
+    できる状態で開きます。</p>
 
-    <h3>Rotular</h3>
-    <p>Digite no campo de nome da entrada — "v3 key light mais quente", o que
-    você vai reconhecer amanhã. Os rótulos são salvos com o .blend.</p>
+    <h3>ラベルを付ける</h3>
+    <p>項目の名前欄に入力します。「v3 キーライト暖かめ」など、明日の自分が
+    わかる言葉で十分です。.blend と一緒に保存されます。</p>
 
-    <h3>Comparar duas versões</h3>
-    <p>Selecione uma e aperte <b>Set A</b>, selecione outra e aperte
-    <b>Set B</b>, depois <b>Compare</b>. O Viewer se divide entre as duas com
-    uma linha que você arrasta. O Zap Slots se recusa a comparar resoluções
-    diferentes em vez de esticar uma delas — isso falsificaria o que você está
-    vendo.</p>
+    <h3>2つを比較する</h3>
+    <p>1つ選んで <b>Set A</b>、別のものを選んで <b>Set B</b>、そして
+    <b>Compare</b>。ドラッグできる境界線で画面が分割されます。解像度が違う場合、
+    Zap Viewer は引き伸ばして合わせず比較を拒否します — それでは見ているものが
+    偽りになるからです。</p>
   </section>
 
   <section>
-    <h2>Referência de tela</h2>
-    <h3>A janela do Viewer</h3>
-    <p>O Zap Slots vive em sua própria janela, como o Picture Viewer do C4D, em
-    vez de ficar enterrado numa aba de Properties. Uma janela por sessão: o
-    próximo render reaproveita a mesma. A visualização grande ocupa a janela e a
-    lista fica na barra lateral (aperte <b>N</b> se estiver escondida).</p>
+    <h2>画面リファレンス</h2>
+    <h3>Viewer ウィンドウ</h3>
+    <p>プロパティタブの奥ではなく、C4D のピクチャービューアのように<b>専用
+    ウィンドウ</b>を使います。セッションにつき 1つで、次のレンダーも同じ
+    ウィンドウを再利用します。大きなプレビューがウィンドウを占め、履歴リストは
+    サイドバーにあります（表示されていなければ <b>N</b>）。</p>
 
-    <h3>Barra de reprodução</h3>
-    <p>Embaixo: ir ao início, voltar um frame, play/pause, avançar um frame, ir
-    ao fim, loop e ajustes de reprodução. O campo de frame mostra onde você está;
-    os campos Start/End limitam a reprodução a um intervalo.</p>
-    <p><b>A reprodução é separada da sua cena.</b> Reproduzir um render aqui não
-    move o playhead da cena, então sua viewport 3D não anima junto. As setas
-    percorrem os frames, Shift+setas pulam para as pontas do intervalo e Space
-    reproduz — mas só dentro da janela do Viewer.</p>
+    <h3>再生バー</h3>
+    <p>下部に、先頭へ・戻る・再生/停止・進む・末尾へ・ループ・再生設定が並びます。
+    フレーム欄は現在位置、Start/End 欄は再生範囲を指定します。</p>
+    <p><b>再生はシーンから独立しています。</b>ここでレンダーを再生しても
+    シーンのプレイヘッドは動かないので、3D ビューポートが一緒に動くことは
+    ありません。矢印キーでスクラブ、Shift+矢印で範囲の先頭・末尾へ、Space で
+    再生 — いずれも Viewer ウィンドウ内でのみ動作します。</p>
 
-    <h3>Abas</h3>
+    <h3>タブ</h3>
     <ul>
-      <li><b>History</b> — a lista, com miniaturas, rótulos e horários.</li>
-      <li><b>Info</b> — resolução, tempo de render e, para uma Sequence, quanto
-      cada frame levou (veja abaixo).</li>
-      <li><b>Layer</b> — quais camadas a imagem tem, e uma nota sobre EXR
-      multilayer (veja "Fora desta versão").</li>
+      <li><b>History</b> — サムネイル・ラベル・時刻付きのリスト。</li>
+      <li><b>Info</b> — 解像度、レンダー時間、Sequence ならフレームごとの
+      所要時間（下記）。</li>
+      <li><b>Layer</b> — 表示中の画像のレイヤー状態と、マルチレイヤー EXR に
+      関する注記（「今回のリリースに含まれないもの」参照）。</li>
     </ul>
 
     <h3>Navigator</h3>
-    <p>Uma miniatura da imagem inteira no canto superior esquerdo, com um
-    retângulo mostrando onde seu zoom atual está dentro dela.</p>
+    <p>左上に画像全体の縮小表示が出て、現在ズームしている範囲が矩形で示されます。</p>
 
     <h3>Refresh / Import / Remove / Clear</h3>
     <ul>
-      <li><b>Refresh</b> — revarre a pasta do histórico atrás de renders ainda
-      não listados.</li>
-      <li><b>Import</b> — adiciona renders de qualquer outra pasta (veja abaixo).</li>
-      <li><b>Remove</b> — tira a entrada selecionada da lista.</li>
-      <li><b>Clear</b> — esvazia a lista.</li>
+      <li><b>Refresh</b> — 履歴フォルダを再スキャンして未登録のレンダーを探します。</li>
+      <li><b>Import</b> — 他のフォルダのレンダーを取り込みます（下記）。</li>
+      <li><b>Remove</b> — 選択した項目をリストから外します。</li>
+      <li><b>Clear</b> — リストを空にします。</li>
     </ul>
-    <p><b>Remove e Clear não apagam seus arquivos.</b> Eles só param de
-    rastreá-los. Até a opção "Also delete files" do Remove se recusa a tocar em
-    qualquer coisa fora da sua pasta de histórico — uma pasta importada nunca é
-    apagada.</p>
+    <p><b>Remove と Clear はファイルを削除しません。</b>リストから外れるだけです。
+    Remove の「Also delete files」オプションも<b>履歴フォルダの外には一切
+    触れません</b> — 取り込んだフォルダが削除されることはありません。</p>
   </section>
 
   <section>
-    <h2>Importar renders de uma pasta</h2>
-    <p>Aperte <b>Import</b> e escolha uma pasta para trazer renders que o Zap
-    Slots não fez: um projeto antigo, a saída de uma render farm, uma pasta que
-    um colega mandou.</p>
+    <h2>フォルダからレンダーを取り込む</h2>
+    <p><b>Import</b> を押してフォルダを選ぶと、Zap Viewer が作ったものでない
+    レンダーも履歴に入ります — 昔のプロジェクト、レンダーファームの出力、
+    同僚から届いたフォルダなど。</p>
     <ul>
-      <li><b>Nada é copiado ou movido.</b> As entradas apontam para os arquivos
-      onde eles já estão.</li>
-      <li>Uma sequência numerada — <code>frame_0001.png</code> …
-      <code>frame_0250.png</code> — entra como <b>uma Sequence</b>, não como 250
-      stills separados.</li>
-      <li>Importar a mesma pasta duas vezes não adiciona nada na segunda.</li>
+      <li><b>コピーも移動もしません。</b>項目は元の場所のファイルを指します。</li>
+      <li><code>frame_0001.png</code> … <code>frame_0250.png</code> のような
+      連番のまとまりは <b>1つの Sequence</b> として入ります。250個の静止画に
+      分割されることはありません。</li>
+      <li>同じフォルダを 2回取り込んでも重複しません。</li>
     </ul>
   </section>
 
   <section>
-    <h2>Tempo de render por frame</h2>
-    <p>Selecione uma Sequence e abra a aba <b>Info</b>. O Zap Slots registra
-    quanto cada frame levou enquanto renderizava:</p>
+    <h2>フレームごとのレンダー時間</h2>
+    <p>Sequence を選んで <b>Info</b> タブを開きます。レンダー中に各フレームが
+    何秒かかったかが記録されています:</p>
     <pre><code>Average per frame: 6s (48 frames)
 
 Per-frame render time
@@ -353,52 +345,50 @@ Per-frame render time
   Frame 7         18s
   ...
   slowest 12 of 48 frames</code></pre>
-    <p>Os frames <b>mais lentos</b> vêm primeiro, porque "qual frame me custou
-    caro" é a pergunta que isso responde. Atualiza ao vivo conforme cada frame
-    fica pronto, então dá para acompanhar durante o render.</p>
+    <p><b>最も時間がかかったフレームから</b>表示されます — 「どのフレームが
+    重かったか」がこのリストの答えるべき問いだからです。レンダー中も、
+    フレームが終わるたびにリアルタイムで更新されます。</p>
   </section>
 
   <section>
-    <h2>Onde os arquivos ficam, e permanência</h2>
-    <p>Por padrão a pasta do histórico é <code>zap_slots_history</code> ao lado
-    do seu .blend (ou ao lado da saída de render, se o arquivo não estiver
-    salvo). Você pode definir isso explicitamente no painel. Os nomes são
-    timestamps — <code>20260717_143022.png</code> para um still,
-    <code>20260717_143530/</code> para uma pasta de sequência.</p>
-    <p>Como cada entrada é um arquivo real em disco, fechar o Blender não perde
-    nada. Reabra o .blend e o Zap Slots revarre a pasta e reconstrói a lista,
-    miniaturas incluídas.</p>
-    <p>O Zap Slots não mexe nas suas configurações de render, nos render slots
-    do próprio Blender nem no sequencer, e nunca abre uma janela num render
-    headless — então é seguro numa farm.</p>
+    <h2>保存先と永続性</h2>
+    <p>既定では .blend の隣の <code>zap_slots_history</code> フォルダです
+    （未保存ならレンダー出力先の隣）。パネルで明示的に指定もできます。
+    ファイル名はタイムスタンプで、静止画は <code>20260717_143022.png</code>、
+    シーケンスは <code>20260717_143530/</code> フォルダです。</p>
+    <p>すべての項目が実ファイルなので、Blender を終了しても何も失われません。
+    .blend を開き直すとフォルダを再スキャンし、サムネイル込みでリストを
+    復元します。</p>
+    <p>レンダー設定・Blender 自身のレンダースロット・シーケンスエディタには
+    一切触れず、ヘッドレスレンダーではウィンドウを開きません — ファームでも
+    安全です。</p>
   </section>
 
   <section style="border-bottom:none">
-    <h2>Fora desta versão</h2>
-    <h3>Histórico de EXR multilayer — em breve</h3>
-    <p>Os renders salvam e reproduzem normalmente, mas um <b>still</b> salvo é
-    achatado no resultado combinado, então seus passes não ficam na cópia do
-    histórico. O Blender não escreve arquivo nenhum para um still F12
-    interativo, então o Zap Slots precisa produzir um a partir do Render Result,
-    e todo caminho disponível para isso descarta as camadas. Se você precisa que
-    a cópia do histórico carregue os passes, renderize em EXR de camada única
-    por enquanto. A aba Layer diz o mesmo na interface, em vez de deixar você
-    descobrir depois.</p>
+    <h2>今回のリリースに含まれないもの</h2>
+    <h3>マルチレイヤー EXR の履歴 — 近日対応</h3>
+    <p>レンダーの保存と再生は正常ですが、保存された<b>静止画</b>は合成結果に
+    統合されるため、パスが履歴のコピーに残りません。Blender は対話的な F12
+    静止画に対してファイルを一切書き出さないため、Zap Viewer が Render Result
+    から生成する必要があり、そのために使えるどの経路もレイヤーを破棄します。
+    履歴のコピーにパスが必要な場合は、当面<b>シングルレイヤー EXR</b> で
+    レンダーしてください。Layer タブにも同じ案内を表示しています。</p>
 
-    <h3>Clicar na timeline para navegar</h3>
-    <p>Os botões da barra, o campo de frame e as setas movem o playhead. Clicar
-    direto numa faixa de timeline para pular ainda não está implementado.</p>
+    <h3>タイムラインのクリックによるシーク</h3>
+    <p>再生バーのボタン、フレーム欄、矢印キーで移動します。タイムライン帯を
+    直接クリックしてジャンプする機能はまだ実装されていません。</p>
   </section>
 
 </main>
 
 <footer>
   <div class="fl">
-    <a href="https://farax-creative.github.io/#zap-slots">&larr; Voltar para Zap Slots</a>
+    <a href="https://farax-creative.github.io/#zap-viewer">&larr; Zap Viewer に戻る</a>
     <a href="https://www.instagram.com/faraxcreative/">Instagram</a>
+    <a href="https://farax-creative.github.io/report/?product=Zap%20Viewer">バグを報告</a>
     <a href="mailto:faraxcreative@gmail.com">faraxcreative@gmail.com</a>
   </div>
-  FARAX CREATIVE &middot; Série Zap &middot; Zap Slots
+  FARAX CREATIVE &middot; Zap シリーズ &middot; Zap Viewer
 </footer>
 
 
