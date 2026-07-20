@@ -6,12 +6,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FARAX Creative — one-click tools for 3D</title>
-<meta name="description" content="FARAX Creative — a small studio building one-click tools for 3D, arranged as one living system. Zap is the first series; Zap Output is live now.">
+<meta name="description" content="FARAX Creative — a small studio building one-click tools for 3D, arranged as one living system. Zap is the first series: Zap Output, Zap Doctor and Zap Board are live now.">
 <!-- Open Graph: SNS/Discord share preview on deploy. No og:image — the build is fully
      self-contained (all art is base64 data:URIs, which og:image cannot reference). -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="FARAX Creative — one-click tools for 3D">
-<meta property="og:description" content="A small studio building one-click tools for 3D. Explore the living system — Zap is the first series, and Zap Output is live now.">
+<meta property="og:description" content="A small studio building one-click tools for 3D. Explore the living system — Zap is the first series, with Zap Output, Zap Doctor and Zap Board live now.">
 <meta name="theme-color" content="#0b0d10">
 <style>
   /* ===================================================================
@@ -216,7 +216,7 @@
   .mission .k{font-family:var(--mono); font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-3)}
   .mission .v{font-family:var(--label); font-size:24px; letter-spacing:.06em; color:var(--ink); margin-top:7px}
   .mission .v small{font-family:var(--mono); font-size:9px; letter-spacing:.16em; color:var(--ink-3); display:block; margin-top:4px}
-  /* fast-path: the "Live" stat is a real button that deep-links straight to Zap Output */
+  /* fast-path: the "Live" stat is a real button that deep-links straight to the Zap series */
   .mission button.cell{font:inherit; color:inherit; text-align:center; cursor:pointer; background:transparent;
     border:0; border-right:1px solid var(--line); -webkit-appearance:none; appearance:none; transition:background-color .2s}
   .mission button.cell:hover{background:rgba(244,235,221,.05)}
@@ -391,11 +391,13 @@
   #mapViewport.waking #outputMoon .node{animation-delay:.58s}
   #mapViewport.waking #doctorMoon .node{animation-delay:.66s}
   #mapViewport.waking #boardMoon .node{animation-delay:.74s}
+  #mapViewport.waking #viewerMoon .node{animation-delay:.82s}
   #mapViewport.waking #zapPlanet .meta{animation-delay:.40s}
   #mapViewport.waking #nextPlanet .meta{animation-delay:.48s}
   #mapViewport.waking #outputMoon .meta{animation-delay:.64s}
   #mapViewport.waking #doctorMoon .meta{animation-delay:.72s}
   #mapViewport.waking #boardMoon .meta{animation-delay:.80s}
+  #mapViewport.waking #viewerMoon .meta{animation-delay:.88s}
   @keyframes wake-fade{from{opacity:0} to{opacity:1}}
   @keyframes wake-rise{from{opacity:0; transform:scale(.82)} to{opacity:1; transform:scale(1)}}
 
@@ -1179,12 +1181,17 @@
      global reduced-motion guard. */
   #viewToggle.ready{display:inline-flex}
   #listView.on{display:block}
+  /* 4 rows, not 3: the series grew to Output/Doctor/Board/Viewer and the old 5-area grid
+     had no cell for the last two, so they were simply left out of BENTO_ORDER and vanished
+     from this view. Every area is still a rectangle, which grid-template-areas requires. */
   .lv-grid{display:grid; gap:14px; max-width:1080px; margin:0 auto;
-    grid-template-columns:1.45fr 1fr 1fr; grid-template-rows:repeat(3,minmax(190px,1fr));
-    grid-template-areas:"output zap zap" "output doctor studio" "output next studio"}
+    grid-template-columns:1.45fr 1fr 1fr; grid-template-rows:repeat(4,minmax(190px,1fr));
+    grid-template-areas:"output zap zap" "output doctor board" "output viewer studio" "next next studio"}
   .lv-c-output{grid-area:output; min-height:588px}
   .lv-c-zap{grid-area:zap; min-height:190px}
   .lv-c-doctor{grid-area:doctor; min-height:190px}
+  .lv-c-board{grid-area:board; min-height:190px}
+  .lv-c-viewer{grid-area:viewer; min-height:190px}
   .lv-c-studio{grid-area:studio; min-height:394px}
   .lv-c-next{grid-area:next; min-height:190px}
   .lv-card{position:relative; display:flex; flex-direction:column; text-align:left;
@@ -1252,7 +1259,7 @@
        their multi-row areas so each card's own min-height is the only floor, and with no
        hover the reveal layer is shown open. */
     .lv-grid{grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:minmax(200px,auto);
-      grid-template-areas:"output" "zap" "doctor" "studio" "next"; max-width:520px}
+      grid-template-areas:"output" "zap" "doctor" "board" "viewer" "studio" "next"; max-width:520px}
     .lv-c-output,.lv-c-studio{min-height:300px}
     .lv-card .lv-reveal{position:static; max-height:none; opacity:1; padding:0; margin-top:16px; box-shadow:none; border:none; pointer-events:auto}
     .lv-hint{display:none}
@@ -1309,8 +1316,8 @@
     <div class="mission">
       <div class="cell"><div class="k">Core</div><div class="v">FARAX<small>the studio</small></div></div>
       <div class="cell"><div class="k">Series</div><div class="v">02<small>in orbit</small></div></div>
-      <div class="cell"><div class="k">Products</div><div class="v">02<small>tools</small></div></div>
-      <button type="button" class="cell" id="livePath" aria-label="Jump straight to Zap Output"><div class="k">Live</div><div class="v">01<small>Zap Output</small></div></button>
+      <div class="cell"><div class="k">Products</div><div class="v">04<small>tools</small></div></div>
+      <button type="button" class="cell" id="livePath" aria-label="Jump straight to the Zap series"><div class="k">Live</div><div class="v">03<small>Zap series</small></div></button>
     </div>
   </div>
 </section>
@@ -1401,6 +1408,15 @@
       <span class="tip">Free-form reference board · live</span>
       <div class="disc-tilt"><div class="node"><svg class="glyph board-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1.6"></rect><rect x="6.5" y="7" width="6" height="4.6" rx=".6"></rect><rect x="13.5" y="9" width="5" height="7" rx=".6"></rect></svg><i class="xled" aria-hidden="true"></i></div></div>
       <div class="meta"><span class="name">Zap Board</span><span class="stat">Product · Live</span></div>
+    </div>
+
+    <!-- MOON: Zap Viewer (NOT live yet), orbits the Zap planet.
+         Carries .dim and no .live, and DATA.viewer has led:"" — the two places that
+         together mean "not out yet" (see 60_website/CLAUDE.md). Flip BOTH on release. -->
+    <div class="body moon dim" id="viewerMoon" data-target="viewer" tabindex="0" role="button" aria-label="Zap Viewer — coming soon, part of the Zap series">
+      <span class="tip">Render history · coming soon</span>
+      <div class="disc-tilt"><div class="node"><svg class="glyph viewer-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.6"></rect><path d="M3 8.5 H21"></path><path d="M10.6 11.8 L14.6 14.1 L10.6 16.4 Z"></path></svg><i class="xled" aria-hidden="true"></i></div></div>
+      <div class="meta"><span class="name">Zap Viewer</span><span class="stat">Product · Coming soon</span></div>
     </div>
   </div>
 </div>
@@ -1506,7 +1522,7 @@
 
   /* ------------------------------- DATA -------------------------------- */
   /* Dock/panel order. Contact is folded into the sun (studio). */
-  const ORDER = ["studio","zap","output","doctor","board","next"];
+  const ORDER = ["studio","zap","output","doctor","board","viewer","next"];
   // Real YouTube walkthrough thumbnail (the Free video already linked in the Output
   // panel) — embedded as a data: URI for the §13 hover-preview card, zero network.
   // Real captured GIF of the live Zap Output add-on (token insertion), embedded as a
@@ -1515,22 +1531,25 @@
   const DATA = {
     studio:{ n:"01", status:"Farax Creative — the studio", led:"", title:"FARAX", sub:"THE STUDIO",
       body:"Farax makes small, one-click tools for 3D production — one problem solved cleanly per tool. Every tool works on <em>native Blender data</em>, so a file never breaks just because the add-on is not installed. This is the centre the whole system turns around — <em>reach the studio directly below.</em>",
-      recent:[
+      recent:[   // oldest -> newest; initRecent() opens on the LAST entry, so new items go at the end
         "Zap Output v1.0.1 shipped",
         "Zap Output — now also on Superhive",
-        "Homepage rebuilt as a living system"
+        "Homepage rebuilt as a living system",
+        "Zap Doctor v1.2.1 — on sale",
+        "Zap Board v1.0.2 shipped — free",
+        "Zap Output v1.0.2 shipped"
       ],
       specs:[], links:[
         ["Instagram — @faraxcreative","https://www.instagram.com/faraxcreative/",""],
         ["Email the studio — faraxcreative@gmail.com","mailto:faraxcreative@gmail.com",""]
       ]},
-    zap:{ n:"02", parent:"studio", status:"Series 01 — live", led:"live", title:"ZAP", sub:"THE SERIES · THREE PRODUCTS", glyph:"bolt",
-      body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Three products circle it: <em>Zap Output</em>, <em>Zap Doctor</em> and <em>Zap Board</em> are all live now. Follow them to open each one.",
-      preview:{ caption:"THE SERIES · THREE PRODUCTS", note:"Series 01 — live" },   // §13 text-only teaser (a series, not one screenshot)
-      specs:[], links:[], kids:["output","doctor","board"] },
-    output:{ n:"03", parent:"zap", status:"Live — available now", led:"live", title:"ZAP OUTPUT", sub:"RENDER PATH TOKENS", zap:true, glyph:"output", demo:true, evidence:true, version:"v1.0.1",
+    zap:{ n:"02", parent:"studio", status:"Series 01 — live", led:"live", title:"ZAP", sub:"THE SERIES · FOUR PRODUCTS", glyph:"bolt",
+      body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Four products circle it: <em>Zap Output</em>, <em>Zap Doctor</em> and <em>Zap Board</em> are live now, and <em>Zap Viewer</em> is next. Follow them to open each one.",
+      preview:{ caption:"THE SERIES · FOUR PRODUCTS", note:"Series 01 — live" },   // §13 text-only teaser (a series, not one screenshot)
+      specs:[], links:[], kids:["output","doctor","board","viewer"] },
+    output:{ n:"03", parent:"zap", status:"Live — available now", led:"live", title:"ZAP OUTPUT", sub:"RENDER PATH TOKENS", zap:true, glyph:"output", demo:true, evidence:true, version:"v1.0.2",
       compat:"Path tokens for Blender", tierHead:"Free — included / Pro $5 — adds",
-      body:"The live product in the Zap series. Insert render-path tokens with one click and watch the resolved path update live — before you ever hit render. The tool that ends the <em>overwritten-sequence</em> disaster.",
+      body:"The first product in the Zap series. Insert render-path tokens with one click and watch the resolved path update live — before you ever hit render. The tool that ends the <em>overwritten-sequence</em> disaster.",
       preview:{ img:OUTPUT_GIF, caption:"RENDER PATH TOKENS" },   // §13 image teaser: the real Free walkthrough thumbnail + its existing sub line
       specs:[
         ["Free","Path tokens","Scene / camera / FPS, inserted in one click."],
@@ -1558,7 +1577,7 @@
         ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-doctor","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-doctor.html",""]
       ] },
-    board:{ n:"06", parent:"zap", status:"Live — available now", led:"live", title:"ZAP BOARD", sub:"REFERENCE BOARD", glyph:"board", version:"v1.0.2", compat:"Free-form reference board for Blender",
+    board:{ n:"05", parent:"zap", status:"Live — available now", led:"live", title:"ZAP BOARD", sub:"REFERENCE BOARD", glyph:"board", version:"v1.0.2", compat:"Free-form reference board for Blender",
       body:"A free-form 2D reference board built right into Blender's own editor system. Drop in images, arrange them however you like, and keep visual references beside the viewport without leaving the file. The board saves inside the .blend, so opening the file tomorrow puts everything back where you left it.",
       preview:{ caption:"REFERENCE BOARD", note:"Live" },
       specs:[
@@ -1570,7 +1589,21 @@
         ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-board","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-board.html",""]
       ] },
-    next:{ n:"05", parent:"studio", status:"Planned", led:"", title:"NEXT SERIES", sub:"PLANNED — NOT YET NAMED",
+    // Not out yet: led:"" (grey) pairs with the .dim class on #viewerMoon. On release flip
+    // BOTH, add the store link, and change status/preview.note to "Live — available now".
+    // Every claim below is taken from docs/zap-viewer.html, not written fresh.
+    viewer:{ n:"06", parent:"zap", status:"Coming soon", led:"", title:"ZAP VIEWER", sub:"RENDER HISTORY", glyph:"viewer", version:"v2.8.0", compat:"Render history for Blender 5.0+",
+      body:"A Picture-Viewer-style render history for Blender. Every render — an F12 still or a whole animation — is written to disk on its own and added to a history you can label, replay and compare. A good test render is never silently overwritten.",
+      preview:{ caption:"RENDER HISTORY", note:"Coming soon" },
+      specs:[
+        ["History","Every render, kept","Stills and animations are saved to disk and listed automatically. Nothing to press, and closing Blender loses none of it."],
+        ["Compare","A/B behind a wipe","Set A, set B, drag the split. It refuses to compare two different resolutions rather than stretching one to fit."],
+        ["Timing","Per-frame render times","The slowest frames are listed first, updating live as each one lands."],
+        ["Safe","Its own window and playhead","It never touches your render settings or Blender's render slots, and opens no window in a headless render."]
+      ], links:[
+        ["User Manual","https://farax-creative.github.io/docs/zap-viewer.html",""]
+      ] },
+    next:{ n:"07", parent:"studio", status:"Planned", led:"", title:"NEXT SERIES", sub:"PLANNED — NOT YET NAMED",
       body:"A second series, still forming. Not yet named, with no products of its own yet — early exploration into tools beyond render-pipeline work. No promises, no dates.",
       specs:[], links:[] }
   };
@@ -1578,7 +1611,9 @@
   /* URL deep-link slugs: openPanel writes /#zap-output into the address bar, and a
      first load carrying that hash jumps straight to the map with the panel open
      (skipping the lock screen). Shareable per-product links for SNS / email. */
-  const SLUGS = { studio:"farax", zap:"zap", output:"zap-output", doctor:"zap-doctor", board:"zap-board", next:"next-series" };
+  // viewer:"zap-viewer" also repairs the 5 Zap Viewer manuals, whose "Back to Zap Viewer"
+  // links point at /#zap-viewer and silently landed on the lock screen until this existed.
+  const SLUGS = { studio:"farax", zap:"zap", output:"zap-output", doctor:"zap-doctor", board:"zap-board", viewer:"zap-viewer", next:"next-series" };
   const SLUG_TO_NAME = {}; for(const k in SLUGS) SLUG_TO_NAME[SLUGS[k]] = k;
   const hashName = ()=> SLUG_TO_NAME[(location.hash||"").replace(/^#/,"").toLowerCase()];
 
@@ -1595,9 +1630,12 @@
     next:   { kind:"planet", parent:"sun", R:600, ang:5.20, spd:0.032, id:"nextPlanet" },
     output: { kind:"moon",   parent:"zap", R:96,  ang:0.40, spd:0.300, id:"outputMoon" },
     doctor: { kind:"moon",   parent:"zap", R:150, ang:3.30, spd:0.210, id:"doctorMoon" },
-    board:  { kind:"moon",   parent:"zap", R:150, ang:1.65, spd:0.150, id:"boardMoon" }
+    board:  { kind:"moon",   parent:"zap", R:150, ang:1.65, spd:0.150, id:"boardMoon" },
+    // Same R:150 ring as doctor/board rather than a wider one: the next planet orbits at
+    // R:600 from the sun and zap at R:360, so a moon ring past ~R:190 starts grazing it.
+    viewer: { kind:"moon",   parent:"zap", R:150, ang:5.10, spd:0.185, id:"viewerMoon" }
   };
-  const BODY_ORDER = ["zap","next","output","doctor","board"]; // planets first, then moons
+  const BODY_ORDER = ["zap","next","output","doctor","board","viewer"]; // planets first, then moons
 
   /* ------------------------------ ELEMENTS ------------------------------ */
   const lock = document.getElementById("lock");
@@ -2056,7 +2094,8 @@
     bolt:  '<svg class="bolt" viewBox="0 0 120 120" aria-hidden="true"><path d="M34 8 L34 65 L50 65 L50 112 L86 50 L65 50 L86 8 Z"></path></svg>',
     output:'<svg class="glyph out-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12 H12.5"></path><path d="M8.5 8 L12.5 12 L8.5 16"></path><path d="M16 5.5 H21 V18.5 H16"></path></svg>',
     doctor:'<svg class="glyph doc-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L20 5.5 L20 12 L12 21.5 L4 12 L4 5.5 Z"></path><path d="M8.5 11.5 L11 14 L15.5 8.5"></path></svg>',
-    board: '<svg class="glyph board-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1.6"></rect><rect x="6.5" y="7" width="6" height="4.6" rx=".6"></rect><rect x="13.5" y="9" width="5" height="7" rx=".6"></rect></svg>'
+    board: '<svg class="glyph board-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1.6"></rect><rect x="6.5" y="7" width="6" height="4.6" rx=".6"></rect><rect x="13.5" y="9" width="5" height="7" rx=".6"></rect></svg>',
+    viewer:'<svg class="glyph viewer-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.6"></rect><path d="M3 8.5 H21"></path><path d="M10.6 11.8 L14.6 14.1 L10.6 16.4 Z"></path></svg>'
   };
 
   /* §2/§11 — small monochrome platform marks (currentColor). Simple abstracted
@@ -2113,7 +2152,7 @@
     const wasOpen  = panel.classList.contains("open");
     const prevNode = currentPanelNode;
     blip("swell");                 // v8-sound: soft rise as a node/panel opens (no-op unless enabled)
-    pnum.textContent="NODE "+d.n+" / 06";
+    pnum.textContent="NODE "+d.n+" / "+String(ORDER.length).padStart(2,"0");   // was hardcoded "/ 06" and went stale the moment a node was added
     let h="";
     if(d.glyph && ICONS[d.glyph]) h+=`<div class="p-glyph">${ICONS[d.glyph]}</div>`;
     if(d.parent){                                  // quiet wayfinding: root › … › you-are-here
@@ -3014,16 +3053,19 @@
   // varied-size cards, available on desktop as well as mobile. BENTO_ORDER drives the
   // named grid areas (output flagship first). Cards reuse title/status/sub/body straight
   // from DATA and call the exact same openPanel(name) as the map nodes -- no new copy.
-  const BENTO_ORDER = ["output","zap","doctor","studio","next"];
+  const BENTO_ORDER = ["output","zap","doctor","board","viewer","studio","next"];
   function buildListView(){
     if(!listView) return;
-    const KIND = { output:"FLAGSHIP", zap:"SERIES", doctor:"PRODUCT", studio:"STUDIO", next:"PLANNED" };
+    // KIND is what the node IS, not its status — the pill beside it already carries status.
+    // viewer:"COMING SOON" duplicated that pill and wrapped the head onto two lines.
+    const KIND = { output:"FLAGSHIP", zap:"SERIES", doctor:"PRODUCT", board:"PRODUCT", viewer:"PRODUCT", studio:"STUDIO", next:"PLANNED" };
     listView.innerHTML = `<p class="lv-head">Farax System &mdash; index</p><div class="lv-grid">` +
       BENTO_ORDER.map(name=>{
         const d = DATA[name];
         const live = d.led==="live";
-        // LED colour follows the site discipline: the live PRODUCT (output) is the only
-        // yellow marker; the live series (zap) reads cream; in-dev / planned read grey.
+        // LED colour follows the site discipline: yellow is FLAGSHIP, not "live" — it stays
+        // exclusive to Zap Output (same rule as the --zap accent, §ZAP THEME). Doctor, Board
+        // and the live series read cream; not-yet-released and planned read grey.
         const ledCls = name==="output" ? "lv-led live" : (live ? "lv-led on" : (name==="studio" ? "" : "lv-led dev"));
         const led = ledCls ? `<span class="${ledCls}"></span>` : "";
         const statusCls = live ? " live" : "";
@@ -3235,8 +3277,11 @@
       if(e.key === "Enter" || e.key === " "){ e.preventDefault(); enterSystem(); }
     });
   }
-  // fast path: same end state as a #zap-output deep-link (skip lock + onboarding, open Output)
-  document.getElementById("livePath").addEventListener("click", ()=>{ enterSystem({deep:true}); openPanel("output"); });
+  // fast path: same end state as a #zap deep-link (skip lock + onboarding, open the series).
+  // Points at the series, not one product: the cell counts live products (03) and the series
+  // panel is the only node that holds all three, so the number and the destination agree.
+  // It also stops going stale — a fourth live product changes the count, not the target.
+  document.getElementById("livePath").addEventListener("click", ()=>{ enterSystem({deep:true}); openPanel("zap"); });
 
   addEventListener("resize", ()=>{ setPos(tx,ty); });
 
