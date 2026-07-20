@@ -53,6 +53,20 @@ BACK = {
     "es": "Volver a Zap Board",
 }
 
+# The footer link's visible text. The footer is lifted once from the ENGLISH
+# doctor manual, so every localised string in it has to be substituted back per
+# language; this one never was, and the board manuals said "Report a Bug" in all
+# five while doctor, output and viewer carry translations.
+#
+# NOT to be confused with the "Report a Bug" in the body of each chapter: that
+# is the actual button label inside the add-on, whose UI is English, so
+# translating it would send the reader looking for a control that does not exist.
+REPORT = {
+    "en": "Report a Bug", "ko": "버그 제보",
+    "ja": "バグを報告", "pt": "Relatar um erro",
+    "es": "Reportar un error",
+}
+
 KICKER = {
     "en": "ZAP SERIES / USER MANUAL", "ko": "ZAP 시리즈 / 사용자 매뉴얼",
     "ja": "ZAP シリーズ / ユーザーマニュアル",
@@ -1033,6 +1047,9 @@ def build():
         # a mismatched product lands in the form as a blank field, not an error.
         f = f.replace("report/?product=Zap%20Doctor",
                       "report/?product=Zap%20Board")
+        # ...and the link's visible text, which the English footer carries.
+        f = re.sub(r'(report/\?product=Zap%20Board">)[^<]*',
+                   lambda m: m.group(1) + REPORT[code], f)
         f = re.sub(r"FARAX CREATIVE &middot; Zap series &middot; [^\n<]*",
                    FOOTNOTE[code], f)
 
