@@ -933,6 +933,11 @@ def build():
         f = foot
         f = f.replace("#zap-doctor", "#zap-slots")
         f = f.replace("Back to Zap Doctor", BACK[code])
+        # The report page fills its form from this parameter. The template is
+        # the doctor manual, so the name arrives wrong and nothing complains --
+        # a mismatched product lands in the form as a blank field, not an error.
+        f = f.replace("report/?product=Zap%20Doctor",
+                      "report/?product=Zap%20Viewer")
         f = re.sub(r"FARAX CREATIVE &middot; Zap series &middot; [^\n<]*",
                    FOOTNOTE[code], f)
 
