@@ -1389,11 +1389,11 @@
       <div class="meta"><span class="name">Zap Output</span><span class="stat">Product · Live</span></div>
     </div>
 
-    <!-- MOON: Zap Doctor (in dev), orbits the Zap planet -->
-    <div class="body moon dim" id="doctorMoon" data-target="doctor" tabindex="0" role="button" aria-label="Zap Doctor — in development, part of the Zap series">
-      <span class="tip">Render preflight · in development</span>
+    <!-- MOON: Zap Doctor (live), orbits the Zap planet -->
+    <div class="body moon" id="doctorMoon" data-target="doctor" tabindex="0" role="button" aria-label="Zap Doctor — live, part of the Zap series">
+      <span class="tip">Render preflight · live</span>
       <div class="disc-tilt"><div class="node"><svg class="glyph doc-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L20 5.5 L20 12 L12 21.5 L4 12 L4 5.5 Z"></path><path d="M8.5 11.5 L11 14 L15.5 8.5"></path></svg><i class="xled" aria-hidden="true"></i></div></div>
-      <div class="meta"><span class="name">Zap Doctor</span><span class="stat">Product · In dev</span></div>
+      <div class="meta"><span class="name">Zap Doctor</span><span class="stat">Product · Live</span></div>
     </div>
 
     <!-- MOON: Zap Board (coming soon), orbits the Zap planet -->
@@ -1525,10 +1525,11 @@
         ["Email the studio — faraxcreative@gmail.com","mailto:faraxcreative@gmail.com",""]
       ]},
     zap:{ n:"02", parent:"studio", status:"Series 01 — live", led:"live", title:"ZAP", sub:"THE SERIES · THREE PRODUCTS", glyph:"bolt",
-      body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Three products circle it: <em>Zap Output</em> is live now, <em>Zap Doctor</em> is still in development, and <em>Zap Board</em> is coming soon. Follow them to open each one.",
+      body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Three products circle it: <em>Zap Output</em> and <em>Zap Doctor</em> are live now, and <em>Zap Board</em> is coming soon. Follow them to open each one.",
       preview:{ caption:"THE SERIES · THREE PRODUCTS", note:"Series 01 — live" },   // §13 text-only teaser (a series, not one screenshot)
       specs:[], links:[], kids:["output","doctor","board"] },
     output:{ n:"03", parent:"zap", status:"Live — available now", led:"live", title:"ZAP OUTPUT", sub:"RENDER PATH TOKENS", zap:true, glyph:"output", demo:true, evidence:true, version:"v1.0.1",
+      compat:"Path tokens for Blender", tierHead:"Free — included / Pro $5 — adds",
       body:"The live product in the Zap series. Insert render-path tokens with one click and watch the resolved path update live — before you ever hit render. The tool that ends the <em>overwritten-sequence</em> disaster.",
       preview:{ img:OUTPUT_GIF, caption:"RENDER PATH TOKENS" },   // §13 image teaser: the real Free walkthrough thumbnail + its existing sub line
       specs:[
@@ -1545,10 +1546,16 @@
         ["Watch — Pro walkthrough","https://youtu.be/VrTOiF-GIHM",""],
         ["User Manual","https://farax-creative.github.io/docs/zap-output.html",""]
       ]},
-    doctor:{ n:"04", parent:"zap", status:"In development", led:"", title:"ZAP DOCTOR", sub:"RENDER PREFLIGHT", glyph:"doctor",
-      body:"The second product in Zap — a render preflight checker that scans a scene before render and fixes what it can in one click. <em>Not yet released</em>, so it stays grey in orbit for now.",
-      preview:{ caption:"RENDER PREFLIGHT", note:"In development" },   // §13 text-only teaser — honest status, no fabricated screenshot
-      specs:[], links:[
+    doctor:{ n:"04", parent:"zap", status:"Live — available now", led:"live", title:"ZAP DOCTOR", sub:"RENDER PREFLIGHT", glyph:"doctor", version:"v1.2.1", compat:"Render preflight for Blender",
+      body:"The second product in Zap — a render preflight checker that scans a scene before you render and fixes most of what it finds from the same panel. The ones that need a judgement call it leaves to you, with the real toggles. It only runs when you press the button: no auto-scan, no network.",
+      preview:{ caption:"RENDER PREFLIGHT", note:"Live — available now" },   // §13 text-only teaser — no product screenshot on the map yet
+      specs:[
+        ["Scan","One click, before F12","Every check runs in about a tenth of a second, even on a 5,700-object scene."],
+        ["Fix","Most of it from the panel","Reset to 100%, Clear Render Region, Switch to AgX, Use GPU, and more."],
+        ["Judgement","It won't guess for you","A modifier off in the viewport and on for render is usually deliberate — that row hands you the real toggles."],
+        ["Safe","Nothing runs on its own","No auto-scan on file load, no network access, every fix logged with a revert."]
+      ], links:[
+        ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-doctor","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-doctor.html",""]
       ] },
     board:{ n:"06", parent:"zap", status:"Coming soon", led:"", title:"ZAP BOARD", sub:"REFERENCE BOARD", glyph:"board",
@@ -2117,7 +2124,7 @@
     if(d.version){                     // §BL Blender-add-on trust row: unmodified logo badge + "for Blender" + shipped version chip
       h+=`<div class="p-compat">`+
         `<img class="compat-badge" src="${BLENDER_BADGE}" alt="Blender — the official logo, shown as an add-on compatibility badge" width="32">`+
-        `<span class="compat-txt">Path tokens for Blender</span>`+
+        `<span class="compat-txt">${d.compat||"for Blender"}</span>`+
         `<span class="ver-chip">[${d.version}]</span>`+
       `</div>`;
     }
@@ -2191,7 +2198,7 @@
         `</div>`;
     }
     if(d.specs.length){
-      h+=`<p class="tier-head">Free — included / Pro $5 — adds</p><div class="specs">`+
+      h+=(d.tierHead?`<p class="tier-head">${d.tierHead}</p>`:"")+`<div class="specs">`+
         d.specs.map(s=>`<div class="spec" tabindex="0"><p class="st ${s[0]==="Pro"?"pro":""}">${s[0]}</p><h4>${s[1]}</h4><div class="spec-more"><p>${s[2]}</p></div></div>`).join("")+
         `</div>`;
     }
