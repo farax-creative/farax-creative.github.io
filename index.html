@@ -1396,11 +1396,11 @@
       <div class="meta"><span class="name">Zap Doctor</span><span class="stat">Product · Live</span></div>
     </div>
 
-    <!-- MOON: Zap Board (coming soon), orbits the Zap planet -->
-    <div class="body moon dim" id="boardMoon" data-target="board" tabindex="0" role="button" aria-label="Zap Board — coming soon, part of the Zap series">
-      <span class="tip">Free-form reference board · coming soon</span>
+    <!-- MOON: Zap Board (live), orbits the Zap planet -->
+    <div class="body moon" id="boardMoon" data-target="board" tabindex="0" role="button" aria-label="Zap Board — live, part of the Zap series">
+      <span class="tip">Free-form reference board · live</span>
       <div class="disc-tilt"><div class="node"><svg class="glyph board-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1.6"></rect><rect x="6.5" y="7" width="6" height="4.6" rx=".6"></rect><rect x="13.5" y="9" width="5" height="7" rx=".6"></rect></svg><i class="xled" aria-hidden="true"></i></div></div>
-      <div class="meta"><span class="name">Zap Board</span><span class="stat">Product · Coming soon</span></div>
+      <div class="meta"><span class="name">Zap Board</span><span class="stat">Product · Live</span></div>
     </div>
   </div>
 </div>
@@ -1525,7 +1525,7 @@
         ["Email the studio — faraxcreative@gmail.com","mailto:faraxcreative@gmail.com",""]
       ]},
     zap:{ n:"02", parent:"studio", status:"Series 01 — live", led:"live", title:"ZAP", sub:"THE SERIES · THREE PRODUCTS", glyph:"bolt",
-      body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Three products circle it: <em>Zap Output</em> and <em>Zap Doctor</em> are live now, and <em>Zap Board</em> is coming soon. Follow them to open each one.",
+      body:"Zap is the first series orbiting Farax — small, one-click fixes for the render pipeline. Three products circle it: <em>Zap Output</em>, <em>Zap Doctor</em> and <em>Zap Board</em> are all live now. Follow them to open each one.",
       preview:{ caption:"THE SERIES · THREE PRODUCTS", note:"Series 01 — live" },   // §13 text-only teaser (a series, not one screenshot)
       specs:[], links:[], kids:["output","doctor","board"] },
     output:{ n:"03", parent:"zap", status:"Live — available now", led:"live", title:"ZAP OUTPUT", sub:"RENDER PATH TOKENS", zap:true, glyph:"output", demo:true, evidence:true, version:"v1.0.1",
@@ -1558,10 +1558,18 @@
         ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-doctor","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-doctor.html",""]
       ] },
-    board:{ n:"06", parent:"zap", status:"Coming soon", led:"", title:"ZAP BOARD", sub:"REFERENCE BOARD", glyph:"board",
-      body:"A third product taking shape in the Zap series — a free-form 2D reference board built right into Blender's own editor system. Drop in images, arrange them however you like, and keep visual references beside the viewport without leaving the file. <em>Not yet released</em>, so it stays grey in orbit for now.",
-      preview:{ caption:"REFERENCE BOARD", note:"Coming soon" },   // §13 text-only teaser — honest status, no fabricated screenshot
-      specs:[], links:[] },
+    board:{ n:"06", parent:"zap", status:"Live — available now", led:"live", title:"ZAP BOARD", sub:"REFERENCE BOARD", glyph:"board", version:"v1.0.2", compat:"Free-form reference board for Blender",
+      body:"A free-form 2D reference board built right into Blender's own editor system. Drop in images, arrange them however you like, and keep visual references beside the viewport without leaving the file. The board saves inside the .blend, so opening the file tomorrow puts everything back where you left it.",
+      preview:{ caption:"REFERENCE BOARD", note:"Live" },
+      specs:[
+        ["Board","Inside the Image Editor","Any Image Editor becomes a free-form canvas. Board mode is per editor, so another one stays an ordinary image viewer."],
+        ["Arrange","Best Fit, or by hand","Move, resize and box-select freely. Ctrl+P packs the whole board with no overlap."],
+        ["Mark up","Notes and freehand","Text cards for shot numbers and feedback, and drawing straight over the references."],
+        ["Safe","Nothing touches your scene","Nothing is added to the outliner, nothing appears in your render, and removing the add-on leaves the file working."]
+      ], links:[
+        ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-board","primary"],
+        ["User Manual","https://farax-creative.github.io/docs/zap-board.html",""]
+      ] },
     next:{ n:"05", parent:"studio", status:"Planned", led:"", title:"NEXT SERIES", sub:"PLANNED — NOT YET NAMED",
       body:"A second series, still forming. Not yet named, with no products of its own yet — early exploration into tools beyond render-pipeline work. No promises, no dates.",
       specs:[], links:[] }
