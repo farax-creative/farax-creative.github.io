@@ -83,9 +83,93 @@ FOOTNOTE = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Demo animations.
+#
+# Rendered by zap_board/tools/render_demo.py --gallery (2000x1000 animated
+# WebP) and copied into assets/img/zap-board/. WebP rather than GIF: the same
+# clips as GIF run 1.2-3.1 MB, these run 200-690 KB and the template already
+# styles figure.demo.
+#
+# Keyed by SECTION INDEX, not by heading text, because the chapter headings are
+# translated but the nine <section> blocks sit in the same order in every
+# language. Adding or reordering a chapter shifts these numbers.
+# ---------------------------------------------------------------------------
+
+DEMOS = {
+    1: "move.webp",           # 1. What it is
+    3: "import-folder.webp",  # 3. Getting images in
+    4: "arrange.webp",        # 4. Arranging
+    5: "draw.webp",           # 5. Notes and drawing
+    6: "opacity.webp",        # 6. Working with cards
+}
+
+CAPTIONS = {
+    "en": {
+        1: "<b>Moving cards.</b> Drag one, or box-select a group and move them together.",
+        3: "<b>Load Folder.</b> Every image in a folder lands on the board at once.",
+        4: "<b>Ctrl+P.</b> Best Fit packs the whole board with no overlap.",
+        5: "<b>Draw mode.</b> Press D and mark straight over the references.",
+        6: "<b>Opacity.</b> Fade a card to compare it against the one underneath.",
+    },
+    "ko": {
+        1: "<b>카드 옮기기.</b> 하나를 끌거나, 박스 선택으로 여러 장을 한 번에 옮깁니다.",
+        3: "<b>폴더 불러오기.</b> 폴더 안의 이미지가 한 번에 보드에 올라갑니다.",
+        4: "<b>Ctrl+P.</b> Best Fit이 겹침 없이 보드 전체를 정리합니다.",
+        5: "<b>드로잉 모드.</b> D를 누르고 레퍼런스 위에 바로 표시합니다.",
+        6: "<b>불투명도.</b> 카드를 흐리게 해서 아래 이미지와 비교합니다.",
+    },
+    "ja": {
+        1: "<b>カードを動かす。</b> 1枚をドラッグ、または範囲選択でまとめて移動します。",
+        3: "<b>フォルダ読み込み。</b> フォルダ内の画像が一度にボードへ載ります。",
+        4: "<b>Ctrl+P。</b> Best Fit が重なりなしでボード全体を整えます。",
+        5: "<b>ドローモード。</b> D を押してリファレンスの上に直接書き込みます。",
+        6: "<b>不透明度。</b> カードを薄くして下の画像と比べます。",
+    },
+    "pt": {
+        1: "<b>Mover cards.</b> Arraste um, ou selecione vários com a caixa e mova juntos.",
+        3: "<b>Load Folder.</b> Todas as imagens de uma pasta entram no quadro de uma vez.",
+        4: "<b>Ctrl+P.</b> O Best Fit organiza o quadro inteiro sem sobreposição.",
+        5: "<b>Modo de desenho.</b> Aperte D e marque direto sobre as referências.",
+        6: "<b>Opacidade.</b> Reduza a opacidade de um card para comparar com o de baixo.",
+    },
+    "es": {
+        1: "<b>Mover tarjetas.</b> Arrastra una, o selecciona varias con el recuadro y muévelas juntas.",
+        3: "<b>Load Folder.</b> Todas las imágenes de una carpeta entran al tablero de una vez.",
+        4: "<b>Ctrl+P.</b> Best Fit acomoda todo el tablero sin superposición.",
+        5: "<b>Modo de dibujo.</b> Pulsa D y marca directamente sobre las referencias.",
+        6: "<b>Opacidad.</b> Baja la opacidad de una tarjeta para compararla con la de abajo.",
+    },
+}
+
+FIGURE = """
+    <figure class="demo">
+      <img src="../assets/img/zap-board/%s" alt="%s" loading="lazy">
+      <figcaption>%s</figcaption>
+    </figure>
+"""
+
+
 def content(lang):
-    """The <main> inner HTML for one language."""
-    return CONTENT[lang]
+    """The <main> inner HTML for one language, with the demo figures injected.
+
+    The figure goes at the end of its chapter, after the prose that explains
+    it -- a reader who already understood the text can skip it, and one who
+    did not gets the same thing shown.
+    """
+    caps = CAPTIONS.get(lang, {})
+    seen = [-1]
+
+    def inject(match):
+        seen[0] += 1
+        inner = match.group(1)
+        caption = caps.get(seen[0])
+        if caption:
+            alt = re.sub(r"<[^>]+>", "", caption)
+            inner += FIGURE % (DEMOS[seen[0]], alt, caption)
+        return "<section>" + inner + "</section>"
+
+    return re.sub(r"<section>(.*?)</section>", inject, CONTENT[lang], flags=re.S)
 
 
 # ---------------------------------------------------------------------------
@@ -138,7 +222,7 @@ CONTENT["en"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions / Add-ons &rsaquo;
       the drop-down in the corner &rsaquo; <b>Install from Disk…</b></li>
-      <li>Pick <code>zap_board-1.0.0.zip</code>.</li>
+      <li>Pick <code>zap_board-1.0.2.zip</code>.</li>
       <li>Enable <b>Zap Board</b> in the list.</li>
       <li>Open an Image Editor and click the <b>Zap Board</b> toggle in its
       header. There is also a board button in the 3D Viewport header that
@@ -316,7 +400,7 @@ CONTENT["ko"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions / Add-ons &rsaquo;
       모서리 드롭다운 &rsaquo; <b>Install from Disk…</b></li>
-      <li><code>zap_board-1.0.0.zip</code>을 고릅니다.</li>
+      <li><code>zap_board-1.0.2.zip</code>을 고릅니다.</li>
       <li>목록에서 <b>Zap Board</b>를 켭니다.</li>
       <li>이미지 에디터를 열고 헤더의 <b>Zap Board</b> 토글을 누릅니다. 3D
       뷰포트 헤더에도 현재 영역을 한 번에 보드로 바꾸는 버튼이 있습니다.</li>
@@ -485,7 +569,7 @@ CONTENT["ja"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions / Add-ons &rsaquo;
       右上のドロップダウン &rsaquo; <b>Install from Disk…</b></li>
-      <li><code>zap_board-1.0.0.zip</code> を選択します。</li>
+      <li><code>zap_board-1.0.2.zip</code> を選択します。</li>
       <li>リストで <b>Zap Board</b> を有効にします。</li>
       <li>Image Editor を開き、ヘッダーの <b>Zap Board</b> トグルをクリックします。
       3D Viewport のヘッダーにもボタンがあり、現在のエリアをワンクリックで
@@ -663,7 +747,7 @@ CONTENT["pt"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions / Add-ons &rsaquo;
       menu no canto &rsaquo; <b>Install from Disk…</b></li>
-      <li>Escolha <code>zap_board-1.0.0.zip</code>.</li>
+      <li>Escolha <code>zap_board-1.0.2.zip</code>.</li>
       <li>Ative <b>Zap Board</b> na lista.</li>
       <li>Abra um Image Editor e clique no botão <b>Zap Board</b> no cabeçalho
       dele. Há também um botão de quadro no cabeçalho da 3D Viewport que
@@ -848,7 +932,7 @@ CONTENT["es"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions / Add-ons &rsaquo;
       el menú de la esquina &rsaquo; <b>Install from Disk…</b></li>
-      <li>Elige <code>zap_board-1.0.0.zip</code>.</li>
+      <li>Elige <code>zap_board-1.0.2.zip</code>.</li>
       <li>Activa <b>Zap Board</b> en la lista.</li>
       <li>Abre un Image Editor y pulsa el interruptor <b>Zap Board</b> en su
       cabecera. También hay un botón de tablero en la cabecera del 3D Viewport
@@ -1053,7 +1137,7 @@ def build():
         f = re.sub(r"FARAX CREATIVE &middot; Zap series &middot; [^\n<]*",
                    FOOTNOTE[code], f)
 
-        html = h + '<main class="wrap">\n' + CONTENT[code] + "\n</main>\n\n" + f
+        html = h + '<main class="wrap">\n' + content(code) + "\n</main>\n\n" + f
         path = os.path.join(REPO, out_name)
         io.open(path, "w", encoding="utf-8").write(html)
         print("wrote %-24s %8d bytes" % (out_name, len(html)))
