@@ -74,7 +74,7 @@ PRODUCTS = {
       {"q": "Is it really free? Will it become paid later?",
        "a": "Everything you see here is free and stays that way. A Pro tier may follow later for heavier workflows, but it will add to this — never fence off something you already have."},
       {"q": "Where do I report a bug?",
-       "a": "There is a Report a Bug button in the board sidebar and in Preferences → Add-ons → Zap Board. It opens the report form with your versions already filled in."},
+       "a": 'There is a Report a Bug button in the board sidebar and in Preferences → Add-ons → Zap Board. It opens <a href="report/" class="text-accent underline underline-offset-4">the report form</a> with your versions already filled in.'},
     ],
     "stores": [
       {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-board", "primary": True},

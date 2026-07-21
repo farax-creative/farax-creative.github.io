@@ -15,10 +15,12 @@ def _features(p):
         for x in p["features"])
 
 def _faq(p):
+    # The question is escaped; the answer is authored HTML (it may carry an inline link such as
+    # the report form), so it is emitted as-is. Keep FAQ answers free of raw '<'/'&' literals.
     return "".join(
         f'<details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer '
         f'font-medium text-neutral-200">{H.escape(f["q"])}</summary>'
-        f'<p class="mt-3 text-sm">{H.escape(f["a"])}</p></details>'
+        f'<p class="mt-3 text-sm">{f["a"]}</p></details>'
         for f in p["faq"])
 
 def _why(p):
@@ -34,18 +36,34 @@ def _compat(p):
                    f'<div class="text-accent font-semibold">{H.escape(k)}</div>'
                    f'<p class="mt-2 text-neutral-400">{H.escape(v)}</p></div>' for k, v in p["compat"])
 
+def _utm_source(p):
+    # zap-board -> zapboard. The landing is a measured conversion source, so its store links and
+    # its footer link back to the map carry UTM (unlike the in-site DATA links, which stay clean).
+    return p["slug"].replace("-", "")
+
+def _landing_utm(p):
+    src = _utm_source(p)
+    return f"?utm_source={src}&utm_medium=landing&utm_campaign={src}-launch"
+
 def _stores(p):
+    utm = _landing_utm(p)
     out = []
     for s in p["stores"]:
         cls = "bg-accent text-ink font-semibold" if s["primary"] else "border border-line"
-        out.append(f'<a href="{s["url"]}" class="rounded-full px-6 py-3 {cls}">{H.escape(s["name"])}</a>')
+        out.append(f'<a href="{s["url"]}{utm}" class="rounded-full px-6 py-3 {cls}">{H.escape(s["name"])}</a>')
     if p["status"] == "coming_soon":
         out.append('<span class="rounded-full border border-line px-6 py-3 text-neutral-600" '
                    'aria-disabled="true">Coming soon</span>')
     return "".join(out)
 
 def _badge(p):
-    return "Live" if p["status"] == "live" else "Coming soon"
+    # A live product's own landing does not need a "Live" tag (it's implied); only a not-yet
+    # released product shows a status pill.
+    if p["status"] == "live":
+        return ""
+    return ('<div class="inline-flex items-center gap-2 rounded-full border border-line bg-panel '
+            'px-3 py-1 text-xs text-neutral-400 mb-6"><span class="text-neutral-500">○</span> '
+            'Coming soon</div>')
 
 def build_landing(slug, out_path=None):
     # Plan 1 proves the engine against a scratch file and MUST NOT write live zap-*.html.
@@ -66,6 +84,7 @@ def build_landing(slug, out_path=None):
         "hero_sub": p["hero"]["sub"], "hero_image": p["hero"]["image"],
         "manual_url": p["manual_url"],
         "flagship_class": "flagship" if p["flagship"] else "",
+        "utm_source": _utm_source(p),
         "features": _features(p), "why": _why(p),
         "compat_rows": _compat(p), "faq": _faq(p), "store_buttons": _stores(p),
     }
