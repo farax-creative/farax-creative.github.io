@@ -5,13 +5,14 @@ SHELL = pathlib.Path(__file__).resolve().parent / "landing_shell.html"
 
 # Cloudflare Web Analytics beacon token (a public, client-side value — not a secret).
 # Empty string = emit NO tag, so an unconfigured build never ships a broken placeholder.
-# Set this to the real token from dash.cloudflare.com -> Web Analytics, then regenerate.
-CF_ANALYTICS_TOKEN = ""
+# From dash.cloudflare.com -> Web Analytics for farax-creative.github.io.
+CF_ANALYTICS_TOKEN = "f8b03668620647fba75afc03db7c58fd"
 
 def _analytics():
     if not CF_ANALYTICS_TOKEN:
         return ""
-    return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+    # Matches the snippet Cloudflare issues (type="module").
+    return ('<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" '
             f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
 
 def _features(p):
