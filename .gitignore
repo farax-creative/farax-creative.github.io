@@ -1,3 +1,6 @@
 # Python bytecode from the manual build scripts in tools/
 __pycache__/
 *.py[cod]
+
+# Generated preview posters and WebP animations (build artifacts)
+assets/img/previews/
