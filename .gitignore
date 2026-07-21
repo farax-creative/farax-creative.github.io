@@ -7,4 +7,3 @@ assets/img/previews/
 
 # Scratch landing pages from tools/build_landings.py (build artifacts)
 tools/_scratch-*.html
-assets/img/zap-board/demos/

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title data-gumroad-field="name">Zap Board — Reference Board for Blender 4.5+</title>
-<meta name="description" data-gumroad-field="description" content="Zap Board turns any Blender Image Editor into a free-form reference board. Arrange your references, move them, mark them up — and it saves inside your .blend. Free." />
+<title data-gumroad-field="name">Zap Board — A free-form reference board inside Blender</title>
+<meta name="description" data-gumroad-field="description" content="A free-form reference board inside Blender" />
 <!-- Tailwind, generated instead of fetched. This page inherited a script tag pulling the
      Tailwind browser CDN from zap_output/assets/store/landing.html, where it was harmless:
      store descriptions strip scripts, so it never ran and only existed for local preview.
@@ -42,22 +42,39 @@
   .text-accent, .text-accent * { color: #FFC828 !important; }
   .text-ink, .text-ink * { color: #0b0b0d !important; }
 </style>
+<style>
+  .feat-grid{margin-top:3.25rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  @media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
+  .feat-card{background:#151519;border:1px solid #26262b;border-radius:16px;padding:14px 14px 20px;
+    transition:transform .28s cubic-bezier(.22,.61,.36,1),border-color .28s,box-shadow .28s}
+  .feat-card:hover{transform:translateY(-5px);border-color:rgba(255,200,40,.38);
+    box-shadow:0 22px 48px -22px rgba(0,0,0,.8)}
+  .feat-screen{position:relative;border-radius:11px;background:#0b0b0d;padding:9px;
+    box-shadow:0 12px 30px -14px rgba(0,0,0,.85), inset 0 0 0 1px rgba(255,255,255,.05)}
+  .feat-screen img{display:block;width:100%;border-radius:6px;border:1px solid rgba(255,255,255,.07)}
+  .feat-eyebrow{margin-top:16px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#FFC828}
+  .feat-title{margin-top:5px;font-weight:600;font-size:17px;line-height:1.2;color:#f5f5f4}
+  .feat-sub{margin-top:6px;font-size:13.5px;line-height:1.55;color:#a3a3a3;max-width:34ch}
+  @media(prefers-reduced-motion:reduce){.feat-card{transition:none}.feat-card:hover{transform:none}}
+</style>
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f8b03668620647fba75afc03db7c58fd"}'></script>
 </head>
-<body class="text-neutral-100 font-sans antialiased grid-bg">
+<body class="text-neutral-100 font-sans antialiased grid-bg ">
 
   <!-- NAV -->
   <header class="sticky top-0 z-50 backdrop-blur bg-ink/70 border-b border-line">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
       <div class="flex items-center gap-2 font-bold tracking-tight">
-        <span class="text-accent">⚡</span>
+        <span class="text-accent inline-flex"><svg viewBox="0 0 120 120" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M34 8 L34 65 L50 65 L50 112 L86 50 L65 50 L86 8 Z"/></svg></span>
         <span data-gumroad-field="name">Zap Board</span>
       </div>
       <nav class="hidden sm:flex items-center gap-8 text-sm text-neutral-400">
         <a href="#what" class="hover:text-neutral-100 transition">What it does</a>
-        <a href="#demos" class="hover:text-neutral-100 transition">Demos</a>
         <a href="#how" class="hover:text-neutral-100 transition">Compatibility</a>
         <a href="#faq" class="hover:text-neutral-100 transition">FAQ</a>
-        <a href="docs/zap-board.html" class="hover:text-neutral-100 transition">Manual</a>
+        <a href="https://farax-creative.github.io/docs/zap-board.html" class="hover:text-neutral-100 transition">Manual</a>
       </nav>
       <a href="#get" class="rounded-full bg-accent text-ink text-sm font-semibold px-4 py-2 hover:brightness-110 transition">Download free</a>
     </div>
@@ -67,115 +84,40 @@
   <section class="max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-10 grid lg:grid-cols-2 gap-12 items-center">
     <div>
       <div class="inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 text-xs text-neutral-400 mb-6">
-        <span class="text-accent">●</span> Free · Blender 4.5 LTS or newer
+        <span class="text-accent">●</span> Free · Blender 4.5+
       </div>
+      
       <h1 class="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
-        Reference images that live inside your <span class="text-accent">.blend</span>
+        Reference images that live inside your .blend
       </h1>
       <p class="mt-5 text-lg text-neutral-400 leading-relaxed">
-        Turn any Image Editor into a free-form board. Arrange your references,
-        move them, mark them up — and it saves with your file. No second app,
-        nothing added to your 3D scene.
+        Turn any Image Editor into a free-form board. Arrange your references, move them, mark them up — and it saves with your file. No second app, nothing added to your 3D scene.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#get" class="rounded-full bg-accent text-ink font-semibold px-6 py-3 hover:brightness-110 transition">Download free</a>
-        <a href="#demos" class="rounded-full border border-line px-6 py-3 text-neutral-300 hover:text-neutral-100 hover:border-neutral-500 transition">See it in action ↓</a>
       </div>
     </div>
     <div class="rounded-xl overflow-hidden border border-line glow">
-      <img src="assets/img/zap-board/hero.png" alt="A Zap Board filled with reference images and shot cards inside Blender" class="w-full block" loading="eager" />
+      <img src="assets/img/zap-board/hero.png" alt="Zap Board" class="w-full block" loading="eager" />
     </div>
   </section>
 
   <!-- ARRANGE / MOVE / MARK -->
-  <section id="what" class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
-    <h2 class="text-3xl font-bold tracking-tight text-center">Arrange · Move · Mark</h2>
+  <section id="what" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+    <h2 class="text-3xl font-bold tracking-tight text-center">What it does</h2>
     <p class="mt-3 text-center text-neutral-400 max-w-2xl mx-auto">
-      Three things you do to a reference board, all of them by hand, none of
-      them leaving Blender.
+      Nine things it does, each shown in a few seconds.
     </p>
 
-    <div class="mt-12 grid md:grid-cols-3 gap-8">
-      <div>
-        <div class="rounded-lg overflow-hidden border border-line">
-          <img src="assets/img/zap-board/v5_04_arrange.gif" alt="Overlapping reference cards snapping into a tidy grid when Ctrl+P is pressed" class="w-full block" loading="lazy" />
-        </div>
-        <h3 class="mt-4 font-semibold text-lg">One key tidies the board</h3>
-        <p class="mt-2 text-sm text-neutral-400">
-          <code class="text-accent">Ctrl+P</code> packs everything with no
-          overlaps. Select first and it only tidies the selection.
-        </p>
-      </div>
-      <div>
-        <div class="rounded-lg overflow-hidden border border-line">
-          <img src="assets/img/zap-board/v5_02_box_select.gif" alt="Box-selecting several reference cards and moving them together" class="w-full block" loading="lazy" />
-        </div>
-        <h3 class="mt-4 font-semibold text-lg">Move them anywhere</h3>
-        <p class="mt-2 text-sm text-neutral-400">
-          Drag a box to select, then move the whole set at once. No modifier
-          key needed to keep a selection together.
-        </p>
-      </div>
-      <div>
-        <div class="rounded-lg overflow-hidden border border-line">
-          <img src="assets/img/zap-board/v5_03_pen_zap.gif" alt="Drawing on the board with the pen tool" class="w-full block" loading="lazy" />
-        </div>
-        <h3 class="mt-4 font-semibold text-lg">Mark what's done</h3>
-        <p class="mt-2 text-sm text-neutral-400">
-          Pick a colour and draw straight on the board. Ticks, circles,
-          arrows — whatever marks up a reference.
-        </p>
-      </div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/02_Move.webp" alt="Move many at once" loading="lazy" /></div><div class="feat-eyebrow">SELECT</div><h3 class="feat-title">Move many at once</h3><p class="feat-sub">Box-select a group and move them together.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/03_Align.webp" alt="One key tidies it" loading="lazy" /></div><div class="feat-eyebrow">ARRANGE</div><h3 class="feat-title">One key tidies it</h3><p class="feat-sub">Ctrl+P packs the board with no overlaps.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/04_Pen.webp" alt="Draw on the board" loading="lazy" /></div><div class="feat-eyebrow">MARK UP</div><h3 class="feat-title">Draw on the board</h3><p class="feat-sub">Notes anywhere, freehand over the top.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/05_Grid.webp" alt="Snap to a grid" loading="lazy" /></div><div class="feat-eyebrow">GRID</div><h3 class="feat-title">Snap to a grid</h3><p class="feat-sub">Optional grid, adjustable size.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/06_Resize.webp" alt="Match every size" loading="lazy" /></div><div class="feat-eyebrow">SIZE</div><h3 class="feat-title">Match every size</h3><p class="feat-sub">Normalize by height, width, longest side or area.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/07_Solo.webp" alt="Solo one image" loading="lazy" /></div><div class="feat-eyebrow">FOCUS</div><h3 class="feat-title">Solo one image</h3><p class="feat-sub">Hide everything else while you look.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/08_Opacity.webp" alt="Fade to compare" loading="lazy" /></div><div class="feat-eyebrow">COMPARE</div><h3 class="feat-title">Fade to compare</h3><p class="feat-sub">Drop a card&#x27;s opacity over your render.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/09_Blackwhite.webp" alt="Check the values" loading="lazy" /></div><div class="feat-eyebrow">VALUES</div><h3 class="feat-title">Check the values</h3><p class="feat-sub">Black and white, without touching the file.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-board/demos/10_Autoscale.webp" alt="Auto-fit on import" loading="lazy" /></div><div class="feat-eyebrow">FIT</div><h3 class="feat-title">Auto-fit on import</h3><p class="feat-sub">New images land sized to the board.</p></div>
     </div>
   </section>
 
   <!-- WHY IT MATTERS -->
   <section class="border-y border-line bg-panel/40">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16 grid md:grid-cols-3 gap-10">
-      <div>
-        <h3 class="font-semibold text-lg">It stays open</h3>
-        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">
-          The board is a Blender editor, so it sits in your layout like any
-          other. You stop alt-tabbing to look at a photo.
-        </p>
-      </div>
-      <div>
-        <h3 class="font-semibold text-lg">It saves with the file</h3>
-        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">
-          Layout, notes and pen marks live in the <code class="text-accent">.blend</code>.
-          Close Blender, reopen the file, and the board is where you left it.
-        </p>
-      </div>
-      <div>
-        <h3 class="font-semibold text-lg">It leaves your scene alone</h3>
-        <p class="mt-2 text-sm text-neutral-400 leading-relaxed">
-          Nothing in the outliner, nothing in the viewport, nothing in your
-          render. Uninstall it and your file still opens fine.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEMOS -->
-  <section id="demos" class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
-    <h2 class="text-3xl font-bold tracking-tight">See it in action</h2>
-    <p class="mt-3 text-neutral-400">Real board, real project. No sped-up footage.</p>
-    <div class="mt-8 grid md:grid-cols-2 gap-8">
-      <div>
-        <div class="rounded-lg overflow-hidden border border-line">
-          <img src="assets/img/zap-board/v5_01_drag_card.gif" alt="Dragging a single reference card across the board" class="w-full block" loading="lazy" />
-        </div>
-        <p class="mt-3 text-sm text-neutral-400">Cards move freely. Nothing snaps unless you ask it to.</p>
-      </div>
-      <div>
-        <div class="rounded-lg overflow-hidden border border-line">
-          <img src="assets/img/zap-board/cover.png" alt="A full board: reference strips above, numbered shot cards below" class="w-full block" loading="lazy" />
-        </div>
-        <p class="mt-3 text-sm text-neutral-400">
-          Notes are cards too — here they label shots S01 to S13, ticked off as
-          they finish.
-        </p>
-      </div>
+      <div><h3 class="font-semibold text-lg">It stays open</h3><p class="mt-2 text-sm text-neutral-400 leading-relaxed">The board is a Blender editor, so it sits in your layout like any other. You stop alt-tabbing to look at a photo.</p></div><div><h3 class="font-semibold text-lg">It saves with the file</h3><p class="mt-2 text-sm text-neutral-400 leading-relaxed">Layout, notes and pen marks live in the .blend. Close Blender, reopen the file, and the board is where you left it.</p></div><div><h3 class="font-semibold text-lg">It leaves your scene alone</h3><p class="mt-2 text-sm text-neutral-400 leading-relaxed">Nothing in the outliner, nothing in the viewport, nothing in your render. Uninstall it and your file still opens fine.</p></div>
     </div>
   </section>
 
@@ -184,22 +126,7 @@
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
       <h2 class="text-3xl font-bold tracking-tight">Compatibility &amp; support</h2>
       <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-        <div class="rounded-lg border border-line bg-ink p-5">
-          <div class="text-accent font-semibold">Blender 4.5 LTS+</div>
-          <p class="mt-2 text-neutral-400">Tested on 4.5, 5.0, 5.1 and 5.2.</p>
-        </div>
-        <div class="rounded-lg border border-line bg-ink p-5">
-          <div class="text-accent font-semibold">No dependencies</div>
-          <p class="mt-2 text-neutral-400">One zip. Nothing to install alongside it.</p>
-        </div>
-        <div class="rounded-lg border border-line bg-ink p-5">
-          <div class="text-accent font-semibold">No network access</div>
-          <p class="mt-2 text-neutral-400">The add-on never talks to anything.</p>
-        </div>
-        <div class="rounded-lg border border-line bg-ink p-5">
-          <div class="text-accent font-semibold">356 automated tests</div>
-          <p class="mt-2 text-neutral-400">Run against real Blender, every version.</p>
-        </div>
+        <div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">Blender 4.5 LTS+</div><p class="mt-2 text-neutral-400">Tested on 4.5, 5.0, 5.1 and 5.2.</p></div><div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">No dependencies</div><p class="mt-2 text-neutral-400">One zip. Nothing to install alongside it.</p></div><div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">No network access</div><p class="mt-2 text-neutral-400">The add-on never talks to anything.</p></div><div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">356 automated tests</div><p class="mt-2 text-neutral-400">Run against real Blender, every version.</p></div>
       </div>
       <p class="mt-8 text-sm text-neutral-400">
         Windows, macOS and Linux. Two convenience commands — <b>Paste Image</b>
@@ -209,7 +136,7 @@
       </p>
       <p class="mt-4 text-sm text-neutral-400">
         GPL-3.0-or-later. Full instructions in the
-        <a href="docs/zap-board.html" class="text-accent underline underline-offset-4">user manual</a>
+        <a href="https://farax-creative.github.io/docs/zap-board.html" class="text-accent underline underline-offset-4">user manual</a>
         (English, 한국어, 日本語, Português, Español).
       </p>
     </div>
@@ -219,56 +146,7 @@
   <section id="faq" class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
     <h2 class="text-3xl font-bold tracking-tight">FAQ</h2>
     <div class="mt-8 space-y-3">
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">Does it touch my 3D scene?</summary>
-        <p class="mt-3 text-sm">No. The board lives in its own data, not in your scene. Nothing is added to the outliner, nothing appears in your render, and your viewport is untouched.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">If I send someone the .blend, do the images go with it?</summary>
-        <p class="mt-3 text-sm">Only if you pack them first. Blender stores images as paths, so a .blend on its own arrives with empty cards. Press <b>Pack Images for Sharing</b> in the sidebar before sending. That embeds the images and makes the file larger by roughly the size of the images.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">Does the person I send it to need this add-on?</summary>
-        <p class="mt-3 text-sm">No. The file opens normally without it — they simply see an ordinary Image Editor. If they edit and send it back, the board comes through intact.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">What happens if I remove the add-on?</summary>
-        <p class="mt-3 text-sm">Your .blend still opens and works exactly as before. The board data simply stops being displayed. Reinstall and it comes back.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">Will it slow Blender down?</summary>
-        <p class="mt-3 text-sm">No. The board draws only in the editor showing it, and the images are the same ones Blender already handles. A board of twenty large references adds no measurable cost to the viewport or to rendering.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">How many images can I put on a board?</summary>
-        <p class="mt-3 text-sm">There is no fixed limit. Memory is the practical one — the images are loaded the way any Blender image is.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">Can I have more than one board?</summary>
-        <!-- No "in this release" here. That phrasing promises the limit is temporary, and the
-             leading Pro candidate (multiple named boards across projects) is exactly the feature
-             that would lift it - the two answers together would read as "coming soon" then be
-             charged for. Stated as a plain fact, both a free and a paid lift stay honest. -->
-        <p class="mt-3 text-sm">One board per .blend file. Board mode is per editor, so you can show it in one Image Editor while another stays an ordinary image viewer.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">Is it really free? Will it become paid later?</summary>
-        <p class="mt-3 text-sm">Everything you see here is free and stays that way. A Pro tier may follow later for heavier workflows, but it will add to this — never fence off something you already have.</p>
-      </details>
-
-      <details class="rounded-lg border border-line bg-panel p-5">
-        <summary class="cursor-pointer font-medium text-neutral-200">Where do I report a bug?</summary>
-        <p class="mt-3 text-sm">There is a <b>Report a Bug</b> button in the board sidebar and in Preferences → Add-ons → Zap Board. It opens <a href="report/" class="text-accent underline underline-offset-4">the report form</a> with your versions already filled in.</p>
-      </details>
-
+      <details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Does it touch my 3D scene?</summary><p class="mt-3 text-sm">No. The board lives in its own data, not in your scene. Nothing is added to the outliner, nothing appears in your render, and your viewport is untouched.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">If I send someone the .blend, do the images go with it?</summary><p class="mt-3 text-sm">Only if you pack them first. Blender stores images as paths, so a .blend on its own arrives with empty cards. Press Pack Images for Sharing in the sidebar before sending. That embeds the images and makes the file larger by roughly the size of the images.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Does the person I send it to need this add-on?</summary><p class="mt-3 text-sm">No. The file opens normally without it — they simply see an ordinary Image Editor. If they edit and send it back, the board comes through intact.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">What happens if I remove the add-on?</summary><p class="mt-3 text-sm">Your .blend still opens and works exactly as before. The board data simply stops being displayed. Reinstall and it comes back.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Will it slow Blender down?</summary><p class="mt-3 text-sm">No. The board draws only in the editor showing it, and the images are the same ones Blender already handles. A board of twenty large references adds no measurable cost to the viewport or to rendering.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">How many images can I put on a board?</summary><p class="mt-3 text-sm">There is no fixed limit. Memory is the practical one — the images are loaded the way any Blender image is.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Can I have more than one board?</summary><p class="mt-3 text-sm">One board per .blend file. Board mode is per editor, so you can show it in one Image Editor while another stays an ordinary image viewer.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Is it really free? Will it become paid later?</summary><p class="mt-3 text-sm">Everything you see here is free and stays that way. A Pro tier may follow later for heavier workflows, but it will add to this — never fence off something you already have.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Where do I report a bug?</summary><p class="mt-3 text-sm">There is a Report a Bug button in the board sidebar and in Preferences → Add-ons → Zap Board. It opens <a href="report/" class="text-accent underline underline-offset-4">the report form</a> with your versions already filled in.</p></details>
     </div>
   </section>
 
@@ -277,18 +155,9 @@
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20 text-center">
       <img src="assets/img/zap-board/product-icon-512.png" alt="" class="w-16 h-16 mx-auto rounded-xl" />
       <h2 class="mt-6 text-3xl font-bold tracking-tight">Get Zap Board</h2>
-      <p class="mt-3 text-neutral-400">Free. Blender 4.5 LTS or newer.</p>
+      <p class="mt-3 text-neutral-400">Free. Blender 4.5+.</p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <!-- Gumroad is the only store that has the product today, so it takes
-             the accent button. extensions.blender.org and Superhive are still
-             in review and are shown as pending rather than linked - the three
-             href="#" that used to sit here left the whole page with no working
-             way to get the add-on. Wire each one up as it is approved.
-             UTM is mandatory - the only conversion path ever measured in this
-             series was found because a link carried one. -->
-        <a href="https://faraxdesigns.gumroad.com/l/zap-board?utm_source=zapboard&utm_medium=landing&utm_campaign=zapboard-launch" class="rounded-full bg-accent text-ink font-semibold px-6 py-3 hover:brightness-110 transition">Download on Gumroad</a>
-        <span class="rounded-full border border-line px-6 py-3 text-neutral-600 cursor-default select-none" aria-disabled="true">Blender Extensions · in review</span>
-        <span class="rounded-full border border-line px-6 py-3 text-neutral-600 cursor-default select-none" aria-disabled="true">Superhive · in review</span>
+        <a href="https://faraxdesigns.gumroad.com/l/zap-board?utm_source=zapboard&utm_medium=landing&utm_campaign=zapboard-launch" class="rounded-full px-6 py-3 bg-accent text-ink font-semibold">Gumroad</a>
       </div>
     </div>
   </section>
@@ -299,7 +168,7 @@
       <div>FARAX CREATIVE · Zap series · Zap Board</div>
       <nav class="flex gap-6">
         <a href="index.html?utm_source=zapboard&utm_medium=landing&utm_campaign=zapboard-launch" class="hover:text-neutral-300 transition">Farax Creative</a>
-        <a href="docs/zap-board.html" class="hover:text-neutral-300 transition">Manual</a>
+        <a href="https://farax-creative.github.io/docs/zap-board.html" class="hover:text-neutral-300 transition">Manual</a>
         <a href="report/" class="hover:text-neutral-300 transition">Report a bug</a>
       </nav>
     </div>
