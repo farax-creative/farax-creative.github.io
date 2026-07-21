@@ -3,6 +3,17 @@ from products import PRODUCTS, validate
 
 SHELL = pathlib.Path(__file__).resolve().parent / "landing_shell.html"
 
+# Cloudflare Web Analytics beacon token (a public, client-side value — not a secret).
+# Empty string = emit NO tag, so an unconfigured build never ships a broken placeholder.
+# Set this to the real token from dash.cloudflare.com -> Web Analytics, then regenerate.
+CF_ANALYTICS_TOKEN = ""
+
+def _analytics():
+    if not CF_ANALYTICS_TOKEN:
+        return ""
+    return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+            f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
+
 def _features(p):
     # Framed-demo panels (approved 2026-07-21): a dark-matted screen with soft shadow, then an
     # accent eyebrow, title, and one-line sub. Styled by the .feat-* CSS baked into the shell.
@@ -85,6 +96,7 @@ def build_landing(slug, out_path=None):
         "manual_url": p["manual_url"],
         "flagship_class": "flagship" if p["flagship"] else "",
         "utm_source": _utm_source(p),
+        "analytics": _analytics(),
         "features": _features(p), "why": _why(p),
         "compat_rows": _compat(p), "faq": _faq(p), "store_buttons": _stores(p),
     }

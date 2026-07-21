@@ -12,7 +12,9 @@ def test_board_generates_self_contained():
         assert needle in html, f"missing {needle!r}"
     # self-contained: only allowed external host is gumroad
     hosts = set(re.findall(r'(?:src|href)="https?://([^/"]+)', html))
-    assert hosts <= {"faraxdesigns.gumroad.com","farax-creative.github.io","gumroad.com"}, hosts
+    # gumroad + own domain, plus the sanctioned analytics beacon host when a token is configured
+    assert hosts <= {"faraxdesigns.gumroad.com","farax-creative.github.io","gumroad.com",
+                     "static.cloudflareinsights.com"}, hosts
     assert "cdn.tailwindcss.com" not in html, "Tailwind CDN leaked back in"
 
 def test_refuses_to_default_to_live_path():
