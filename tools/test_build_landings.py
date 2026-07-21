@@ -15,5 +15,15 @@ def test_board_generates_self_contained():
     assert hosts <= {"faraxdesigns.gumroad.com","farax-creative.github.io","gumroad.com"}, hosts
     assert "cdn.tailwindcss.com" not in html, "Tailwind CDN leaked back in"
 
+def test_refuses_to_default_to_live_path():
+    # Guard: calling without out_path must NOT silently write live/zap-board.html.
+    try:
+        build_landing("board")
+    except ValueError:
+        return
+    raise AssertionError("build_landing without out_path should raise, not write the live page")
+
 if __name__ == "__main__":
-    test_board_generates_self_contained(); print("ok")
+    test_board_generates_self_contained()
+    test_refuses_to_default_to_live_path()
+    print("ok")

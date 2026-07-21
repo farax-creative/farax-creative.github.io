@@ -1,7 +1,6 @@
 import html as H, pathlib
 from products import PRODUCTS, validate
 
-LIVE = pathlib.Path(__file__).resolve().parent.parent
 SHELL = pathlib.Path(__file__).resolve().parent / "landing_shell.html"
 
 def _pillars(p):
@@ -47,6 +46,14 @@ def _badge(p):
     return "Live" if p["status"] == "live" else "Coming soon"
 
 def build_landing(slug, out_path=None):
+    # Plan 1 proves the engine against a scratch file and MUST NOT write live zap-*.html.
+    # Refuse to default to the live path — a caller who wants a live page must say so
+    # explicitly (Plan 2 will pass out_path deliberately). This closes the one failure
+    # mode the plan is built around: an ad-hoc build_landing("board") clobbering the page.
+    if out_path is None:
+        raise ValueError(
+            f"build_landing({slug!r}) needs an explicit out_path; refusing to overwrite "
+            f"the live zap-{PRODUCTS[slug]['slug']}.html by default.")
     validate(slug)
     p = PRODUCTS[slug]
     s = SHELL.read_text(encoding="utf-8")
@@ -61,7 +68,7 @@ def build_landing(slug, out_path=None):
     }
     for k, v in repl.items():
         s = s.replace("{{" + k + "}}", v)
-    out = pathlib.Path(out_path) if out_path else (LIVE / f"zap-{slug}.html")
+    out = pathlib.Path(out_path)
     out.write_text(s, encoding="utf-8", newline="")
     return out.read_text(encoding="utf-8")
 
