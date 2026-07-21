@@ -4,3 +4,6 @@ __pycache__/
 
 # Generated preview posters and WebP animations (build artifacts)
 assets/img/previews/
+
+# Scratch landing pages from tools/build_landings.py (build artifacts)
+tools/_scratch-*.html
