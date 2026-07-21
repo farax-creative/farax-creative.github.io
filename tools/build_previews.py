@@ -10,8 +10,11 @@ def build_preview(slug):
     p = PRODUCTS[slug]["preview"]
     src = LIVE / p["source"]
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    poster = OUTDIR / f"{slug}-poster.jpg"
-    webp   = OUTDIR / f"{slug}.webp"
+    # Name outputs by the product's public slug ("zap-board"), not the dict key ("board"),
+    # so they match the slug-based references the landing shell writes into the page.
+    name = PRODUCTS[slug]["slug"]
+    poster = OUTDIR / f"{name}-poster.jpg"
+    webp   = OUTDIR / f"{name}.webp"
     subprocess.run(["ffmpeg","-y","-i",str(src),"-frames:v","1","-vf","scale=480:-1",
                     "-q:v","7",str(poster)], check=True, capture_output=True)
     subprocess.run(["ffmpeg","-y","-t",str(p["seconds"]),"-i",str(src),"-vcodec","libwebp",
