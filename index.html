@@ -542,6 +542,22 @@
   #scrim{position:fixed; inset:0; z-index:140; background:rgba(6,11,11,.5); opacity:0; visibility:hidden;
     transition:opacity .4s, visibility .4s}
   #scrim.on{opacity:1; visibility:visible}
+  /* §landing-overlay: a product's full landing as a ~3/4 card over the dimmed map */
+  #landingWrap{position:fixed; inset:0; z-index:200; display:none}
+  #landingWrap.on{display:block}
+  #landingBack{position:absolute; inset:0; background:rgba(6,11,11,.74); backdrop-filter:blur(3px)}
+  #landingCard{position:absolute; top:50%; left:50%; transform:translate(-50%,-47%);
+    width:76vw; height:84vh; max-width:1120px; border:1px solid var(--line-3); border-radius:14px;
+    overflow:hidden; background:var(--void); box-shadow:0 44px 110px -34px rgba(0,0,0,.85);
+    opacity:0; transition:opacity .28s var(--ease), transform .28s var(--ease)}
+  #landingWrap.on #landingCard{opacity:1; transform:translate(-50%,-50%)}
+  #landingFrame{width:100%; height:100%; border:0; display:block; background:var(--void)}
+  #landingClose{position:absolute; top:10px; right:12px; z-index:2; width:34px; height:34px;
+    border-radius:50%; border:1px solid var(--line-2); background:rgba(6,11,11,.72); color:var(--ink);
+    font-size:22px; line-height:1; cursor:pointer; backdrop-filter:blur(4px); transition:border-color .2s}
+  #landingClose:hover{border-color:var(--line-3)}
+  @media(max-width:800px){#landingCard{width:94vw; height:90vh; top:50%}}
+  @media(prefers-reduced-motion:reduce){#landingCard{transition:none}}
   #panel{position:fixed; top:0; right:0; bottom:0; width:min(460px,94vw); z-index:150;
     background:var(--void2); border-left:1px solid var(--line-2);
     transform:translateX(102%); transition:transform .5s var(--ease);
@@ -1506,6 +1522,15 @@
 
 <!-- ============================= DETAIL PANEL ============================= -->
 <div id="scrim"></div>
+<!-- product landing shown as a ~3/4 overlay over the dimmed map (one click from a moon).
+     Reuses the real zap-<slug>.html via iframe in embed mode; close with X / backdrop / Esc. -->
+<div id="landingWrap" aria-hidden="true">
+  <div id="landingBack"></div>
+  <div id="landingCard" role="dialog" aria-modal="true" aria-label="Product page">
+    <button id="landingClose" type="button" aria-label="Close">&times;</button>
+    <iframe id="landingFrame" title="Product page" src="about:blank" loading="lazy"></iframe>
+  </div>
+</div>
 <aside id="panel" role="dialog" aria-modal="true" aria-label="Detail">
   <!-- §4: mobile bottom-sheet grab handle (drag down to close; hidden on desktop) -->
   <div id="panelGrip" aria-hidden="true"></div>
@@ -1588,7 +1613,6 @@
         ["Mark up","Notes and freehand","Text cards for shot numbers and feedback, and drawing straight over the references."],
         ["Safe","Nothing touches your scene","Nothing is added to the outliner, nothing appears in your render, and removing the add-on leaves the file working."]
       ], links:[
-        ["See the full page","zap-board.html",""],
         ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-board","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-board.html",""]
       ] },
@@ -2147,8 +2171,33 @@
   let lastFocused=null;
   let favOutsideHandler=null;   // re-armed each initDemo() call; see there for why
   let currentPanelNode=null;    // §7: which node's panel is on screen right now (null when closed)
+  // ---- product landing overlay ----
+  const landingWrap=document.getElementById("landingWrap");
+  const landingFrame=document.getElementById("landingFrame");
+  let landingPrevFocus=null;
+  function openLanding(url){
+    landingPrevFocus=document.activeElement;
+    landingFrame.src=url+(url.includes("?")?"&":"?")+"embed=1";   // embed mode: in-page links close the overlay
+    landingWrap.classList.add("on"); landingWrap.setAttribute("aria-hidden","false");
+    document.getElementById("landingClose").focus();
+    if(SLUGS[currentLandingName(url)]) history.replaceState(null,"","#"+SLUGS[currentLandingName(url)]);
+  }
+  function currentLandingName(url){ for(const k in LANDINGS) if(LANDINGS[k]===url) return k; return ""; }
+  function closeLanding(){
+    landingWrap.classList.remove("on"); landingWrap.setAttribute("aria-hidden","true");
+    landingFrame.src="about:blank";
+    if(landingPrevFocus && landingPrevFocus.focus) landingPrevFocus.focus();
+  }
+  document.getElementById("landingClose").addEventListener("click", closeLanding);
+  document.getElementById("landingBack").addEventListener("click", closeLanding);
+  addEventListener("keydown", e=>{ if(e.key==="Escape" && landingWrap.classList.contains("on")) closeLanding(); });
+  addEventListener("message", e=>{ if(e.data && e.data.type==="close-landing") closeLanding(); });
+
+  // products that have a full landing page open as a 3/4 overlay instead of the small panel
+  const LANDINGS = { board: "zap-board.html" };
   function openPanel(name){
     const d=DATA[name]; if(!d) return;
+    if(LANDINGS[name]){ openLanding(LANDINGS[name]); return; }
     // §7 spatial nav: capture what was open BEFORE this call so a genuine panel-to-
     // panel internal jump (breadcrumb up / .kids down) can play a short directional
     // cue. A fresh open from closed leaves wasOpen=false, so it keeps the instant swap.

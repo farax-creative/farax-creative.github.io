@@ -182,5 +182,16 @@
     document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
   </script>
 
+<script>
+  // Embed mode: when this landing is shown inside the map's 3/4 overlay (?embed=1), the
+  // "back to Farax" links (nav logo + footer) close the overlay instead of navigating,
+  // since the map is already right behind it.
+  if(new URLSearchParams(location.search).get("embed")==="1"){
+    document.documentElement.classList.add("embedded");
+    document.querySelectorAll('a[href^="index.html"]').forEach(a=>{
+      a.addEventListener("click", e=>{ e.preventDefault(); parent.postMessage({type:"close-landing"}, "*"); });
+    });
+  }
+</script>
 </body>
 </html>
