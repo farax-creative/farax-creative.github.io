@@ -1,7 +1,7 @@
 # Product data module — single source of truth for landing content
 
 REQUIRED = ["name", "slug", "tagline", "blender_min", "price_label", "status", "flagship",
-            "hero", "preview", "pillars", "why", "compat", "faq", "stores", "manual_url"]
+            "hero", "preview", "features", "why", "compat", "faq", "stores", "manual_url"]
 
 PRODUCTS = {
   "board": {
@@ -17,18 +17,30 @@ PRODUCTS = {
       "sub": "Turn any Image Editor into a free-form board. Arrange your references, "
              "move them, mark them up — and it saves with your file. "
              "No second app, nothing added to your 3D scene.",
+      "image": "assets/img/zap-board/hero.png",
     },
     "preview": {"source": "assets/img/zap-board/arrange.webp", "seconds": 2.5},
-    "pillars": [
-      {"title": "One key tidies the board",
-       "blurb": "Ctrl+P packs everything with no overlaps. Select first and it only tidies the selection.",
-       "clip": "assets/img/zap-board/v5_04_arrange.gif"},
-      {"title": "Move them anywhere",
-       "blurb": "Drag a box to select, then move the whole set at once. No modifier key needed to keep a selection together.",
-       "clip": "assets/img/zap-board/v5_02_box_select.gif"},
-      {"title": "Mark what's done",
-       "blurb": "Pick a colour and draw straight on the board. Ticks, circles, arrows — whatever marks up a reference.",
-       "clip": "assets/img/zap-board/v5_03_pen_zap.gif"},
+    # Nine framed-demo panels (the "What it does" section). Each clip is the carousel slide
+    # cropped to the centre Blender screen by tools/build_demos.py; the caption is HTML here.
+    "features": [
+      {"clip": "assets/img/zap-board/demos/02_Move.webp",
+       "eyebrow": "SELECT", "title": "Move many at once", "sub": "Box-select a group and move them together."},
+      {"clip": "assets/img/zap-board/demos/03_Align.webp",
+       "eyebrow": "ARRANGE", "title": "One key tidies it", "sub": "Ctrl+P packs the board with no overlaps."},
+      {"clip": "assets/img/zap-board/demos/04_Pen.webp",
+       "eyebrow": "MARK UP", "title": "Draw on the board", "sub": "Notes anywhere, freehand over the top."},
+      {"clip": "assets/img/zap-board/demos/05_Grid.webp",
+       "eyebrow": "GRID", "title": "Snap to a grid", "sub": "Optional grid, adjustable size."},
+      {"clip": "assets/img/zap-board/demos/06_Resize.webp",
+       "eyebrow": "SIZE", "title": "Match every size", "sub": "Normalize by height, width, longest side or area."},
+      {"clip": "assets/img/zap-board/demos/07_Solo.webp",
+       "eyebrow": "FOCUS", "title": "Solo one image", "sub": "Hide everything else while you look."},
+      {"clip": "assets/img/zap-board/demos/08_Opacity.webp",
+       "eyebrow": "COMPARE", "title": "Fade to compare", "sub": "Drop a card's opacity over your render."},
+      {"clip": "assets/img/zap-board/demos/09_Blackwhite.webp",
+       "eyebrow": "VALUES", "title": "Check the values", "sub": "Black and white, without touching the file."},
+      {"clip": "assets/img/zap-board/demos/10_Autoscale.webp",
+       "eyebrow": "FIT", "title": "Auto-fit on import", "sub": "New images land sized to the board."},
     ],
     "why": [
       {"title": "It stays open",

@@ -3,14 +3,16 @@ from products import PRODUCTS, validate
 
 SHELL = pathlib.Path(__file__).resolve().parent / "landing_shell.html"
 
-def _pillars(p):
-    # mirrors zap-board.html:99-128 — each card is a bordered clip, then h3 title, then blurb.
+def _features(p):
+    # Framed-demo panels (approved 2026-07-21): a dark-matted screen with soft shadow, then an
+    # accent eyebrow, title, and one-line sub. Styled by the .feat-* CSS baked into the shell.
     return "".join(
-        f'<div><div class="rounded-lg overflow-hidden border border-line">'
-        f'<img src="{x["clip"]}" alt="{H.escape(x["title"])}" class="w-full block" loading="lazy" /></div>'
-        f'<h3 class="mt-4 font-semibold text-lg">{H.escape(x["title"])}</h3>'
-        f'<p class="mt-2 text-sm text-neutral-400">{H.escape(x["blurb"])}</p></div>'
-        for x in p["pillars"])
+        f'<div class="feat-card"><div class="feat-screen">'
+        f'<img src="{x["clip"]}" alt="{H.escape(x["title"])}" loading="lazy" /></div>'
+        f'<div class="feat-eyebrow">{H.escape(x["eyebrow"])}</div>'
+        f'<h3 class="feat-title">{H.escape(x["title"])}</h3>'
+        f'<p class="feat-sub">{H.escape(x["sub"])}</p></div>'
+        for x in p["features"])
 
 def _faq(p):
     return "".join(
@@ -61,9 +63,10 @@ def build_landing(slug, out_path=None):
         "name": p["name"], "slug": p["slug"], "tagline": p["tagline"],
         "blender_min": p["blender_min"], "price_label": p["price_label"],
         "status_badge": _badge(p), "hero_headline": p["hero"]["headline"],
-        "hero_sub": p["hero"]["sub"], "manual_url": p["manual_url"],
+        "hero_sub": p["hero"]["sub"], "hero_image": p["hero"]["image"],
+        "manual_url": p["manual_url"],
         "flagship_class": "flagship" if p["flagship"] else "",
-        "pillars": _pillars(p), "why": _why(p),
+        "features": _features(p), "why": _why(p),
         "compat_rows": _compat(p), "faq": _faq(p), "store_buttons": _stores(p),
     }
     for k, v in repl.items():
