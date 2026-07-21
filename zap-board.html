@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title data-gumroad-field="name">Zap Board — A free-form reference board inside Blender</title>
 <meta name="description" data-gumroad-field="description" content="A free-form reference board inside Blender" />
+<script>if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("embedded");</script>
+
 <!-- Tailwind, generated instead of fetched. This page inherited a script tag pulling the
      Tailwind browser CDN from zap_output/assets/store/landing.html, where it was harmless:
      store descriptions strip scripts, so it never ran and only existed for local preview.
@@ -43,6 +45,18 @@
   .text-ink, .text-ink * { color: #0b0b0d !important; }
 </style>
 <style>
+  /* dark, thin scrollbar so it blends with the page (and the map's 3/4 overlay) */
+  html{scrollbar-width:thin;scrollbar-color:#33333a transparent}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:#2b2b31;border-radius:8px;border:3px solid transparent;background-clip:content-box}
+  ::-webkit-scrollbar-thumb:hover{background:#3c3c44;background-clip:content-box}
+  html.embedded{scrollbar-width:none}
+  html.embedded::-webkit-scrollbar{display:none;width:0;height:0}
+  /* consistent cursor in the overlay: plain arrow everywhere, pointer only on real controls
+     (avoids the I-beam over text clashing with the map backdrop behind) */
+  html.embedded *{cursor:default}
+  html.embedded a,html.embedded button,html.embedded summary,html.embedded [role="button"]{cursor:pointer}
   .feat-grid{margin-top:3.25rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
   @media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
