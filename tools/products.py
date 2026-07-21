@@ -20,20 +20,29 @@ PRODUCTS = {
     },
     "preview": {"source": "assets/img/zap-board/arrange.webp", "seconds": 2.5},
     "pillars": [
-      {"title": "Arrange", "blurb": "Move, resize and box-select freely. Ctrl+P packs the whole board with no overlap."},
-      {"title": "Move",    "blurb": "Everything is by hand, on a canvas that lives in the Image Editor."},
-      {"title": "Mark",    "blurb": "Text cards for shot numbers and feedback, and drawing straight over the references."},
+      {"title": "One key tidies the board",
+       "blurb": "Ctrl+P packs everything with no overlaps. Select first and it only tidies the selection.",
+       "clip": "assets/img/zap-board/v5_04_arrange.gif"},
+      {"title": "Move them anywhere",
+       "blurb": "Drag a box to select, then move the whole set at once. No modifier key needed to keep a selection together.",
+       "clip": "assets/img/zap-board/v5_02_box_select.gif"},
+      {"title": "Mark what's done",
+       "blurb": "Pick a colour and draw straight on the board. Ticks, circles, arrows — whatever marks up a reference.",
+       "clip": "assets/img/zap-board/v5_03_pen_zap.gif"},
     ],
     "why": [
-      "Blender's Image Editor shows one image at a time. Zap Board turns one into a "
-      "free-form canvas holding many at once — moved, resized, cropped, annotated.",
-      "Nothing is added to your scene. The board is its own data inside the .blend, and a "
-      "file opened without the add-on shows an ordinary Image Editor with no errors.",
+      {"title": "It stays open",
+       "blurb": "The board is a Blender editor, so it sits in your layout like any other. You stop alt-tabbing to look at a photo."},
+      {"title": "It saves with the file",
+       "blurb": "Layout, notes and pen marks live in the .blend. Close Blender, reopen the file, and the board is where you left it."},
+      {"title": "It leaves your scene alone",
+       "blurb": "Nothing in the outliner, nothing in the viewport, nothing in your render. Uninstall it and your file still opens fine."},
     ],
     "compat": [
-      ["Blender", "4.5 LTS or newer"],
-      ["Scene", "Nothing added to the outliner or your render"],
-      ["Portable", "Board data saves inside the .blend"],
+      ["Blender 4.5 LTS+", "Tested on 4.5, 5.0, 5.1 and 5.2."],
+      ["No dependencies", "One zip. Nothing to install alongside it."],
+      ["No network access", "The add-on never talks to anything."],
+      ["356 automated tests", "Run against real Blender, every version."],
     ],
     "faq": [
       {"q": "Does it touch my 3D scene?",
@@ -65,10 +74,19 @@ PRODUCTS = {
   "viewer": None,
 }
 
+def _empty(v):
+    if v is None:
+        return True
+    if isinstance(v, bool):
+        return False
+    if hasattr(v, "__len__"):
+        return len(v) == 0
+    return False
+
 def validate(slug):
     """Raise AssertionError if slug's data has any missing or empty required keys."""
     p = PRODUCTS.get(slug)
     assert p is not None, f"{slug}: no data yet"
-    missing = [k for k in REQUIRED if k not in p or p[k] is None]
+    missing = [k for k in REQUIRED if k not in p or _empty(p[k])]
     assert not missing, f"{slug}: empty required slots {missing}"
     assert sum(1 for s in p["stores"] if s.get("primary")) == 1, f"{slug}: need exactly one primary store"
