@@ -68,6 +68,24 @@ def _stores(p):
                    'aria-disabled="true">Coming soon</span>')
     return "".join(out)
 
+_NUM = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six",
+        7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"}
+
+def _what_sub(p):
+    # "Nine things it does..." for the 9-panel board, "Four things..." for Doctor. Derived from
+    # the feature count so the subhead can never disagree with the number of panels shown.
+    n = len(p["features"])
+    return f"{_NUM.get(n, str(n))} things it does, each shown in a few seconds."
+
+def _cta_label(p):
+    # A free product invites a download; a paid one just says "Get it" (price lives on the store).
+    return "Download free" if p["price_label"] == "Free" else "Get it"
+
+def _feat_grid_class(p):
+    # 4 near-square beats read best as a 2x2; 9 stay on the default 3-wide grid. Leading space so
+    # the board (empty) keeps class="feat-grid" byte-for-byte.
+    return " cols-2" if len(p["features"]) == 4 else ""
+
 def _badge(p):
     # A live product's own landing does not need a "Live" tag (it's implied); only a not-yet
     # released product shows a status pill.
@@ -89,13 +107,19 @@ def build_landing(slug, out_path=None):
     validate(slug)
     p = PRODUCTS[slug]
     s = SHELL.read_text(encoding="utf-8")
+    # Price is optional. When price_label is "", emit nothing (and no dangling separator);
+    # the store buttons carry the price. When set (e.g. "Free"), keep the "Free · " / "Free." form.
+    pl = p["price_label"]
     repl = {
         "name": p["name"], "slug": p["slug"], "tagline": p["tagline"],
-        "blender_min": p["blender_min"], "price_label": p["price_label"],
+        "blender_min": p["blender_min"],
+        "price_badge": f"{pl} · " if pl else "", "price_line": f"{pl}. " if pl else "",
         "status_badge": _badge(p), "hero_headline": p["hero"]["headline"],
         "hero_sub": p["hero"]["sub"], "hero_image": p["hero"]["image"],
         "manual_url": p["manual_url"],
         "flagship_class": "flagship" if p["flagship"] else "",
+        "cta_label": _cta_label(p), "what_sub": _what_sub(p),
+        "feat_grid_class": _feat_grid_class(p),
         "utm_source": _utm_source(p),
         "analytics": _analytics(),
         "features": _features(p), "why": _why(p),

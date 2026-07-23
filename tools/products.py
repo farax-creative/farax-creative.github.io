@@ -82,9 +82,87 @@ PRODUCTS = {
     "manual_url": "https://farax-creative.github.io/docs/zap-board.html",
   },
   "output": None,
-  "doctor": None,
+  "doctor": {
+    "name": "Zap Doctor",
+    "slug": "zap-doctor",
+    "tagline": "Render preflight for Blender",
+    "blender_min": "4.3",
+    "price_label": "",   # paid — price shown on the store, not the landing (studio decision)
+    "status": "live",
+    "flagship": False,
+    "hero": {
+      "headline": "Catch render-ruining mistakes before you hit F12",
+      "sub": "You queued an overnight render, went to bed, and woke up to a broken output "
+             "folder, a missing texture, or a half-frame border render. Zap Doctor scans your "
+             "scene for the classic mistakes that ruin final renders, lists them by severity, "
+             "and fixes 14 of them with a single click.",
+      "image": "assets/img/zap-doctor/hero.webp",
+    },
+    "preview": {"source": "assets/img/zap-doctor/demos/scan_gauge.webp", "seconds": 2.0},
+    # The four canonical Zap Doctor beats, lifted verbatim from index.html's DATA.doctor.specs,
+    # each paired with the matching product GIF (converted to WebP under demos/).
+    "features": [
+      {"clip": "assets/img/zap-doctor/demos/scan_gauge.webp",
+       "eyebrow": "SCAN", "title": "One click, before F12",
+       "sub": "Every check runs in about a tenth of a second, even on a 5,700-object scene."},
+      {"clip": "assets/img/zap-doctor/demos/fix_all.webp",
+       "eyebrow": "FIX", "title": "Most of it from the panel",
+       "sub": "Reset to 100%, Clear Render Region, Switch to AgX, Use GPU, and more."},
+      {"clip": "assets/img/zap-doctor/demos/fix_scn01.webp",
+       "eyebrow": "JUDGEMENT", "title": "It won't guess for you",
+       "sub": "A modifier off in the viewport and on for render is usually deliberate — that row hands you the real toggles."},
+      {"clip": "assets/img/zap-doctor/demos/revert.webp",
+       "eyebrow": "SAFE", "title": "Nothing runs on its own",
+       "sub": "No auto-scan on file load, no network access, every fix logged with a revert."},
+    ],
+    "why": [
+      {"title": "It catches what you can't see",
+       "blurb": "A missing texture, a render region left on, Cycles stuck on CPU with a GPU configured — "
+                "these are invisible until the frames come back wrong. Zap Doctor finds them before you hit F12."},
+      {"title": "Farm-safe by design",
+       "blurb": "It never scans on its own — not on file load, not on render, not in the background. "
+                "The only thing that ever scans is you pressing the button. No network access, anywhere."},
+      {"title": "It won't guess for you",
+       "blurb": "Where a fix is unambiguous, one button does it. Where it isn't, Zap Doctor hands you the "
+                "real toggles instead of a blind guess — and every fix it makes is logged with a Revert."},
+    ],
+    "compat": [
+      ["Blender 4.3+", "Tested on 4.3, 4.4, 4.5, 5.1 and 5.2."],
+      ["Cycles and EEVEE", "Works with both render engines."],
+      ["Windows, macOS, Linux", "All three, no platform-specific setup."],
+      ["No network access", "None. Anywhere. The add-on only opens a browser to report a bug."],
+    ],
+    # Assembled section: the answers are lifted from store-listing.md; the questions are the
+    # natural buyer questions those answers address. Flagged for review (see wiki log).
+    "faq": [
+      {"q": "Will it slow my renders down or run in the background?",
+       "a": "No. Zap Doctor never scans on its own — not on file load, not on render, not in the background. "
+            "The only thing that ever scans is you pressing the button."},
+      {"q": "What if a fix does the wrong thing?",
+       "a": "Every fix is logged and revertable. Recently Fixed shows what changed in one line, with a Revert "
+            "button where the change can be undone automatically."},
+      {"q": "Does it need an internet connection?",
+       "a": "No network access. None, anywhere. If something goes wrong, the Report a Bug link opens a browser "
+            "with your versions pre-filled — the add-on itself sends nothing."},
+      {"q": "How does it decide what's actually a problem?",
+       "a": "Results come back grouped by severity: errors that will make the render wrong or fail, warnings "
+            "that are very likely not what you meant, and suggestions that are worth knowing but never counted against you."},
+      {"q": "Which Blender versions and platforms does it support?",
+       "a": "Blender 4.3 or newer, on Windows, macOS and Linux, with both Cycles and EEVEE. "
+            "Tested on 4.3, 4.4, 4.5, 5.1 and 5.2."},
+    ],
+    "stores": [
+      {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-doctor", "primary": True},
+      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-doctor", "primary": False},
+    ],
+    "manual_url": "https://farax-creative.github.io/docs/zap-doctor.html",
+  },
   "viewer": None,
 }
+
+# Keys that must be present but may hold "" — an intentional empty value, not a gap.
+# price_label = "" means "show no price on the landing; the store buttons carry it".
+EMPTY_OK = {"price_label"}
 
 def _empty(v):
     if v is None:
@@ -99,6 +177,6 @@ def validate(slug):
     """Raise AssertionError if slug's data has any missing or empty required keys."""
     p = PRODUCTS.get(slug)
     assert p is not None, f"{slug}: no data yet"
-    missing = [k for k in REQUIRED if k not in p or _empty(p[k])]
+    missing = [k for k in REQUIRED if k not in p or (k not in EMPTY_OK and _empty(p[k]))]
     assert not missing, f"{slug}: empty required slots {missing}"
     assert sum(1 for s in p["stores"] if s.get("primary")) == 1, f"{slug}: need exactly one primary store"
