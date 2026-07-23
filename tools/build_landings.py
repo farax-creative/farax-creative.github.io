@@ -95,7 +95,7 @@ def _badge(p):
     if p["status"] == "live":
         return ""
     return ('<div class="inline-flex items-center gap-2 rounded-full border border-line bg-panel '
-            'px-3 py-1 text-xs text-neutral-400 mb-6"><span class="text-neutral-500">○</span> '
+            'px-3 py-1 text-xs text-neutral-400 mb-6"><span class="text-neutral-500" aria-hidden="true">○</span> '
             'Coming soon</div>')
 
 def build_landing(slug, out_path=None):
