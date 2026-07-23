@@ -79,6 +79,12 @@ PRODUCTS = {
     "stores": [
       {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-board", "primary": True},
     ],
+    # Board-only compatibility caveat (its Paste/Reveal shortcuts are Windows-only). Other
+    # products omit this so they don't inherit a note that isn't true for them.
+    "compat_footnote": ('<p class="mt-8 text-sm text-neutral-400">Windows, macOS and Linux. Two '
+      'convenience commands — <b>Paste Image</b> and <b>Reveal File</b> — are Windows only, because '
+      'they hand off to a Windows tool. Everything that makes the board a board works everywhere; use '
+      '<b>Import Images…</b> or drag and drop instead of pasting.</p>'),
     "manual_url": "https://farax-creative.github.io/docs/zap-board.html",
   },
   "output": None,
@@ -157,12 +163,83 @@ PRODUCTS = {
     ],
     "manual_url": "https://farax-creative.github.io/docs/zap-doctor.html",
   },
-  "viewer": None,
+  "viewer": {
+    "name": "Zap Viewer",
+    "slug": "zap-viewer",
+    "tagline": "A picture viewer for Blender",
+    "blender_min": "5.0",
+    "price_label": "",   # coming soon — no price on the landing yet
+    "status": "coming_soon",
+    "flagship": False,
+    "hero": {
+      "headline": "Your render just finished. Now what?",
+      "sub": "Zap Viewer is where you look at your renders — a real Picture Viewer that opens its "
+             "own window when you render, the way Cinema 4D has had one for years. Every render "
+             "lands in a thumbnailed, labelled list you can compare, play back and keep.",
+      "image": "assets/img/zap-viewer/hero.webp",
+    },
+    "preview": {"source": "assets/img/zap-viewer/demos/compare.webp", "seconds": 2.0},
+    # The four beats lifted from store-listing.md, paired with the recorded demo clips
+    # (the fourth is the Info-tab frame-times screenshot — a still, not a clip).
+    "features": [
+      {"clip": "assets/img/zap-viewer/demos/history.webp",
+       "eyebrow": "HISTORY", "title": "Every render, kept",
+       "sub": "Each render lands in a thumbnailed, labelled list. Rename them as you go, so v1 and v4 are told apart at a glance instead of by timestamp."},
+      {"clip": "assets/img/zap-viewer/demos/compare.webp",
+       "eyebrow": "COMPARE", "title": "A/B behind a movable wipe",
+       "sub": "Pick A and B and drag the split. Both halves share pan, zoom and colour by construction — it refuses to compare two different sizes rather than falsify it."},
+      {"clip": "assets/img/zap-viewer/demos/playback.webp",
+       "eyebrow": "PLAYBACK", "title": "Play a sequence where it landed",
+       "sub": "An animation render becomes one Sequence entry. Play it, scrub it, catch a bad frame — on its own timer that never moves your scene's current frame."},
+      {"clip": "assets/img/zap-viewer/demos/frametimes.webp",
+       "eyebrow": "TIMING", "title": "Per-frame render times",
+       "sub": "It keeps how long every frame took, with the average. Blender doesn't — it's how you find the one frame that cost you eight minutes."},
+    ],
+    "why": [
+      {"title": "It survives quitting Blender",
+       "blurb": "Every entry is a real image file in a real folder, so reopening the .blend rebuilds "
+                "the list, thumbnails included. Nothing is packed into your .blend."},
+      {"title": "It leaves your renders alone",
+       "blurb": "It never changes your render settings, never touches Blender's native render slots or "
+                "your sequence editor. In headless and farm renders it doesn't even open a window."},
+      {"title": "Renders it didn't make",
+       "blurb": "Point Import at any folder — a farm's output, an older project, a folder a colleague "
+                "sent. Nothing is copied or moved; a run of numbered frames comes in as one Sequence."},
+    ],
+    "compat": [
+      ["Blender 5.0+", "Verified on 5.0.1, 5.1.2 and 5.2."],
+      ["246 automated tests", "The full suite passes on each version."],
+      ["Farm-safe", "No window in headless renders; never touches your render settings."],
+      ["Nothing in your .blend", "Entries are real files on disk. Uninstall and your renders stay put."],
+    ],
+    # Assembled section: answers lifted from store-listing.md, questions are the buyer's.
+    "faq": [
+      {"q": "Does it change my render settings or Blender's render slots?",
+       "a": "No. It never changes your render settings, never touches Blender's native render slots, "
+            "and never touches your sequence editor."},
+      {"q": "What happens to my history when I quit Blender?",
+       "a": "It comes back. Every entry is a real image file in a real folder, so reopening the .blend "
+            "rebuilds the list, thumbnails included."},
+      {"q": "Can it show renders it didn't make?",
+       "a": "Yes. Point Import at any folder and the entries point at the files where they already are — "
+            "nothing is copied or moved, and a run of numbered frames arrives as one Sequence."},
+      {"q": "Does it work on a render farm?",
+       "a": "Yes. In headless and farm renders (blender -b) it does not even open a window. Uninstall it "
+            "and your renders stay exactly where they are — they were never anywhere else."},
+      {"q": "What about multilayer EXR stills?",
+       "a": "The history copy of an interactive F12 still is flattened. Blender writes no file for an F12 "
+            "still, so the add-on produces one from the Render Result, and every route for that flattens it. "
+            "Render to single-layer EXR if you need the history copy to carry passes."},
+    ],
+    "stores": [],   # not listed yet — Superhive draft unsubmitted, Gumroad product not created
+    "manual_url": "https://farax-creative.github.io/docs/zap-viewer.html",
+  },
 }
 
-# Keys that must be present but may hold "" — an intentional empty value, not a gap.
-# price_label = "" means "show no price on the landing; the store buttons carry it".
-EMPTY_OK = {"price_label"}
+# Keys that must be present but may hold an empty value — intentional, not a gap.
+# price_label = "" -> show no price (store carries it). stores = [] -> a coming_soon
+# product with no listing yet (the page shows a "Coming soon" pill instead of buy buttons).
+EMPTY_OK = {"price_label", "stores"}
 
 def _empty(v):
     if v is None:
@@ -179,4 +256,7 @@ def validate(slug):
     assert p is not None, f"{slug}: no data yet"
     missing = [k for k in REQUIRED if k not in p or (k not in EMPTY_OK and _empty(p[k]))]
     assert not missing, f"{slug}: empty required slots {missing}"
-    assert sum(1 for s in p["stores"] if s.get("primary")) == 1, f"{slug}: need exactly one primary store"
+    if p["stores"]:
+        assert sum(1 for s in p["stores"] if s.get("primary")) == 1, f"{slug}: need exactly one primary store"
+    else:
+        assert p["status"] == "coming_soon", f"{slug}: no stores but status is {p['status']!r} (only coming_soon may omit stores)"

@@ -2201,7 +2201,7 @@
   addEventListener("message", e=>{ if(e.data && e.data.type==="close-landing") closeLanding(); });
 
   // products that have a full landing page open as a 3/4 overlay instead of the small panel
-  const LANDINGS = { board: "zap-board.html", doctor: "zap-doctor.html", output: "zap-output.html" };
+  const LANDINGS = { board: "zap-board.html", doctor: "zap-doctor.html", output: "zap-output.html", viewer: "zap-viewer.html" };
   function openPanel(name){
     const d=DATA[name]; if(!d) return;
     if(LANDINGS[name]){ openLanding(LANDINGS[name]); return; }

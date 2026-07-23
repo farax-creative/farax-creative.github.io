@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title data-gumroad-field="name">{{name}} — {{tagline}}</title>
-<meta name="description" data-gumroad-field="description" content="{{tagline}}" />
+<title data-gumroad-field="name">Zap Viewer — A picture viewer for Blender</title>
+<meta name="description" data-gumroad-field="description" content="A picture viewer for Blender" />
 <script>if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("embedded");</script>
 
 <!-- Tailwind, generated instead of fetched. This page inherited a script tag pulling the
@@ -74,24 +74,24 @@
   .feat-sub{margin-top:6px;font-size:13.5px;line-height:1.55;color:#a3a3a3;max-width:34ch}
   @media(prefers-reduced-motion:reduce){.feat-card{transition:none}.feat-card:hover{transform:none}}
 </style>
-  {{analytics}}
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f8b03668620647fba75afc03db7c58fd"}'></script>
 </head>
-<body class="text-neutral-100 font-sans antialiased grid-bg {{flagship_class}}">
+<body class="text-neutral-100 font-sans antialiased grid-bg ">
 
   <!-- NAV -->
   <header class="sticky top-0 z-50 backdrop-blur bg-ink/70 border-b border-line">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
-      <a href="index.html?utm_source={{utm_source}}&utm_medium=landing&utm_campaign={{utm_source}}-launch" class="flex items-center gap-2 font-bold tracking-tight transition hover:text-neutral-300" aria-label="Farax Creative — back to the system">
+      <a href="index.html?utm_source=zapviewer&utm_medium=landing&utm_campaign=zapviewer-launch" class="flex items-center gap-2 font-bold tracking-tight transition hover:text-neutral-300" aria-label="Farax Creative — back to the system">
         <span class="text-accent inline-flex"><svg viewBox="0 0 120 120" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M34 8 L34 65 L50 65 L50 112 L86 50 L65 50 L86 8 Z"/></svg></span>
-        <span data-gumroad-field="name">{{name}}</span>
+        <span data-gumroad-field="name">Zap Viewer</span>
       </a>
       <nav class="hidden sm:flex items-center gap-8 text-sm text-neutral-400">
         <a href="#what" class="hover:text-neutral-100 transition">What it does</a>
         <a href="#how" class="hover:text-neutral-100 transition">Compatibility</a>
         <a href="#faq" class="hover:text-neutral-100 transition">FAQ</a>
-        <a href="{{manual_url}}" class="hover:text-neutral-100 transition">Manual</a>
+        <a href="https://farax-creative.github.io/docs/zap-viewer.html" class="hover:text-neutral-100 transition">Manual</a>
       </nav>
-      <a href="#get" class="rounded-full bg-accent text-ink text-sm font-semibold px-4 py-2 hover:brightness-110 transition">{{cta_label}}</a>
+      <a href="#get" class="rounded-full bg-accent text-ink text-sm font-semibold px-4 py-2 hover:brightness-110 transition">Coming soon</a>
     </div>
   </header>
 
@@ -99,21 +99,21 @@
   <section class="max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-10 grid lg:grid-cols-2 gap-12 items-center">
     <div>
       <div class="inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 text-xs text-neutral-400 mb-6">
-        <span class="text-accent">●</span> {{price_badge}}Blender {{blender_min}}+
+        <span class="text-accent">●</span> Blender 5.0+
       </div>
-      {{status_badge}}
+      <div class="inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 text-xs text-neutral-400 mb-6"><span class="text-neutral-500">○</span> Coming soon</div>
       <h1 class="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
-        {{hero_headline}}
+        Your render just finished. Now what?
       </h1>
       <p class="mt-5 text-lg text-neutral-400 leading-relaxed">
-        {{hero_sub}}
+        Zap Viewer is where you look at your renders — a real Picture Viewer that opens its own window when you render, the way Cinema 4D has had one for years. Every render lands in a thumbnailed, labelled list you can compare, play back and keep.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#get" class="rounded-full bg-accent text-ink font-semibold px-6 py-3 hover:brightness-110 transition">{{cta_label}}</a>
+        <a href="#get" class="rounded-full bg-accent text-ink font-semibold px-6 py-3 hover:brightness-110 transition">Coming soon</a>
       </div>
     </div>
     <div class="rounded-xl overflow-hidden border border-line glow">
-      <img src="{{hero_image}}" alt="{{name}}" class="w-full block" loading="eager" />
+      <img src="assets/img/zap-viewer/hero.webp" alt="Zap Viewer" class="w-full block" loading="eager" />
     </div>
   </section>
 
@@ -121,18 +121,18 @@
   <section id="what" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
     <h2 class="text-3xl font-bold tracking-tight text-center">What it does</h2>
     <p class="mt-3 text-center text-neutral-400 max-w-2xl mx-auto">
-      {{what_sub}}
+      Four things it does, each shown in a few seconds.
     </p>
 
-    <div class="feat-grid{{feat_grid_class}}">
-      {{features}}
+    <div class="feat-grid cols-2">
+      <div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-viewer/demos/history.webp" alt="Every render, kept" loading="lazy" /></div><div class="feat-eyebrow">HISTORY</div><h3 class="feat-title">Every render, kept</h3><p class="feat-sub">Each render lands in a thumbnailed, labelled list. Rename them as you go, so v1 and v4 are told apart at a glance instead of by timestamp.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-viewer/demos/compare.webp" alt="A/B behind a movable wipe" loading="lazy" /></div><div class="feat-eyebrow">COMPARE</div><h3 class="feat-title">A/B behind a movable wipe</h3><p class="feat-sub">Pick A and B and drag the split. Both halves share pan, zoom and colour by construction — it refuses to compare two different sizes rather than falsify it.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-viewer/demos/playback.webp" alt="Play a sequence where it landed" loading="lazy" /></div><div class="feat-eyebrow">PLAYBACK</div><h3 class="feat-title">Play a sequence where it landed</h3><p class="feat-sub">An animation render becomes one Sequence entry. Play it, scrub it, catch a bad frame — on its own timer that never moves your scene&#x27;s current frame.</p></div><div class="feat-card"><div class="feat-screen"><img src="assets/img/zap-viewer/demos/frametimes.webp" alt="Per-frame render times" loading="lazy" /></div><div class="feat-eyebrow">TIMING</div><h3 class="feat-title">Per-frame render times</h3><p class="feat-sub">It keeps how long every frame took, with the average. Blender doesn&#x27;t — it&#x27;s how you find the one frame that cost you eight minutes.</p></div>
     </div>
   </section>
 
   <!-- WHY IT MATTERS -->
   <section class="border-y border-line bg-panel/40">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16 grid md:grid-cols-3 gap-10">
-      {{why}}
+      <div><h3 class="font-semibold text-lg">It survives quitting Blender</h3><p class="mt-2 text-sm text-neutral-400 leading-relaxed">Every entry is a real image file in a real folder, so reopening the .blend rebuilds the list, thumbnails included. Nothing is packed into your .blend.</p></div><div><h3 class="font-semibold text-lg">It leaves your renders alone</h3><p class="mt-2 text-sm text-neutral-400 leading-relaxed">It never changes your render settings, never touches Blender&#x27;s native render slots or your sequence editor. In headless and farm renders it doesn&#x27;t even open a window.</p></div><div><h3 class="font-semibold text-lg">Renders it didn&#x27;t make</h3><p class="mt-2 text-sm text-neutral-400 leading-relaxed">Point Import at any folder — a farm&#x27;s output, an older project, a folder a colleague sent. Nothing is copied or moved; a run of numbered frames comes in as one Sequence.</p></div>
     </div>
   </section>
 
@@ -141,12 +141,12 @@
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
       <h2 class="text-3xl font-bold tracking-tight">Compatibility &amp; support</h2>
       <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-        {{compat_rows}}
+        <div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">Blender 5.0+</div><p class="mt-2 text-neutral-400">Verified on 5.0.1, 5.1.2 and 5.2.</p></div><div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">246 automated tests</div><p class="mt-2 text-neutral-400">The full suite passes on each version.</p></div><div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">Farm-safe</div><p class="mt-2 text-neutral-400">No window in headless renders; never touches your render settings.</p></div><div class="rounded-lg border border-line bg-ink p-5"><div class="text-accent font-semibold">Nothing in your .blend</div><p class="mt-2 text-neutral-400">Entries are real files on disk. Uninstall and your renders stay put.</p></div>
       </div>
-      {{compat_footnote}}
+      
       <p class="mt-4 text-sm text-neutral-400">
         GPL-3.0-or-later. Full instructions in the
-        <a href="{{manual_url}}" class="text-accent underline underline-offset-4">user manual</a>
+        <a href="https://farax-creative.github.io/docs/zap-viewer.html" class="text-accent underline underline-offset-4">user manual</a>
         (English, 한국어, 日本語, Português, Español).
       </p>
     </div>
@@ -156,18 +156,18 @@
   <section id="faq" class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
     <h2 class="text-3xl font-bold tracking-tight">FAQ</h2>
     <div class="mt-8 space-y-3">
-      {{faq}}
+      <details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Does it change my render settings or Blender&#x27;s render slots?</summary><p class="mt-3 text-sm">No. It never changes your render settings, never touches Blender's native render slots, and never touches your sequence editor.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">What happens to my history when I quit Blender?</summary><p class="mt-3 text-sm">It comes back. Every entry is a real image file in a real folder, so reopening the .blend rebuilds the list, thumbnails included.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Can it show renders it didn&#x27;t make?</summary><p class="mt-3 text-sm">Yes. Point Import at any folder and the entries point at the files where they already are — nothing is copied or moved, and a run of numbered frames arrives as one Sequence.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">Does it work on a render farm?</summary><p class="mt-3 text-sm">Yes. In headless and farm renders (blender -b) it does not even open a window. Uninstall it and your renders stay exactly where they are — they were never anywhere else.</p></details><details class="rounded-lg border border-line bg-panel p-5"><summary class="cursor-pointer font-medium text-neutral-200">What about multilayer EXR stills?</summary><p class="mt-3 text-sm">The history copy of an interactive F12 still is flattened. Blender writes no file for an F12 still, so the add-on produces one from the Render Result, and every route for that flattens it. Render to single-layer EXR if you need the history copy to carry passes.</p></details>
     </div>
   </section>
 
   <!-- GET IT -->
   <section id="get" class="border-t border-line">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20 text-center">
-      <img src="assets/img/{{slug}}/product-icon-512.png" alt="" class="w-16 h-16 mx-auto rounded-xl" />
-      <h2 class="mt-6 text-3xl font-bold tracking-tight">Get {{name}}</h2>
-      <p class="mt-3 text-neutral-400">{{price_line}}Blender {{blender_min}}+.</p>
+      <img src="assets/img/zap-viewer/product-icon-512.png" alt="" class="w-16 h-16 mx-auto rounded-xl" />
+      <h2 class="mt-6 text-3xl font-bold tracking-tight">Get Zap Viewer</h2>
+      <p class="mt-3 text-neutral-400">Blender 5.0+.</p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        {{store_buttons}}
+        <span class="rounded-full border border-line px-6 py-3 text-neutral-600" aria-disabled="true">Coming soon</span>
       </div>
     </div>
   </section>
@@ -175,10 +175,10 @@
   <!-- FOOTER -->
   <footer class="border-t border-line">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-10 flex flex-wrap items-center justify-between gap-4 text-sm text-neutral-500">
-      <div>FARAX CREATIVE · Zap series · {{name}}</div>
+      <div>FARAX CREATIVE · Zap series · Zap Viewer</div>
       <nav class="flex gap-6">
-        <a href="index.html?utm_source={{utm_source}}&utm_medium=landing&utm_campaign={{utm_source}}-launch" class="hover:text-neutral-300 transition">Farax Creative</a>
-        <a href="{{manual_url}}" class="hover:text-neutral-300 transition">Manual</a>
+        <a href="index.html?utm_source=zapviewer&utm_medium=landing&utm_campaign=zapviewer-launch" class="hover:text-neutral-300 transition">Farax Creative</a>
+        <a href="https://farax-creative.github.io/docs/zap-viewer.html" class="hover:text-neutral-300 transition">Manual</a>
         <a href="report/" class="hover:text-neutral-300 transition">Report a bug</a>
       </nav>
     </div>

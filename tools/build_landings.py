@@ -78,7 +78,10 @@ def _what_sub(p):
     return f"{_NUM.get(n, str(n))} things it does, each shown in a few seconds."
 
 def _cta_label(p):
-    # A free product invites a download; a paid one just says "Get it" (price lives on the store).
+    # A not-yet-released product says so; a free one invites a download; a paid one just
+    # says "Get it" (price lives on the store).
+    if p["status"] == "coming_soon":
+        return "Coming soon"
     return "Download free" if p["price_label"] == "Free" else "Get it"
 
 def _feat_grid_class(p):
@@ -124,6 +127,9 @@ def build_landing(slug, out_path=None):
         "analytics": _analytics(),
         "features": _features(p), "why": _why(p),
         "compat_rows": _compat(p), "faq": _faq(p), "store_buttons": _stores(p),
+        # A product-specific compatibility caveat under the compat grid. Board's is the
+        # Windows-only Paste/Reveal note; products without a caveat leave it empty.
+        "compat_footnote": p.get("compat_footnote", ""),
     }
     for k, v in repl.items():
         s = s.replace("{{" + k + "}}", v)
