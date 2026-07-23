@@ -565,6 +565,24 @@
     font-size:22px; line-height:1; cursor:pointer; backdrop-filter:blur(4px); transition:border-color .2s, background .2s}
   #landingClose:hover{border-color:var(--line-3); background:rgba(6,11,11,.95)}
   @media(max-width:800px){#landingCard{width:94vw; height:90vh; top:50%} #landingClose{top:12px; right:14px}}
+  /* §landing-nav: switch add-ons from inside the overlay without returning to the map. Lives in
+     the dimmed left margin but sits ABOVE the backdrop, so it stays bright and clickable. */
+  #landingNav{position:fixed; left:0; top:50%; transform:translateY(-50%); z-index:210;
+    display:flex; flex-direction:column; gap:2px; padding:18px 14px 18px 26px}
+  #landingNav .ln-h{font-family:var(--mono); font-size:8px; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--ink-3); margin:0 0 10px 14px}
+  #landingNav button{display:flex; align-items:center; gap:10px; text-align:left; background:none;
+    border:0; cursor:pointer; padding:8px 14px; border-radius:10px; color:var(--ink-2); font-size:14px;
+    transition:color .18s var(--ease), background .18s var(--ease)}
+  #landingNav button:hover{color:var(--ink); background:rgba(244,235,221,.07)}
+  #landingNav button[aria-current="page"]{color:var(--ink); background:rgba(244,235,221,.11); font-weight:600}
+  #landingNav .ln-dot{width:6px; height:6px; border-radius:50%; flex:none; background:var(--ink-3)}
+  #landingNav .ln-dot.live{background:var(--cream)}
+  #landingNav .ln-dot.flag{background:var(--zap)}
+  #landingNav .ln-dot.soon{background:transparent; box-shadow:inset 0 0 0 1px var(--ink-3)}
+  @media(prefers-reduced-motion:reduce){#landingNav button{transition:none}}
+  /* on small screens the card is near full-width — no margin to live in */
+  @media(max-width:900px){#landingNav{display:none}}
   @media(prefers-reduced-motion:reduce){#landingCard{transition:none}}
   #panel{position:fixed; top:0; right:0; bottom:0; width:min(460px,94vw); z-index:150;
     background:var(--void2); border-left:1px solid var(--line-2);
@@ -1538,6 +1556,9 @@
     <iframe id="landingFrame" title="Product page" src="about:blank" loading="lazy"></iframe>
   </div>
   <button id="landingClose" type="button" aria-label="Close">&times;</button>
+  <!-- bright, clickable add-on switcher in the dimmed left margin: jump straight to another
+       add-on's landing without closing back to the map (desktop only; see §landing-nav) -->
+  <nav id="landingNav" aria-label="Switch add-on"></nav>
 </div>
 <aside id="panel" role="dialog" aria-modal="true" aria-label="Detail">
   <!-- §4: mobile bottom-sheet grab handle (drag down to close; hidden on desktop) -->
@@ -2182,13 +2203,18 @@
   // ---- product landing overlay ----
   const landingWrap=document.getElementById("landingWrap");
   const landingFrame=document.getElementById("landingFrame");
+  const landingNav=document.getElementById("landingNav");
   let landingPrevFocus=null;
   function openLanding(url){
     landingPrevFocus=document.activeElement;
     landingFrame.src=url+(url.includes("?")?"&":"?")+"embed=1";   // embed mode: in-page links close the overlay
     landingWrap.classList.add("on"); landingWrap.setAttribute("aria-hidden","false");
     document.getElementById("landingClose").focus();
-    if(SLUGS[currentLandingName(url)]) history.replaceState(null,"","#"+SLUGS[currentLandingName(url)]);
+    const shown=currentLandingName(url);
+    if(landingNav) landingNav.querySelectorAll("button").forEach(b=>{
+      if(b.dataset.target===shown) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");
+    });
+    if(SLUGS[shown]) history.replaceState(null,"","#"+SLUGS[shown]);
   }
   function currentLandingName(url){ for(const k in LANDINGS) if(LANDINGS[k]===url) return k; return ""; }
   function closeLanding(){
@@ -2203,6 +2229,26 @@
 
   // products that have a full landing page open as a 3/4 overlay instead of the small panel
   const LANDINGS = { board: "zap-board.html", doctor: "zap-doctor.html", output: "zap-output.html", viewer: "zap-viewer.html" };
+  // Populate the overlay's left-margin add-on switcher. Flagship (Output) first; its dot is the
+  // exclusive yellow, live products read cream, coming-soon reads a hollow ring. Clicking swaps
+  // the iframe via the same openPanel() the map nodes use — the overlay never closes.
+  function buildLandingNav(){
+    if(!landingNav) return;
+    const order = ["output","doctor","board","viewer"].filter(n => LANDINGS[n] && DATA[n]);
+    landingNav.innerHTML = `<p class="ln-h">Add-ons</p>` + order.map(n=>{
+      const d = DATA[n];
+      const word = (d.title||n).replace(/^ZAP\s+/i,"");
+      const label = word.charAt(0).toUpperCase()+word.slice(1).toLowerCase();
+      const dot = n==="output" ? "flag" : (d.led==="live" ? "live" : "soon");
+      return `<button type="button" data-target="${n}"><span class="ln-dot ${dot}" aria-hidden="true"></span>${label}</button>`;
+    }).join("");
+    landingNav.addEventListener("click", e=>{
+      const b = e.target.closest("button[data-target]");
+      if(!b || b.getAttribute("aria-current")==="page") return;   // already showing this one
+      hapticTap(); openPanel(b.dataset.target);
+    });
+  }
+  buildLandingNav();
   function openPanel(name){
     const d=DATA[name]; if(!d) return;
     if(LANDINGS[name]){ openLanding(LANDINGS[name]); return; }
