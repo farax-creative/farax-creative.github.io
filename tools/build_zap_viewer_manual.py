@@ -132,6 +132,7 @@ CONTENT["en"] = """
     A still becomes one <b>Still</b> entry; an animation becomes one
     <b>Sequence</b> entry — a dated folder of frames, not one entry per frame.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/history.webp" alt="" loading="lazy" /></figure>
     <h3>Look at an older render</h3>
     <p>Click it in the history list. A Still opens full size; a Sequence is
     ready to scrub and play.</p>
@@ -148,6 +149,7 @@ CONTENT["en"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/compare.webp" alt="" loading="lazy" /></figure>
     <h2>Screen reference</h2>
     <h3>The Viewer window</h3>
     <p>Zap Viewer lives in its own window, like C4D's Picture Viewer, rather than
@@ -164,6 +166,7 @@ CONTENT["en"] = """
     with it. Arrow keys scrub the viewer, Shift+arrows jump to the ends of the
     play range, and Space plays — but only inside the Viewer window.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/playback.webp" alt="" loading="lazy" /></figure>
     <h3>Tabs</h3>
     <ul>
       <li><b>History</b> — the list, with thumbnails, labels and times.</li>
@@ -205,6 +208,7 @@ CONTENT["en"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/import.webp" alt="" loading="lazy" /></figure>
     <h2>Per-frame render times</h2>
     <p>Select a Sequence and open the <b>Info</b> tab. Zap Viewer records how
     long each frame took while it rendered:</p>
@@ -221,6 +225,7 @@ Per-frame render time
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/frametimes.webp" alt="" loading="lazy" /></figure>
     <h2>Where files go, and staying put</h2>
     <p>By default the history folder is <code>zap_viewer_history</code> next to
     your .blend (or next to your render output if the file is unsaved). You can
@@ -295,6 +300,7 @@ CONTENT["ko"] = """
     <b>Still</b> 항목 하나, 애니메이션은 <b>Sequence</b> 항목 하나(날짜별 프레임
     폴더)로 들어갑니다 — 프레임마다 항목이 생기지 않습니다.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/history.webp" alt="" loading="lazy" /></figure>
     <h3>예전 렌더 다시 보기</h3>
     <p>목록에서 클릭하면 됩니다. Still은 원본 크기로, Sequence는 바로 스크럽·
     재생할 수 있는 상태로 열립니다.</p>
@@ -311,6 +317,7 @@ CONTENT["ko"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/compare.webp" alt="" loading="lazy" /></figure>
     <h2>화면 설명</h2>
     <h3>Viewer 창</h3>
     <p>프로퍼티 탭 구석이 아니라, C4D 픽처 뷰어처럼 <b>전용 창</b>을 씁니다.
@@ -325,6 +332,7 @@ CONTENT["ko"] = """
     Shift+화살표로 구간 처음·끝 이동, Space로 재생 — 모두 Viewer 창 안에서만
     동작합니다.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/playback.webp" alt="" loading="lazy" /></figure>
     <h3>탭</h3>
     <ul>
       <li><b>History</b> — 썸네일·이름표·시각이 있는 목록.</li>
@@ -365,6 +373,7 @@ CONTENT["ko"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/import.webp" alt="" loading="lazy" /></figure>
     <h2>프레임별 렌더 시간</h2>
     <p>Sequence를 고르고 <b>Info</b> 탭을 여세요. 렌더 중에 각 프레임이 몇 초
     걸렸는지 기록됩니다:</p>
@@ -381,6 +390,7 @@ Per-frame render time
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/frametimes.webp" alt="" loading="lazy" /></figure>
     <h2>저장 위치와 지속성</h2>
     <p>기본값은 .blend 옆의 <code>zap_viewer_history</code> 폴더입니다(저장 안 된
     파일이면 렌더 출력 폴더 옆). 패널에서 직접 지정할 수도 있습니다. 파일명은
@@ -451,6 +461,7 @@ CONTENT["ja"] = """
     <b>Sequence</b> 項目 1つ（日付フォルダ）になります。フレームごとに項目が
     増えることはありません。</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/history.webp" alt="" loading="lazy" /></figure>
     <h3>過去のレンダーを見る</h3>
     <p>履歴リストでクリックします。Still は原寸で、Sequence はスクラブ・再生
     できる状態で開きます。</p>
@@ -467,6 +478,7 @@ CONTENT["ja"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/compare.webp" alt="" loading="lazy" /></figure>
     <h2>画面リファレンス</h2>
     <h3>Viewer ウィンドウ</h3>
     <p>プロパティタブの奥ではなく、C4D のピクチャービューアのように<b>専用
@@ -482,6 +494,7 @@ CONTENT["ja"] = """
     ありません。矢印キーでスクラブ、Shift+矢印で範囲の先頭・末尾へ、Space で
     再生 — いずれも Viewer ウィンドウ内でのみ動作します。</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/playback.webp" alt="" loading="lazy" /></figure>
     <h3>タブ</h3>
     <ul>
       <li><b>History</b> — サムネイル・ラベル・時刻付きのリスト。</li>
@@ -521,6 +534,7 @@ CONTENT["ja"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/import.webp" alt="" loading="lazy" /></figure>
     <h2>フレームごとのレンダー時間</h2>
     <p>Sequence を選んで <b>Info</b> タブを開きます。レンダー中に各フレームが
     何秒かかったかが記録されています:</p>
@@ -537,6 +551,7 @@ Per-frame render time
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/frametimes.webp" alt="" loading="lazy" /></figure>
     <h2>保存先と永続性</h2>
     <p>既定では .blend の隣の <code>zap_viewer_history</code> フォルダです
     （未保存ならレンダー出力先の隣）。パネルで明示的に指定もできます。
@@ -611,6 +626,7 @@ CONTENT["pt"] = """
     vira uma entrada <b>Sequence</b> — uma pasta de frames com data, não uma
     entrada por frame.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/history.webp" alt="" loading="lazy" /></figure>
     <h3>Ver um render antigo</h3>
     <p>Clique nele na lista. Um Still abre em tamanho real; uma Sequence já vem
     pronta para percorrer e reproduzir.</p>
@@ -628,6 +644,7 @@ CONTENT["pt"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/compare.webp" alt="" loading="lazy" /></figure>
     <h2>Referência de tela</h2>
     <h3>A janela do Viewer</h3>
     <p>O Zap Viewer vive em sua própria janela, como o Picture Viewer do C4D, em
@@ -644,6 +661,7 @@ CONTENT["pt"] = """
     percorrem os frames, Shift+setas pulam para as pontas do intervalo e Space
     reproduz — mas só dentro da janela do Viewer.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/playback.webp" alt="" loading="lazy" /></figure>
     <h3>Abas</h3>
     <ul>
       <li><b>History</b> — a lista, com miniaturas, rótulos e horários.</li>
@@ -687,6 +705,7 @@ CONTENT["pt"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/import.webp" alt="" loading="lazy" /></figure>
     <h2>Tempo de render por frame</h2>
     <p>Selecione uma Sequence e abra a aba <b>Info</b>. O Zap Viewer registra
     quanto cada frame levou enquanto renderizava:</p>
@@ -703,6 +722,7 @@ Per-frame render time
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/frametimes.webp" alt="" loading="lazy" /></figure>
     <h2>Onde os arquivos ficam, e permanência</h2>
     <p>Por padrão a pasta do histórico é <code>zap_viewer_history</code> ao lado
     do seu .blend (ou ao lado da saída de render, se o arquivo não estiver
@@ -779,6 +799,7 @@ CONTENT["es"] = """
     animación en una entrada <b>Sequence</b> — una carpeta de frames con fecha,
     no una entrada por frame.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/history.webp" alt="" loading="lazy" /></figure>
     <h3>Ver un render antiguo</h3>
     <p>Haz clic en él en la lista. Un Still se abre a tamaño completo; una
     Sequence llega lista para recorrer y reproducir.</p>
@@ -795,6 +816,7 @@ CONTENT["es"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/compare.webp" alt="" loading="lazy" /></figure>
     <h2>Referencia de pantalla</h2>
     <h3>La ventana del Viewer</h3>
     <p>Zap Viewer vive en su propia ventana, como el Picture Viewer de C4D, en
@@ -812,6 +834,7 @@ CONTENT["es"] = """
     con él. Las flechas recorren los frames, Shift+flechas saltan a los extremos
     del rango y Space reproduce — pero solo dentro de la ventana del Viewer.</p>
 
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/playback.webp" alt="" loading="lazy" /></figure>
     <h3>Pestañas</h3>
     <ul>
       <li><b>History</b> — la lista, con miniaturas, etiquetas y horas.</li>
@@ -854,6 +877,7 @@ CONTENT["es"] = """
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/import.webp" alt="" loading="lazy" /></figure>
     <h2>Tiempo de render por frame</h2>
     <p>Selecciona una Sequence y abre la pestaña <b>Info</b>. Zap Viewer registra
     cuánto tardó cada frame mientras se renderizaba:</p>
@@ -870,6 +894,7 @@ Per-frame render time
   </section>
 
   <section>
+    <figure class="demo"><img src="../assets/img/zap-viewer/demos/frametimes.webp" alt="" loading="lazy" /></figure>
     <h2>Dónde van los archivos, y permanencia</h2>
     <p>Por defecto la carpeta del historial es <code>zap_viewer_history</code>
     junto a tu .blend (o junto a la salida de render si el archivo no está
