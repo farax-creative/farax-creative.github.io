@@ -169,7 +169,7 @@ PRODUCTS = {
     "tagline": "A picture viewer for Blender",
     "blender_min": "5.0",
     "price_label": "",   # coming soon — no price on the landing yet
-    "status": "coming_soon",
+    "status": "live",
     "flagship": False,
     "hero": {
       "headline": "Your render just finished. Now what?",
@@ -231,7 +231,11 @@ PRODUCTS = {
             "still, so the add-on produces one from the Render Result, and every route for that flattens it. "
             "Render to single-layer EXR if you need the history copy to carry passes."},
     ],
-    "stores": [],   # not listed yet — Superhive draft unsubmitted, Gumroad product not created
+    # Live on Gumroad since 2026-07-24. Superhive is still in review — add it here
+    # (and to index.html's DATA.viewer links) once it approves.
+    "stores": [
+      {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-viewer", "primary": True},
+    ],
     "manual_url": "https://farax-creative.github.io/docs/zap-viewer.html",
   },
 }

@@ -1460,7 +1460,7 @@
     <!-- MOON: Zap Viewer (NOT live yet), orbits the Zap planet.
          Carries .dim and no .live, and DATA.viewer has led:"" — the two places that
          together mean "not out yet" (see 60_website/CLAUDE.md). Flip BOTH on release. -->
-    <div class="body moon dim" id="viewerMoon" data-target="viewer" tabindex="0" role="button" aria-label="Zap Viewer — coming soon, part of the Zap series">
+    <div class="body moon" id="viewerMoon" data-target="viewer" tabindex="0" role="button" aria-label="Zap Viewer — live, part of the Zap series">
       <span class="tip">Render history · coming soon</span>
       <div class="disc-tilt"><div class="node"><svg class="glyph viewer-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.6" width="18" height="11" rx="1.7"></rect><path d="M10.3 8 L14.4 10.1 L10.3 12.2 Z"></path><path d="M4 18.6 H20" stroke-linecap="round"></path></svg><i class="xled" aria-hidden="true"></i></div></div>
       <div class="meta"><span class="name">Zap Viewer</span><span class="stat">Product · Coming soon</span></div>
@@ -1650,18 +1650,19 @@
         ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-board","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-board.html",""]
       ] },
-    // Not out yet: led:"" (grey) pairs with the .dim class on #viewerMoon. On release flip
-    // BOTH, add the store link, and change status/preview.note to "Live — available now".
+    // Released 2026-07-24 on Gumroad: led:"live" pairs with #viewerMoon carrying no .dim class.
+    // Superhive is still in review — add its link here (and in products.py) once it approves.
     // Every claim below is taken from docs/zap-viewer.html, not written fresh.
-    viewer:{ n:"06", parent:"zap", status:"Coming soon", led:"", title:"ZAP VIEWER", sub:"RENDER HISTORY", glyph:"viewer", version:"v2.8.0", compat:"Render history for Blender 5.0+",
+    viewer:{ n:"06", parent:"zap", status:"Live — available now", led:"live", title:"ZAP VIEWER", sub:"RENDER HISTORY", glyph:"viewer", version:"v2.8.0", compat:"Render history for Blender 5.0+",
       body:"A Picture-Viewer-style render history for Blender. Every render — an F12 still or a whole animation — is written to disk on its own and added to a history you can label, replay and compare. A good test render is never silently overwritten.",
-      preview:{ caption:"RENDER HISTORY", note:"Coming soon" },
+      preview:{ caption:"RENDER HISTORY", note:"Live — available now" },
       specs:[
         ["History","Every render, kept","Stills and animations are saved to disk and listed automatically. Nothing to press, and closing Blender loses none of it."],
         ["Compare","A/B behind a wipe","Set A, set B, drag the split. It refuses to compare two different resolutions rather than stretching one to fit."],
         ["Timing","Per-frame render times","The slowest frames are listed first, updating live as each one lands."],
         ["Safe","Its own window and playhead","It never touches your render settings or Blender's render slots, and opens no window in a headless render."]
       ], links:[
+        ["Gumroad","https://faraxdesigns.gumroad.com/l/zap-viewer","primary"],
         ["User Manual","https://farax-creative.github.io/docs/zap-viewer.html",""]
       ] },
     next:{ n:"07", parent:"studio", status:"Planned", led:"", title:"NEXT SERIES", sub:"PLANNED — NOT YET NAMED",
