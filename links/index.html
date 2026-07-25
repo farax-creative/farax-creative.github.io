@@ -157,6 +157,8 @@
   /* left accent bar: Superhive's own purple-to-orange, as index.html uses */
   .berth::before{content:""; position:absolute; left:-1px; top:-1px; bottom:-1px; width:0;
     background:linear-gradient(180deg,#8B5CF6,#EC6628); transition:width .26s var(--ease)}
+  /* a row whose primary destination is Gumroad wears Gumroad's colour instead */
+  .berth.gum::before{background:#FF90E8}
   .berth:hover::before,.berth:focus-within::before{width:3px}
 
   /* the targeting brackets */
@@ -346,19 +348,21 @@
       </span>
     </div>
 
-    <div class="berth rise" style="animation-delay:.50s">
+    <div class="berth gum rise" style="animation-delay:.50s">
       <i class="tick t1" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t2" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t3" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t4" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.6" width="18" height="11" rx="1.7"></rect><path d="M10.3 8 L14.4 10.1 L10.3 12.2 Z"></path><path d="M4 18.6 H20" stroke-linecap="round"></path></svg>
       <span>
-        <span class="head"><span class="name">ZAP VIEWER</span><span class="tier">$19</span></span>
+        <span class="head"><span class="name">ZAP VIEWER</span><span class="tier">NEW</span></span>
         <span class="what">Every render kept, labelled and comparable behind a wipe.</span>
       </span>
+      <!-- Zap Viewer is still awaiting Superhive approval, so this row points
+           at the one store a visitor can actually reach. Add the Superhive
+           link back, and restore the Gumroad chip below it, once it clears. -->
       <span class="stores">
-        <a class="go" aria-label="Get Zap Viewer on Superhive" href="https://superhivemarket.com/products/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
-        <a class="alt" aria-label="Get Zap Viewer on Gumroad" href="https://faraxdesigns.gumroad.com/l/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">Gumroad</a>
+        <a class="go" aria-label="Get Zap Viewer on Gumroad" href="https://faraxdesigns.gumroad.com/l/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">GUMROAD <span class="ar" aria-hidden="true">→</span></a>
       </span>
     </div>
 
