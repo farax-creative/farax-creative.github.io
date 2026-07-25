@@ -138,20 +138,26 @@
      button. */
   .manifest{display:flex; flex-direction:column; gap:10px; margin:0 0 34px}
 
+  /* Two stores sell every one of these, so a berth carries two destinations
+     with Superhive as the default. The row itself is the Superhive link -
+     a stretched ::after makes the whole berth its tap target - and the small
+     Gumroad chip sits above it on its own layer. Anchors cannot nest, and
+     this keeps the primary target the size of the row rather than the size
+     of a word. */
   .berth{position:relative; display:grid;
     grid-template-columns:26px 1fr auto; align-items:center; gap:15px;
     padding:16px 17px; border:1px solid var(--line);
     background:linear-gradient(180deg, rgba(244,235,221,.014), transparent);
     transition:border-color .22s var(--ease), background-color .22s var(--ease),
                transform .22s var(--ease), box-shadow .22s var(--ease)}
-  .berth:hover,.berth:focus-visible{border-color:var(--line-2);
+  .berth:hover,.berth:focus-within{border-color:var(--line-2);
     transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,.34)}
   .berth:active{transform:translateY(0)}
 
-  /* left accent bar carries the destination's brand colour, as index.html does */
+  /* left accent bar: Superhive's own purple-to-orange, as index.html uses */
   .berth::before{content:""; position:absolute; left:-1px; top:-1px; bottom:-1px; width:0;
-    background:var(--brand,var(--line-3)); transition:width .26s var(--ease)}
-  .berth:hover::before,.berth:focus-visible::before{width:3px}
+    background:linear-gradient(180deg,#8B5CF6,#EC6628); transition:width .26s var(--ease)}
+  .berth:hover::before,.berth:focus-within::before{width:3px}
 
   /* the targeting brackets */
   .berth .tick{position:absolute; width:9px; height:9px; opacity:0; pointer-events:none;
@@ -166,7 +172,7 @@
   .berth .t3 .h{bottom:0;left:0} .berth .t3 .v{bottom:0;left:0}
   .berth .t4{bottom:5px; right:5px; transform:translate(4px,4px)}
   .berth .t4 .h{bottom:0;right:0} .berth .t4 .v{bottom:0;right:0}
-  .berth:hover .tick,.berth:focus-visible .tick{opacity:1; transform:translate(0,0)}
+  .berth:hover .tick,.berth:focus-within .tick{opacity:1; transform:translate(0,0)}
 
   /* Touch has no hover, and this page is opened from a phone almost every time.
      Left as-is the berth framing - the one device that makes this page itself -
@@ -181,21 +187,36 @@
 
   .berth .glyph{width:24px; height:24px; stroke:var(--ink-3); fill:none; stroke-width:1.4;
     transition:stroke .22s var(--ease)}
-  .berth:hover .glyph,.berth:focus-visible .glyph{stroke:var(--cream)}
+  .berth:hover .glyph,.berth:focus-within .glyph{stroke:var(--cream)}
 
+  .berth .head{display:flex; align-items:baseline; gap:9px; flex-wrap:wrap}
   .berth .name{font-family:var(--label); font-size:17px; letter-spacing:.09em;
-    color:var(--ink); display:block; line-height:1.1}
-  .berth .what{font-family:var(--serif); font-size:12.5px; color:var(--ink-2);
-    display:block; margin-top:4px; line-height:1.35}
+    color:var(--ink); line-height:1.1}
   .berth .tier{font-family:var(--mono); font-size:8.5px; letter-spacing:.2em;
-    color:var(--ink-3); border:1px solid var(--line); padding:5px 8px; white-space:nowrap;
-    transition:color .22s var(--ease), border-color .22s var(--ease)}
-  .berth:hover .tier,.berth:focus-visible .tier{color:var(--ink-2); border-color:var(--line-2)}
+    color:var(--ink-3); transition:color .22s var(--ease)}
+  .berth:hover .tier,.berth:focus-within .tier{color:var(--ink-2)}
+  .berth .what{font-family:var(--serif); font-size:12.5px; color:var(--ink-2);
+    display:block; margin-top:5px; line-height:1.35}
 
-  /* Gumroad pink is the destination for every product row today; the variable
-     is per-row so a row can be pointed elsewhere without touching this block. */
-  .berth[href*="gumroad.com"]{--brand:#FF90E8}
-  .berth[href*="superhivemarket.com"]{--brand:#EC6628}
+  /* primary: Superhive. The stretched pseudo-element makes the whole berth
+     its target, so it wins by area, not by shouting. */
+  .berth .go{display:flex; align-items:center; gap:7px; font-family:var(--mono);
+    font-size:9px; letter-spacing:.2em; color:var(--ink-2); white-space:nowrap;
+    transition:color .22s var(--ease)}
+  .berth .go::after{content:""; position:absolute; inset:0; z-index:1}
+  .berth:hover .go,.berth:focus-within .go{color:var(--cream)}
+  .berth .go .ar{transition:transform .18s var(--ease)}
+  .berth:hover .go .ar{transform:translateX(2px)}
+
+  /* secondary: Gumroad, a real second choice rather than a hidden one. It
+     rides above the stretched link so it stays independently tappable. */
+  .berth .alt{position:relative; z-index:2; display:inline-flex; align-items:center;
+    justify-content:center; margin-top:7px; padding:5px 9px;
+    border:1px solid var(--line); font-family:var(--mono); font-size:8.5px;
+    letter-spacing:.16em; color:var(--ink-3); white-space:nowrap;
+    transition:color .2s, border-color .2s}
+  .berth .alt:hover,.berth .alt:focus-visible{color:#FF90E8; border-color:#FF90E8}
+  .berth .stores{display:flex; flex-direction:column; align-items:flex-end}
 
   /* ============================ SECONDARY ============================ */
   .more{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 26px}
@@ -223,10 +244,15 @@
     animation:rise .62s var(--ease) forwards}
   @keyframes rise{to{opacity:1; transform:translateY(0)}}
 
-  @media (max-width:380px){
+  @media (max-width:420px){
     .more{grid-template-columns:1fr}
-    .berth{grid-template-columns:22px 1fr; gap:12px}
-    .berth .tier{grid-column:2; justify-self:start; margin-top:8px}
+    /* The store column stops fitting beside the text well before it stops
+       fitting at all - it drops under the description rather than squeezing
+       the sentence into three words a line. */
+    .berth{grid-template-columns:22px 1fr; gap:13px}
+    .berth .stores{grid-column:2; flex-direction:row; align-items:center;
+      justify-content:flex-start; gap:12px; margin-top:10px}
+    .berth .alt{margin-top:0}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -265,45 +291,69 @@
 
   <nav class="manifest" aria-label="Tools">
 
-    <a class="berth rise" style="animation-delay:.32s" href="https://faraxdesigns.gumroad.com/l/zap-doctor?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapdoctor-launch">
+    <div class="berth rise" style="animation-delay:.32s">
       <i class="tick t1" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t2" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t3" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t4" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.6 12 L7.4 12 L9.4 7.4 L12 16.6 L14.6 12 L21.4 12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      <span><span class="name">ZAP DOCTOR</span><span class="what">Checks a scene before you render, and fixes most of what it finds.</span></span>
-      <span class="tier">$9</span>
-    </a>
+      <span>
+        <span class="head"><span class="name">ZAP DOCTOR</span><span class="tier">$9</span></span>
+        <span class="what">Checks a scene before you render, and fixes most of what it finds.</span>
+      </span>
+      <span class="stores">
+        <a class="go" href="https://superhivemarket.com/products/zap-doctor?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapdoctor-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
+        <a class="alt" href="https://faraxdesigns.gumroad.com/l/zap-doctor?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapdoctor-launch">Gumroad</a>
+      </span>
+    </div>
 
-    <a class="berth rise" style="animation-delay:.38s" href="https://faraxdesigns.gumroad.com/l/zap-output?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapoutput-launch">
+    <div class="berth rise" style="animation-delay:.38s">
       <i class="tick t1" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t2" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t3" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t4" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12 H12.5"></path><path d="M8.5 8 L12.5 12 L8.5 16"></path><path d="M16 5.5 H21 V18.5 H16"></path></svg>
-      <span><span class="name">ZAP OUTPUT</span><span class="what">Render-path tokens, resolved live before you ever hit render.</span></span>
-      <span class="tier">FREE · PRO</span>
-    </a>
+      <span>
+        <span class="head"><span class="name">ZAP OUTPUT</span><span class="tier">FREE · PRO $5</span></span>
+        <span class="what">Render-path tokens, resolved live before you ever hit render.</span>
+      </span>
+      <span class="stores">
+        <a class="go" href="https://superhivemarket.com/products/zap-output?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapoutput-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
+        <a class="alt" href="https://faraxdesigns.gumroad.com/l/zap-output?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapoutput-launch">Gumroad</a>
+      </span>
+    </div>
 
-    <a class="berth rise" style="animation-delay:.44s" href="https://faraxdesigns.gumroad.com/l/zap-board?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapboard-launch">
+    <div class="berth rise" style="animation-delay:.44s">
       <i class="tick t1" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t2" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t3" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t4" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1.8"></rect><rect x="6" y="7" width="5.4" height="4.4" rx=".6" stroke-width=".95"></rect><rect x="12.8" y="12" width="5.2" height="4.4" rx=".6" stroke-width=".95"></rect></svg>
-      <span><span class="name">ZAP BOARD</span><span class="what">A reference board that lives inside Blender's Image Editor.</span></span>
-      <span class="tier">FREE</span>
-    </a>
+      <span>
+        <span class="head"><span class="name">ZAP BOARD</span><span class="tier">FREE</span></span>
+        <span class="what">A reference board that lives inside Blender's Image Editor.</span>
+      </span>
+      <span class="stores">
+        <a class="go" href="https://superhivemarket.com/products/zap-board?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapboard-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
+        <a class="alt" href="https://faraxdesigns.gumroad.com/l/zap-board?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapboard-launch">Gumroad</a>
+      </span>
+    </div>
 
-    <a class="berth rise" style="animation-delay:.50s" href="https://faraxdesigns.gumroad.com/l/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">
+    <div class="berth rise" style="animation-delay:.50s">
       <i class="tick t1" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t2" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t3" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <i class="tick t4" aria-hidden="true"><i class="h"></i><i class="v"></i></i>
       <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.6" width="18" height="11" rx="1.7"></rect><path d="M10.3 8 L14.4 10.1 L10.3 12.2 Z"></path><path d="M4 18.6 H20" stroke-linecap="round"></path></svg>
-      <span><span class="name">ZAP VIEWER</span><span class="what">Every render kept, labelled and comparable behind a wipe.</span></span>
-      <span class="tier">NEW</span>
-    </a>
+      <span>
+        <span class="head"><span class="name">ZAP VIEWER</span><span class="tier">$19</span></span>
+        <span class="what">Every render kept, labelled and comparable behind a wipe.</span>
+      </span>
+      <span class="stores">
+        <a class="go" href="https://superhivemarket.com/products/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
+        <a class="alt" href="https://faraxdesigns.gumroad.com/l/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">Gumroad</a>
+      </span>
+    </div>
 
   </nav>
 
