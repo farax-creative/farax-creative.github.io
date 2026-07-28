@@ -231,10 +231,10 @@ PRODUCTS = {
             "still, so the add-on produces one from the Render Result, and every route for that flattens it. "
             "Render to single-layer EXR if you need the history copy to carry passes."},
     ],
-    # Live on Gumroad since 2026-07-24. Superhive is still in review — add it here
-    # (and to index.html's DATA.viewer links) once it approves.
+    # Live on Gumroad since 2026-07-24, on Superhive since 2026-07-28.
     "stores": [
       {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-viewer", "primary": True},
+      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-viewer", "primary": False},
     ],
     "manual_url": "https://farax-creative.github.io/docs/zap-viewer.html",
   },
