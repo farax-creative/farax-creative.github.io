@@ -113,17 +113,19 @@
   .wrap{position:relative; z-index:2; width:100%; max-width:520px}
 
   /* ============================ MASTHEAD ============================ */
-  .id{display:flex; align-items:center; gap:11px; justify-content:center; margin:0 0 26px}
-  .id-mark{width:22px; height:22px; flex:none;
+  /* One name, one line, one face. This used to be a stacked FARAX /
+     CREATIVE STUDIO badge sitting directly above a FARAX monument, so the
+     studio name was read twice before a single product link came into view. */
+  .id{display:flex; flex-direction:column; align-items:center; gap:15px; margin:0}
+  .id-mark{width:clamp(40px,11vw,52px); aspect-ratio:1; flex:none;
     background:url("/assets/img/farax-logo.png") center/contain no-repeat}
-  .id-text{display:flex; flex-direction:column; line-height:1}
-  .id-text .a{font-family:var(--label); font-size:15px; letter-spacing:.14em; color:var(--cream)}
-  .id-text .b{font-family:var(--mono); font-size:7.5px; letter-spacing:.3em; color:var(--ink-3); margin-top:3px}
-
-  .monument{font-family:var(--display); font-size:clamp(62px,19vw,104px); line-height:.86;
-    letter-spacing:.02em; text-align:center; margin:0; color:var(--cream)}
+  /* text-indent cancels the trailing letter-space so a tracked line sits
+     optically centred — the same trick index.html's .subword uses. */
+  .wordmark{font-family:var(--label); font-weight:400; color:var(--cream);
+    font-size:clamp(19px,5.2vw,31px); letter-spacing:.28em; text-indent:.28em;
+    line-height:1; margin:0; text-align:center; white-space:nowrap}
   .tagline{font-family:var(--serif); font-style:italic; font-size:14.5px; line-height:1.55;
-    color:var(--ink-2); text-align:center; margin:14px auto 0; max-width:34ch}
+    color:var(--ink-2); text-align:center; margin:18px auto 0; max-width:34ch}
 
   .readout{display:flex; align-items:center; gap:14px; margin:26px 0 30px}
   .readout .rule{flex:1; height:1px; background:var(--line)}
@@ -283,14 +285,10 @@
 
   <div class="id rise" style="animation-delay:.05s">
     <span class="id-mark" aria-hidden="true"></span>
-    <span class="id-text">
-      <span class="a">FARAX</span>
-      <span class="b">CREATIVE STUDIO</span>
-    </span>
+    <h1 class="wordmark">FARAX CREATIVE</h1>
   </div>
 
-  <h1 class="monument rise" style="animation-delay:.12s">FARAX</h1>
-  <p class="tagline rise" style="animation-delay:.18s">One-click tools for 3D, built one at a time and kept small on purpose.</p>
+  <p class="tagline rise" style="animation-delay:.14s">One-click tools for 3D, built one at a time and kept small on purpose.</p>
 
   <div class="readout rise" style="animation-delay:.26s">
     <i class="rule"></i>
