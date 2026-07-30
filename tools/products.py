@@ -76,8 +76,12 @@ PRODUCTS = {
       {"q": "Where do I report a bug?",
        "a": 'There is a Report a Bug button in the board sidebar and in Preferences → Add-ons → Zap Board. It opens <a href="report/" class="text-accent underline underline-offset-4">the report form</a> with your versions already filled in.'},
     ],
+    # Both stores were linked by hand in a1e45c3 but never added here, so a rebuild
+    # dropped the Superhive button off zap-board.html. Keep this list in step with
+    # index.html's DATA.board.links and links/index.html.
     "stores": [
       {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-board", "primary": True},
+      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-board", "primary": False},
     ],
     # Board-only compatibility caveat (its Paste/Reveal shortcuts are Windows-only). Other
     # products omit this so they don't inherit a note that isn't true for them.

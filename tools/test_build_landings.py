@@ -10,11 +10,11 @@ def test_board_generates_self_contained():
     # real content present
     for needle in ["Reference images that live inside your .blend", "Arrange", "FAQ", "Gumroad"]:
         assert needle in html, f"missing {needle!r}"
-    # self-contained: only allowed external host is gumroad
+    # self-contained: the only allowed external hosts are the stores we sell on
     hosts = set(re.findall(r'(?:src|href)="https?://([^/"]+)', html))
-    # gumroad + own domain, plus the sanctioned analytics beacon host when a token is configured
+    # store hosts + own domain, plus the sanctioned analytics beacon host when a token is configured
     assert hosts <= {"faraxdesigns.gumroad.com","farax-creative.github.io","gumroad.com",
-                     "static.cloudflareinsights.com"}, hosts
+                     "superhivemarket.com","static.cloudflareinsights.com"}, hosts
     assert "cdn.tailwindcss.com" not in html, "Tailwind CDN leaked back in"
 
 def test_refuses_to_default_to_live_path():
