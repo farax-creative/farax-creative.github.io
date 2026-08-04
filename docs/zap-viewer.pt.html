@@ -254,7 +254,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; menu no
       canto &rsaquo; <b>Install from Disk…</b></li>
-      <li>Escolha <code>zap_viewer-2.8.0.zip</code>.</li>
+      <li>Escolha <code>zap_viewer-2.9.0.zip</code>.</li>
       <li>Pronto. O Viewer abre no seu próximo render.</li>
     </ol>
   </section>
@@ -366,17 +366,58 @@ Per-frame render time
   <section>
     <figure class="demo"><img src="../assets/img/zap-viewer/demos/frametimes.webp" alt="" loading="lazy" /></figure>
     <h2>Onde os arquivos ficam, e permanência</h2>
-    <p>Por padrão a pasta do histórico é <code>zap_viewer_history</code> ao lado
-    do seu .blend (ou ao lado da saída de render, se o arquivo não estiver
-    salvo). Você pode definir isso explicitamente no painel. Os nomes são
-    timestamps — <code>20260717_143022.png</code> para um still,
+    <p>O Zap Viewer guarda seus arquivos numa pasta que ele chama de repositório
+    de histórico. De início é uma pasta <code>render_history</code> ao lado do
+    seu .blend, e você pode movê-la em Preferências &gt; Add-ons &gt; Zap Viewer:
+    ao lado do projeto, numa pasta longe dos seus projetos com uma subpasta por
+    projeto, ou onde você quiser. O nome da pasta também se muda ali. Um History
+    Folder definido na própria cena continua tendo prioridade sobre tudo
+    isso.</p>
+    <p>Os nomes são timestamps — <code>20260717_143022.png</code> para um still,
     <code>20260717_143530/</code> para uma pasta de sequência.</p>
-    <p>Como cada entrada é um arquivo real em disco, fechar o Blender não perde
-    nada. Reabra o .blend e o Zap Viewer revarre a pasta e reconstrói a lista,
-    miniaturas incluídas.</p>
+    <h3>Frames de animação: copiar ou apontar</h3>
+    <p>O Blender já escreveu sua animação no caminho de saída, então o Zap Viewer
+    não precisa escrevê-la de novo. <b>Keep a Copy</b> — o padrão — salva uma
+    segunda cópia no repositório, e nada que você renderize depois muda o que
+    aquela entrada mostra. <b>Use Output Files</b> deixa os frames onde o Blender
+    os colocou e apenas aponta para eles: sem duplicata, mas renderizar por cima
+    daqueles frames muda o que a entrada mostra, e a linha é marcada como
+    <b>Changed</b> quando isso acontece. Um still de F12 é sempre salvo de
+    qualquer forma, porque o Blender não escreve arquivo nenhum para um.</p>
+    <h3>Empacotar no .blend</h3>
+    <p>Defina o repositório como <b>Pack into the .blend</b> e os stills passam a
+    ficar embutidos no próprio arquivo do projeto, que viaja como um arquivo só,
+    sem nada ao lado. O .blend cresce o tamanho inteiro de cada still e cada
+    salvamento reescreve tudo, então isso serve para carregar um projeto, não
+    para economizar espaço. Frames de animação não podem ser empacotados e ficam
+    no seu caminho de saída. Renders empacotados já chegam bloqueados, porque não
+    há arquivo em disco para onde voltar.</p>
+    <p>Como toda entrada é um arquivo real — ou um registro real de um —, sair do
+    Blender não perde nada. Reabra o .blend e a lista é reconstruída, miniaturas
+    incluídas.</p>
     <p>O Zap Viewer não mexe nas suas configurações de render, nos render slots
-    do próprio Blender nem no sequencer, e nunca abre uma janela num render
+    do próprio Blender nem no sequence editor, e nunca abre uma janela num render
     headless — então é seguro numa farm.</p>
+  </section>
+
+  <section>
+    <h2>Evitando que a pasta encha</h2>
+    <p>Renders de teste se acumulam. O <b>Delete After</b>, em Storage Settings
+    no painel, remove entradas passados os dias que você escolher. Vem desligado,
+    e 0 significa nunca.</p>
+    <p>Ele é deliberadamente restrito sobre o que apaga. Só remove arquivos que o
+    Zap Viewer escreveu no próprio repositório; os seus renders — qualquer coisa
+    referenciada, importada, ou simplesmente presente na pasta — saem da lista e
+    ficam no disco. Nunca toca numa entrada bloqueada nem na que você tem
+    selecionada, e nunca roda durante um render em segundo plano, então um nó de
+    farm abrindo seu arquivo não limpa seu histórico.</p>
+    <p>Clique no cadeado de qualquer linha para mantê-la, ou use os botões de
+    bloquear e desbloquear ao lado da lista para fazer tudo de uma vez.
+    <b>Delete Unlocked</b> faz o mesmo imediatamente, ignorando o prazo, e
+    <b>Remove Packed</b> tira do .blend os renders embutidos pelo Zap Viewer —
+    só os dele, ao contrário do Purge do Blender, que não os enxerga. Todos
+    informam a contagem e o tamanho exatos antes, porque nenhum pode ser
+    desfeito.</p>
   </section>
 
   <section style="border-bottom:none">
@@ -391,9 +432,6 @@ Per-frame render time
     por enquanto. A aba Layer diz o mesmo na interface, em vez de deixar você
     descobrir depois.</p>
 
-    <h3>Clicar na timeline para navegar</h3>
-    <p>Os botões da barra, o campo de frame e as setas movem o playhead. Clicar
-    direto numa faixa de timeline para pular ainda não está implementado.</p>
   </section>
 
 </main>
