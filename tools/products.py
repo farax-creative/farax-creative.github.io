@@ -246,8 +246,10 @@ PRODUCTS = {
 
 # Keys that must be present but may hold an empty value — intentional, not a gap.
 # price_label = "" -> show no price (store carries it). stores = [] -> a coming_soon
-# product with no listing yet (the page shows a "Coming soon" pill instead of buy buttons).
-EMPTY_OK = {"price_label", "stores"}
+# product with no listing yet (the page shows a "Coming soon" pill instead of buy buttons)
+# manual_url = "" -> the manual is not written yet; the page drops the three Manual links
+# rather than shipping links that 404.
+EMPTY_OK = {"price_label", "stores", "manual_url"}
 
 def _empty(v):
     if v is None:
@@ -268,3 +270,5 @@ def validate(slug):
         assert sum(1 for s in p["stores"] if s.get("primary")) == 1, f"{slug}: need exactly one primary store"
     else:
         assert p["status"] == "coming_soon", f"{slug}: no stores but status is {p['status']!r} (only coming_soon may omit stores)"
+    if not p["manual_url"]:
+        assert p["status"] == "coming_soon", f"{slug}: no manual_url but status is {p['status']!r} (only coming_soon may ship without a manual)"

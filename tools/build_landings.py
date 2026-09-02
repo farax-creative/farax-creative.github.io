@@ -98,6 +98,34 @@ def _badge(p):
             'px-3 py-1 text-xs text-neutral-400 mb-6"><span class="text-neutral-500" aria-hidden="true">○</span> '
             'Coming soon</div>')
 
+def _series(p):
+    # The footer credit line. Everything shipped so far is Zap series, so that stays the
+    # default and existing pages come out byte-for-byte; a product outside it names itself.
+    return p.get("series", "Zap series")
+
+# The manual is written after the add-on, so a not-yet-released product can have no manual
+# page at all. Emitting the link anyway put three dead links on the page -- the same failure
+# as report/index.html shipping with __FORM_URL__ in it: the page renders, the link 404s.
+# An empty manual_url therefore removes the link instead of pointing at a page that is not there.
+def _manual_nav(p):
+    if not p["manual_url"]:
+        return ""
+    return f'<a href="{p["manual_url"]}" class="hover:text-neutral-100 transition">Manual</a>'
+
+def _manual_footer(p):
+    if not p["manual_url"]:
+        return ""
+    return f'<a href="{p["manual_url"]}" class="hover:text-neutral-300 transition">Manual</a>'
+
+def _manual_sentence(p):
+    # Follows "GPL-3.0-or-later." in the compatibility block. With no manual the licence
+    # sentence stands alone; the five-language list is a claim about pages that must exist.
+    if not p["manual_url"]:
+        return ""
+    return (' Full instructions in the\n'
+            f'        <a href="{p["manual_url"]}" class="text-accent underline underline-offset-4">user manual</a>\n'
+            '        (English, 한국어, 日本語, Português, Español).')
+
 def build_landing(slug, out_path=None):
     # Plan 1 proves the engine against a scratch file and MUST NOT write live zap-*.html.
     # Refuse to default to the live path — a caller who wants a live page must say so
@@ -119,7 +147,8 @@ def build_landing(slug, out_path=None):
         "price_badge": f"{pl} · " if pl else "", "price_line": f"{pl}. " if pl else "",
         "status_badge": _badge(p), "hero_headline": p["hero"]["headline"],
         "hero_sub": p["hero"]["sub"], "hero_image": p["hero"]["image"],
-        "manual_url": p["manual_url"],
+        "manual_nav": _manual_nav(p), "manual_footer": _manual_footer(p),
+        "manual_sentence": _manual_sentence(p), "series": _series(p),
         "flagship_class": "flagship" if p["flagship"] else "",
         "cta_label": _cta_label(p), "what_sub": _what_sub(p),
         "feat_grid_class": _feat_grid_class(p),
