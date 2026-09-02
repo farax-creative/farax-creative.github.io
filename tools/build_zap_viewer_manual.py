@@ -1109,7 +1109,14 @@ Per-frame render time
 """
 
 
+from manual_build import must_replace, must_sub
+
+
 def build():
+    # Every product-naming rewrite below goes through must_* so a template
+    # change turns into a build failure instead of a manual that still says
+    # "Zap Doctor" in one corner. See manual_build.py.
+
     shell = io.open(TEMPLATE, encoding="utf-8").read()
 
     head_end = shell.find("<main class=\"wrap\">")
@@ -1132,14 +1139,13 @@ def build():
                    flags=re.S)
         h = re.sub(r'(<meta name="description" content=")[^"]*(")',
                    lambda m: m.group(1) + DESC[code] + m.group(2), h)
-        h = h.replace("#zap-doctor", "#zap-viewer")
-        h = h.replace("Back to Zap Doctor", BACK[code])
-        h = h.replace("ZAP SERIES / USER MANUAL", KICKER[code])
+        h = must_replace(h, "#zap-doctor", "#zap-viewer", "head: anchor")
+        h = must_replace(h, "Back to Zap Doctor", BACK[code], "head: back link")
         # language switcher: point at zap-viewer files and mark the current one
-        h = h.replace("zap-doctor.html", "zap-viewer.html")
+        h = must_replace(h, "zap-doctor.html", "zap-viewer.html", "head: switcher default")
         for s2, c2, _l2 in LANGS:
             if s2:
-                h = h.replace("zap-doctor.%s.html" % s2, "zap-viewer.%s.html" % s2)
+                h = must_replace(h, "zap-doctor.%s.html" % s2, "zap-viewer.%s.html" % s2, "head: switcher " + s2)
         cur_label = dict((c, l) for _s, c, l in LANGS)[code]
         h = re.sub(r'(<button type="button" class="lang-current"[^>]*>)[^<]*',
                    lambda m: m.group(1) + cur_label, h)
@@ -1149,20 +1155,25 @@ def build():
                       % (out_name, cur_label))
 
         f = foot
-        f = f.replace("#zap-doctor", "#zap-viewer")
-        f = f.replace("Back to Zap Doctor", BACK[code])
+        f = must_replace(f, "#zap-doctor", "#zap-viewer", "foot: anchor")
+        f = must_replace(f, "Back to Zap Doctor", BACK[code], "foot: back link")
         # The report page fills its form from this parameter. The template is
         # the doctor manual, so the name arrives wrong and nothing complains --
         # a mismatched product lands in the form as a blank field, not an error.
-        f = f.replace("report/?product=Zap%20Doctor",
-                      "report/?product=Zap%20Viewer")
+        f = must_replace(f, "report/?product=Zap%20Doctor",
+                         "report/?product=Zap%20Viewer", "foot: report product")
         # ...and the link's visible text, which the English footer carries.
         f = re.sub(r'(report/\?product=Zap%20Viewer">)[^<]*',
                    lambda m: m.group(1) + REPORT[code], f)
-        f = re.sub(r"FARAX CREATIVE &middot; Zap series &middot; [^\n<]*",
-                   FOOTNOTE[code], f)
+        f = must_sub(r"FARAX CREATIVE &middot; Zap series &middot; [^\n<]*",
+                     FOOTNOTE[code], f, "foot: footnote")
 
-        html = h + '<main class="wrap">\n' + CONTENT[code] + "\n</main>\n\n" + f
+        # The template keeps this line inside <main>, which is the part these
+        # builders replace wholesale -- so it was being dropped and the old
+        # head-side replace for it never matched anything. Emit it here instead.
+        kicker = ('<div class="kicker"><span class="pmt">&gt;</span> '
+                  '%s</div>\n' % KICKER[code])
+        html = h + '<main class="wrap">\n' + kicker + CONTENT[code] + "\n</main>\n\n" + f
         path = os.path.join(REPO, out_name)
         io.open(path, "w", encoding="utf-8").write(html)
         print("wrote %-24s %8d bytes" % (out_name, len(html)))

@@ -66,7 +66,14 @@ PRODUCTS = {
       ["Blender 4.5 LTS+", "Tested on 4.5, 5.0, 5.1 and 5.2."],
       ["No dependencies", "One zip. Nothing to install alongside it."],
       ["No network access", "The add-on never talks to anything."],
-      ["356 automated tests", "Run against real Blender, every version."],
+      # No test count here on purpose. "356" was stale (the suite is now ~1072), and the
+      # replacement number would be worse than stale: the suite only runs on the source
+      # tree, which carries zap_board/pro/, so any count is a Pro-side number. The free
+      # tree cannot run it at all (test modules import zap_board.pro at module scope), so
+      # "the free build's test count" is not a value that exists. Measured 2026-09-02.
+      # "every version" was an absolute that goes false the moment one version drops out.
+      # State the practice instead -- it survives both the edition split and the next commit.
+      ["Tested before every release", "The full suite runs against real Blender, not mocks."],
     ],
     "faq": [
       {"q": "Does it touch my 3D scene?",
@@ -103,6 +110,15 @@ PRODUCTS = {
       '<b>Import Images…</b> or drag and drop instead of pasting.</p>'),
     "manual_url": "https://farax-creative.github.io/docs/zap-board.html",
   },
+  # Deliberately empty, and it should stay that way -- this is not a gap waiting to be
+  # filled. zap-output.html is hand-built and carries two sections the shell cannot express:
+  # "gallery" and "compare" (the Free/Pro table that sells the Pro tier). It also has no
+  # "get" section, which the shell always emits. Generating it would either drop those or
+  # need shell surgery, and the shell currently reproduces the three live pages byte for
+  # byte -- that parity is the only proof we have that a rebuild is safe.
+  # Checked 2026-09-02 by diffing the section ids: shell = what/how/faq/get,
+  # zap-output.html = gallery/demos/compare/how/faq.
+  # (validate() has a "no data yet" message for this state, and build_landings skips it.)
   "output": None,
   "doctor": {
     "name": "Zap Doctor",
