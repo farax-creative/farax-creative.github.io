@@ -1134,11 +1134,12 @@ def build():
     for suffix, code, _label in LANGS:
         out_name = "zap-viewer.html" if not suffix else "zap-viewer.%s.html" % suffix
         h = head
-        h = h.replace('<html lang="en">', '<html lang="%s">' % code)
-        h = re.sub(r"<title>.*?</title>", "<title>%s</title>" % TITLE[code], h,
-                   flags=re.S)
-        h = re.sub(r'(<meta name="description" content=")[^"]*(")',
-                   lambda m: m.group(1) + DESC[code] + m.group(2), h)
+        h = must_replace(h, '<html lang="en">', '<html lang="%s">' % code, "head: html lang", count=1)
+        h = must_sub(r"<title>.*?</title>", "<title>%s</title>" % TITLE[code], h,
+                     "head: title", flags=re.S, count=1)
+        h = must_sub(r'(<meta name="description" content=")[^"]*(")',
+                     lambda m: m.group(1) + DESC[code] + m.group(2), h,
+                     "head: meta description", count=1)
         h = must_replace(h, "#zap-doctor", "#zap-viewer", "head: anchor")
         h = must_replace(h, "Back to Zap Doctor", BACK[code], "head: back link")
         # language switcher: point at zap-viewer files and mark the current one
@@ -1147,12 +1148,22 @@ def build():
             if s2:
                 h = must_replace(h, "zap-doctor.%s.html" % s2, "zap-viewer.%s.html" % s2, "head: switcher " + s2)
         cur_label = dict((c, l) for _s, c, l in LANGS)[code]
-        h = re.sub(r'(<button type="button" class="lang-current"[^>]*>)[^<]*',
-                   lambda m: m.group(1) + cur_label, h)
-        h = re.sub(r'aria-selected="true"', 'aria-selected="false"', h)
-        h = h.replace('><a href="%s">%s</a>' % (out_name, cur_label),
-                      ' aria-selected="true"><a href="%s">%s</a>'
-                      % (out_name, cur_label))
+        h = must_sub(r'(<button type="button" class="lang-current"[^>]*>)[^<]*',
+                     lambda m: m.group(1) + cur_label, h,
+                     "head: switcher label", count=1)
+        # Scoped to the option rows on purpose. An unanchored sub also rewrites the
+        # stylesheet rule `.lang-menu li[aria-selected="true"] a{...}`, which inverts
+        # the highlight so every language looks current. That shipped in all ten
+        # generated manuals until the count=1 guard caught the second match.
+        h = must_sub(r'(<li role="option") aria-selected="true"',
+                     r'\1 aria-selected="false"', h,
+                     "head: clear selected tab", count=1)
+        # Replace the attribute rather than prepending a second one: the old form
+        # emitted `aria-selected="false" aria-selected="true"`, and the first one wins.
+        h = must_replace(h,
+                         '<li role="option" aria-selected="false"><a href="%s">' % out_name,
+                         '<li role="option" aria-selected="true"><a href="%s">' % out_name,
+                         "head: mark current tab", count=1)
 
         f = foot
         f = must_replace(f, "#zap-doctor", "#zap-viewer", "foot: anchor")
