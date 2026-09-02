@@ -231,7 +231,10 @@ def inject(path):
         if b < 0:
             print("UNCLOSED BLOCK   %s" % os.path.basename(path))
             return False
-        html = html[:a] + html[b + len(END):]
+        # Drop the blank line BLOCK carries in front of itself along with the block,
+        # or every re-run leaves another one behind and the file grows a little each
+        # time. Running this twice has to produce the same bytes as running it once.
+        html = html[:a].rstrip("\n") + "\n" + html[b + len(END):].lstrip("\n")
         verb = "replaced"
     else:
         verb = "injected"
@@ -256,8 +259,15 @@ def main(argv):
             continue
         if inject(path):
             done += 1
+    failed = len(names) - done
     print("\n%d file(s) changed" % done)
+    # A target that could not be injected printed a line above and then exited 0,
+    # so an automated caller saw success. Report it in the exit status too -- the
+    # point of the other guards here is that work matching nothing must not look fine.
+    if failed:
+        print("%d file(s) NOT changed -- see the lines above" % failed)
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    sys.exit(main(sys.argv))
