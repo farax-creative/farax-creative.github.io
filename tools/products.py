@@ -1,4 +1,16 @@
 # Product data module — single source of truth for landing content
+#
+# Read by something outside this repo. The Farax Hub collector treats this file as the
+# canonical product list and reads four things from it (2026-09-02, agreed with that session):
+#
+#   blender_min    checked against the add-on manifest's blender_version_min
+#   status         "live" with an empty stores list is reported as a mismatch
+#   stores[].url   counted (the URLs themselves are compared by test_store_sync.py)
+#   the key shape  full entry / None placeholder / key absent -- all three mean something
+#
+# Renaming or restructuring any of those does not fail here; it makes that collector read
+# the wrong thing quietly. Tell the Farax Hub session instead of working around it, and do
+# not invent a parallel product list elsewhere -- this file is the one.
 
 REQUIRED = ["name", "slug", "tagline", "blender_min", "price_label", "status", "flagship",
             "hero", "preview", "features", "why", "compat", "faq", "stores", "manual_url"]
