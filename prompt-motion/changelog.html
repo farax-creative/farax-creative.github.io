@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prompt Motion — Changelog</title>
+<meta name="description" content="Release notes for Prompt Motion, text-to-animation for Blender by Farax Creative." />
+<meta name="theme-color" content="#0B0D10" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root { --bg: #0B0D10; --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45);
+        --line: rgba(244,235,221,.13); --zap: #FFC828;
+        --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+        --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+::selection { background: var(--zap); color: var(--bg); }
+.wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
+.crumb { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.crumb a { text-decoration: none; }
+.crumb a:hover { color: var(--cream); }
+.crumb b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
+.intro { font-size: 18px; line-height: 1.55; color: var(--body); }
+.rel { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 26px; }
+.rel h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+          font-family: 'Farax Label', 'Arial Narrow', sans-serif; font-weight: 400; font-size: 30px; letter-spacing: .03em; }
+.rel h2 .tag { font: 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--bg);
+               background: var(--zap); border-radius: 3px; padding: 5px 8px; }
+.rel .sum { margin-top: 12px; font-size: 17px; line-height: 1.6; color: var(--body); }
+.rel h3 { margin: 26px 0 8px; font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.rel ul { list-style: none; }
+.rel li { position: relative; padding: 8px 0 8px 22px; font-size: 16px; line-height: 1.6; color: var(--body); }
+.rel li::before { content: ''; position: absolute; left: 2px; top: 18px; width: 8px; height: 1px; background: var(--zap); }
+.rel li strong { color: var(--cream); font-weight: 600; }
+.foot { margin-top: 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="crumb"><a href="/"><b>Farax Creative</b></a> &nbsp;/&nbsp; Prompt Motion</div>
+  <h1>Changelog</h1>
+  <p class="intro">What changed in each release of Prompt Motion. Updates are free for everyone who owns it.</p>
+
+  <section class="rel" id="v1-0-0">
+    <h2>1.0.0 <span class="tag">First release</span></h2>
+    <p class="sum">Type what happens, and Prompt Motion generates the motion and keys it onto the armature you already have. Everything runs on your own machine.</p>
+    <h3>Added</h3>
+    <ul>
+      <li><strong>Text to motion:</strong> generate a clip from a typed prompt and bake it onto the selected armature as an ordinary Action.</li>
+      <li><strong>Key poses:</strong> pose the first and last frame (or any frame with Add Key Here) and the generated motion passes through them.</li>
+      <li><strong>Retargeting:</strong> bone matching by name and by skeleton structure, with presets for Mixamo, VRoid, MMD, Rigify, CloudRig, Auto-Rig Pro and DAZ Genesis 8 and 9. Every row is editable and saveable.</li>
+      <li><strong>Hands:</strong> fingers posed from the rig's own finger bones, left and right independently, with the thumb solved onto the fingers.</li>
+      <li><strong>Paths and goals:</strong> walk a drawn curve at a chosen pace, or Plan Route to a goal around marked obstacles.</li>
+      <li><strong>Library:</strong> ten ready-made motions that apply with no server, GPU or download. Generated clips are saved to the same Library.</li>
+      <li><strong>Prompts in other languages:</strong> Korean, Chinese and more, translated by a local model, with a built-in dictionary until it is downloaded.</li>
+      <li><strong>One-button runtime install:</strong> sets up Python and fetches the model. No account and no token.</li>
+    </ul>
+    <h3>Safety</h3>
+    <ul>
+      <li>Refuses to bake and names the missing bones when the mapping cannot cover the joints the engine needs.</li>
+      <li>Warns before generating when a Rigify or CloudRig limb is left on IK, with one button to switch it.</li>
+    </ul>
+  </section>
+
+  <p class="foot">Prompt Motion by Farax Creative &middot; Blender 4.5+ &middot; Windows &middot; NVIDIA</p>
+</main>
+</body>
+</html>

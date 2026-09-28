@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prompt Motion — Superhive page</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0B0D10" />
+<!--
+  Embedded in the Superhive product description through an <iframe>, the way
+  Blaze AutoPose does it. The store's rich-text field strips <script> and
+  <style>, so anything that has to run (the coupon COPY button) or needs a
+  real font lives here instead of in the pasted body.
+
+  The host cannot resize a cross-origin iframe to fit, so the embed has a
+  fixed height worked out from this page's measured height at the widths the
+  store column actually takes. Change the length of this page and that
+  height has to be measured again (see the embed snippet in the Kimodo repo,
+  docs/marketing/superhive-embed.html).
+
+  Links open in a new tab: navigating inside the frame would leave the
+  visitor on our site with the store still wrapped around it.
+-->
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root {
+  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
+  --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
+  --zap: #FFC828;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; height: auto; }
+::selection { background: var(--zap); color: var(--bg); }
+
+/* ---- release bar + coupon strip ---- */
+.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+       gap: 8px 22px; padding: 13px 16px; font: 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
+.rel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
+.rel .ed { color: var(--zap); }
+.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
+.rel a:hover { text-decoration-color: var(--zap); }
+.deal { background: var(--zap); padding: 14px 16px; display: flex; justify-content: center; }
+.coupon { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0;
+          background: #0B0D10; border-radius: 4px; padding: 6px 6px 6px 14px; max-width: 100%;
+          font: 600 14px/1.2 -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--cream); }
+.coupon > span { padding: 4px 12px; }
+.coupon > span + span { border-left: 1px solid rgba(244,235,221,.2); }
+.coupon .who { padding-left: 0; }
+.coupon .off { color: var(--zap); }
+.coupon .code { font-family: var(--mono); letter-spacing: .06em; }
+.copy { margin-left: 6px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+        background: transparent; color: var(--cream); border: 1px solid rgba(244,235,221,.55); border-radius: 3px;
+        padding: 6px 10px; font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+        transition: background-color .2s, color .2s, border-color .2s; }
+.copy:hover { border-color: var(--cream); }
+.copy.done { background: var(--zap); color: var(--bg); border-color: var(--zap); }
+.copy svg { width: 13px; height: 13px; }
+
+/* ---- sections ---- */
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+.col { max-width: 620px; margin: 0 auto; }
+.hero { padding: 64px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
+.kick { font: 12px/1.5 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.kick b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
+     line-height: .95; letter-spacing: .01em; margin: 18px 0 22px; }
+h2 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(30px, 5.4vw, 44px);
+     line-height: 1.05; letter-spacing: .01em; margin: 0 0 20px; }
+.lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.5; color: var(--body); max-width: 600px; }
+p { font-size: 17px; line-height: 1.65; color: var(--body); }
+p + p { margin-top: 16px; }
+em { font-style: italic; }
+strong { color: var(--cream); font-weight: 600; }
+.media { margin-top: 32px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
+         box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
+.media video, .media img { width: 100%; }
+.sec { padding: 34px 0 50px; }
+.label { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
+.label b { color: var(--zap); font-weight: 400; margin-right: 8px; }
+.note { font-size: 14px; line-height: 1.55; color: rgba(244,235,221,.6); margin-top: 16px; }
+
+.steps { list-style: none; margin-top: 6px; }
+.steps li { display: flex; gap: 14px; padding: 14px 0; font-size: 16px; line-height: 1.6; color: var(--body); }
+.steps .n { flex: 0 0 auto; width: 30px; height: 26px; border: 1px solid rgba(244,235,221,.26); border-radius: 7px;
+            font: 12px/24px var(--mono); text-align: center; color: var(--zap); }
+
+.rigs { margin-top: 26px; border-top: 1px solid var(--line); }
+.rigs div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 11px 0; border-bottom: 1px solid var(--line);
+            font: 14px/1.5 var(--mono); }
+.rigs .r { flex: 0 0 210px; color: var(--cream); }
+.rigs .v { color: var(--dim); }
+.rigs .v i { font-style: normal; color: var(--cream); }
+
+.req { margin-top: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
+.req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
+           font-size: 16px; line-height: 1.55; color: var(--body); }
+.req div:last-child { border-bottom: 0; }
+.req .k { flex: 0 0 110px; font-family: 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
+.req .t { flex: 1 1 260px; }
+
+.box { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 24px 24px 26px; }
+.faq .q { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; padding: 18px 20px; }
+.faq .q h3 { display: flex; gap: 12px; align-items: baseline; margin-bottom: 8px;
+             font: 700 18px/1.35 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .03em; color: var(--cream); }
+.faq .q h3::before { content: '+'; font: 400 16px var(--mono); color: var(--zap); }
+.faq .q p { font-size: 16px; }
+
+.cta { text-align: center; padding: 20px 0 10px; }
+.cta .coupon { display: inline-flex; }
+.foot { padding: 30px 0 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+
+@media (max-width: 520px) {
+  .hero { padding-top: 44px; }
+  .rigs .r { flex-basis: 100%; }
+  .req .k { flex-basis: 100%; }
+  .coupon { padding: 8px 10px; row-gap: 6px; }
+  .coupon .who { padding-left: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="rel">
+  <span class="name"><span class="dot"></span>Prompt Motion v1.0.0</span>
+  <span class="ed">Launch edition</span>
+  <a href="/prompt-motion/changelog.html" target="_blank" rel="noopener">View changelog &rarr;</a>
+</div>
+<div class="deal">
+  <div class="coupon">
+    <span class="who">Launch price</span>
+    <span class="off">25% off</span>
+    <span class="code">pmlaunch</span>
+    <button class="copy" type="button" data-code="pmlaunch" aria-label="Copy coupon code pmlaunch">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+      <span>Copy</span>
+    </button>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.5+ &middot; Windows &middot; NVIDIA &middot; local</div>
+      <h1>Prompt Motion</h1>
+      <p class="lead">Your character has to walk in, hesitate, and sit down. That clip isn't in the library, and hand-keying it is an afternoon. Type the sentence instead. Prompt Motion generates the motion and keys it onto the armature you already have.</p>
+    </div>
+    <div class="media"><video src="media/hero.mp4" autoplay muted loop playsinline preload="auto" aria-label="Typing a prompt in Blender and the character performing it"></video></div>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>01</b>The problem</div>
+    <h2>Getting motion onto your character is two problems, not one.</h2>
+    <p>Finding a clip is the first. The second is that whatever you find was built for someone else's skeleton, so the afternoon goes to bone mapping, a twist chain that flips, and feet that slide.</p>
+    <p>Prompt Motion does both in one step. You type what happens; it generates the motion and bakes it onto the armature you have selected, as an ordinary Action you can edit in the Dope Sheet.</p>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>02</b>Key poses</div>
+      <h2>Set two poses. It animates the in-between.</h2>
+      <p>Pose the character where the shot starts. Move a few seconds on and pose it where the shot ends. Type what happens in between, and Generate builds that motion so it passes through both of your poses.</p>
+      <p>The frames you care about stay yours. Add Key Here works on any frame, so a third or fourth pose is one more click.</p>
+    </div>
+    <div class="media"><video src="media/pose.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Two key poses, then the generated motion between them"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>03</b>Workflow</div>
+      <h2>Three steps, and the first one happens once.</h2>
+      <ol class="steps">
+        <li><span class="n">01</span><span><strong>Install the runtime once.</strong> One button, then 10&ndash;30 minutes while it sets up Python and fetches the model. No account, no sign-in, no key to paste.</span></li>
+        <li><span class="n">02</span><span><strong>Select your armature and type.</strong> &ldquo;walks forward and sits down on a chair.&rdquo; Prompts in Korean and Chinese are translated before generation.</span></li>
+        <li><span class="n">03</span><span><strong>Press Generate.</strong> The clip is retargeted and keyed onto your rig as an Action. Retime it, layer it, push it to the NLA, throw half of it away.</span></li>
+      </ol>
+    </div>
+    <div class="media"><img src="media/prompt.jpg" alt="A typed prompt and four moments of the generated motion" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>04</b>Retargeting</div>
+      <h2>It lands on the skeleton you already have.</h2>
+      <p>Matching runs on bone names <em>and</em> skeleton structure, so rigs that never followed a convention still map. Presets ship for Mixamo, VRoid, MMD, Rigify, CloudRig, Auto-Rig Pro and DAZ Genesis 8 and 9, and every row is editable and saveable as your own preset. Presets live outside the add-on folder, so an update never eats them.</p>
+      <div class="rigs">
+        <div><span class="r">Snow (CloudRig)</span><span class="v">1494 bones &middot; preset &middot; confidence <i>1.000</i></span></div>
+        <div><span class="r">Rigify</span><span class="v">706 bones &middot; preset &middot; confidence <i>1.000</i></span></div>
+        <div><span class="r">Mixamo (3 rigs)</span><span class="v">65 bones &middot; preset &middot; confidence <i>1.000</i></span></div>
+        <div><span class="r">MMD AliciaSolid</span><span class="v">194 bones &middot; preset &middot; confidence <i>1.000</i></span></div>
+        <div><span class="r">VRM AliciaSolid</span><span class="v">128 bones &middot; structure matcher &middot; confidence <i>0.943</i></span></div>
+      </div>
+      <p class="note">Seven rigs, one prompt each, measured 2026-09-08. Confidence is the matcher's own score on the joints the engine requires.</p>
+    </div>
+    <div class="media"><img src="media/retarget.jpg" alt="The same prompt on a 1494-bone CloudRig and a 128-bone VRM" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>05</b>Hands</div>
+    <h2>Fingers are keyed with the body.</h2>
+    <p>A generated clip normally arrives with flat hands, because motion models key the body and leave the fingers at rest. Prompt Motion poses them from the rig's own finger bones, left and right independently: three poses, no rigging required.</p>
+    <p class="note">The thumb is not given an angle. It is solved onto the fingers your rig actually has, so its pad comes to rest on them instead of hanging in the air &mdash; measured at one finger radius on every rig tested.</p>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>06</b>Safety</div>
+    <h2>It refuses rather than guesses.</h2>
+    <p>If the mapping can't cover the joints the engine needs, the panel names the bones it could not match and stops, instead of baking a broken take onto your character.</p>
+    <p>A Rigify or CloudRig limb left on IK ignores the FK keys this writes, and the chain stretches. So the panel tells you <em>before</em> you generate rather than after, and one button switches the limbs. It never flips your rig's own logic behind your back.</p>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>07</b>Library, paths, goals</div>
+      <h2>Ten motions work the minute it's installed.</h2>
+      <p>Walk, run, idle, wave, jump, look around, clap, bow, pick up and phone call come with the add-on. Pick one in the Library and press Apply. It lands on your rig with no server, no GPU and no download. Everything you generate later goes into the same Library.</p>
+      <p>Draw a curve and the character walks it. Pick a pace (walk, brisk walk or run) and the clip length follows the path. Ask a walk to cover ground at running speed and the panel tells you before you generate.</p>
+    </div>
+    <div class="media"><video src="media/path.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A character walking a drawn curve"></video></div>
+    <div class="col" style="margin-top:36px"><p>Or give it a Goal. Plan Route walks the character there, around the objects you mark to avoid.</p></div>
+    <div class="media"><video src="media/goal.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Plan Route walking to a goal around obstacles"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>08</b>Offline</div>
+    <h2>Your prompts stay on your machine.</h2>
+    <p>The model runs locally, against a server you start yourself on localhost. There is no account, no queue, and no cost per generation. The tenth clip costs what the first one did.</p>
+    <p>One exception, stated plainly: a prompt in another language is translated by a local model that downloads once (3 or 15 GB). Until it has, a built-in dictionary covers common motions. Nothing goes online unless you choose the free online translator in Preferences yourself.</p>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>09</b>Before you buy</div>
+    <h2>Requirements</h2>
+    <p>Read this part before buying, not after.</p>
+    <div class="req">
+      <div><span class="k">OS</span><span class="t"><strong>Windows 10 / 11, 64-bit.</strong> Mac and Linux are not supported.</span></div>
+      <div><span class="k">GPU</span><span class="t"><strong>NVIDIA, about 3 GB VRAM.</strong> The published requirement for this model is ~17 GB. Prompt Motion runs the prompt encoder on the CPU by default, which is where the 3 GB comes from, and why a laptop card is back in range.</span></div>
+      <div><span class="k">Memory</span><span class="t">16 GB system RAM.</span></div>
+      <div><span class="k">Disk</span><span class="t"><strong>About 50 GB free, once.</strong> Runtime 5 GB plus a 17 GB model download on the first run. It happens once, ever. Prompts in a language other than English add a local translator, 3 or 15 GB.</span></div>
+      <div><span class="k">Blender</span><span class="t">4.5 or newer. Graded on 4.5.0, 5.0.0, 5.1 and 5.2.</span></div>
+      <div><span class="k">Account</span><span class="t"><strong>None.</strong> No sign-up, no HuggingFace token, no per-clip charge.</span></div>
+    </div>
+    <div class="box" style="margin-top:28px">
+      <div class="kick" style="margin-bottom:10px">What you get</div>
+      <p style="font-size:16px">A perpetual licence, with no subscription and no per-generation cost. Free updates. Eight rig presets. Ten ready-made motions you can put on your rig before the model has even downloaded. Prompts in Korean, Chinese and other languages. And once the model is installed, an add-on that keeps working with your internet unplugged.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec faq">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>10</b>Questions</div>
+    <h2>Questions people ask first</h2>
+    <div class="q"><h3>Is this a web service with a Blender button?</h3><p>No. Generation runs against a server you start yourself on localhost. English prompts never leave your machine. The one translation exception is described above.</p></div>
+    <div class="q"><h3>Will it work on my rig?</h3><p>Matching by name and by structure, eight presets, and every row editable by hand. If it cannot map the core joints it tells you which ones and refuses to bake.</p></div>
+    <div class="q"><h3>What if I don't like the result?</h3><p>It's an Action. Delete it, or keep the parts you want. Generating again does not overwrite the previous clip.</p></div>
+    <div class="q"><h3>My character has no rig yet.</h3><p>Then rig it first. Prompt Motion animates an armature; it does not build one, and with a mesh selected and no armature the buttons stay greyed out rather than guessing. You do <em>not</em> have to go through Mixamo: Rigify ships free with Blender and has a preset here, CloudRig is free from Blender Studio and has one too, Mixamo's web auto-rigger is free and its output has a preset, and Auto-Rig Pro is a paid add-on whose rigs the matcher reads.</p></div>
+    <div class="q"><h3>Do I need a HuggingFace account?</h3><p>No. The model downloads from a public mirror, and the installer never asks for a token.</p></div>
+  </div></div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div class="coupon">
+      <span class="who">Launch price</span>
+      <span class="off">25% off</span>
+      <span class="code">pmlaunch</span>
+      <button class="copy" type="button" data-code="pmlaunch" aria-label="Copy coupon code pmlaunch">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap"><div class="col">Built with Meta Llama 3.<br>Motion model: NVIDIA Kimodo, under the NVIDIA Open Model License.<br>Characters shown: Snow, Blender Studio, CC-BY. Alicia Solid, &copy; dwango.</div></div>
+</footer>
+
+<script>
+// Copy the coupon code. Inside the store's cross-origin iframe the async
+// Clipboard API is blocked unless the embed grants clipboard-write, so fall
+// back to a hidden textarea + execCommand, which works on a user click.
+function copyText(t) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(t).catch(function () { return legacy(t); });
+  }
+  return Promise.resolve(legacy(t));
+}
+function legacy(t) {
+  var ta = document.createElement('textarea');
+  ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  if (!ok) throw new Error('copy failed');
+}
+document.querySelectorAll('.copy').forEach(function (b) {
+  var label = b.querySelector('span');
+  b.addEventListener('click', function () {
+    copyText(b.dataset.code).then(function () {
+      b.classList.add('done'); label.textContent = 'Copied';
+      setTimeout(function () { b.classList.remove('done'); label.textContent = 'Copy'; }, 1600);
+    }, function () {
+      // Last resort: select the code so the visitor can press Ctrl+C.
+      var r = document.createRange(); r.selectNodeContents(b.parentNode.querySelector('.code'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    });
+  });
+});
+</script>
+</body>
+</html>
