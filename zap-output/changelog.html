@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Output — Changelog</title>
+<meta name="description" content="Release notes for Zap Output, render path tools for Blender by Farax Creative." />
+<meta name="theme-color" content="#0B0D10" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root { --bg: #0B0D10; --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45);
+        --line: rgba(244,235,221,.13); --zap: #FFC828;
+        --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+        --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+::selection { background: var(--zap); color: var(--bg); }
+.wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
+.crumb { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.crumb a { text-decoration: none; }
+.crumb a:hover { color: var(--cream); }
+.crumb b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
+.intro { font-size: 18px; line-height: 1.55; color: var(--body); }
+.rel { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 26px; }
+.rel h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+          font-family: 'Farax Label', 'Arial Narrow', sans-serif; font-weight: 400; font-size: 30px; letter-spacing: .03em; }
+.rel h2 .tag { font: 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--bg);
+               background: var(--zap); border-radius: 3px; padding: 5px 8px; }
+.rel h2 .date { font: 13px/1 var(--mono); letter-spacing: .1em; color: var(--dim); }
+.rel .sum { margin-top: 12px; font-size: 17px; line-height: 1.6; color: var(--body); }
+.rel h3 { margin: 26px 0 8px; font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.rel ul { list-style: none; }
+.rel li { position: relative; padding: 8px 0 8px 22px; font-size: 16px; line-height: 1.6; color: var(--body); }
+.rel li::before { content: ''; position: absolute; left: 2px; top: 18px; width: 8px; height: 1px; background: var(--zap); }
+.rel li strong { color: var(--cream); font-weight: 600; }
+.rel li em { color: var(--dim); font-style: normal; font: 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; margin-left: 4px; }
+.rel code { font: 14px var(--mono); color: var(--cream); }
+.foot { margin-top: 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="crumb"><a href="/" target="_blank" rel="noopener"><b>Farax Creative</b></a> &nbsp;/&nbsp; Zap Output</div>
+  <h1>Changelog</h1>
+  <p class="intro">What changed in each release of Zap Output. Updates are free for everyone who owns it.</p>
+
+  <section class="rel" id="v1-2-0">
+    <h2>1.2.0 <span class="tag">Latest</span></h2>
+    <p class="sum">The first update since 1.0.2. It finds the frames an overnight render lost, keeps compositor passes from writing over the previous take, and warns you about a render that is going to finish with nothing written. Tested on Blender 5.0, 5.1 and 5.2.</p>
+    <h3>Added</h3>
+    <ul>
+      <li><strong>Render Continuity</strong><em>Pro</em>: Scan Frames reports which frames are missing from a sequence, Set Range to Gaps points the frame range at the holes so the next render fills only them, and Scan Versions lists every take with its frame count.</li>
+      <li><strong>File Output nodes follow Version Up</strong><em>Pro</em>: a node path that already carries a version moves with the render, to the version the render actually landed on. On by default, with an off switch in Preferences.</li>
+      <li><strong>Preflight warnings</strong> in the path preview: Overwrite off with files already at that path, an output folder that refuses writes, a File Output node that will write nothing, and passes that will be lost because Post Processing is off.</li>
+      <li><strong>Report a Bug</strong> in Preferences, with your add-on version, Blender version and OS filled in.</li>
+    </ul>
+    <h3>Changed</h3>
+    <ul>
+      <li><strong>Archive on Version Up</strong><em>Pro</em> now moves the old version's render files into <code>_old</code> beside it, instead of moving whole folders. When it cannot be sure which files belong to the old version, it declines and says why.</li>
+      <li><strong>Version Up</strong> checks the whole frame range for existing files, not a few sample frames, and ignores letter case on Windows and macOS. When a path has a version in both the folder and the filename, the filename's number is the one that moves.</li>
+    </ul>
+    <h3>Fixed</h3>
+    <ul>
+      <li>Auto-save<em>Pro</em> overwrote the previous stereo still, because it checked for a file name stereo never writes. It now checks the left and right eye files, and no longer reports a false "auto-save failed".</li>
+      <li>Version Up on Render<em>Pro</em> now moves File Output nodes along as well, the same as the Version Up button, so an automatic version change no longer writes over the last take's passes.</li>
+      <li>Auto-save<em>Pro</em> could overwrite the original still once 99 numbered copies existed. It now refuses and tells you.</li>
+      <li>Archive<em>Pro</em> could move an open .blend file, and archiving v1 could also sweep up v10 to v19.</li>
+      <li>Folder per Version<em>Pro</em> could reuse a folder that already held a take, and system files such as Thumbs.db could make it skip a version.</li>
+      <li>The version sync no longer renames the layers inside a multilayer EXR.</li>
+      <li>The Output panel no longer stutters on network drives, and no longer disappears when a path contains a null character.</li>
+    </ul>
+  </section>
+
+  <section class="rel" id="v1-0-2">
+    <h2>1.0.2 <span class="date">2026-07-19</span></h2>
+    <ul>
+      <li><strong>Check for Updates</strong> in Preferences.</li>
+      <li>Version Up could overwrite an existing take when the shot did not start at frame 1. Fixed.</li>
+    </ul>
+  </section>
+
+  <section class="rel" id="v1-0-1">
+    <h2>1.0.1 <span class="date">2026-07-16</span></h2>
+    <ul>
+      <li>Relabelled the token buttons.</li>
+    </ul>
+  </section>
+
+  <section class="rel" id="v1-0-0">
+    <h2>1.0.0 <span class="date">2026-07-15</span></h2>
+    <ul>
+      <li>First release. Free: token buttons with a live preview, date and version stamps, Version Up, folder helpers, copy path.</li>
+      <li>Pro: path presets with a global favorite, camera and pass folders, archive on Version Up, auto-saved F12 renders.</li>
+    </ul>
+  </section>
+
+  <p class="foot">Zap Output by Farax Creative &middot; Blender 5.0+ &middot; Windows &middot; macOS &middot; Linux</p>
+</main>
+</body>
+</html>

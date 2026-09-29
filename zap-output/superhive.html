@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Output — Superhive page</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0B0D10" />
+<!--
+  Embedded in the Superhive product description through an <iframe>, the same
+  way the Prompt Motion page is (prompt-motion/superhive.html). The store's
+  rich-text field strips <script>, <style> and <video>, so the coupon COPY
+  button, the brand fonts and the mp4 demos live here instead.
+
+  The host cannot resize a cross-origin iframe to fit, so the embed has a
+  fixed height measured from this page at the widths the store column takes.
+  Change the length of this page and that height has to be measured again
+  (embed snippet: zap_output repo, docs/marketing/superhive-embed.html).
+
+  Links open in a new tab: navigating inside the frame would leave the
+  visitor on our site with the store still wrapped around it.
+
+  Every claim here is checked against CHANGELOG.md 1.2.0. The clips are
+  screen captures of the add-on's real panels, with nothing drawn on top.
+-->
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root {
+  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
+  --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
+  --zap: #FFC828;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; height: auto; }
+::selection { background: var(--zap); color: var(--bg); }
+
+/* ---- release bar ---- */
+.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+       gap: 8px 22px; padding: 13px 16px; font: 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
+.rel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
+.rel .ed { color: var(--zap); }
+.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
+.rel a:hover { text-decoration-color: var(--zap); }
+
+/* ---- coupon ---- */
+.coupon { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center;
+          background: var(--bar); border: 1px solid var(--line); border-radius: 4px; padding: 6px 6px 6px 14px; max-width: 100%;
+          font: 600 14px/1.2 -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--cream); }
+.coupon > span { padding: 4px 12px; }
+.coupon > span + span { border-left: 1px solid rgba(244,235,221,.2); }
+.coupon .who { padding-left: 0; }
+.coupon .off { color: var(--zap); }
+.coupon .code { font-family: var(--mono); letter-spacing: .06em; }
+.copy { margin-left: 6px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+        background: transparent; color: var(--cream); border: 1px solid rgba(244,235,221,.55); border-radius: 3px;
+        padding: 6px 10px; font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+        transition: background-color .2s, color .2s, border-color .2s; }
+.copy:hover { border-color: var(--cream); }
+.copy.done { background: var(--zap); color: var(--bg); border-color: var(--zap); }
+.copy svg { width: 13px; height: 13px; }
+
+/* ---- sections ---- */
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+.hero { padding: 64px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
+.kick { font: 12px/1.5 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.kick b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
+     line-height: .95; letter-spacing: .01em; margin: 18px 0 22px; }
+h2 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(30px, 5.4vw, 44px);
+     line-height: 1.05; letter-spacing: .01em; margin: 0 0 20px; }
+.lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.5; color: var(--body); max-width: 600px; }
+p { font-size: 17px; line-height: 1.65; color: var(--body); }
+p + p { margin-top: 16px; }
+em { font-style: italic; }
+strong { color: var(--cream); font-weight: 600; }
+code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235,221,.07);
+       border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+.media { margin: 0 auto; width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
+         box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
+.media video { width: 100%; }
+.hero-media { margin-top: 34px; max-width: 620px; }
+.one { font-size: 18px; line-height: 1.55; color: var(--body); max-width: 34em; }
+.grid { display: grid; gap: 24px; align-items: center; }
+.feat .media { max-width: 560px; }
+.feat .media.narrow { max-width: 300px; }
+@media (min-width: 560px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(22px, 5vw, 44px); }
+  .flip .txt { order: 2; }
+}
+.sec { padding: 30px 0 44px; }
+.label { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
+.label b { color: var(--zap); font-weight: 400; margin-right: 8px; }
+.label .pro { color: var(--zap); border: 1px solid rgba(255,200,40,.45); border-radius: 3px; padding: 1px 6px; margin-left: 10px; letter-spacing: .14em; }
+.label .new { color: var(--bg); background: var(--zap); border-radius: 3px; padding: 1px 6px; margin-left: 6px; letter-spacing: .14em; }
+.note { font-size: 14px; line-height: 1.55; color: rgba(244,235,221,.6); margin-top: 16px; }
+
+
+.big { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 6px 0 18px; }
+.big .num { font-family: 'Farax Display', var(--serif); font-size: clamp(88px, 16vw, 140px); line-height: .9; color: var(--zap); }
+.big .cap { font: 13px/1.5 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); max-width: 16em; }
+
+.eds { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
+.ed-box { flex: 1 1 260px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 20px 20px 22px; }
+.ed-box.pro { border-color: rgba(255,200,40,.4); }
+.ed-box h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 4px;
+             font: 700 20px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
+.ed-box h3 span { font: 13px/1 var(--mono); letter-spacing: .1em; color: var(--zap); }
+.ed-box .sub { font-size: 14px; color: var(--dim); margin-bottom: 12px; }
+.ed-box ul { list-style: none; }
+.ed-box li { font-size: 15px; line-height: 1.5; color: var(--body); padding: 7px 0 7px 18px; border-top: 1px solid var(--line); position: relative; }
+.ed-box li::before { content: ''; position: absolute; left: 2px; top: 15px; width: 6px; height: 6px; border-radius: 50%; background: var(--dim); }
+.ed-box.pro li::before { background: var(--zap); }
+
+.req { margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
+.req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
+           font-size: 16px; line-height: 1.55; color: var(--body); }
+.req div:last-child { border-bottom: 0; }
+.req .k { flex: 0 0 110px; font-family: 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
+.req .t { flex: 1 1 260px; }
+
+
+.series { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.series a { flex: 1 1 250px; display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px;
+            background: var(--panel); padding: 16px 18px; transition: border-color .2s; }
+.series a:hover { border-color: rgba(255,200,40,.5); }
+.series b { display: flex; justify-content: space-between; font: 700 17px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .04em; color: var(--cream); }
+.series b span { font: 13px/1.3 var(--mono); color: var(--zap); }
+.series small { display: block; margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--dim); }
+
+.cta { text-align: center; padding: 26px 0 10px; }
+.cta p { font-size: 15px; color: var(--dim); margin-bottom: 14px; }
+.foot { padding: 30px 0 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+
+@media (max-width: 520px) {
+  .hero { padding-top: 44px; }
+  .req .k { flex-basis: 100%; }
+  .coupon { padding: 8px 10px; row-gap: 6px; }
+  .coupon .who { padding-left: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy, .series a { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="rel">
+  <span class="name"><span class="dot"></span>Zap Output v1.2.0</span>
+  <span class="ed">Free + Pro</span>
+  <a href="/zap-output/changelog.html" target="_blank" rel="noopener">What's new &rarr;</a>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 5.0+ &middot; Windows &middot; macOS &middot; Linux</div>
+    <h1>Zap Output</h1>
+    <p class="lead">Build render paths with buttons, see the exact filename, and never overwrite a take.</p>
+    <div class="media hero-media"><video src="media/hero.mp4" autoplay muted loop playsinline preload="auto" aria-label="Token buttons building a render path in the Output panel, with the live filename preview"></video></div>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="big"><span class="num">0</span><span class="cap">custom tokens.<br>Uninstall it and every path still renders.</span></div>
+    <p class="one">Built on Blender 5.0's own Path Templates, so a render farm doesn't need the add-on.</p>
+  </div>
+</section>
+
+<section class="sec feat">
+  <div class="wrap grid">
+    <div class="txt">
+      <div class="label"><b>01</b>Version Up<span class="new">New warnings</span></div>
+      <h2>Skips any version already on disk.</h2>
+      <p class="one">And warns before you render: Overwrite off with files in the way, a folder that refuses writes, a node that writes nothing.</p>
+    </div>
+    <div class="media"><video src="media/versionup.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Version Up skipping v002, which already holds renders, and landing on v003, with a preflight warning"></video></div>
+  </div>
+</section>
+
+<section class="sec feat flip">
+  <div class="wrap grid">
+    <div class="txt">
+      <div class="label"><b>02</b>Render Continuity<span class="pro">Pro</span><span class="new">New</span></div>
+      <h2>Find the frames a crashed render lost.</h2>
+      <p class="one">Scan Frames lists the holes. Set Range to Gaps renders only those.</p>
+    </div>
+    <div class="media"><video src="media/continuity.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Scan Frames reporting missing frames, then Set Range to Gaps narrowing the frame range to them"></video></div>
+  </div>
+</section>
+
+<section class="sec feat">
+  <div class="wrap grid">
+    <div class="txt">
+      <div class="label"><b>03</b>Auto-save<span class="pro">Pro</span></div>
+      <h2>Every F12 kept.</h2>
+      <p class="one">Each still render is saved the moment it finishes, numbered. Stereo pairs included.</p>
+    </div>
+    <div class="media narrow"><video src="media/autosave.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Three F12 renders saved as three numbered files"></video></div>
+  </div>
+</section>
+
+<section class="sec feat flip">
+  <div class="wrap grid">
+    <div class="txt">
+      <div class="label"><b>04</b>File Output nodes<span class="pro">Pro</span><span class="new">New</span></div>
+      <h2>Passes follow the version.</h2>
+      <p class="one">Version Up moves your compositor's File Output nodes too, so passes stop writing over the last take.</p>
+    </div>
+    <div class="media"><video src="media/nodes.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A File Output node path moving from v001 to v002 with Version Up"></video></div>
+  </div>
+</section>
+
+<section class="sec feat">
+  <div class="wrap grid">
+    <div class="txt">
+      <div class="label"><b>05</b>Folders &amp; presets<span class="pro">Pro</span></div>
+      <h2>Your folder structure in one click.</h2>
+      <p class="one">Scene, Camera, version and pass folders. Six presets built in, plus your own.</p>
+    </div>
+    <div class="media"><video src="media/folders.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Applying a path preset that adds scene, camera and version folders"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="label"><b>06</b>Editions</div>
+    <div class="eds">
+      <div class="ed-box">
+        <h3>Free <span>$0</span></h3>
+        <ul>
+          <li>Token buttons + live preview</li>
+          <li>Date stamp</li>
+          <li>Version Up / Down</li>
+          <li>Preflight warnings</li>
+          <li>Open, create, copy the output path</li>
+        </ul>
+      </div>
+      <div class="ed-box pro">
+        <h3>Pro <span>$5</span></h3>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Auto-save every F12</li>
+          <li>Version Up on Render</li>
+          <li>Render Continuity</li>
+          <li>Archive old takes to <em>_old</em></li>
+          <li>Presets, folders, File Output nodes</li>
+        </ul>
+      </div>
+    </div>
+    <div class="req">
+      <div><span class="k">Blender</span><span class="t">5.0 or newer. Tested on 5.0, 5.1 and 5.2.</span></div>
+      <div><span class="k">OS</span><span class="t">Windows, macOS, Linux</span></div>
+      <div><span class="k">Licence</span><span class="t">GPL, free updates</span></div>
+    </div>
+    <p class="note">Folder per Pass needs 5.1. Bugs: Preferences &rarr; Report a Bug fills in your versions for you.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="label"><b>07</b>The Zap series</div>
+    <div class="series">
+      <a href="https://superhivemarket.com/products/zap-viewer" target="_blank" rel="noopener"><b>Zap Viewer <span>$19</span></b><small>Browse every render inside Blender.</small></a>
+      <a href="https://superhivemarket.com/products/zap-doctor" target="_blank" rel="noopener"><b>Zap Doctor <span>$9</span></b><small>Catch the settings that ruin a final render.</small></a>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p>Own a paid Zap add-on? Take 25% off any other one.</p>
+    <div class="coupon">
+      <span class="who">Zap owners</span>
+      <span class="off">25% off</span>
+      <span class="code">ZAP25</span>
+      <button class="copy" type="button" data-code="ZAP25" aria-label="Copy coupon code ZAP25">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">Zap Output by Farax Creative.<br>Blender is a trademark of the Blender Foundation.</div>
+</footer>
+
+<script>
+// Copy the coupon code. Inside the store's cross-origin iframe the async
+// Clipboard API is blocked unless the embed grants clipboard-write (the store
+// strips `allow`), so fall back to a hidden textarea + execCommand, which
+// works on a user click.
+function copyText(t) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(t).catch(function () { return legacy(t); });
+  }
+  return Promise.resolve(legacy(t));
+}
+function legacy(t) {
+  var ta = document.createElement('textarea');
+  ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  if (!ok) throw new Error('copy failed');
+}
+document.querySelectorAll('.copy').forEach(function (b) {
+  var label = b.querySelector('span');
+  b.addEventListener('click', function () {
+    copyText(b.dataset.code).then(function () {
+      b.classList.add('done'); label.textContent = 'Copied';
+      setTimeout(function () { b.classList.remove('done'); label.textContent = 'Copy'; }, 1600);
+    }, function () {
+      // Last resort: select the code so the visitor can press Ctrl+C.
+      var r = document.createRange(); r.selectNodeContents(b.parentNode.querySelector('.code'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    });
+  });
+});
+</script>
+</body>
+</html>
