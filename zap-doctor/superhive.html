@@ -71,7 +71,7 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
          box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
 .media img { width: 100%; }
 /* portrait UI panels sit narrower and centred on their own dark plate */
-.panel { margin: 30px auto 0; max-width: 380px; border-radius: 12px; overflow: hidden;
+.panel { margin: 34px auto 0; max-width: 460px; border-radius: 12px; overflow: hidden;
          border: 1px solid var(--line); box-shadow: 0 24px 60px rgba(0,0,0,.45); background: #0E1115; }
 .panel img { width: 100%; }
 .sec { padding: 34px 0 50px; }
@@ -141,7 +141,7 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
     <div class="col">
       <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.3&ndash;5.2 &middot; Cycles &amp; EEVEE &middot; offline</div>
       <h1>Zap Doctor</h1>
-      <p class="lead">You queue an overnight render, go to bed, and wake up to a half-rendered frame, a missing texture, or an empty output folder. Zap Doctor scans the scene for the mistakes that quietly ruin a final render, sorts them by severity, and fixes most of them with one click.</p>
+      <p class="lead">Queue an overnight render, wake to a half-rendered frame or an empty output folder. Zap Doctor catches the mistakes that ruin a final render &mdash; and fixes most in one click.</p>
     </div>
     <div class="media"><img src="media/hero.webp" alt="Zap Doctor reporting render issues on a Blender scene before an overnight render" /></div>
   </div>
@@ -150,26 +150,16 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
 <div class="upd">
   <div class="wrap"><div class="col">
     <span class="tag">Updated 2026-09-29 &middot; v1.3.0</span>
-    <p>Four new checks bring it to <strong>34</strong>, and an optional <strong>Render Guard</strong> can move the scan to the moment you press F12. Off by default, so nothing about your current workflow changes until you turn it on.</p>
+    <p>Four new checks bring it to <strong>34</strong>, and an optional <strong>Render Guard</strong> moves the scan to the moment you press F12. Off by default.</p>
   </div></div>
 </div>
 
 <section class="sec">
-  <div class="wrap"><div class="col">
-    <div class="label"><b>01</b>The problem</div>
-    <h2>You didn&rsquo;t miss it because it was hard to see.</h2>
-    <p>A render region left switched on, the hero object disabled for render the whole time, a view transform stuck on Raw. None of it is hard to spot &mdash; you just didn&rsquo;t look, because there are dozens of settings to check and no reason to suspect any one of them.</p>
-    <p>So the cost never lands at render time. It lands in the morning, on a frame you cannot use and hours you cannot get back.</p>
-  </div></div>
-</section>
-
-<section class="sec">
   <div class="wrap">
     <div class="col">
-      <div class="label"><b>02</b>Scene health</div>
+      <div class="label"><b>01</b>Scene health</div>
       <h2>One number tells you whether to render.</h2>
-      <p>Press <strong>Check Scene Health</strong> and the scan reports a single score, with every issue grouped underneath it as Error, Warning or Info. It counts kinds of problem, not objects: one broken texture path shared across forty objects is one problem, and the gauge treats it that way.</p>
-      <p class="note">Scan time depends on how many textures you reference and where they live, not on how big the scene is. Most of the work is checking files on disk, so a heavy scene with local textures clears in about the time a light one does.</p>
+      <p>One button, one score. Every issue grouped by severity.</p>
     </div>
     <div class="panel"><img src="media/scan_gauge.webp" alt="Scene Health score with issues grouped by severity" /></div>
   </div>
@@ -178,9 +168,9 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
 <section class="sec">
   <div class="wrap">
     <div class="col">
-      <div class="label"><b>03</b>One-click fixes</div>
-      <h2>More than half of them have a button.</h2>
-      <p>Create the output folder. Reset resolution to 100%. Clear the render region. Switch to AgX. Use the GPU. Purge orphan data. Where the fix is unambiguous, one click ends it, and you move on.</p>
+      <div class="label"><b>02</b>One-click fixes</div>
+      <h2>More than half have a button.</h2>
+      <p>Output folder, render region, view transform, orphan data &mdash; one click.</p>
     </div>
     <div class="panel"><img src="media/fix_all.webp" alt="A list of render issues, each with its own one-click fix button" /></div>
   </div>
@@ -189,9 +179,9 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
 <section class="sec">
   <div class="wrap">
     <div class="col">
-      <div class="label"><b>04</b>When it won&rsquo;t guess</div>
+      <div class="label"><b>03</b>When it won&rsquo;t guess</div>
       <h2>It refuses rather than guesses.</h2>
-      <p>A modifier disabled in the viewport but on for render is usually deliberate. So where a fix could be the wrong call, Zap Doctor shows you the real toggle instead of deciding for you. It points; you choose.</p>
+      <p>When a fix could be wrong, it points at the toggle instead.</p>
     </div>
     <div class="panel"><img src="media/fix_scn01.webp" alt="An object visible in the viewport but disabled for render, with the toggle to correct it" /></div>
   </div>
@@ -200,10 +190,9 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
 <section class="sec">
   <div class="wrap">
     <div class="col">
-      <div class="label"><b>05</b>Recently fixed</div>
+      <div class="label"><b>04</b>Recently fixed</div>
       <h2>Nothing it does is permanent.</h2>
-      <p>Every fix is logged in one line under <strong>Recently Fixed</strong>, with a <strong>Revert</strong> button beside it. Nothing happens silently, and nothing is one-way &mdash; fix something you didn&rsquo;t mean to, and put it back.</p>
-      <p>Dismiss an issue for a single scan, or pin it to stay hidden across every scan. Any individual check can be switched off for good in Preferences.</p>
+      <p>Every fix is logged, and one click <strong>reverts</strong> it.</p>
     </div>
     <div class="panel"><img src="media/revert.webp" alt="The Recently Fixed log, each entry with a Revert button" /></div>
   </div>
@@ -211,12 +200,10 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
 
 <section class="sec">
   <div class="wrap"><div class="col">
-    <div class="label"><b>06</b>Render guard<span class="new">New in 1.3</span></div>
-    <h2>The check works only if you remember it. So this one doesn&rsquo;t wait for you.</h2>
-    <p>Render Guard moves the scan to the moment you actually render. Both switches live in Preferences and both start <strong>off</strong>, so your current workflow is untouched until you choose otherwise.</p>
-    <p><strong>Guard the render shortcut.</strong> F12 and Ctrl+F12 scan first. If something would ruin the render you get the list and a choice; if the scene is clean it renders straight through, exactly as before.</p>
-    <p><strong>Report errors in background renders.</strong> A <code>blender -b</code> render prints blocking issues to the console before it starts, so a render-farm log carries them.</p>
-    <p class="note"><strong>Stated plainly:</strong> the shortcut guard is bound to a key, so a render reached another way &mdash; the Render menu, a rebound key, another add-on, the command line &mdash; goes around it. The background report is what covers command-line renders. And neither can <em>stop</em> a render that has already begun; Blender gives an add-on no way to do that. Both report, and the decision stays yours.</p>
+    <div class="label"><b>05</b>Render guard<span class="new">New in 1.3</span></div>
+    <h2>This check doesn&rsquo;t wait for you to remember it.</h2>
+    <p>Optional, off by default. F12 scans first; background renders log it too.</p>
+    <p class="note">It reports &mdash; it can&rsquo;t <em>stop</em> a render already running, and Blender gives an add-on no way to. The decision stays yours. <a href="/zap-doctor/changelog.html" target="_blank" rel="noopener" style="color:var(--zap);text-decoration:underline;text-underline-offset:3px">How it works &rarr;</a></p>
     <div class="slot">
       <div class="t">Render Guard demo &mdash; placeholder</div>
       <p>The v1.3 footage of the F12 prompt is being captured. This slot holds its place until the clip is ready.</p>
@@ -226,7 +213,7 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
 
 <section class="sec">
   <div class="wrap"><div class="col">
-    <div class="label"><b>07</b>What it checks</div>
+    <div class="label"><b>06</b>What it checks</div>
     <h2>Thirty-four checks across the render pipeline.</h2>
     <div class="checks">
       <div class="row">
@@ -250,46 +237,34 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cream); backgrou
         <div class="list">A never-saved file &middot; orphan data bloating the file &middot; unused material slots</div>
       </div>
     </div>
-    <p class="note">Four of these are new in v1.3: render passes a format can&rsquo;t store, video output splitting at 2&nbsp;GB, a compositor File Output node that writes nothing, and a frame range that runs past the last keyframe.</p>
+    <p class="note">Four are new in v1.3: render passes a format can&rsquo;t store, video output splitting at 2&nbsp;GB, a compositor File Output node that writes nothing, and a frame range that runs past the last keyframe.</p>
   </div></div>
 </section>
 
 <section class="sec">
   <div class="wrap"><div class="col">
-    <div class="label"><b>08</b>Offline</div>
-    <h2>By default it runs only when you ask, and never touches the network.</h2>
-    <p>Out of the box, Zap Doctor scans when you press the button and not before &mdash; not on file load, not in the background. Render Guard is the one thing that changes that, and you turn it on yourself.</p>
-    <p>There is no network access anywhere in the add-on. The Report a Bug link opens your browser; the add-on itself never sends anything.</p>
-  </div></div>
-</section>
-
-<section class="sec">
-  <div class="wrap"><div class="col">
-    <div class="label"><b>09</b>Before you buy</div>
+    <div class="label"><b>07</b>Before you buy</div>
     <h2>Requirements</h2>
     <div class="req">
       <div><span class="k">Blender</span><span class="t"><strong>4.3 or newer.</strong> The full test suite passes clean on 4.3, 4.4, 4.5, 5.0, 5.1 and 5.2.</span></div>
       <div><span class="k">Renderers</span><span class="t">Cycles and EEVEE.</span></div>
       <div><span class="k">OS</span><span class="t">Windows, macOS and Linux &mdash; anywhere Blender runs.</span></div>
       <div><span class="k">Network</span><span class="t"><strong>None.</strong> No account, no telemetry.</span></div>
-      <div><span class="k">Install</span><span class="t">Drag the zip onto Blender, or Preferences &rarr; Get Extensions &rarr; Install from Disk. The panel lives in the 3D Viewport sidebar (N) &rarr; Zap Doctor.</span></div>
-    </div>
-    <div class="box" style="margin-top:28px">
-      <div class="kick" style="margin-bottom:10px">What you get</div>
-      <p style="font-size:16px">A perpetual licence with free updates. Thirty-four checks across output, scene, render, assets and file hygiene. One-click fixes on more than half of them, each one logged and revertible. An optional Render Guard for F12 and the render farm. And an add-on that keeps working with your internet unplugged.</p>
+      <div><span class="k">Install</span><span class="t">Drag the zip onto Blender. The panel lives in the 3D Viewport sidebar (N) &rarr; Zap Doctor.</span></div>
+      <div><span class="k">Licence</span><span class="t">Perpetual, with free updates.</span></div>
     </div>
   </div></div>
 </section>
 
 <section class="sec faq">
   <div class="wrap"><div class="col">
-    <div class="label"><b>10</b>Questions</div>
+    <div class="label"><b>08</b>Questions</div>
     <h2>Questions people ask first</h2>
-    <div class="q"><h3>Does it run on its own or send anything anywhere?</h3><p>No. By default it scans only when you press the button, and it has no network access at all. Render Guard, off by default, is the only thing that adds an automatic scan &mdash; on F12 or a background render &mdash; and you turn it on yourself.</p></div>
-    <div class="q"><h3>Can Render Guard stop a bad render for me?</h3><p>It stops <em>you</em>, before the render starts, by showing what would go wrong. Once a render has begun, Blender gives an add-on no way to abort it, so we don&rsquo;t claim to. And because the shortcut guard is bound to a key, renders started from the menu, the command line or another add-on go around it &mdash; the background report is what covers command-line jobs.</p></div>
-    <div class="q"><h3>What if it fixes something I wanted?</h3><p>Every fix is one line in the Recently Fixed log with a Revert button. Put it straight back. And where a fix might be the wrong call, it doesn&rsquo;t fix at all &mdash; it shows you the toggle.</p></div>
-    <div class="q"><h3>Will it slow down a heavy scene?</h3><p>Scan time follows how many textures you reference and where they live, not the object count. Most of the work is checking files on disk, so a big scene with local textures is quick.</p></div>
-    <div class="q"><h3>Which Blender versions are supported?</h3><p>4.3 and newer. The test suite is run against 4.3, 4.4, 4.5, 5.0, 5.1 and 5.2 on every release, and nothing is promised that hasn&rsquo;t been tested.</p></div>
+    <div class="q"><h3>Does it run on its own or send anything anywhere?</h3><p>No. By default it scans only when you press the button, with no network access at all. Render Guard, off by default, is the one thing that adds an automatic scan &mdash; and you turn it on yourself.</p></div>
+    <div class="q"><h3>Can Render Guard stop a bad render for me?</h3><p>It stops <em>you</em> before the render starts, by showing what would go wrong. Once a render has begun, Blender gives an add-on no way to abort it, so we don&rsquo;t claim to. Renders started from the menu or command line go around the shortcut guard &mdash; the background report covers those.</p></div>
+    <div class="q"><h3>What if it fixes something I wanted?</h3><p>Every fix is one line in the Recently Fixed log with a Revert button. And where a fix might be the wrong call, it doesn&rsquo;t fix at all &mdash; it shows you the toggle.</p></div>
+    <div class="q"><h3>Will it slow down a heavy scene?</h3><p>Scan time follows how many textures you reference and where they live, not the object count &mdash; a big scene with local textures is quick.</p></div>
+    <div class="q"><h3>Which Blender versions are supported?</h3><p>4.3 and newer. The test suite runs against 4.3 through 5.2 on every release, and nothing is promised that hasn&rsquo;t been tested.</p></div>
   </div></div>
 </section>
 
