@@ -22,18 +22,18 @@
   Change the page length and that height must be measured again.
 -->
 <style>
-@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Display'; src: url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('https://farax-creative.github.io/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
 :root {
   --bg: #0B0D10; --panel: #11161B; --bar: #050506;
   --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
   --zap: #FFC828;
   --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); overflow-x: hidden; }
 a { color: inherit; }
 img, video { display: block; max-width: 100%; height: auto; }
 ::selection { background: var(--zap); color: var(--bg); }
@@ -52,9 +52,9 @@ img, video { display: block; max-width: 100%; height: auto; }
 .hero { padding: 38px 0 22px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
 .kick { font: 12px/1.5 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .kick b { color: var(--zap); font-weight: 400; }
-h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(50px, 9vw, 84px);
+h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(50px, 9vw, 84px);
      line-height: .95; letter-spacing: .01em; margin: 10px 0 14px; }
-h2 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(30px, 5.6vw, 46px);
+h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(30px, 5.6vw, 46px);
      line-height: 1.04; letter-spacing: .01em; margin: 0; }
 .lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.4; color: var(--body); max-width: 600px; }
 strong { color: var(--cream); font-weight: 600; }
