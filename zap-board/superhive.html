@@ -19,13 +19,13 @@
   page). Links open in a new tab so the visitor is not left inside the frame.
 -->
 <style>
-@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Display'; src: url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
 :root {
   --bg: #0B0D10; --panel: #11161B; --bar: #050506;
   --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
   --zap: #FFC828;
   --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -63,11 +63,12 @@ strong { color: var(--cream); font-weight: 600; }
          box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
 .media video, .media img { width: 100%; }
 .sec { padding: 34px 0 50px; }
-.label { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+.label { display: flex; align-items: center; flex-wrap: wrap; gap: 0;
+         font: 600 12px/1.5 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--dim);
          border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
-.label b { color: var(--zap); font-weight: 400; margin-right: 8px; }
-.pro { color: var(--zap); font: 11px/1 var(--mono); letter-spacing: .14em; border: 1px solid rgba(255,200,40,.5);
-       border-radius: 3px; padding: 4px 7px; margin-left: 10px; vertical-align: middle; }
+.label b { color: var(--zap); font-weight: 700; margin-right: 10px; }
+.pro { color: var(--zap); font: 700 11px/1 var(--sans); letter-spacing: .12em; border: 1px solid rgba(255,200,40,.5);
+       border-radius: 3px; padding: 4px 8px; margin-left: 10px; }
 .note { font-size: 14px; line-height: 1.55; color: rgba(244,235,221,.6); margin-top: 16px; }
 
 .steps { list-style: none; margin-top: 6px; }
@@ -79,26 +80,27 @@ strong { color: var(--cream); font-weight: 600; }
 .req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
            font-size: 16px; line-height: 1.55; color: var(--body); }
 .req div:last-child { border-bottom: 0; }
-.req .k { flex: 0 0 110px; font-family: 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
+.req .k { flex: 0 0 110px; font-family: var(--sans); font-weight: 600; letter-spacing: .02em; color: var(--cream); }
 .req .t { flex: 1 1 260px; }
 
 /* ---- Free / Pro tiers ---- */
-.tiers { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 26px; }
+.tiers { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 26px; font-family: var(--sans); }
 .tier { flex: 1 1 260px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 22px 22px 24px; }
 .tier.p { border-color: rgba(255,200,40,.4); }
-.tier .h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
-.tier .h b { font: 700 20px/1.2 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .04em; color: var(--cream); }
-.tier .h .amt { font: 12px/1 var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
+.tier .h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+           padding-bottom: 14px; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+.tier .h b { font: 700 19px/1.2 var(--sans); letter-spacing: .01em; color: var(--cream); }
+.tier .h .amt { font: 600 12px/1 var(--sans); letter-spacing: .06em; color: var(--dim); text-transform: uppercase; }
 .tier.p .h .amt { color: var(--zap); }
 .tier ul { list-style: none; margin-top: 12px; }
 .tier li { position: relative; padding: 7px 0 7px 20px; font-size: 15px; line-height: 1.5; color: var(--body); }
-.tier li::before { content: ''; position: absolute; left: 0; top: 15px; width: 8px; height: 1px; background: var(--zap); }
+.tier li::before { content: ''; position: absolute; left: 0; top: 14px; width: 8px; height: 1px; background: var(--zap); }
 
 .box { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 24px 24px 26px; }
 .faq .q { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; padding: 18px 20px; }
 .faq .q h3 { display: flex; gap: 12px; align-items: baseline; margin-bottom: 8px;
-             font: 700 18px/1.35 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .03em; color: var(--cream); }
-.faq .q h3::before { content: '+'; font: 400 16px var(--mono); color: var(--zap); }
+             font: 700 18px/1.35 var(--sans); letter-spacing: .005em; color: var(--cream); }
+.faq .q h3::before { content: '+'; font: 700 16px/1.35 var(--sans); color: var(--zap); }
 .faq .q p { font-size: 16px; }
 
 .cta { text-align: center; padding: 8px 0 10px; }
