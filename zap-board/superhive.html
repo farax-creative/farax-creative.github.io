@@ -7,16 +7,16 @@
 <meta name="robots" content="noindex" />
 <meta name="theme-color" content="#0B0D10" />
 <!--
-  Embedded in the Superhive product description through an <iframe>. The
-  store's rich-text field strips <script>, <style> and <video>, so anything
-  that needs a real font or has to play lives here instead of in the pasted
-  body.
+  Embedded in the Superhive product description through an <iframe>, the way
+  Prompt Motion does it. The store's rich-text field strips <script>, <style>
+  and <video>, so the videos and the real font live here instead of in the
+  pasted body.
 
   The host cannot resize a cross-origin iframe to fit, so the embed uses a
   fixed height worked out from this page's measured height at the widths the
   store column actually takes. Change the length of this page and that height
-  has to be measured again (see the embed snippet prepared alongside this
-  page). Links open in a new tab so the visitor is not left inside the frame.
+  has to be measured again (see the embed snippet prepared alongside it).
+  Links open in a new tab so the visitor is not left inside the frame.
 -->
 <style>
 @font-face { font-family: 'Farax Display'; src: url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
@@ -34,8 +34,6 @@ body { background: var(--bg); color: var(--cream); font-family: var(--sans); fon
 a { color: inherit; }
 img, video { display: block; max-width: 100%; height: auto; }
 ::selection { background: var(--zap); color: var(--bg); }
-.ic { width: 19px; height: 19px; flex: 0 0 auto; stroke: currentColor; stroke-width: 2;
-      stroke-linecap: round; stroke-linejoin: round; fill: none; }
 
 /* ---- release bar ---- */
 .rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
@@ -47,96 +45,85 @@ img, video { display: block; max-width: 100%; height: auto; }
 .rel a:hover { text-decoration-color: var(--zap); }
 
 /* ---- shell ---- */
-.wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 .col { max-width: 640px; margin: 0 auto; }
-.hero { padding: 60px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
-.kick { display: inline-flex; align-items: center; gap: 10px; font: 700 12px/1.5 var(--mono); letter-spacing: .2em;
-        text-transform: uppercase; color: var(--dim); }
+.hero { padding: 62px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
+.kick { font: 700 12px/1.5 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .kick b { color: var(--zap); font-weight: 700; }
-h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(50px, 10.5vw, 104px);
+h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(52px, 10.5vw, 100px);
      line-height: .94; letter-spacing: .01em; margin: 18px 0 20px; }
-.lead { font-size: clamp(18px, 2.4vw, 22px); font-weight: 600; line-height: 1.45; color: var(--cream); max-width: 600px; }
+.lead { font-size: clamp(18px, 2.4vw, 22px); font-weight: 600; line-height: 1.5; color: var(--cream); max-width: 610px; }
 .lead span { color: var(--body); font-weight: 500; }
 
-/* ---- section heads ---- */
-.sec { padding: 46px 0; }
-.eyebrow { display: flex; align-items: center; gap: 10px; font: 700 12px/1 var(--sans); letter-spacing: .16em;
-           text-transform: uppercase; color: var(--zap); margin-bottom: 14px; }
-h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(30px, 5.2vw, 46px);
-     line-height: 1.02; letter-spacing: .01em; margin: 0 0 6px; }
-.sub { font-size: 16px; font-weight: 500; line-height: 1.55; color: var(--body); max-width: 560px; margin-top: 12px; }
+.sec { padding: 34px 0 50px; }
+h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(30px, 5.2vw, 45px);
+     line-height: 1.04; letter-spacing: .01em; margin: 0 0 18px; }
+.label { font: 700 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
+.label b { color: var(--zap); font-weight: 700; margin-right: 10px; }
+.label .pro { color: var(--zap); margin-left: 10px; }
+p { font-size: 17px; font-weight: 500; line-height: 1.62; color: var(--body); }
+p + p { margin-top: 15px; }
+strong { color: var(--cream); font-weight: 700; }
+em { font-style: normal; color: var(--cream); font-weight: 600; }
 
-/* ---- media + hero ---- */
-.media { border-radius: 12px; overflow: hidden; border: 1px solid var(--line);
-         box-shadow: 0 24px 64px rgba(0,0,0,.5); background: #000; }
-.media video, .media img { width: 100%; display: block; }
-.hero .media { margin-top: 32px; }
+.media { margin-top: 30px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
+         box-shadow: 0 26px 70px rgba(0,0,0,.5); background: #000; }
+.media video, .media img { width: 100%; }
 
-/* ---- feature grid: visual first, one-line titles ---- */
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 6px; }
-.card { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); overflow: hidden;
-        display: flex; flex-direction: column; }
-.card .media { border: 0; border-radius: 0; box-shadow: none; border-bottom: 1px solid var(--line); }
-.card .cap { display: flex; align-items: center; gap: 11px; padding: 15px 17px; }
-.card .cap .t { font: 700 16px/1.25 var(--sans); letter-spacing: .005em; color: var(--cream); }
-.card .cap svg { color: var(--zap); }
-.card .pro { margin-left: auto; color: var(--zap); font: 700 10px/1 var(--sans); letter-spacing: .1em;
-             text-transform: uppercase; border: 1px solid rgba(255,200,40,.5); border-radius: 3px; padding: 5px 7px 4px; }
+/* ---- also-in-2.0 sub-blocks ---- */
+.also { margin-top: 30px; }
+.also:first-of-type { margin-top: 8px; }
+.also h3 { font: 700 20px/1.3 var(--sans); letter-spacing: .005em; color: var(--cream); margin-bottom: 6px; }
+.also h3 .pro { color: var(--zap); font: 700 10px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase;
+                border: 1px solid rgba(255,200,40,.5); border-radius: 3px; padding: 4px 6px 3px; margin-left: 9px;
+                vertical-align: 2px; }
+.also p { font-size: 16px; }
+.also .media { margin-top: 16px; }
 
-/* ---- Free / Pro ---- */
-.prices { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
-.chip { flex: 1 1 200px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 17px 18px 18px; }
-.chip.p { border-color: rgba(255,200,40,.4); }
-.chip .t { font: 700 12px/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
-.chip.p .t { color: var(--zap); }
-.chip .amt { display: block; margin-top: 10px; font: 800 30px/1 var(--sans); letter-spacing: -.02em; color: var(--cream);
+/* ---- Free / Pro paragraphs ---- */
+.plans { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.plan { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 20px 20px 22px; }
+.plan.p { border-color: rgba(255,200,40,.4); }
+.plan .h { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+.plan .t { font: 700 13px/1 var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); }
+.plan.p .t { color: var(--zap); }
+.plan .amt { font: 800 26px/1 var(--sans); letter-spacing: -.02em; color: var(--cream);
              font-variant-numeric: tabular-nums lining-nums; }
-.chip .amt .suf { font: 600 13px/1 var(--sans); letter-spacing: 0; text-transform: none; color: var(--dim); margin-left: 6px; }
-
-.cmp { margin-top: 18px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-.cmp .row { display: grid; grid-template-columns: 1fr 58px 58px; align-items: center; gap: 10px;
-            padding: 12px 16px; border-top: 1px solid var(--line); }
-.cmp .row:first-child { border-top: 0; }
-.cmp .head { background: var(--panel); }
-.cmp .ft { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--body); }
-.cmp .ft svg { color: var(--dim); width: 17px; height: 17px; }
-.cmp .h { font: 700 12px/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; text-align: center; }
-.cmp .hf { color: var(--dim); }
-.cmp .hp { color: var(--zap); }
-.cmp .c { text-align: center; }
-.cmp .c svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; }
-.cmp .yes { color: var(--zap); }
-.cmp .no { color: rgba(244,235,221,.26); }
+.plan .amt small { font: 600 12px/1 var(--sans); color: var(--dim); margin-left: 6px; }
+.plan p { font-size: 15px; line-height: 1.55; }
 
 /* ---- requirements ---- */
-.req { margin-top: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
+.req { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
 .req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
-           font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--body); }
+           font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--body); }
 .req div:last-child { border-bottom: 0; }
-.req .k { flex: 0 0 96px; font-weight: 700; letter-spacing: .02em; color: var(--cream); }
-.req .t { flex: 1 1 240px; }
+.req .k { flex: 0 0 100px; font-weight: 700; letter-spacing: .02em; color: var(--cream); }
+.req .t { flex: 1 1 260px; }
 .req .t strong { color: var(--cream); font-weight: 700; }
 
-/* ---- FAQ ---- */
-.faq .q { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; padding: 16px 20px; }
-.faq .q h3 { display: flex; gap: 12px; align-items: baseline; margin-bottom: 6px;
-             font: 700 17px/1.35 var(--sans); color: var(--cream); }
-.faq .q h3::before { content: '+'; font: 800 16px/1.35 var(--sans); color: var(--zap); }
-.faq .q p { font-size: 15px; font-weight: 500; line-height: 1.55; color: var(--body); }
+/* ---- FAQ (native details) ---- */
+.faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; }
+.faq summary { list-style: none; cursor: pointer; display: flex; gap: 12px; align-items: baseline;
+               padding: 17px 20px; font: 700 17px/1.35 var(--sans); color: var(--cream); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before { content: '+'; font: 800 16px/1.35 var(--mono); color: var(--zap); transition: transform .2s ease; }
+.faq details[open] summary::before { content: '\2013'; }
+.faq details p { padding: 0 20px 18px; font-size: 16px; font-weight: 500; }
 
-.cta { text-align: center; padding: 8px 0 4px; }
+.cta { text-align: center; padding: 10px 0 4px; }
 .cta .box { display: inline-block; text-align: left; max-width: 560px; border: 1px solid var(--line);
             border-radius: 12px; background: var(--panel); padding: 22px 24px; }
-.cta p { font-size: 16px; font-weight: 500; line-height: 1.55; color: var(--body); }
-.cta strong { color: var(--cream); font-weight: 700; }
+.cta p { font-size: 16px; font-weight: 500; }
 .foot { padding: 30px 0 56px; font: 500 13px/1.6 var(--mono); color: var(--dim); }
 
-@media (max-width: 680px) {
-  .grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   .hero { padding-top: 44px; }
+  .plans { grid-template-columns: 1fr; }
   .req .k { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq summary::before { transition: none; }
 }
 </style>
 </head>
@@ -149,111 +136,153 @@ h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: cla
 </div>
 
 <header class="hero">
-  <div class="wrap"><div class="col">
-    <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.5+ &middot; Win &middot; macOS &middot; Linux</div>
-    <h1>Zap Board</h1>
-    <p class="lead">A reference board built into Blender. <span>Drop images in, arrange and mark them up &mdash; and they save inside your .blend.</span></p>
-  </div></div>
-  <div class="wrap"><div class="col">
+  <div class="wrap">
+    <div class="col">
+      <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.5+ &middot; Windows &middot; macOS &middot; Linux</div>
+      <h1>Zap Board</h1>
+      <p class="lead">Your references, inside Blender. <span>A board that lives in your .blend &mdash; drop images in, arrange and mark them up, pull a palette or send a plane into the scene, without leaving the window you are working in.</span></p>
+    </div>
     <div class="media"><video src="media/hero.mp4" autoplay muted loop playsinline preload="auto" aria-label="A pile of reference images on a board, then Arrange laying them out into a tidy grid"></video></div>
-  </div></div>
+  </div>
 </header>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>01</b>The problem</div>
+    <h2>Your reference lives in another window.</h2>
+    <p>It sits in a browser tab or on a second monitor, so every glance is a context switch &mdash; and the file you ship has no memory that the reference was ever there.</p>
+    <p>Zap Board puts the board on the same canvas as the work and saves it <strong>inside the .blend</strong>, so it opens with the scene on any machine.</p>
+  </div></div>
+</section>
 
 <section class="sec">
   <div class="wrap">
     <div class="col">
-      <div class="eyebrow"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>What it does</div>
-      <h2>Everything a reference board should be.</h2>
-      <p class="sub">Each tool works right on the board, inside Blender. Pro adds the colour, video and 3D tools.</p>
+      <div class="label"><b>02</b>The board</div>
+      <h2>Drop it. Arrange it. Keep working.</h2>
+      <p>Drag images onto the board and <em>Arrange</em> lays them out for you. Move, scale and align stay under your hands &mdash; it behaves like the editor you already know, not a modal dialog you have to fight.</p>
     </div>
-    <div class="grid" style="margin-top:28px">
+    <div class="media"><video src="media/solution.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Dragging reference cards around a Zap Board inside Blender's image editor"></video></div>
+  </div>
+</section>
 
-      <article class="card">
-        <div class="media"><img src="media/frames_two.png" alt="Reference cards inside two labelled group frames, Characters and a blue-tinted Environment" /></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><line x1="22" y1="6" x2="2" y2="6"/><line x1="22" y1="18" x2="2" y2="18"/><line x1="6" y1="2" x2="6" y2="22"/><line x1="18" y1="2" x2="18" y2="22"/></svg><span class="t">Group frames that move as one</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><img src="media/annotate.png" alt="A portrait reference marked up with a yellow box, a red ellipse and a red arrow drawn on the board" /></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg><span class="t">Arrows, boxes and notes on top</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><video src="media/compare.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A work-in-progress card faded over a reference, then both shown in grayscale to compare values"></video></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span class="t">Overlay your work, check values</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><img src="media/boards_multi.png" alt="Two separate boards in one file, a Characters board and an Environment board side by side" /></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="t">Many boards in one file</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><video src="media/colour.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A reference selected, then a row of colour swatch cards extracted from it"></video></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg><span class="t">Pull a palette off a reference</span><span class="pro">Pro</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><video src="media/adjust.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A dark portrait reference brightened and given more contrast directly on the board"></video></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><line x1="21" y1="4" x2="14" y2="4"/><line x1="10" y1="4" x2="3" y2="4"/><line x1="21" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="3" y2="12"/><line x1="21" y1="20" x2="16" y2="20"/><line x1="12" y1="20" x2="3" y2="20"/><line x1="14" y1="2" x2="14" y2="6"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="16" y1="18" x2="16" y2="22"/></svg><span class="t">Brighten a dark reference</span><span class="pro">Pro</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><img src="media/video_card.png" alt="A video reference card on the board with a scrub bar and playback controls" /></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span class="t">Video &amp; GIF, frame by frame</span><span class="pro">Pro</span></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><img src="media/send3d.png" alt="Reference cards standing upright and facing front in the Blender 3D viewport" /></div>
-        <div class="cap"><svg class="ic" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg><span class="t">Send a reference into the scene</span><span class="pro">Pro</span></div>
-      </article>
-
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>03</b>Compare</div>
+      <h2>Read your work against the reference.</h2>
+      <p>Lay your render over the board, drop its opacity, then switch both to grayscale to check values. The oldest trick in the book, without ever leaving Blender.</p>
     </div>
+    <div class="media"><video src="media/compare.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A work-in-progress card faded over a reference, then both shown in grayscale to compare values"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>04</b>Colour<span class="pro">Pro</span></div>
+      <h2>Pull a palette off any reference.</h2>
+      <p>Extract the dominant colours as swatch cards you can keep on the board, then pick a colour straight off the image into whatever you are shading.</p>
+    </div>
+    <div class="media"><video src="media/colour.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A reference selected, then a row of colour swatch cards extracted from it"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>05</b>Adjust<span class="pro">Pro</span></div>
+      <h2>Brighten a reference that is too dark.</h2>
+      <p>Brightness, contrast, temperature and saturation live on the card and update as you drag &mdash; and never touch the file on disk.</p>
+    </div>
+    <div class="media"><video src="media/adjust.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A dark portrait reference brightened and given more contrast directly on the board"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>06</b>Send to 3D<span class="pro">Pro</span></div>
+      <h2>Put a reference into the scene.</h2>
+      <p>Turn a card into an upright image plane, facing front in the viewport &mdash; modelling reference you can orbit around and line your mesh up against.</p>
+    </div>
+    <div class="media"><video src="media/send3d.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Reference cards on the board, then the same images standing upright and facing front in the 3D viewport"></video></div>
   </div>
 </section>
 
 <section class="sec">
   <div class="wrap"><div class="col">
-    <div class="eyebrow"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2-6.3-4.6-6.3 4.6L7.9 13.6 2 9.2h7.6z"/></svg>Free &amp; Pro</div>
-    <h2>Free, with a $5 Pro unlock.</h2>
-    <p class="sub">The free add-on is a complete reference board. Pro adds the colour, video and 3D tools &mdash; a one-time unlock in the same listing.</p>
-    <div class="prices">
-      <div class="chip"><span class="t">Free</span><span class="amt">$0<span class="suf">free forever</span></span></div>
-      <div class="chip p"><span class="t">Pro</span><span class="amt">$5<span class="suf">one-time</span></span></div>
+    <div class="label"><b>07</b>Also in 2.0</div>
+    <h2>The rest of what 2.0 adds.</h2>
+
+    <div class="also">
+      <h3>Draw on top.</h3>
+      <p>Arrows, boxes and ellipses to call out exactly what matters, in the colours you pick.</p>
+      <div class="media"><video src="media/annotate.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A yellow box, a red ellipse and a red arrow appearing on a portrait reference"></video></div>
     </div>
-    <div class="cmp">
-      <div class="row head"><span class="ft">Feature</span><span class="h hf">Free</span><span class="h hp">Pro</span></div>
-      <div class="row"><span class="ft">Board saved in your .blend, arrange &amp; align</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Group frames, notes, arrows &amp; shapes</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Crop, opacity, grayscale, many boards</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Extract palette, pick a colour, sort by colour</span><span class="c no">&mdash;</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Image adjust &mdash; brightness, contrast, temp</span><span class="c no">&mdash;</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Video &amp; GIF playback, frame to still</span><span class="c no">&mdash;</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Layout templates, send to the 3D view</span><span class="c no">&mdash;</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-      <div class="row"><span class="ft">Export / import a board between files</span><span class="c no">&mdash;</span><span class="c"><svg class="ic yes" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+
+    <div class="also">
+      <h3>A board per shot.</h3>
+      <p>Keep separate boards in one file and switch between them &mdash; characters on one, environment on the next.</p>
+      <div class="media"><video src="media/boards.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Switching between a Characters board and an Environment board in the same file"></video></div>
+    </div>
+
+    <div class="also">
+      <h3>Paste straight off the web.</h3>
+      <p>Copy an image address, paste it onto the board, and it downloads and lands as a card &mdash; the one time anything goes online, and only when you ask.</p>
+      <div class="media"><video src="media/urlpaste.mp4" autoplay muted loop playsinline preload="metadata" aria-label="An image pasted from a URL landing as a new card on the board"></video></div>
+    </div>
+
+    <div class="also">
+      <h3>Group what belongs together.</h3>
+      <p>Named frames hold a cluster of cards and move as one, so a set of references stays a set.</p>
+      <div class="media"><img src="media/frames_two.png" alt="Reference cards inside two labelled group frames, Characters and a blue-tinted Environment" /></div>
+    </div>
+
+    <div class="also">
+      <h3>Video and GIF references.<span class="pro">Pro</span></h3>
+      <p>Scrub a clip on the board and pull any frame out as a still to keep beside it.</p>
+      <div class="media"><img src="media/video_card.png" alt="A video reference card on the board with a scrub bar and playback controls" /></div>
     </div>
   </div></div>
 </section>
 
 <section class="sec">
   <div class="wrap"><div class="col">
-    <div class="eyebrow"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Before you buy</div>
+    <div class="label"><b>08</b>Free &amp; Pro</div>
+    <h2>Free to use. $5 unlocks the rest.</h2>
+    <div class="plans">
+      <div class="plan">
+        <div class="h"><span class="t">Free</span><span class="amt">$0</span></div>
+        <p>A complete reference board: drop images in, arrange and align, group frames, annotate, crop and grayscale, and keep as many boards as you like &mdash; all saved in your .blend.</p>
+      </div>
+      <div class="plan p">
+        <div class="h"><span class="t">Pro</span><span class="amt">$5<small>one-time</small></span></div>
+        <p>Adds the tools that read and reshape a reference: palette extraction and colour picking, image adjust, video and GIF, layout templates, send-to-3D and board export. No subscription, free updates.</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>09</b>Before you buy</div>
     <h2>Requirements</h2>
     <div class="req">
       <div><span class="k">Blender</span><span class="t"><strong>4.5 or newer.</strong> Tested on 4.5, 5.0, 5.1 and 5.2.</span></div>
-      <div><span class="k">Runs on</span><span class="t"><strong>Windows, macOS and Linux.</strong> Reveal File opens the folder on Windows only.</span></div>
-      <div><span class="k">Account</span><span class="t"><strong>None, free updates.</strong> Pasting an image from a URL is the one online feature, and only when you ask &mdash; Blender's online access has to be on for it.</span></div>
+      <div><span class="k">Runs on</span><span class="t"><strong>Windows, macOS and Linux.</strong> Reveal File opens the containing folder on Windows only.</span></div>
+      <div><span class="k">Account</span><span class="t"><strong>None, free updates.</strong> Pasting an image from a URL is the only online step, and only when you ask &mdash; Blender's online access has to be on for it.</span></div>
     </div>
   </div></div>
 </section>
 
 <section class="sec faq">
   <div class="wrap"><div class="col">
-    <div class="eyebrow"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>Questions</div>
-    <h2>Asked first</h2>
-    <div class="q"><h3>Where do the boards live?</h3><p>Inside your .blend file &mdash; images, notes and frames. Open it anywhere and it is all still there, and you can keep several boards in one file.</p></div>
-    <div class="q"><h3>What is the difference between Free and Pro?</h3><p>Free is a complete reference board. Pro adds the colour tools, video and GIF, image adjust, layout templates, and sending to the 3D view &mdash; a one-time $5 unlock.</p></div>
-    <div class="q"><h3>Does it work on Mac and Linux?</h3><p>Yes, all three. The only exception is Reveal File, which is Windows only.</p></div>
+    <div class="label"><b>10</b>Questions</div>
+    <h2>Questions people ask first</h2>
+    <details><summary>Where do the boards live?</summary><p>Inside your .blend file &mdash; images, notes and frames together. Open it on another machine and the board is still there, and you can keep several boards in one file.</p></details>
+    <details><summary>What is the difference between Free and Pro?</summary><p>Free is a complete reference board. Pro adds the colour tools, image adjust, video and GIF, layout templates, send-to-3D and board export &mdash; a one-time $5 unlock in this same listing.</p></details>
+    <details><summary>Does it work on Mac and Linux?</summary><p>Yes, all three platforms. The only exception is Reveal File, which opens the folder on Windows only.</p></details>
   </div></div>
 </section>
 
