@@ -252,7 +252,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; the drop-down
       in the corner &rsaquo; <b>Install from Disk…</b></li>
-      <li>Pick <code>zap_viewer-2.9.0.zip</code>.</li>
+      <li>Pick <code>zap_viewer-2.10.0.zip</code>.</li>
       <li>That is all. The Viewer opens on your next render.</li>
     </ol>
   </section>
@@ -279,6 +279,33 @@ details.chk .tbl-wrap table{font-size:12.5px}
     then <b>Compare</b>. The Viewer splits between them with a wipe you can
     drag. Zap Viewer refuses to compare two different resolutions rather than
     stretching one to fit — that would falsify what you are looking at.</p>
+    <p>Under the wipe, a <b>What changed</b> box lists the render settings the
+    two disagree on — <code>Samples 128 → 256</code>, <code>Denoise Off → On</code>
+    — and stays empty when the two were rendered the same way. The wipe shows
+    <i>that</i> two renders differ; this says why.</p>
+  </section>
+
+  <section>
+    <h2>Finding a render in the list</h2>
+    <p>Once the history runs past a screenful, the controls above the list narrow
+    it down. All of them start off, so the list you already have is untouched
+    until you reach for one.</p>
+    <ul>
+      <li><b>Search</b> — the field with the magnifier matches a render's label
+      or its file name, so the name you gave it and the name on disk both find
+      it.</li>
+      <li><b>Kind</b> — the menu shows <b>All</b>, <b>Stills</b> or
+      <b>Sequences</b>.</li>
+      <li><b>Star</b> — click the star on a row to mark it, then turn on the star
+      toggle beside the search field to show only starred renders.</li>
+      <li><b>Sort</b> — the menu opens on <b>Default</b>, which keeps the order
+      renders were added; <b>Newest First</b>, <b>Oldest First</b>, <b>Label</b>
+      and <b>Longest Render</b> reorder from there.</li>
+    </ul>
+    <p>While a filter is narrowing the list, a small "12 / 240" count sits below
+    it. If the render you had selected is one the filter hides, the panel says
+    <b>Selected render is hidden by the filter</b> and Remove is disabled until
+    it is back in view.</p>
   </section>
 
   <section>
@@ -303,10 +330,10 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <h3>Tabs</h3>
     <ul>
       <li><b>History</b> — the list, with thumbnails, labels and times.</li>
-      <li><b>Info</b> — resolution, render time and, for a Sequence, how long
-      each frame took (see below).</li>
-      <li><b>Layer</b> — what layers the shown image has, and a note about
-      multilayer EXR (see "Not in this release").</li>
+      <li><b>Info</b> — resolution, render time, the settings the render was
+      made with, and, for a Sequence, how long each frame took (see below).</li>
+      <li><b>Layer</b> — what layers the shown image has, and a note confirming
+      a saved render keeps its passes (see below).</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -355,6 +382,16 @@ Per-frame render time
     <p>The <b>slowest</b> frames are listed first, because "which frame cost me"
     is the question this answers. It updates live as each frame lands, so you
     can watch it during a render.</p>
+  </section>
+
+  <section>
+    <h2>The settings behind a render</h2>
+    <p>Every render now records how it was made, and the <b>Info</b> tab shows a
+    <b>Render Settings</b> box for the selected one: engine, samples, denoising,
+    resolution, camera, view layer, frame range, output format and colour
+    management.</p>
+    <p>Renders made before this update did not record those settings, so the box
+    simply does not appear for them. Nothing about them changes.</p>
   </section>
 
   <section>
@@ -413,15 +450,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>Not in this release</h2>
-    <h3>Multilayer EXR history — coming soon</h3>
-    <p>Renders save and replay normally, but a saved <b>still</b> is flattened
-    to its combined result, so its passes are not kept in the history copy.
-    Blender writes no file at all for an interactive F12 still, so Zap Viewer has
-    to produce one from the Render Result, and every route available for that
-    discards the layers. If you need the history copy to carry passes, render to
-    single-layer EXR for now. The Layer tab says the same thing in the interface
-    rather than letting you find out later.</p>
+    <h2>Multilayer EXR passes are kept</h2>
+    <p>Earlier versions told you a saved still was flattened and that you had to
+    render single-layer EXR to keep your passes in history. <b>That was wrong,
+    and it is corrected here.</b> A saved render keeps its passes: a still and a
+    sequence both land in history with every layer the render produced, matched
+    channel-for-channel against what Blender's own renderer writes. The Layer tab
+    says the same. If you had been avoiding multilayer output because of the old
+    note, you did not need to.</p>
 
   </section>
 

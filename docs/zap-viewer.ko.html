@@ -253,7 +253,7 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; 우측 상단
       드롭다운 &rsaquo; <b>Install from Disk…</b></li>
-      <li><code>zap_viewer-2.9.0.zip</code>을 선택합니다.</li>
+      <li><code>zap_viewer-2.10.0.zip</code>을 선택합니다.</li>
       <li>끝입니다. 다음 렌더부터 Viewer가 열립니다.</li>
     </ol>
   </section>
@@ -280,6 +280,30 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <b>Compare</b>. 드래그할 수 있는 경계선으로 화면이 나뉩니다. 해상도가 다르면
     Zap Viewer는 늘려 맞추지 않고 비교를 거부합니다 — 그렇게 하면 보고 있는 것이
     거짓이 되기 때문입니다.</p>
+    <p>경계선 아래 <b>What changed</b> 상자에 두 렌더가 서로 다른 렌더 설정이
+    나열됩니다 — <code>Samples 128 → 256</code>, <code>Denoise Off → On</code>
+    — 같은 방식으로 렌더된 경우에는 비어 있습니다. 경계선은 <i>두 렌더가
+    다르다</i>는 것을, 이 상자는 <i>왜</i> 다른지를 보여줍니다.</p>
+  </section>
+
+  <section>
+    <h2>목록에서 렌더 찾기</h2>
+    <p>히스토리가 한 화면을 넘어가면 목록 위의 컨트롤로 범위를 좁힙니다. 처음에는
+    전부 꺼져 있으므로, 하나를 건드리기 전까지 지금의 목록은 그대로입니다.</p>
+    <ul>
+      <li><b>Search</b> — 돋보기가 붙은 칸은 렌더의 이름표나 파일 이름으로
+      찾습니다. 직접 붙인 이름과 디스크의 이름 둘 다로 검색됩니다.</li>
+      <li><b>Kind</b> — 메뉴에서 <b>All</b>, <b>Stills</b>, <b>Sequences</b>를
+      고릅니다.</li>
+      <li><b>Star</b> — 행의 별을 눌러 표시한 뒤, 검색 칸 옆의 별 토글을 켜면
+      별표한 렌더만 보입니다.</li>
+      <li><b>Sort</b> — 메뉴는 <b>Default</b>로 열리며 추가된 순서를 그대로
+      둡니다. <b>Newest First</b>, <b>Oldest First</b>, <b>Label</b>,
+      <b>Longest Render</b>로 정렬을 바꿉니다.</li>
+    </ul>
+    <p>필터가 목록을 좁히는 동안에는 아래에 "12 / 240" 개수가 작게 표시됩니다.
+    선택했던 렌더가 필터에 가려지면 패널에 <b>Selected render is hidden by the
+    filter</b>가 뜨고, 다시 보일 때까지 Remove가 비활성화됩니다.</p>
   </section>
 
   <section>
@@ -302,10 +326,10 @@ details.chk .tbl-wrap table{font-size:12.5px}
     <h3>탭</h3>
     <ul>
       <li><b>History</b> — 썸네일·이름표·시각이 있는 목록.</li>
-      <li><b>Info</b> — 해상도, 렌더 시간, 그리고 Sequence면 프레임별 소요 시간
-      (아래 참고).</li>
-      <li><b>Layer</b> — 지금 이미지의 레이어 상태와 멀티레이어 EXR 안내
-      ("이번 버전에서 빠진 것" 참고).</li>
+      <li><b>Info</b> — 해상도, 렌더 시간, 렌더가 만들어진 설정, 그리고
+      Sequence면 프레임별 소요 시간(아래 참고).</li>
+      <li><b>Layer</b> — 지금 이미지의 레이어 상태와, 저장된 렌더가 패스를
+      그대로 보존한다는 안내(아래 참고).</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -353,6 +377,15 @@ Per-frame render time
     <p><b>가장 오래 걸린 프레임부터</b> 보여줍니다 — "어느 프레임이 비쌌나"가
     이 목록이 답하는 질문이기 때문입니다. 렌더가 도는 중에도 프레임이 하나씩
     끝날 때마다 실시간으로 갱신됩니다.</p>
+  </section>
+
+  <section>
+    <h2>렌더의 설정 보기</h2>
+    <p>이제 모든 렌더가 어떻게 만들어졌는지 기록하고, <b>Info</b> 탭이 선택한
+    렌더의 <b>Render Settings</b> 상자를 보여줍니다 — 엔진, 샘플, 디노이징,
+    해상도, 카메라, 뷰 레이어, 프레임 범위, 출력 포맷, 컬러 매니지먼트.</p>
+    <p>이 업데이트 이전에 만든 렌더는 이 설정을 기록하지 않았으므로 상자가 그냥
+    나타나지 않습니다. 그 렌더에 달라지는 것은 없습니다.</p>
   </section>
 
   <section>
@@ -405,14 +438,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>이번 버전에서 빠진 것</h2>
-    <h3>멀티레이어 EXR 히스토리 — 준비 중</h3>
-    <p>렌더 저장과 재생은 정상이지만, 저장된 <b>스틸</b>은 합쳐진 결과로 저장되어
-    패스가 히스토리 사본에 보존되지 않습니다. 블렌더가 F12 스틸에 대해서는 파일을
-    아예 쓰지 않기 때문에 Zap Viewer가 렌더 결과에서 직접 만들어야 하는데, 그
-    경로들이 모두 레이어를 버립니다. 히스토리 사본에 패스가 필요하시면 당분간
-    <b>단일 레이어 EXR</b>로 렌더해 주세요. Layer 탭에도 같은 안내가 표시되므로
-    나중에 알게 되는 일은 없습니다.</p>
+    <h2>멀티레이어 EXR 패스는 그대로 보존됩니다</h2>
+    <p>이전 버전은 저장된 스틸이 합쳐진다며 패스를 히스토리에 남기려면 단일 레이어
+    EXR로 렌더하라고 안내했습니다. <b>그것은 틀린 안내였고, 이번 버전에서
+    바로잡았습니다.</b> 저장된 렌더는 패스를 그대로 보존합니다 — 스틸이든
+    시퀀스든 렌더가 만든 모든 레이어와 함께 히스토리에 들어오며, 블렌더 자체
+    렌더러가 쓰는 것과 채널 단위로 일치합니다. Layer 탭에도 같은 내용이
+    표시됩니다. 그 옛 안내 때문에 멀티레이어 출력을 피해 오셨다면, 그럴 필요가
+    없었습니다.</p>
 
   </section>
 

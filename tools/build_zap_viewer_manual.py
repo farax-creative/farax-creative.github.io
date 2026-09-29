@@ -10,7 +10,10 @@ import io
 import os
 import re
 
-REPO = r"C:\Users\calar\Documents\Claude\Farax_Creative\60_website\live\docs"
+# The docs folder beside this script's tools/ dir, so a run from a git worktree
+# writes into that worktree rather than the primary checkout.
+REPO = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                    "docs")
 TEMPLATE = os.path.join(REPO, "zap-doctor.html")
 
 LANGS = [
@@ -119,7 +122,7 @@ CONTENT["en"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; the drop-down
       in the corner &rsaquo; <b>Install from Disk…</b></li>
-      <li>Pick <code>zap_viewer-2.9.0.zip</code>.</li>
+      <li>Pick <code>zap_viewer-2.10.0.zip</code>.</li>
       <li>That is all. The Viewer opens on your next render.</li>
     </ol>
   </section>
@@ -146,6 +149,33 @@ CONTENT["en"] = """
     then <b>Compare</b>. The Viewer splits between them with a wipe you can
     drag. Zap Viewer refuses to compare two different resolutions rather than
     stretching one to fit — that would falsify what you are looking at.</p>
+    <p>Under the wipe, a <b>What changed</b> box lists the render settings the
+    two disagree on — <code>Samples 128 → 256</code>, <code>Denoise Off → On</code>
+    — and stays empty when the two were rendered the same way. The wipe shows
+    <i>that</i> two renders differ; this says why.</p>
+  </section>
+
+  <section>
+    <h2>Finding a render in the list</h2>
+    <p>Once the history runs past a screenful, the controls above the list narrow
+    it down. All of them start off, so the list you already have is untouched
+    until you reach for one.</p>
+    <ul>
+      <li><b>Search</b> — the field with the magnifier matches a render's label
+      or its file name, so the name you gave it and the name on disk both find
+      it.</li>
+      <li><b>Kind</b> — the menu shows <b>All</b>, <b>Stills</b> or
+      <b>Sequences</b>.</li>
+      <li><b>Star</b> — click the star on a row to mark it, then turn on the star
+      toggle beside the search field to show only starred renders.</li>
+      <li><b>Sort</b> — the menu opens on <b>Default</b>, which keeps the order
+      renders were added; <b>Newest First</b>, <b>Oldest First</b>, <b>Label</b>
+      and <b>Longest Render</b> reorder from there.</li>
+    </ul>
+    <p>While a filter is narrowing the list, a small "12 / 240" count sits below
+    it. If the render you had selected is one the filter hides, the panel says
+    <b>Selected render is hidden by the filter</b> and Remove is disabled until
+    it is back in view.</p>
   </section>
 
   <section>
@@ -170,10 +200,10 @@ CONTENT["en"] = """
     <h3>Tabs</h3>
     <ul>
       <li><b>History</b> — the list, with thumbnails, labels and times.</li>
-      <li><b>Info</b> — resolution, render time and, for a Sequence, how long
-      each frame took (see below).</li>
-      <li><b>Layer</b> — what layers the shown image has, and a note about
-      multilayer EXR (see "Not in this release").</li>
+      <li><b>Info</b> — resolution, render time, the settings the render was
+      made with, and, for a Sequence, how long each frame took (see below).</li>
+      <li><b>Layer</b> — what layers the shown image has, and a note confirming
+      a saved render keeps its passes (see below).</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -222,6 +252,16 @@ Per-frame render time
     <p>The <b>slowest</b> frames are listed first, because "which frame cost me"
     is the question this answers. It updates live as each frame lands, so you
     can watch it during a render.</p>
+  </section>
+
+  <section>
+    <h2>The settings behind a render</h2>
+    <p>Every render now records how it was made, and the <b>Info</b> tab shows a
+    <b>Render Settings</b> box for the selected one: engine, samples, denoising,
+    resolution, camera, view layer, frame range, output format and colour
+    management.</p>
+    <p>Renders made before this update did not record those settings, so the box
+    simply does not appear for them. Nothing about them changes.</p>
   </section>
 
   <section>
@@ -280,15 +320,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>Not in this release</h2>
-    <h3>Multilayer EXR history — coming soon</h3>
-    <p>Renders save and replay normally, but a saved <b>still</b> is flattened
-    to its combined result, so its passes are not kept in the history copy.
-    Blender writes no file at all for an interactive F12 still, so Zap Viewer has
-    to produce one from the Render Result, and every route available for that
-    discards the layers. If you need the history copy to carry passes, render to
-    single-layer EXR for now. The Layer tab says the same thing in the interface
-    rather than letting you find out later.</p>
+    <h2>Multilayer EXR passes are kept</h2>
+    <p>Earlier versions told you a saved still was flattened and that you had to
+    render single-layer EXR to keep your passes in history. <b>That was wrong,
+    and it is corrected here.</b> A saved render keeps its passes: a still and a
+    sequence both land in history with every layer the render produced, matched
+    channel-for-channel against what Blender's own renderer writes. The Layer tab
+    says the same. If you had been avoiding multilayer output because of the old
+    note, you did not need to.</p>
 
   </section>
 """
@@ -323,7 +362,7 @@ CONTENT["ko"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; 우측 상단
       드롭다운 &rsaquo; <b>Install from Disk…</b></li>
-      <li><code>zap_viewer-2.9.0.zip</code>을 선택합니다.</li>
+      <li><code>zap_viewer-2.10.0.zip</code>을 선택합니다.</li>
       <li>끝입니다. 다음 렌더부터 Viewer가 열립니다.</li>
     </ol>
   </section>
@@ -350,6 +389,30 @@ CONTENT["ko"] = """
     <b>Compare</b>. 드래그할 수 있는 경계선으로 화면이 나뉩니다. 해상도가 다르면
     Zap Viewer는 늘려 맞추지 않고 비교를 거부합니다 — 그렇게 하면 보고 있는 것이
     거짓이 되기 때문입니다.</p>
+    <p>경계선 아래 <b>What changed</b> 상자에 두 렌더가 서로 다른 렌더 설정이
+    나열됩니다 — <code>Samples 128 → 256</code>, <code>Denoise Off → On</code>
+    — 같은 방식으로 렌더된 경우에는 비어 있습니다. 경계선은 <i>두 렌더가
+    다르다</i>는 것을, 이 상자는 <i>왜</i> 다른지를 보여줍니다.</p>
+  </section>
+
+  <section>
+    <h2>목록에서 렌더 찾기</h2>
+    <p>히스토리가 한 화면을 넘어가면 목록 위의 컨트롤로 범위를 좁힙니다. 처음에는
+    전부 꺼져 있으므로, 하나를 건드리기 전까지 지금의 목록은 그대로입니다.</p>
+    <ul>
+      <li><b>Search</b> — 돋보기가 붙은 칸은 렌더의 이름표나 파일 이름으로
+      찾습니다. 직접 붙인 이름과 디스크의 이름 둘 다로 검색됩니다.</li>
+      <li><b>Kind</b> — 메뉴에서 <b>All</b>, <b>Stills</b>, <b>Sequences</b>를
+      고릅니다.</li>
+      <li><b>Star</b> — 행의 별을 눌러 표시한 뒤, 검색 칸 옆의 별 토글을 켜면
+      별표한 렌더만 보입니다.</li>
+      <li><b>Sort</b> — 메뉴는 <b>Default</b>로 열리며 추가된 순서를 그대로
+      둡니다. <b>Newest First</b>, <b>Oldest First</b>, <b>Label</b>,
+      <b>Longest Render</b>로 정렬을 바꿉니다.</li>
+    </ul>
+    <p>필터가 목록을 좁히는 동안에는 아래에 "12 / 240" 개수가 작게 표시됩니다.
+    선택했던 렌더가 필터에 가려지면 패널에 <b>Selected render is hidden by the
+    filter</b>가 뜨고, 다시 보일 때까지 Remove가 비활성화됩니다.</p>
   </section>
 
   <section>
@@ -372,10 +435,10 @@ CONTENT["ko"] = """
     <h3>탭</h3>
     <ul>
       <li><b>History</b> — 썸네일·이름표·시각이 있는 목록.</li>
-      <li><b>Info</b> — 해상도, 렌더 시간, 그리고 Sequence면 프레임별 소요 시간
-      (아래 참고).</li>
-      <li><b>Layer</b> — 지금 이미지의 레이어 상태와 멀티레이어 EXR 안내
-      ("이번 버전에서 빠진 것" 참고).</li>
+      <li><b>Info</b> — 해상도, 렌더 시간, 렌더가 만들어진 설정, 그리고
+      Sequence면 프레임별 소요 시간(아래 참고).</li>
+      <li><b>Layer</b> — 지금 이미지의 레이어 상태와, 저장된 렌더가 패스를
+      그대로 보존한다는 안내(아래 참고).</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -423,6 +486,15 @@ Per-frame render time
     <p><b>가장 오래 걸린 프레임부터</b> 보여줍니다 — "어느 프레임이 비쌌나"가
     이 목록이 답하는 질문이기 때문입니다. 렌더가 도는 중에도 프레임이 하나씩
     끝날 때마다 실시간으로 갱신됩니다.</p>
+  </section>
+
+  <section>
+    <h2>렌더의 설정 보기</h2>
+    <p>이제 모든 렌더가 어떻게 만들어졌는지 기록하고, <b>Info</b> 탭이 선택한
+    렌더의 <b>Render Settings</b> 상자를 보여줍니다 — 엔진, 샘플, 디노이징,
+    해상도, 카메라, 뷰 레이어, 프레임 범위, 출력 포맷, 컬러 매니지먼트.</p>
+    <p>이 업데이트 이전에 만든 렌더는 이 설정을 기록하지 않았으므로 상자가 그냥
+    나타나지 않습니다. 그 렌더에 달라지는 것은 없습니다.</p>
   </section>
 
   <section>
@@ -475,14 +547,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>이번 버전에서 빠진 것</h2>
-    <h3>멀티레이어 EXR 히스토리 — 준비 중</h3>
-    <p>렌더 저장과 재생은 정상이지만, 저장된 <b>스틸</b>은 합쳐진 결과로 저장되어
-    패스가 히스토리 사본에 보존되지 않습니다. 블렌더가 F12 스틸에 대해서는 파일을
-    아예 쓰지 않기 때문에 Zap Viewer가 렌더 결과에서 직접 만들어야 하는데, 그
-    경로들이 모두 레이어를 버립니다. 히스토리 사본에 패스가 필요하시면 당분간
-    <b>단일 레이어 EXR</b>로 렌더해 주세요. Layer 탭에도 같은 안내가 표시되므로
-    나중에 알게 되는 일은 없습니다.</p>
+    <h2>멀티레이어 EXR 패스는 그대로 보존됩니다</h2>
+    <p>이전 버전은 저장된 스틸이 합쳐진다며 패스를 히스토리에 남기려면 단일 레이어
+    EXR로 렌더하라고 안내했습니다. <b>그것은 틀린 안내였고, 이번 버전에서
+    바로잡았습니다.</b> 저장된 렌더는 패스를 그대로 보존합니다 — 스틸이든
+    시퀀스든 렌더가 만든 모든 레이어와 함께 히스토리에 들어오며, 블렌더 자체
+    렌더러가 쓰는 것과 채널 단위로 일치합니다. Layer 탭에도 같은 내용이
+    표시됩니다. 그 옛 안내 때문에 멀티레이어 출력을 피해 오셨다면, 그럴 필요가
+    없었습니다.</p>
 
   </section>
 """
@@ -516,7 +588,7 @@ CONTENT["ja"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; 右上の
       ドロップダウン &rsaquo; <b>Install from Disk…</b></li>
-      <li><code>zap_viewer-2.9.0.zip</code> を選択します。</li>
+      <li><code>zap_viewer-2.10.0.zip</code> を選択します。</li>
       <li>以上です。次のレンダーから Viewer が開きます。</li>
     </ol>
   </section>
@@ -544,6 +616,31 @@ CONTENT["ja"] = """
     <b>Compare</b>。ドラッグできる境界線で画面が分割されます。解像度が違う場合、
     Zap Viewer は引き伸ばして合わせず比較を拒否します — それでは見ているものが
     偽りになるからです。</p>
+    <p>境界線の下の <b>What changed</b> ボックスに、2つのレンダーで異なるレンダー
+    設定が並びます — <code>Samples 128 → 256</code>、<code>Denoise Off → On</code>
+    — 同じ設定でレンダーされた場合は空のままです。境界線は<i>2つが違う</i>ことを、
+    このボックスは<i>なぜ</i>違うのかを示します。</p>
+  </section>
+
+  <section>
+    <h2>リストからレンダーを探す</h2>
+    <p>履歴が 1画面を超えたら、リスト上部のコントロールで絞り込みます。最初は
+    すべてオフなので、いずれかに手を伸ばすまで今のリストはそのままです。</p>
+    <ul>
+      <li><b>Search</b> — 虫めがね付きの欄は、レンダーのラベルまたはファイル名で
+      一致させます。付けた名前とディスク上の名前のどちらでも見つかります。</li>
+      <li><b>Kind</b> — メニューで <b>All</b>、<b>Stills</b>、<b>Sequences</b> を
+      選びます。</li>
+      <li><b>Star</b> — 行の星をクリックして印を付け、検索欄の隣の星トグルを
+      オンにすると、星を付けたレンダーだけが表示されます。</li>
+      <li><b>Sort</b> — メニューは <b>Default</b> で開き、追加された順序をそのまま
+      保ちます。<b>Newest First</b>、<b>Oldest First</b>、<b>Label</b>、
+      <b>Longest Render</b> で並べ替えます。</li>
+    </ul>
+    <p>フィルターがリストを絞り込んでいる間は、下に「12 / 240」というカウントが
+    小さく表示されます。選択していたレンダーがフィルターで隠れると、パネルに
+    <b>Selected render is hidden by the filter</b> と表示され、再び見えるように
+    なるまで Remove は無効になります。</p>
   </section>
 
   <section>
@@ -567,10 +664,10 @@ CONTENT["ja"] = """
     <h3>タブ</h3>
     <ul>
       <li><b>History</b> — サムネイル・ラベル・時刻付きのリスト。</li>
-      <li><b>Info</b> — 解像度、レンダー時間、Sequence ならフレームごとの
-      所要時間（下記）。</li>
-      <li><b>Layer</b> — 表示中の画像のレイヤー状態と、マルチレイヤー EXR に
-      関する注記（「今回のリリースに含まれないもの」参照）。</li>
+      <li><b>Info</b> — 解像度、レンダー時間、レンダーが作られた設定、そして
+      Sequence ならフレームごとの所要時間（下記）。</li>
+      <li><b>Layer</b> — 表示中の画像のレイヤー状態と、保存されたレンダーが
+      パスをそのまま保持するという注記（下記）。</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -617,6 +714,16 @@ Per-frame render time
     <p><b>最も時間がかかったフレームから</b>表示されます — 「どのフレームが
     重かったか」がこのリストの答えるべき問いだからです。レンダー中も、
     フレームが終わるたびにリアルタイムで更新されます。</p>
+  </section>
+
+  <section>
+    <h2>レンダーの設定を見る</h2>
+    <p>すべてのレンダーが、どう作られたかを記録するようになりました。
+    <b>Info</b> タブは選択したレンダーの <b>Render Settings</b> ボックスを
+    表示します — エンジン、サンプル数、デノイズ、解像度、カメラ、ビューレイヤー、
+    フレーム範囲、出力フォーマット、カラーマネジメント。</p>
+    <p>このアップデート以前に作られたレンダーはこれらの設定を記録していないため、
+    ボックスは表示されません。それらのレンダーに変わることは何もありません。</p>
   </section>
 
   <section>
@@ -673,14 +780,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>今回のリリースに含まれないもの</h2>
-    <h3>マルチレイヤー EXR の履歴 — 近日対応</h3>
-    <p>レンダーの保存と再生は正常ですが、保存された<b>静止画</b>は合成結果に
-    統合されるため、パスが履歴のコピーに残りません。Blender は対話的な F12
-    静止画に対してファイルを一切書き出さないため、Zap Viewer が Render Result
-    から生成する必要があり、そのために使えるどの経路もレイヤーを破棄します。
-    履歴のコピーにパスが必要な場合は、当面<b>シングルレイヤー EXR</b> で
-    レンダーしてください。Layer タブにも同じ案内を表示しています。</p>
+    <h2>マルチレイヤー EXR のパスはそのまま保持されます</h2>
+    <p>以前のバージョンは、保存された静止画は統合されるため、パスを履歴に残すには
+    シングルレイヤー EXR でレンダーするよう案内していました。<b>それは誤りで、
+    今回のリリースで訂正しました。</b>保存されたレンダーはパスをそのまま保持します
+    — 静止画もシーケンスも、レンダーが生成したすべてのレイヤーとともに履歴に入り、
+    Blender 自身のレンダラーが書き出すものとチャンネル単位で一致します。Layer
+    タブにも同じ内容を表示しています。その古い案内のせいでマルチレイヤー出力を
+    避けていたなら、その必要はありませんでした。</p>
 
   </section>
 """
@@ -716,7 +823,7 @@ CONTENT["pt"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; menu no
       canto &rsaquo; <b>Install from Disk…</b></li>
-      <li>Escolha <code>zap_viewer-2.9.0.zip</code>.</li>
+      <li>Escolha <code>zap_viewer-2.10.0.zip</code>.</li>
       <li>Pronto. O Viewer abre no seu próximo render.</li>
     </ol>
   </section>
@@ -745,6 +852,35 @@ CONTENT["pt"] = """
     uma linha que você arrasta. O Zap Viewer se recusa a comparar resoluções
     diferentes em vez de esticar uma delas — isso falsificaria o que você está
     vendo.</p>
+    <p>Sob a linha, uma caixa <b>What changed</b> lista as configurações de
+    render em que as duas divergem — <code>Samples 128 → 256</code>,
+    <code>Denoise Off → On</code> — e fica vazia quando as duas foram
+    renderizadas do mesmo jeito. A linha mostra <i>que</i> dois renders diferem;
+    isto diz por quê.</p>
+  </section>
+
+  <section>
+    <h2>Achar um render na lista</h2>
+    <p>Quando o histórico passa de uma tela, os controles acima da lista a
+    reduzem. Todos começam desligados, então a lista que você já tem fica
+    intacta até você usar um deles.</p>
+    <ul>
+      <li><b>Search</b> — o campo com a lupa casa com o rótulo do render ou com o
+      nome do arquivo, então tanto o nome que você deu quanto o nome em disco o
+      encontram.</li>
+      <li><b>Kind</b> — o menu mostra <b>All</b>, <b>Stills</b> ou
+      <b>Sequences</b>.</li>
+      <li><b>Star</b> — clique na estrela de uma linha para marcá-la, depois ligue
+      o botão de estrela ao lado do campo de busca para ver só os renders
+      marcados.</li>
+      <li><b>Sort</b> — o menu abre em <b>Default</b>, que mantém a ordem em que
+      os renders foram adicionados; <b>Newest First</b>, <b>Oldest First</b>,
+      <b>Label</b> e <b>Longest Render</b> reordenam a partir daí.</li>
+    </ul>
+    <p>Enquanto um filtro reduz a lista, uma pequena contagem "12 / 240" aparece
+    abaixo dela. Se o render que você tinha selecionado for um que o filtro
+    esconde, o painel diz <b>Selected render is hidden by the filter</b> e o
+    Remove fica desabilitado até ele voltar a aparecer.</p>
   </section>
 
   <section>
@@ -769,10 +905,11 @@ CONTENT["pt"] = """
     <h3>Abas</h3>
     <ul>
       <li><b>History</b> — a lista, com miniaturas, rótulos e horários.</li>
-      <li><b>Info</b> — resolução, tempo de render e, para uma Sequence, quanto
-      cada frame levou (veja abaixo).</li>
-      <li><b>Layer</b> — quais camadas a imagem tem, e uma nota sobre EXR
-      multilayer (veja "Fora desta versão").</li>
+      <li><b>Info</b> — resolução, tempo de render, as configurações com que o
+      render foi feito e, para uma Sequence, quanto cada frame levou (veja
+      abaixo).</li>
+      <li><b>Layer</b> — quais camadas a imagem tem, e uma nota confirmando que
+      um render salvo mantém seus passes (veja abaixo).</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -823,6 +960,17 @@ Per-frame render time
     <p>Os frames <b>mais lentos</b> vêm primeiro, porque "qual frame me custou
     caro" é a pergunta que isso responde. Atualiza ao vivo conforme cada frame
     fica pronto, então dá para acompanhar durante o render.</p>
+  </section>
+
+  <section>
+    <h2>As configurações por trás de um render</h2>
+    <p>Todo render agora registra como foi feito, e a aba <b>Info</b> mostra uma
+    caixa <b>Render Settings</b> para o selecionado: engine, samples, denoising,
+    resolução, câmera, view layer, intervalo de frames, formato de saída e
+    gerenciamento de cor.</p>
+    <p>Renders feitos antes desta atualização não registraram essas
+    configurações, então a caixa simplesmente não aparece para eles. Nada neles
+    muda.</p>
   </section>
 
   <section>
@@ -883,16 +1031,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>Fora desta versão</h2>
-    <h3>Histórico de EXR multilayer — em breve</h3>
-    <p>Os renders salvam e reproduzem normalmente, mas um <b>still</b> salvo é
-    achatado no resultado combinado, então seus passes não ficam na cópia do
-    histórico. O Blender não escreve arquivo nenhum para um still F12
-    interativo, então o Zap Viewer precisa produzir um a partir do Render Result,
-    e todo caminho disponível para isso descarta as camadas. Se você precisa que
-    a cópia do histórico carregue os passes, renderize em EXR de camada única
-    por enquanto. A aba Layer diz o mesmo na interface, em vez de deixar você
-    descobrir depois.</p>
+    <h2>Os passes de EXR multilayer são mantidos</h2>
+    <p>Versões anteriores diziam que um still salvo era achatado e que você tinha
+    que renderizar em EXR de camada única para manter seus passes no histórico.
+    <b>Isso estava errado, e foi corrigido aqui.</b> Um render salvo mantém seus
+    passes: tanto um still quanto uma sequence chegam ao histórico com todas as
+    camadas que o render produziu, conferidas canal a canal com o que o próprio
+    renderizador do Blender escreve. A aba Layer diz o mesmo. Se você vinha
+    evitando saída multilayer por causa da nota antiga, não precisava.</p>
 
   </section>
 """
@@ -927,7 +1073,7 @@ CONTENT["es"] = """
     <ol>
       <li>Edit &rsaquo; Preferences &rsaquo; Get Extensions &rsaquo; el menú de
       la esquina &rsaquo; <b>Install from Disk…</b></li>
-      <li>Elige <code>zap_viewer-2.9.0.zip</code>.</li>
+      <li>Elige <code>zap_viewer-2.10.0.zip</code>.</li>
       <li>Ya está. El Viewer se abre en tu siguiente render.</li>
     </ol>
   </section>
@@ -955,6 +1101,34 @@ CONTENT["es"] = """
     y luego <b>Compare</b>. El Viewer se divide entre ambas con una línea que
     puedes arrastrar. Zap Viewer se niega a comparar resoluciones distintas en
     lugar de estirar una — eso falsearía lo que estás viendo.</p>
+    <p>Bajo la línea, un cuadro <b>What changed</b> lista los ajustes de render
+    en los que ambas difieren — <code>Samples 128 → 256</code>,
+    <code>Denoise Off → On</code> — y queda vacío cuando las dos se renderizaron
+    igual. La línea muestra <i>que</i> dos renders difieren; esto dice por qué.</p>
+  </section>
+
+  <section>
+    <h2>Encontrar un render en la lista</h2>
+    <p>Cuando el historial pasa de una pantalla, los controles sobre la lista la
+    acotan. Todos empiezan apagados, así que la lista que ya tienes queda intacta
+    hasta que uses alguno.</p>
+    <ul>
+      <li><b>Search</b> — el campo con la lupa coincide con la etiqueta del
+      render o con el nombre del archivo, así que tanto el nombre que le diste
+      como el nombre en disco lo encuentran.</li>
+      <li><b>Kind</b> — el menú muestra <b>All</b>, <b>Stills</b> o
+      <b>Sequences</b>.</li>
+      <li><b>Star</b> — haz clic en la estrella de una fila para marcarla, luego
+      activa el botón de estrella junto al campo de búsqueda para ver solo los
+      renders marcados.</li>
+      <li><b>Sort</b> — el menú abre en <b>Default</b>, que mantiene el orden en
+      que se añadieron los renders; <b>Newest First</b>, <b>Oldest First</b>,
+      <b>Label</b> y <b>Longest Render</b> reordenan a partir de ahí.</li>
+    </ul>
+    <p>Mientras un filtro acota la lista, aparece debajo un pequeño recuento
+    "12 / 240". Si el render que tenías seleccionado es uno que el filtro oculta,
+    el panel dice <b>Selected render is hidden by the filter</b> y Remove queda
+    deshabilitado hasta que vuelva a verse.</p>
   </section>
 
   <section>
@@ -980,10 +1154,11 @@ CONTENT["es"] = """
     <h3>Pestañas</h3>
     <ul>
       <li><b>History</b> — la lista, con miniaturas, etiquetas y horas.</li>
-      <li><b>Info</b> — resolución, tiempo de render y, para una Sequence,
-      cuánto tardó cada frame (ver abajo).</li>
-      <li><b>Layer</b> — qué capas tiene la imagen mostrada, y una nota sobre
-      EXR multicapa (ver "Fuera de esta versión").</li>
+      <li><b>Info</b> — resolución, tiempo de render, los ajustes con los que se
+      hizo el render y, para una Sequence, cuánto tardó cada frame (ver
+      abajo).</li>
+      <li><b>Layer</b> — qué capas tiene la imagen mostrada, y una nota que
+      confirma que un render guardado conserva sus passes (ver abajo).</li>
     </ul>
 
     <h3>Navigator</h3>
@@ -1033,6 +1208,17 @@ Per-frame render time
     <p>Los frames <b>más lentos</b> aparecen primero, porque "qué frame me
     costó caro" es la pregunta que esto responde. Se actualiza en vivo según
     cada frame termina, así que puedes seguirlo durante el render.</p>
+  </section>
+
+  <section>
+    <h2>Los ajustes detrás de un render</h2>
+    <p>Cada render registra ahora cómo se hizo, y la pestaña <b>Info</b> muestra
+    un cuadro <b>Render Settings</b> del seleccionado: engine, samples,
+    denoising, resolución, cámara, view layer, rango de frames, formato de salida
+    y gestión de color.</p>
+    <p>Los renders hechos antes de esta actualización no registraron esos
+    ajustes, así que el cuadro simplemente no aparece para ellos. Nada en ellos
+    cambia.</p>
   </section>
 
   <section>
@@ -1094,16 +1280,14 @@ Per-frame render time
   </section>
 
   <section style="border-bottom:none">
-    <h2>Fuera de esta versión</h2>
-    <h3>Historial de EXR multicapa — próximamente</h3>
-    <p>Los renders se guardan y reproducen con normalidad, pero un <b>still</b>
-    guardado se aplana a su resultado combinado, así que sus passes no quedan en
-    la copia del historial. Blender no escribe ningún archivo para un still F12
-    interactivo, así que Zap Viewer tiene que producir uno a partir del Render
-    Result, y todas las rutas disponibles para eso descartan las capas. Si
-    necesitas que la copia del historial lleve los passes, renderiza a EXR de
-    una sola capa por ahora. La pestaña Layer dice lo mismo en la interfaz, en
-    vez de dejar que lo descubras después.</p>
+    <h2>Los passes de EXR multicapa se conservan</h2>
+    <p>Versiones anteriores decían que un still guardado se aplanaba y que había
+    que renderizar a EXR de una sola capa para conservar tus passes en el
+    historial. <b>Eso era falso, y se ha corregido aquí.</b> Un render guardado
+    conserva sus passes: tanto un still como una sequence llegan al historial con
+    todas las capas que produjo el render, cotejadas canal a canal con lo que
+    escribe el propio renderizador de Blender. La pestaña Layer dice lo mismo. Si
+    venías evitando la salida multicapa por la nota antigua, no hacía falta.</p>
 
   </section>
 """
