@@ -8,15 +8,15 @@
 <meta name="theme-color" content="#0B0D10" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 <style>
-@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Display'; src: url('../assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('../assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
 :root { --bg: #0B0D10; --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45);
         --line: rgba(244,235,221,.13); --zap: #FFC828;
         --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-        --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif; }
+        --sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); overflow-x: hidden; }
 a { color: inherit; }
 ::selection { background: var(--zap); color: var(--bg); }
 .wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
@@ -24,7 +24,7 @@ a { color: inherit; }
 .crumb a { text-decoration: none; }
 .crumb a:hover { color: var(--cream); }
 .crumb b { color: var(--zap); font-weight: 400; }
-h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
+h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
 .intro { font-size: 18px; line-height: 1.55; color: var(--body); }
 .rel { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 26px; }
 .rel h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;

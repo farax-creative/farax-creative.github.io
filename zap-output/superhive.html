@@ -24,18 +24,18 @@
   screen captures of the add-on's real panels, with nothing drawn on top.
 -->
 <style>
-@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Display'; src: url('../assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('../assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
 :root {
   --bg: #0B0D10; --panel: #11161B; --bar: #050506;
   --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
   --zap: #FFC828;
   --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); overflow-x: hidden; }
 a { color: inherit; }
 img, video { display: block; max-width: 100%; height: auto; }
 ::selection { background: var(--zap); color: var(--bg); }
@@ -71,9 +71,9 @@ img, video { display: block; max-width: 100%; height: auto; }
 .hero { padding: 64px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
 .kick { font: 12px/1.5 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
 .kick b { color: var(--zap); font-weight: 400; }
-h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
+h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
      line-height: .95; letter-spacing: .01em; margin: 18px 0 22px; }
-h2 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(30px, 5.4vw, 44px);
+h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(32px, 4.6vw, 48px);
      line-height: 1.05; letter-spacing: .01em; margin: 0 0 20px; }
 .lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.5; color: var(--body); max-width: 600px; }
 p { font-size: 17px; line-height: 1.65; color: var(--body); }
@@ -104,7 +104,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
 
 
 .big { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 6px 0 18px; }
-.big .num { font-family: 'Farax Display', var(--serif); font-size: clamp(88px, 16vw, 140px); line-height: .9; color: var(--zap); }
+.big .num { font-family: 'Farax Display', var(--sans); font-size: clamp(88px, 16vw, 140px); line-height: .9; color: var(--zap); }
 .big .cap { font: 13px/1.5 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); max-width: 16em; }
 
 .eds { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
@@ -112,7 +112,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
 .ed-box.pro { border-color: rgba(255,200,40,.4); }
 .ed-box h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 4px;
              font: 700 20px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
-.ed-box h3 span { font: 13px/1 var(--mono); letter-spacing: .1em; color: var(--zap); }
+.ed-box h3 span { font: 28px/1 'Farax Display', var(--sans); letter-spacing: .02em; color: var(--zap); }
 .ed-box .sub { font-size: 14px; color: var(--dim); margin-bottom: 12px; }
 .ed-box ul { list-style: none; }
 .ed-box li { font-size: 15px; line-height: 1.5; color: var(--body); padding: 7px 0 7px 18px; border-top: 1px solid var(--line); position: relative; }
@@ -132,7 +132,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
             background: var(--panel); padding: 16px 18px; transition: border-color .2s; }
 .series a:hover { border-color: rgba(255,200,40,.5); }
 .series b { display: flex; justify-content: space-between; font: 700 17px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .04em; color: var(--cream); }
-.series b span { font: 13px/1.3 var(--mono); color: var(--zap); }
+.series b span { font: 20px/1.1 'Farax Display', var(--sans); color: var(--zap); }
 .series small { display: block; margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--dim); }
 
 .cta { text-align: center; padding: 26px 0 10px; }
@@ -162,24 +162,22 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
   <div class="wrap">
     <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 5.0+ &middot; Windows &middot; macOS &middot; Linux</div>
     <h1>Zap Output</h1>
-    <p class="lead">Build render paths with buttons, see the exact filename, and never overwrite a take.</p>
+    <p class="lead">Render paths in clicks. No overwritten takes.</p>
     <div class="media hero-media"><video src="media/hero.mp4" autoplay muted loop playsinline preload="auto" aria-label="Token buttons building a render path in the Output panel, with the live filename preview"></video></div>
   </div>
 </header>
 
 <section class="sec">
   <div class="wrap">
-    <div class="big"><span class="num">0</span><span class="cap">custom tokens.<br>Uninstall it and every path still renders.</span></div>
-    <p class="one">Built on Blender 5.0's own Path Templates, so a render farm doesn't need the add-on.</p>
+    <div class="big"><span class="num">0</span><span class="cap">custom tokens.<br>Uninstall it. Paths still render.</span></div>
   </div>
 </section>
 
 <section class="sec feat">
   <div class="wrap grid">
     <div class="txt">
-      <div class="label"><b>01</b>Version Up<span class="new">New warnings</span></div>
-      <h2>Skips any version already on disk.</h2>
-      <p class="one">And warns before you render: Overwrite off with files in the way, a folder that refuses writes, a node that writes nothing.</p>
+      <div class="label"><b>01</b>Version Up<span class="new">New</span></div>
+      <h2>Skips versions already on disk. Warns before you render.</h2>
     </div>
     <div class="media"><video src="media/versionup.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Version Up skipping v002, which already holds renders, and landing on v003, with a preflight warning"></video></div>
   </div>
@@ -189,8 +187,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
   <div class="wrap grid">
     <div class="txt">
       <div class="label"><b>02</b>Render Continuity<span class="pro">Pro</span><span class="new">New</span></div>
-      <h2>Find the frames a crashed render lost.</h2>
-      <p class="one">Scan Frames lists the holes. Set Range to Gaps renders only those.</p>
+      <h2>Find the frames a crash lost. Render only those.</h2>
     </div>
     <div class="media"><video src="media/continuity.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Scan Frames reporting missing frames, then Set Range to Gaps narrowing the frame range to them"></video></div>
   </div>
@@ -200,8 +197,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
   <div class="wrap grid">
     <div class="txt">
       <div class="label"><b>03</b>Auto-save<span class="pro">Pro</span></div>
-      <h2>Every F12 kept.</h2>
-      <p class="one">Each still render is saved the moment it finishes, numbered. Stereo pairs included.</p>
+      <h2>Every F12 kept, numbered.</h2>
     </div>
     <div class="media narrow"><video src="media/autosave.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Three F12 renders saved as three numbered files"></video></div>
   </div>
@@ -211,8 +207,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
   <div class="wrap grid">
     <div class="txt">
       <div class="label"><b>04</b>File Output nodes<span class="pro">Pro</span><span class="new">New</span></div>
-      <h2>Passes follow the version.</h2>
-      <p class="one">Version Up moves your compositor's File Output nodes too, so passes stop writing over the last take.</p>
+      <h2>Compositor passes follow the version.</h2>
     </div>
     <div class="media"><video src="media/nodes.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A File Output node path moving from v001 to v002 with Version Up"></video></div>
   </div>
@@ -223,7 +218,6 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
     <div class="txt">
       <div class="label"><b>05</b>Folders &amp; presets<span class="pro">Pro</span></div>
       <h2>Your folder structure in one click.</h2>
-      <p class="one">Scene, Camera, version and pass folders. Six presets built in, plus your own.</p>
     </div>
     <div class="media"><video src="media/folders.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Applying a path preset that adds scene, camera and version folders"></video></div>
   </div>
@@ -260,7 +254,7 @@ code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235
       <div><span class="k">OS</span><span class="t">Windows, macOS, Linux</span></div>
       <div><span class="k">Licence</span><span class="t">GPL, free updates</span></div>
     </div>
-    <p class="note">Folder per Pass needs 5.1. Bugs: Preferences &rarr; Report a Bug fills in your versions for you.</p>
+    
   </div>
 </section>
 
