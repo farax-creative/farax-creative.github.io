@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Board — Changelog</title>
+<meta name="description" content="Release notes for Zap Board, a reference board inside Blender by Farax Creative." />
+<meta name="theme-color" content="#0B0D10" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root { --bg: #0B0D10; --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45);
+        --line: rgba(244,235,221,.13); --zap: #FFC828;
+        --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+        --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+::selection { background: var(--zap); color: var(--bg); }
+.wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
+.crumb { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.crumb a { text-decoration: none; }
+.crumb a:hover { color: var(--cream); }
+.crumb b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
+.intro { font-size: 18px; line-height: 1.55; color: var(--body); }
+.rel { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 26px; }
+.rel h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+          font-family: 'Farax Label', 'Arial Narrow', sans-serif; font-weight: 400; font-size: 30px; letter-spacing: .03em; }
+.rel h2 .tag { font: 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--bg);
+               background: var(--zap); border-radius: 3px; padding: 5px 8px; }
+.rel .sum { margin-top: 12px; font-size: 17px; line-height: 1.6; color: var(--body); }
+.rel h3 { margin: 26px 0 8px; font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.rel ul { list-style: none; }
+.rel li { position: relative; padding: 8px 0 8px 22px; font-size: 16px; line-height: 1.6; color: var(--body); }
+.rel li::before { content: ''; position: absolute; left: 2px; top: 18px; width: 8px; height: 1px; background: var(--zap); }
+.rel li strong { color: var(--cream); font-weight: 600; }
+.foot { margin-top: 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="crumb"><a href="/"><b>Farax Creative</b></a> &nbsp;/&nbsp; Zap Board</div>
+  <h1>Changelog</h1>
+  <p class="intro">What changed in each release of Zap Board. Updates are free for everyone who owns it.</p>
+
+  <section class="rel" id="v2-0-0">
+    <h2>2.0 <span class="tag">Free &amp; Pro</span></h2>
+    <p class="sum">Zap Board gains a Pro tier. The free board stays free and complete; Pro adds the colour, video and 3D tools as a one-time $5 unlock in the same listing.</p>
+    <h3>Added &middot; Pro</h3>
+    <ul>
+      <li><strong>Video &amp; GIF reference:</strong> play a clip on the board with a scrub bar and transport controls, step frame by frame, and turn any frame into a still card.</li>
+      <li><strong>Colour tools:</strong> Extract Palette lays an image's main colours out as swatch cards, pick a colour off any card, and sort a shelf of references by colour.</li>
+      <li><strong>Image adjust:</strong> brightness, contrast, temperature and saturation on any card, without changing the file on disk.</li>
+      <li><strong>Layout:</strong> layout templates and auto layout.</li>
+      <li><strong>Send to the 3D view:</strong> place selected references in the viewport at the cursor, and remove them again with one button.</li>
+      <li><strong>Board files:</strong> export and import a board, and copy an image's files next to the .blend.</li>
+      <li><strong>Frames:</strong> a custom colour per group frame.</li>
+    </ul>
+    <h3>Added</h3>
+    <ul>
+      <li><strong>Paste from a URL:</strong> add an image straight from a web address. It is the one feature that uses the network, and only when Blender's online access is on.</li>
+      <li><strong>Rename a frame</strong> in place from the board.</li>
+    </ul>
+    <h3>Compatibility</h3>
+    <ul>
+      <li>Runs on Blender 4.5, 5.0, 5.1 and 5.2, on Windows, macOS and Linux. Reveal File opens the folder on Windows only.</li>
+    </ul>
+  </section>
+
+  <p class="foot">Zap Board by Farax Creative &middot; Blender 4.5+ &middot; Windows, macOS, Linux</p>
+</main>
+</body>
+</html>

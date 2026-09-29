@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Board — Superhive page</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0B0D10" />
+<!--
+  Embedded in the Superhive product description through an <iframe>. The
+  store's rich-text field strips <script>, <style> and <video>, so anything
+  that needs a real font or has to play lives here instead of in the pasted
+  body.
+
+  The host cannot resize a cross-origin iframe to fit, so the embed uses a
+  fixed height worked out from this page's measured height at the widths the
+  store column actually takes. Change the length of this page and that height
+  has to be measured again (see the embed snippet prepared alongside this
+  page). Links open in a new tab so the visitor is not left inside the frame.
+-->
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root {
+  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
+  --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
+  --zap: #FFC828;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; height: auto; }
+::selection { background: var(--zap); color: var(--bg); }
+
+/* ---- release bar ---- */
+.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+       gap: 8px 22px; padding: 13px 16px; font: 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
+.rel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
+.rel .ed { color: var(--zap); }
+.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
+.rel a:hover { text-decoration-color: var(--zap); }
+
+/* ---- sections ---- */
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+.col { max-width: 620px; margin: 0 auto; }
+.hero { padding: 64px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
+.kick { font: 12px/1.5 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.kick b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
+     line-height: .95; letter-spacing: .01em; margin: 18px 0 22px; }
+h2 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(30px, 5.4vw, 44px);
+     line-height: 1.05; letter-spacing: .01em; margin: 0 0 20px; }
+.lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.5; color: var(--body); max-width: 600px; }
+p { font-size: 17px; line-height: 1.65; color: var(--body); }
+p + p { margin-top: 16px; }
+em { font-style: italic; }
+strong { color: var(--cream); font-weight: 600; }
+.media { margin-top: 32px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
+         box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
+.media video, .media img { width: 100%; }
+.sec { padding: 34px 0 50px; }
+.label { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
+.label b { color: var(--zap); font-weight: 400; margin-right: 8px; }
+.pro { color: var(--zap); font: 11px/1 var(--mono); letter-spacing: .14em; border: 1px solid rgba(255,200,40,.5);
+       border-radius: 3px; padding: 4px 7px; margin-left: 10px; vertical-align: middle; }
+.note { font-size: 14px; line-height: 1.55; color: rgba(244,235,221,.6); margin-top: 16px; }
+
+.steps { list-style: none; margin-top: 6px; }
+.steps li { display: flex; gap: 14px; padding: 14px 0; font-size: 16px; line-height: 1.6; color: var(--body); }
+.steps .n { flex: 0 0 auto; width: 30px; height: 26px; border: 1px solid rgba(244,235,221,.26); border-radius: 7px;
+            font: 12px/24px var(--mono); text-align: center; color: var(--zap); }
+
+.req { margin-top: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
+.req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
+           font-size: 16px; line-height: 1.55; color: var(--body); }
+.req div:last-child { border-bottom: 0; }
+.req .k { flex: 0 0 110px; font-family: 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
+.req .t { flex: 1 1 260px; }
+
+/* ---- Free / Pro tiers ---- */
+.tiers { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 26px; }
+.tier { flex: 1 1 260px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 22px 22px 24px; }
+.tier.p { border-color: rgba(255,200,40,.4); }
+.tier .h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.tier .h b { font: 700 20px/1.2 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .04em; color: var(--cream); }
+.tier .h .amt { font: 12px/1 var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
+.tier.p .h .amt { color: var(--zap); }
+.tier ul { list-style: none; margin-top: 12px; }
+.tier li { position: relative; padding: 7px 0 7px 20px; font-size: 15px; line-height: 1.5; color: var(--body); }
+.tier li::before { content: ''; position: absolute; left: 0; top: 15px; width: 8px; height: 1px; background: var(--zap); }
+
+.box { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 24px 24px 26px; }
+.faq .q { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; padding: 18px 20px; }
+.faq .q h3 { display: flex; gap: 12px; align-items: baseline; margin-bottom: 8px;
+             font: 700 18px/1.35 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .03em; color: var(--cream); }
+.faq .q h3::before { content: '+'; font: 400 16px var(--mono); color: var(--zap); }
+.faq .q p { font-size: 16px; }
+
+.cta { text-align: center; padding: 8px 0 10px; }
+.cta .box { display: inline-block; text-align: left; max-width: 560px; }
+.foot { padding: 30px 0 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+
+@media (max-width: 520px) {
+  .hero { padding-top: 44px; }
+  .req .k { flex-basis: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="rel">
+  <span class="name"><span class="dot"></span>Zap Board 2.0</span>
+  <span class="ed">Free &amp; Pro</span>
+  <a href="/zap-board/changelog.html" target="_blank" rel="noopener">View changelog &rarr;</a>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.5+ &middot; Windows &middot; macOS &middot; Linux</div>
+      <h1>Zap Board</h1>
+      <p class="lead">A reference board built into Blender. Drop your images in, arrange them, mark them up &mdash; and they save inside your .blend. No second window, no folder of loose files, no alt-tab.</p>
+    </div>
+    <div class="media"><video src="media/hero.mp4" autoplay muted loop playsinline preload="auto" aria-label="A pile of reference images on a board, then Arrange laying them out into a tidy grid"></video></div>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>01</b>The problem</div>
+    <h2>Your references live in another window.</h2>
+    <p>They sit in a browser, an image viewer, a second monitor &mdash; anywhere but the file you are working in. You alt-tab to check a pose, alt-tab back, and when you open the scene on another machine the references are not there.</p>
+    <p>Zap Board puts the board inside Blender's Image Editor. Drop images onto it, move them like cards on a table, and keep working without leaving the app.</p>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>02</b>Arrange &amp; group</div>
+      <h2>Lay it out the way you think.</h2>
+      <p>Drag references anywhere. Select a few and <strong>Arrange</strong> packs them tidily; Align and Distribute straighten a row. Draw a <strong>frame</strong> around a set, name it, give it a colour, and move the whole group as one &mdash; characters here, environments there.</p>
+      <p>Add notes, arrows and shapes on top, crop a card down to the part you care about, and set any image's opacity so it reads as a background or an overlay.</p>
+    </div>
+    <div class="media"><img src="media/frames_two.png" alt="A board with reference cards inside two labelled group frames, Characters and a blue-tinted Environment" /></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>03</b>It saves with your file</div>
+    <h2>The board is part of the .blend.</h2>
+    <p>A board belongs to the file, not to your computer. Save the .blend and the board saves with it &mdash; every image, note and frame. Open the file next week, or on another machine, and it is all still there.</p>
+    <p>Keep more than one board per file and switch between them. Nothing to export, no sidecar folder to carry around, and it never touches your scene, your render or your objects.</p>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>04</b>Compare your work</div>
+      <h2>Put your WIP over the reference.</h2>
+      <p>Drop a screenshot of your work onto the board, drag it over the reference and lower its opacity to see the two lined up. Flip the board to grayscale and the values jump out with the colour taken away &mdash; the quickest way to catch a shape that has drifted.</p>
+    </div>
+    <div class="media"><video src="media/compare.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A work-in-progress card faded over a reference, then both shown in grayscale to compare values"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>05</b>Colour tools<span class="pro">Pro</span></div>
+      <h2>Pull a palette off any reference.</h2>
+      <p>Select an image and <strong>Extract Palette</strong> lays its main colours out as swatch cards next to it. Pick a single colour straight off any card with the eyedropper. Sort a shelf of references by colour to group the warm ones apart from the cool.</p>
+    </div>
+    <div class="media"><video src="media/colour.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A reference selected, then a row of six colour swatch cards extracted from it"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>06</b>Image adjust<span class="pro">Pro</span></div>
+      <h2>Brighten a dark reference in place.</h2>
+      <p>Push brightness, contrast, temperature and saturation on any card right on the board. A photo that is too dark to read becomes usable without opening another editor, and the file on disk is never changed &mdash; the adjustment lives on the board.</p>
+    </div>
+    <div class="media"><video src="media/adjust.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A dark portrait reference brightened and given more contrast directly on the board"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>07</b>Video &amp; GIF<span class="pro">Pro</span></div>
+      <h2>Motion reference, on the board.</h2>
+      <p>Add a video or a GIF and it plays right there, with a scrub bar and transport controls. Step frame by frame to study a walk cycle or a piece of acting, and turn any frame into a still card you can keep and mark up.</p>
+    </div>
+    <div class="media"><img src="media/video_card.png" alt="A video reference card on the board with a scrub bar and playback controls beneath it" /></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>08</b>Send to the 3D view<span class="pro">Pro</span></div>
+      <h2>Move a reference into the scene.</h2>
+      <p>Select cards on the board and send them to the 3D viewport as reference images, placed at the cursor. Line up a concept next to your model while you block it out, then take them back out with one button when you are done.</p>
+    </div>
+    <div class="media"><video src="media/send3d.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Three reference cards selected on the board, then appearing as image planes in the 3D viewport"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>09</b>Free &amp; Pro</div>
+    <h2>What you get.</h2>
+    <p>One listing, two tiers. The free add-on is a complete reference board. Pro adds the colour, video and 3D tools, as a one-time unlock.</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="h"><b>Free</b><span class="amt">$0</span></div>
+        <ul>
+          <li>Drag images onto a board and move them freely</li>
+          <li>Arrange, align and distribute</li>
+          <li>Group frames &mdash; name and move a set as one</li>
+          <li>Notes, arrows, shapes and a freehand pen</li>
+          <li>Crop, and per-image opacity</li>
+          <li>Grayscale the board to check values</li>
+          <li>Many boards per file, copy and paste between them</li>
+          <li>Pack images into the .blend, export the board as an image</li>
+        </ul>
+      </div>
+      <div class="tier p">
+        <div class="h"><b>Pro</b><span class="amt">One-time $5</span></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Video &amp; GIF playback, transport and frame step</li>
+          <li>Frame to Still</li>
+          <li>Extract Palette and pick a colour off any card</li>
+          <li>Image adjust &mdash; brightness, contrast, temperature, saturation</li>
+          <li>Layout templates, auto layout and sort by colour</li>
+          <li>Send references to the 3D view, and remove them</li>
+          <li>Export / import a board, and copy files next to the .blend</li>
+        </ul>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>10</b>Before you buy</div>
+    <h2>Requirements</h2>
+    <div class="req">
+      <div><span class="k">Blender</span><span class="t"><strong>4.5 or newer.</strong> Tested on 4.5, 5.0, 5.1 and 5.2.</span></div>
+      <div><span class="k">OS</span><span class="t"><strong>Windows, macOS and Linux.</strong> One button, Reveal File, opens the folder on Windows only; everything else works on all three.</span></div>
+      <div><span class="k">Account</span><span class="t"><strong>None.</strong> No sign-up and no per-image charge.</span></div>
+      <div><span class="k">Network</span><span class="t">Works fully offline. Pasting an image from a URL is the one feature that reaches the internet, and only when you ask it to &mdash; Blender's online access has to be on for it.</span></div>
+    </div>
+    <div class="box" style="margin-top:28px">
+      <div class="kick" style="margin-bottom:10px">What you get</div>
+      <p style="font-size:16px">A board that lives in your file and travels with it. Free updates. The free tier is fully usable on its own; Pro is a one-time $5 unlock in the same listing, with no subscription. Works on Windows, macOS and Linux, and keeps working with your internet unplugged.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec faq">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>11</b>Questions</div>
+    <h2>Questions people ask first</h2>
+    <div class="q"><h3>Where do the boards live?</h3><p>Inside your .blend file. Save the file and the board is saved with it &mdash; images, notes and frames. Open it anywhere and it is all still there. You can keep several boards in one file.</p></div>
+    <div class="q"><h3>Does it change my scene or my files?</h3><p>No. The board is its own thing; it does not touch your objects, your render or the image files on disk. Image adjustments live on the board, not on the original file.</p></div>
+    <div class="q"><h3>What is the difference between Free and Pro?</h3><p>Free is a complete reference board &mdash; arrange, group, mark up, crop, opacity, grayscale, many boards. Pro adds the colour tools, video and GIF playback, image adjust, layout templates, and sending references to the 3D view. Pro is a one-time $5 unlock.</p></div>
+    <div class="q"><h3>Does it work on Mac and Linux?</h3><p>Yes. The whole add-on runs on Windows, macOS and Linux. The only exception is Reveal File, which opens a folder in the OS file browser and is Windows only.</p></div>
+    <div class="q"><h3>How do I open a board?</h3><p>In Blender's Image Editor, switch on Zap Board. Shift+F10 flips the editor over to it. Everything is in the side panel from there.</p></div>
+  </div></div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div class="box">
+      <p style="font-size:16px"><strong>Start free.</strong> Install the add-on and build a board today. When you want the colour, video and 3D tools, Pro is a one-time $5 unlock in this same listing &mdash; no subscription, free updates.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap"><div class="col">Zap Board by Farax Creative &middot; Blender 4.5+ &middot; Windows, macOS, Linux<br>Reference images shown are procedurally generated placeholders.</div></div>
+</footer>
+
+</body>
+</html>
