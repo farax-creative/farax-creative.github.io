@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Doctor — Changelog</title>
+<meta name="description" content="Release notes for Zap Doctor, render preflight for Blender by Farax Creative." />
+<meta name="theme-color" content="#0B0D10" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root { --bg: #0B0D10; --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45);
+        --line: rgba(244,235,221,.13); --zap: #FFC828;
+        --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+        --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+::selection { background: var(--zap); color: var(--bg); }
+.wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
+.crumb { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.crumb a { text-decoration: none; }
+.crumb a:hover { color: var(--cream); }
+.crumb b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
+.intro { font-size: 18px; line-height: 1.55; color: var(--body); }
+.rel { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 26px; }
+.rel h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+          font-family: 'Farax Label', 'Arial Narrow', sans-serif; font-weight: 400; font-size: 30px; letter-spacing: .03em; }
+.rel h2 .tag { font: 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--bg);
+               background: var(--zap); border-radius: 3px; padding: 5px 8px; }
+.rel h2 .date { font: 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.rel .sum { margin-top: 12px; font-size: 17px; line-height: 1.6; color: var(--body); }
+.rel h3 { margin: 26px 0 8px; font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.rel ul { list-style: none; }
+.rel li { position: relative; padding: 8px 0 8px 22px; font-size: 16px; line-height: 1.6; color: var(--body); }
+.rel li::before { content: ''; position: absolute; left: 2px; top: 18px; width: 8px; height: 1px; background: var(--zap); }
+.rel li strong { color: var(--cream); font-weight: 600; }
+.rel li code { font-family: var(--mono); font-size: .9em; color: var(--cream); background: rgba(244,235,221,.08); border-radius: 4px; padding: 1px 6px; }
+.foot { margin-top: 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="crumb"><a href="/"><b>Farax Creative</b></a> &nbsp;/&nbsp; Zap Doctor</div>
+  <h1>Changelog</h1>
+  <p class="intro">What changed in each release of Zap Doctor. Updates are free for everyone who owns it.</p>
+
+  <section class="rel" id="v1-3-0">
+    <h2>1.3.0 <span class="tag">Latest</span> <span class="date">2026</span></h2>
+    <p class="sum">Four new checks bring the total to 34, and an optional Render Guard can move the scan to the moment you render. Both guard switches ship off, so nothing about an existing setup changes on update.</p>
+    <h3>Added &mdash; checks</h3>
+    <ul>
+      <li><strong>Render passes a format can&rsquo;t store:</strong> passes such as Mist, Normal or Cryptomatte are enabled, but the output format cannot save them. One click switches to OpenEXR MultiLayer.</li>
+      <li><strong>Video output splitting at 2&nbsp;GB:</strong> a long video render that would silently break into several files. One click turns autosplit off.</li>
+      <li><strong>Compositor File Output node that writes nothing:</strong> a File Output node with no outputs, nothing connected, or an unreachable drive, so the render finishes but the pass never lands on disk.</li>
+      <li><strong>Frame range past the last keyframe:</strong> a range running well beyond the end of the animation, rendering still frames by the hundred. One click trims it to the real range.</li>
+    </ul>
+    <h3>Added &mdash; Render Guard (optional, off by default)</h3>
+    <ul>
+      <li><strong>Guard the render shortcut:</strong> F12 and Ctrl+F12 scan first, then render straight through if the scene is clean.</li>
+      <li><strong>Report errors in background renders:</strong> <code>blender -b</code> renders print blocking issues to the console before starting, so a render-farm log carries them. Can also be switched on per job with <code>ZAP_DOCTOR_RENDER_GUARD=1</code>.</li>
+    </ul>
+    <h3>Notes</h3>
+    <ul>
+      <li>Render Guard reports; it never aborts a render that has already started, because Blender gives an add-on no way to do that.</li>
+      <li>The shortcut guard leaves the Industry Compatible keymap alone, where F12 is not bound to render, rather than adding a shortcut you never had.</li>
+      <li>Existing checks and their messages are unchanged, so any &ldquo;always ignore&rdquo; settings carry over intact.</li>
+    </ul>
+  </section>
+
+  <section class="rel" id="v1-2-1">
+    <h2>1.2.1 <span class="date">2026</span></h2>
+    <p class="sum">Maintenance release. Adds a Report a Bug link in the panel and tidies the build.</p>
+  </section>
+
+  <section class="rel" id="v1-0-0">
+    <h2>1.0.0 <span class="tag">First release</span></h2>
+    <p class="sum">Scan a Blender scene for the mistakes that ruin final renders, grouped by severity, with a one-click fix on the ones where the fix is unambiguous and a Revert log for every change made.</p>
+  </section>
+
+  <p class="foot">Zap Doctor by Farax Creative &middot; GPL-3.0-or-later &middot; Blender 4.3&ndash;5.2</p>
+</main>
+</body>
+</html>
