@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Viewer — Changelog</title>
+<meta name="description" content="Release notes for Zap Viewer, the render history and picture viewer for Blender by Farax Creative." />
+<meta name="theme-color" content="#0B0D10" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root { --bg: #0B0D10; --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45);
+        --line: rgba(244,235,221,.13); --zap: #FFC828;
+        --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+        --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+::selection { background: var(--zap); color: var(--bg); }
+.wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
+.crumb { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.crumb a { text-decoration: none; }
+.crumb a:hover { color: var(--cream); }
+.crumb b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(44px, 9vw, 72px); line-height: .95; margin: 18px 0 14px; }
+.intro { font-size: 18px; line-height: 1.55; color: var(--body); }
+.rel { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 26px; }
+.rel h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+          font-family: 'Farax Label', 'Arial Narrow', sans-serif; font-weight: 400; font-size: 30px; letter-spacing: .03em; }
+.rel h2 .tag { font: 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--bg);
+               background: var(--zap); border-radius: 3px; padding: 5px 8px; }
+.rel .sum { margin-top: 12px; font-size: 17px; line-height: 1.6; color: var(--body); }
+.rel h3 { margin: 26px 0 8px; font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.rel ul { list-style: none; }
+.rel li { position: relative; padding: 8px 0 8px 22px; font-size: 16px; line-height: 1.6; color: var(--body); }
+.rel li::before { content: ''; position: absolute; left: 2px; top: 18px; width: 8px; height: 1px; background: var(--zap); }
+.rel li strong { color: var(--cream); font-weight: 600; }
+.foot { margin-top: 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="crumb"><a href="/"><b>Farax Creative</b></a> &nbsp;/&nbsp; <a href="/zap-viewer.html">Zap Viewer</a></div>
+  <h1>Changelog</h1>
+  <p class="intro">What changed in each release of Zap Viewer. Updates are free for everyone who owns it.</p>
+
+  <section class="rel" id="v2-10-0">
+    <h2>2.10.0 <span class="tag">Latest</span></h2>
+    <p class="sum">Find a render in a long history, and see which settings changed between two of them. Everything new is off until you use it, so an existing history looks exactly as it did.</p>
+    <h3>Added</h3>
+    <ul>
+      <li><strong>Search</strong> the history by label or file name.</li>
+      <li><strong>Filter</strong> to stills or sequences, and <strong>star</strong> renders to show only those.</li>
+      <li><strong>Sort</strong> by newest, oldest, label or longest render. The menu opens on Default, which reorders nothing.</li>
+      <li><strong>Render settings in the Info tab:</strong> engine, samples, denoising, resolution, camera, view layer, frame range, output format and colour management, recorded with every new render.</li>
+      <li><strong>A/B compare lists what changed</strong> between the two renders, such as <em>Samples 128 &rarr; 256</em>. Nothing is listed when they were rendered the same way.</li>
+    </ul>
+    <h3>Fixed</h3>
+    <ul>
+      <li>A stereo (Multi-View) still that cannot be saved no longer leaves a pair of per-eye files behind in the history folder.</li>
+    </ul>
+    <h3>Corrected</h3>
+    <ul>
+      <li>Earlier notes said saved multilayer EXR stills were flattened. They never were: the history copy keeps every pass and view layer, channel for channel. If you avoided multilayer output because of that note, you did not need to.</li>
+    </ul>
+    <h3>Known limits</h3>
+    <ul>
+      <li>With Multi-View on, an F12 still is not added to the history, and the panel says so. Stereo sequences are kept.</li>
+    </ul>
+  </section>
+
+  <section class="rel" id="v2-9-0">
+    <h2>2.9.0</h2>
+    <p class="sum">Control over the disk space the history takes.</p>
+    <h3>Added</h3>
+    <ul>
+      <li><strong>Choose where renders are kept.</strong></li>
+      <li><strong>Point at animation frames</strong> Blender already wrote instead of copying them.</li>
+      <li><strong>Let old test renders expire</strong> after a number of days you choose, or never. Locked renders are never touched.</li>
+    </ul>
+  </section>
+
+  <p class="foot">Zap Viewer by Farax Creative &middot; Blender 5.0+ &middot; Windows / macOS / Linux</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zap Viewer — Superhive page</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0B0D10" />
+<!--
+  Embedded in the Superhive product description through an <iframe>, the same
+  way as /prompt-motion/superhive.html. The store's rich-text field strips
+  <script> and <style>, so the fonts, the video layout and the ZAP25 copy
+  button live here instead of in the pasted body.
+
+  The host cannot resize a cross-origin iframe, so the embed has a fixed
+  height measured from this page at the widths the store column takes.
+  Change the length of this page and re-measure (superhive-embed.html next
+  to this file).
+
+  Links open in a new tab: navigating inside the frame would leave the
+  visitor on our site with the store still wrapped around it.
+-->
+<style>
+@font-face { font-family: 'Farax Display'; src: url('/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Farax Label'; src: url('/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
+:root {
+  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
+  --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
+  --zap: #FFC828;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--cream); font-family: var(--serif); overflow-x: hidden; }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; height: auto; }
+::selection { background: var(--zap); color: var(--bg); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---- release bar ---- */
+.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+       gap: 8px 22px; padding: 13px 16px; font: 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
+.rel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
+.rel .ed { color: var(--zap); }
+.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
+.rel a:hover { text-decoration-color: var(--zap); }
+
+/* ---- sections ---- */
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+.col { max-width: 620px; margin: 0 auto; }
+.hero { padding: 64px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
+.kick { font: 12px/1.5 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.kick b { color: var(--zap); font-weight: 400; }
+h1 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
+     line-height: .95; letter-spacing: .01em; margin: 18px 0 22px; }
+h2 { font-family: 'Farax Display', var(--serif); font-weight: 400; font-size: clamp(30px, 5.4vw, 44px);
+     line-height: 1.05; letter-spacing: .01em; margin: 0 0 20px; }
+.lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.5; color: var(--body); max-width: 600px; }
+p { font-size: 17px; line-height: 1.65; color: var(--body); }
+p + p { margin-top: 16px; }
+em { font-style: italic; }
+strong { color: var(--cream); font-weight: 600; }
+code { font: 15px var(--mono); color: var(--cream); }
+.media { margin-top: 32px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
+         box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
+.media video { width: 100%; }
+.sec { padding: 34px 0 50px; }
+.label { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
+.label b { color: var(--zap); font-weight: 400; margin-right: 8px; }
+.label .new { margin-left: 10px; padding: 2px 7px; border-radius: 3px; background: var(--zap); color: var(--bg); letter-spacing: .12em; }
+.note { font-size: 14px; line-height: 1.55; color: rgba(244,235,221,.6); margin-top: 16px; }
+
+/* the "8 slots" signature */
+.eight { display: flex; align-items: center; gap: 22px; margin-top: 28px; }
+.eight .n { flex: 0 0 auto; font: 400 clamp(88px, 16vw, 132px)/.8 'Farax Display', var(--serif); color: var(--zap); }
+.eight p { font-size: 16px; }
+
+.diff { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 6px 18px; }
+.diff div { display: flex; flex-wrap: wrap; gap: 2px 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font: 14px/1.5 var(--mono); }
+.diff div:last-child { border-bottom: 0; }
+.diff .k { flex: 0 0 120px; color: var(--dim); }
+.diff .v { color: var(--cream); }
+.diff .v i { font-style: normal; color: var(--zap); }
+
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+.trio .box h3 { font: 700 16px/1.35 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--cream); margin-bottom: 8px; }
+.trio .box p { font-size: 15px; line-height: 1.55; }
+
+.req { margin-top: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
+.req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
+           font-size: 16px; line-height: 1.55; color: var(--body); }
+.req div:last-child { border-bottom: 0; }
+.req .k { flex: 0 0 110px; font-family: 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
+.req .t { flex: 1 1 260px; }
+
+.box { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 24px 24px 26px; }
+.faq .q { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; padding: 18px 20px; }
+.faq .q h3 { display: flex; gap: 12px; align-items: baseline; margin-bottom: 8px;
+             font: 700 18px/1.35 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .03em; color: var(--cream); }
+.faq .q h3::before { content: '+'; font: 400 16px var(--mono); color: var(--zap); }
+.faq .q p { font-size: 16px; }
+
+/* ---- the series ---- */
+.series { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+.series a { display: flex; flex-direction: column; gap: 8px; text-decoration: none; border: 1px solid var(--line);
+            border-radius: 12px; background: var(--panel); padding: 20px; transition: border-color .2s; }
+.series a:hover { border-color: rgba(255,200,40,.6); }
+.series .t { font: 700 18px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .03em; color: var(--cream); }
+.series .d { font-size: 15px; line-height: 1.5; color: var(--body); flex: 1; }
+.series .p { font: 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--zap); }
+.coupon { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0; margin-top: 18px;
+          background: var(--bar); border: 1px solid var(--line); border-radius: 4px; padding: 6px 6px 6px 14px; max-width: 100%;
+          font: 600 14px/1.2 -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--cream); }
+.coupon > span { padding: 4px 12px; }
+.coupon > span + span { border-left: 1px solid rgba(244,235,221,.2); }
+.coupon .who { padding-left: 0; font-weight: 400; color: var(--body); }
+.coupon .off { color: var(--zap); }
+.coupon .code { font-family: var(--mono); letter-spacing: .06em; }
+.copy { margin-left: 6px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+        background: transparent; color: var(--cream); border: 1px solid rgba(244,235,221,.55); border-radius: 3px;
+        padding: 6px 10px; font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+        transition: background-color .2s, color .2s, border-color .2s; }
+.copy:hover { border-color: var(--cream); }
+.copy.done { background: var(--zap); color: var(--bg); border-color: var(--zap); }
+.copy svg { width: 13px; height: 13px; }
+
+.foot { padding: 30px 0 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+
+@media (max-width: 700px) {
+  .trio, .series { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .hero { padding-top: 44px; }
+  .req .k, .diff .k { flex-basis: 100%; }
+  .eight { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .coupon { padding: 8px 10px; row-gap: 6px; }
+  .coupon .who { padding-left: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy, .series a { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<span class="sr">Blender render history, picture viewer, render viewer, A/B compare, wipe compare, render slots, compare renders, sequence playback, flipbook, per-frame render time, render log, EXR viewer, Cycles, EEVEE</span>
+
+<div class="rel">
+  <span class="name"><span class="dot"></span>Zap Viewer v2.10.0</span>
+  <span class="ed">New: search, stars, what changed</span>
+  <a href="/zap-viewer/changelog.html" target="_blank" rel="noopener">View changelog &rarr;</a>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 5.0+ &middot; Cycles &amp; EEVEE &middot; Win / Mac / Linux</div>
+      <h1>Zap Viewer</h1>
+      <p class="lead">Your render just finished. Now what? Zap Viewer opens its own window and keeps every render you make &mdash; a real Picture Viewer, the way Cinema 4D has had one for years.</p>
+    </div>
+    <div class="media"><video src="media/history.mp4" autoplay muted loop playsinline preload="auto" aria-label="Renders piling up in the Zap Viewer history list as each one finishes"></video></div>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>01</b>The problem</div>
+    <h2>You end up comparing from memory.</h2>
+    <div class="eight">
+      <span class="n">8</span>
+      <p><strong>render slots, overwriting each other.</strong> That is what Blender gives you. Zap Viewer keeps every render in one labelled list, as real files. Name them &ldquo;v1 key light&rdquo;, &ldquo;v2 warmer&rdquo; and tell them apart at a glance.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>02</b>Find<span class="new">New</span></div>
+      <h2>Fifty renders in, you can still find the one.</h2>
+      <p>Search by name, filter to stills or sequences, star the keepers, sort by newest or longest render. All off until you use it, so your history looks exactly as it did before the update.</p>
+    </div>
+    <div class="media"><video src="media/find.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Typing fog into the search box narrows the history to three renders, then filtering to sequences and starred renders"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>03</b>A / B compare</div>
+      <h2>One image, split by a wipe you drag.</h2>
+      <p>Pick A and B. Both halves share pan, zoom and colour management, because they are literally one image.</p>
+    </div>
+    <div class="media"><video src="media/compare.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Dragging the wipe between two renders in A/B compare"></video></div>
+    <div class="col" style="margin-top:36px">
+      <h2 style="font-size:clamp(26px,4.4vw,34px)">And now it says what changed.<span class="sr"> New in 2.10.</span></h2>
+      <p>The wipe shows <em>that</em> two renders differ. This says why.</p>
+      <div class="diff">
+        <div><span class="k">Samples</span><span class="v">16 <i>&rarr;</i> 128</span></div>
+        <div><span class="k">Denoise</span><span class="v">Off <i>&rarr;</i> On</span></div>
+      </div>
+      <p class="note">Only the differences. The Info tab shows the full set for any render.</p>
+    </div>
+    <div class="media" data-clip="changed"><video src="media/changed.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Comparing a noisy 16-sample render against a denoised 128-sample one, with the settings that differ listed beside it"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>04</b>Sequence playback</div>
+      <h2>Play it back where it landed.</h2>
+      <p>An animation becomes one entry. Play it, scrub it, catch the flicker before you hand the shot over &mdash; without moving your scene&rsquo;s frame.</p>
+    </div>
+    <div class="media"><video src="media/playback.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Playing back a rendered animation inside Zap Viewer"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>05</b>Per-frame times</div>
+      <h2>Find the frame that cost you eight minutes.</h2>
+      <p>Every frame&rsquo;s render time, with the average. Blender doesn&rsquo;t keep this.</p>
+    </div>
+    <div class="media"><video src="media/frametimes.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Stepping through frames while the Info tab shows each frame's render time"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>06</b>Import</div>
+      <h2>Renders it didn&rsquo;t make, too.</h2>
+      <p>Point it at a farm&rsquo;s output or a colleague&rsquo;s folder. Nothing is copied, and numbered frames come in as one sequence.</p>
+    </div>
+    <div class="media"><video src="media/import.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Importing a folder of numbered frames as one sequence entry"></video></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>07</b>Real files, not a cache</div>
+    <h2>Quit Blender. It&rsquo;s all still there.</h2>
+  </div>
+    <div class="trio">
+      <div class="box"><h3>Survives quitting</h3><p>Every entry is a real image file in a real folder, so reopening the .blend brings the whole history back.</p></div>
+      <div class="box"><h3>You choose where</h3><p>Pick where renders are kept, point at animation frames instead of copying them, and let old test renders expire.</p></div>
+      <div class="box"><h3>Stays out of the way</h3><p>It never changes your render settings or Blender&rsquo;s own slots, and in <code>blender -b</code> it does not even open a window.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>08</b>Before you buy</div>
+    <h2>Requirements</h2>
+    <div class="req">
+      <div><span class="k">Blender</span><span class="t"><strong>5.0 or newer.</strong> The full suite of 415 automated tests passes on 5.1 and 5.2.</span></div>
+      <div><span class="k">OS</span><span class="t">Windows, macOS and Linux. Pure Python, nothing to install outside the zip.</span></div>
+      <div><span class="k">Engines</span><span class="t">Cycles and EEVEE, stills and animations.</span></div>
+      <div><span class="k">Stereo</span><span class="t">With Multi-View on, an F12 still is not added to the history, and the panel says so. Stereo sequences are kept.</span></div>
+      <div><span class="k">Licence</span><span class="t">GPL-3.0-or-later.</span></div>
+    </div>
+    <div class="box" style="margin-top:28px">
+      <div class="kick" style="margin-bottom:10px">What you get &middot; $19</div>
+      <p style="font-size:16px">One purchase, no subscription, no Free/Pro split. Free updates. Uninstall it and your renders stay exactly where they are &mdash; they were never anywhere else.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec faq">
+  <div class="wrap"><div class="col">
+    <div class="label"><b>09</b>Questions</div>
+    <h2>Questions people ask first</h2>
+    <div class="q"><h3>Does it keep my EXR passes?</h3><p>Yes. A saved multilayer EXR still is channel-for-channel identical to what Blender&rsquo;s own renderer writes: Combined, Depth, Mist, Normal, Cryptomatte, every view layer. Earlier versions of this page said otherwise. That was wrong, and it never lost a pass.</p></div>
+    <div class="q"><h3>Will my history change after the update?</h3><p>No. Search, filters, stars and sorting are all off until you touch them. Renders made before 2.10 simply have no settings to show in the Info tab.</p></div>
+    <div class="q"><h3>What about render farms?</h3><p>In background renders (<code>blender -b</code>) it opens no window. Import the output folder afterwards.</p></div>
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="col">
+      <div class="label"><b>10</b>The Zap series</div>
+      <h2>Small tools, one workflow.</h2>
+      <p>Each one does a single job in the render pipeline.</p>
+    </div>
+    <div class="series">
+      <a href="https://superhivemarket.com/products/zap-doctor" target="_blank" rel="noopener"><span class="t">Zap Doctor</span><span class="d">Scans for the mistakes that quietly ruin a final render, and fixes many of them.</span><span class="p">$9 &rarr;</span></a>
+      <a href="https://superhivemarket.com/products/zap-output" target="_blank" rel="noopener"><span class="t">Zap Output</span><span class="d">Output paths that name themselves, so no render lands in the wrong folder.</span><span class="p">Free &middot; Pro $5 &rarr;</span></a>
+      <a href="https://superhivemarket.com/products/zap-board" target="_blank" rel="noopener"><span class="t">Zap Board</span><span class="d">Your reference images on a board inside Blender, next to the thing you&rsquo;re matching.</span><span class="p">Free &rarr;</span></a>
+    </div>
+    <div class="col" style="text-align:center">
+      <div class="coupon">
+        <span class="who">Own one already?</span>
+        <span class="off">25% off another</span>
+        <span class="code">ZAP25</span>
+        <button class="copy" type="button" data-code="ZAP25" aria-label="Copy coupon code ZAP25">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap"><div class="col">Zap Viewer by Farax Creative. GPL-3.0-or-later.<br>Every clip on this page is the add-on running in Blender, recorded from its own window.</div></div>
+</footer>
+
+<script>
+// Copy the coupon code. Inside the store's cross-origin iframe the async
+// Clipboard API is blocked unless the embed grants clipboard-write, so fall
+// back to a hidden textarea + execCommand, which works on a user click.
+function copyText(t) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(t).catch(function () { return legacy(t); });
+  }
+  return Promise.resolve(legacy(t));
+}
+function legacy(t) {
+  var ta = document.createElement('textarea');
+  ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  if (!ok) throw new Error('copy failed');
+}
+document.querySelectorAll('.copy').forEach(function (b) {
+  var label = b.querySelector('span');
+  b.addEventListener('click', function () {
+    copyText(b.dataset.code).then(function () {
+      b.classList.add('done'); label.textContent = 'Copied';
+      setTimeout(function () { b.classList.remove('done'); label.textContent = 'Copy'; }, 1600);
+    }, function () {
+      // Last resort: select the code so the visitor can press Ctrl+C.
+      var r = document.createRange(); r.selectNodeContents(b.parentNode.querySelector('.code'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    });
+  });
+});
+</script>
+</body>
+</html>
