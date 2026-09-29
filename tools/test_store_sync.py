@@ -6,7 +6,7 @@ INDEX = pathlib.Path(__file__).resolve().parent.parent / "index.html"
 
 def store_urls_in_index(slug):
     html = INDEX.read_text(encoding="utf-8")
-    # the DATA block lists ["Gumroad","https://...",...] / ["Superhive","https://...",...]
+    # the DATA block lists ["Superhive","https://...",...]
     return set(re.findall(r'"https://[^"]*' + re.escape(slug.replace("zap-","")) + r'[^"]*"', html))
 
 def test_board_store_links_match():

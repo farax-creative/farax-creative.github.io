@@ -8,12 +8,12 @@ def test_board_generates_self_contained():
     # every slot filled
     assert "{{" not in html, "unfilled slot remains"
     # real content present
-    for needle in ["Reference images that live inside your .blend", "Arrange", "FAQ", "Gumroad"]:
+    for needle in ["Reference images that live inside your .blend", "Arrange", "FAQ", "Superhive"]:
         assert needle in html, f"missing {needle!r}"
     # self-contained: the only allowed external hosts are the stores we sell on
     hosts = set(re.findall(r'(?:src|href)="https?://([^/"]+)', html))
     # store hosts + own domain, plus the sanctioned analytics beacon host when a token is configured
-    assert hosts <= {"faraxdesigns.gumroad.com","farax-creative.github.io","gumroad.com",
+    assert hosts <= {"farax-creative.github.io",
                      "superhivemarket.com","static.cloudflareinsights.com"}, hosts
     assert "cdn.tailwindcss.com" not in html, "Tailwind CDN leaked back in"
 

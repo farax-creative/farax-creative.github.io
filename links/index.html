@@ -140,12 +140,8 @@
      button. */
   .manifest{display:flex; flex-direction:column; gap:10px; margin:0 0 34px}
 
-  /* Two stores sell every one of these, so a berth carries two destinations
-     with Superhive as the default. The row itself is the Superhive link -
-     a stretched ::after makes the whole berth its tap target - and the small
-     Gumroad chip sits above it on its own layer. Anchors cannot nest, and
-     this keeps the primary target the size of the row rather than the size
-     of a word. */
+  /* Superhive is the only store, so the row itself is the destination link -
+     a stretched ::after makes the whole berth its tap target. */
   .berth{position:relative; display:grid;
     grid-template-columns:26px 1fr auto; align-items:center; gap:15px;
     padding:16px 17px; border:1px solid var(--line);
@@ -159,8 +155,6 @@
   /* left accent bar: Superhive's own purple-to-orange, as index.html uses */
   .berth::before{content:""; position:absolute; left:-1px; top:-1px; bottom:-1px; width:0;
     background:linear-gradient(180deg,#8B5CF6,#EC6628); transition:width .26s var(--ease)}
-  /* a row whose primary destination is Gumroad wears Gumroad's colour instead */
-  .berth.gum::before{background:#FF90E8}
   .berth:hover::before,.berth:focus-within::before{width:3px}
 
   /* the targeting brackets */
@@ -212,14 +206,6 @@
   .berth .go .ar{transition:transform .18s var(--ease)}
   .berth:hover .go .ar{transform:translateX(2px)}
 
-  /* secondary: Gumroad, a real second choice rather than a hidden one. It
-     rides above the stretched link so it stays independently tappable. */
-  .berth .alt{position:relative; z-index:2; display:inline-flex; align-items:center;
-    justify-content:center; margin-top:7px; padding:5px 9px;
-    border:1px solid var(--line); font-family:var(--mono); font-size:8.5px;
-    letter-spacing:.16em; color:var(--ink-3); white-space:nowrap;
-    transition:color .2s, border-color .2s}
-  .berth .alt:hover,.berth .alt:focus-visible{color:#FF90E8; border-color:#FF90E8}
   .berth .stores{display:flex; flex-direction:column; align-items:flex-end}
 
   /* ============================ SECONDARY ============================ */
@@ -310,7 +296,6 @@
       </span>
       <span class="stores">
         <a class="go" aria-label="Get Zap Doctor on Superhive" href="https://superhivemarket.com/products/zap-doctor?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapdoctor-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
-        <a class="alt" aria-label="Get Zap Doctor on Gumroad" href="https://faraxdesigns.gumroad.com/l/zap-doctor?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapdoctor-launch">Gumroad</a>
       </span>
     </div>
 
@@ -326,7 +311,6 @@
       </span>
       <span class="stores">
         <a class="go" aria-label="Get Zap Output on Superhive" href="https://superhivemarket.com/products/zap-output?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapoutput-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
-        <a class="alt" aria-label="Get Zap Output on Gumroad" href="https://faraxdesigns.gumroad.com/l/zap-output?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapoutput-launch">Gumroad</a>
       </span>
     </div>
 
@@ -342,7 +326,6 @@
       </span>
       <span class="stores">
         <a class="go" aria-label="Get Zap Board on Superhive" href="https://superhivemarket.com/products/zap-board?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapboard-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
-        <a class="alt" aria-label="Get Zap Board on Gumroad" href="https://faraxdesigns.gumroad.com/l/zap-board?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapboard-launch">Gumroad</a>
       </span>
     </div>
 
@@ -358,7 +341,6 @@
       </span>
       <span class="stores">
         <a class="go" aria-label="Get Zap Viewer on Superhive" href="https://superhivemarket.com/products/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">SUPERHIVE <span class="ar" aria-hidden="true">→</span></a>
-        <a class="alt" aria-label="Get Zap Viewer on Gumroad" href="https://faraxdesigns.gumroad.com/l/zap-viewer?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=zapviewer-launch">Gumroad</a>
       </span>
     </div>
 

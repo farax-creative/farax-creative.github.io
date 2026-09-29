@@ -76,12 +76,10 @@ PRODUCTS = {
       {"q": "Where do I report a bug?",
        "a": 'There is a Report a Bug button in the board sidebar and in Preferences → Add-ons → Zap Board. It opens <a href="report/" class="text-accent underline underline-offset-4">the report form</a> with your versions already filled in.'},
     ],
-    # Both stores were linked by hand in a1e45c3 but never added here, so a rebuild
-    # dropped the Superhive button off zap-board.html. Keep this list in step with
-    # index.html's DATA.board.links and links/index.html.
+    # Gumroad dropped 2026-09-29 (didn't sell) -- Superhive only now. Keep this list
+    # in step with index.html's DATA.board.links and links/index.html.
     "stores": [
-      {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-board", "primary": True},
-      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-board", "primary": False},
+      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-board", "primary": True},
     ],
     # Board-only compatibility caveat (its Paste/Reveal shortcuts are Windows-only). Other
     # products omit this so they don't inherit a note that isn't true for them.
@@ -235,10 +233,9 @@ PRODUCTS = {
             "still, so the add-on produces one from the Render Result, and every route for that flattens it. "
             "Render to single-layer EXR if you need the history copy to carry passes."},
     ],
-    # Live on Gumroad since 2026-07-24, on Superhive since 2026-07-28.
+    # Live on Superhive since 2026-07-28. Gumroad dropped 2026-09-29 (didn't sell).
     "stores": [
-      {"name": "Gumroad", "url": "https://faraxdesigns.gumroad.com/l/zap-viewer", "primary": True},
-      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-viewer", "primary": False},
+      {"name": "Superhive", "url": "https://superhivemarket.com/products/zap-viewer", "primary": True},
     ],
     "manual_url": "https://farax-creative.github.io/docs/zap-viewer.html",
   },

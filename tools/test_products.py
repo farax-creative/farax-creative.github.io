@@ -9,7 +9,7 @@ def test_board_is_complete():
     assert b["flagship"] is False          # only output is flagship
     assert b["status"] == "live"
     assert any(s["primary"] for s in b["stores"])   # exactly one primary store
-    assert b["stores"][0]["url"].startswith("https://faraxdesigns.gumroad.com/l/zap-board")
+    assert b["stores"][0]["url"].startswith("https://superhivemarket.com/products/zap-board")
 
 def test_board_features_shape():
     b = PRODUCTS["board"]
