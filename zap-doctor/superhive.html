@@ -1,260 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zap Doctor — Superhive page</title>
-<meta name="robots" content="noindex" />
-<meta name="theme-color" content="#0B0D10" />
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07080A">
 <!--
-  Embedded in the Superhive product description through an <iframe>, the way
-  Prompt Motion does it. The store's rich-text field strips <style> and
-  <script>, so anything that needs a real font or a fixed layout lives here.
-  This page needs no script.
+  Zap Doctor, Superhive page. Skin and structure follow the Zap Board page
+  (neon / tech skin, Blaze AutoPose rhythm): release bar, hero, problem,
+  solution, core features, new in 1.3, what you get, FAQ, close.
 
-  Media-led: every section leads with a real Blender screen capture (H.264,
-  no overlays or captions). The 34-check table and the FAQ collapse into
-  native <details> so the default view stays mostly visual. Kept short on
-  purpose (owner: "still text-led" on the previous round).
+  Embedded in the Superhive description as one iframe (the store strips
+  script, style and video, so all of it lives in this page):
+  <iframe src="https://farax-creative.github.io/zap-doctor/superhive.html" title="Zap Doctor" width="100%" height="10600" style="border:0;display:block;width:100%;max-width:100%;height:max(8340px,min(calc(9178px + 196vw),calc(87977px - 10762vw)))" loading="lazy"></iframe>
+  The host cannot size a cross-origin iframe, so the height is fixed from a
+  measured page height (see zd-superhive-embed.html). Change the page length
+  and it has to be measured again.
 
-  The host cannot resize a cross-origin iframe, so the embed uses a fixed
-  height measured from this page (see zd-superhive-embed.html in job tmp).
-  Change the page length and that height must be measured again.
+  Zap Doctor has no Free/Pro split, so there is no pricing panel: "What you
+  get" states the one edition and the requirements instead.
 -->
+<script>document.documentElement.className+=' js'</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-@font-face { font-family: 'Farax Display'; src: url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Farax Label'; src: url('https://farax-creative.github.io/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
-:root {
-  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
-  --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
-  --zap: #FFC828;
-  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--cream); font-family: var(--sans); overflow-x: hidden; }
-a { color: inherit; }
-img, video { display: block; max-width: 100%; height: auto; }
-::selection { background: var(--zap); color: var(--bg); }
+@font-face{font-family:'Farax Display';src:url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Farax Label';src:url('https://farax-creative.github.io/assets/fonts/farax-label.ttf') format('truetype');font-weight:400;font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{position:relative;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+ol,ul{list-style:none}
+:focus-visible{outline:2px solid var(--zap);outline-offset:3px}
+.in{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+.shot{position:relative;overflow:hidden;background:#050607}
+.shot>*{width:100%;height:auto}
+.m{position:relative;overflow:hidden;background:#050607}
+.m video,.m img{width:100%;height:100%;object-fit:cover}
+/* Panel clips: the source frame is the 3D viewport with the sidebar on its right.
+   Show only the sidebar column, so the text in it is large enough to read. */
+.m.panel{aspect-ratio:400/984}
+.m.panel video{object-position:100% 50%}
+.m.panel::before{display:none}
+.cells{display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,48px) clamp(16px,2.4vw,28px);margin-top:clamp(28px,4.6vw,56px)}
+@media(min-width:720px){.cells{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:719px){.cells .cell{max-width:400px;width:100%;margin:0 auto}}
+.cell{min-width:0}
+figcaption p{min-width:0}
+[data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,.84,.28,1) var(--d,0ms),transform .95s cubic-bezier(.16,.84,.28,1) var(--d,0ms)}
+[data-r].in2{opacity:1;transform:none}
+html:not(.js) [data-r]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-r]{transform:none!important;transition:opacity .4s ease var(--d,0ms)}*{animation:none!important}.cell:hover .m,.pill:hover{transform:none!important}}
 
-/* ---- release bar ---- */
-.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-       gap: 8px 22px; padding: 13px 16px; font: 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
-.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
-.rel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
-.rel .ed { color: var(--zap); }
-.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
-.rel a:hover { text-decoration-color: var(--zap); }
+/* Neon / tech skin: amber glow on media, dot grid + faint scanline, mono UI labels. Restrained. */
+:root{--bg:#07080A;--bg2:#0C0E11;--ink:#EDEAE2;--dim:#8B9097;--zap:#FFC828;--glow:rgba(255,200,40,.34);--edge:rgba(255,200,40,.42);--line:rgba(255,200,40,.16);--pad:clamp(18px,5vw,56px);
+--display:'Farax Display','Arial Narrow',sans-serif;--sans:'Space Grotesk','Helvetica Neue',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',Consolas,monospace}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans)}
+body::after{content:'';position:absolute;inset:0;z-index:60;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 4px)}
+.band{position:relative;padding:clamp(56px,9vw,116px) 0;border-top:1px solid var(--line)}
+.void,.cream,.zap{background:var(--bg);background-image:radial-gradient(circle at 1px 1px,rgba(255,200,40,.09) 1px,transparent 0);background-size:24px 24px}
+.void2{background:var(--bg2);background-image:radial-gradient(circle at 1px 1px,rgba(255,200,40,.07) 1px,transparent 0);background-size:24px 24px}
+.band::before{content:'';position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--zap) 20%,transparent 60%);opacity:.6}
+.k{display:inline-flex;align-items:center;gap:10px;font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap);margin-bottom:clamp(16px,2.6vw,26px)}
+.k::before{content:'';width:8px;height:8px;background:var(--zap);box-shadow:0 0 10px var(--zap);flex:none}
+h1,h2{font:400 clamp(46px,12.4vw,120px)/.92 var(--display);text-transform:uppercase;letter-spacing:.005em}
+h2{font-size:clamp(40px,10.4vw,92px)}
+h1 em,h2 em{font-style:normal;color:var(--zap);text-shadow:0 0 28px var(--glow),0 0 2px var(--zap)}
+.lead{font:400 clamp(16px,2.1vw,19px)/1.55 var(--sans);color:var(--dim);max-width:34em;margin-top:clamp(14px,2.4vw,24px)}
+.bar{background:#0E0F12;border-bottom:1px solid var(--edge);font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.bar .in{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;padding-top:11px;padding-bottom:10px}
+.bar b{font-weight:500;color:#0B0B0B;background:var(--zap);padding:2px 6px;box-shadow:0 0 14px var(--glow)}
+.bar a{margin-left:auto;color:var(--zap)}
+.hero{padding-top:clamp(40px,7vw,84px)}
+.works{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(22px,3.4vw,32px);align-items:center}
+.works .l{font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap);margin-right:6px}
+.works li:not(.l),.chips li{font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--ink);border:1px solid var(--edge);padding:8px 10px;background:rgba(255,200,40,.04)}
+.shot,.m{border-radius:4px;border:1px solid var(--edge);box-shadow:0 0 0 1px rgba(255,200,40,.08),0 0 44px -10px var(--glow),0 30px 60px -34px #000}
+.hero .shot,.wide .shot{margin-top:clamp(28px,4.6vw,56px)}
+.shot::before,.m::before{content:'';position:absolute;inset:6px;z-index:3;pointer-events:none;background:
+linear-gradient(var(--zap),var(--zap)) 0 0/14px 2px no-repeat,linear-gradient(var(--zap),var(--zap)) 0 0/2px 14px no-repeat,
+linear-gradient(var(--zap),var(--zap)) 100% 100%/14px 2px no-repeat,linear-gradient(var(--zap),var(--zap)) 100% 100%/2px 14px no-repeat;opacity:.85}
+.m{transition:transform .5s cubic-bezier(.16,.84,.28,1),box-shadow .4s ease}
+.cell:hover .m{transform:translateY(-4px);box-shadow:0 0 0 1px rgba(255,200,40,.2),0 0 64px -6px var(--glow),0 30px 60px -34px #000}
+.cell figcaption{display:grid;grid-template-columns:auto 1fr;gap:0 12px;margin-top:14px;align-items:baseline}
+.cell figcaption b{font:500 13px/1 var(--mono);color:var(--zap);letter-spacing:.06em}
+.cell figcaption b::before{content:'['}
+.cell figcaption b::after{content:']'}
+.cell figcaption p{font:500 15px/1.45 var(--sans);color:var(--ink)}
+.new{display:inline-block;font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:5px 7px 4px;margin-left:10px;vertical-align:middle;background:var(--zap);color:#0B0B0B;box-shadow:0 0 14px var(--glow)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(20px,3vw,28px)}
 
-/* ---- layout ---- */
-.wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; }
-.hero { padding: 38px 0 22px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
-.kick { font: 12px/1.5 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
-.kick b { color: var(--zap); font-weight: 400; }
-h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(50px, 9vw, 84px);
-     line-height: .95; letter-spacing: .01em; margin: 10px 0 14px; }
-h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(30px, 5.6vw, 46px);
-     line-height: 1.04; letter-spacing: .01em; margin: 0; }
-.lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.4; color: var(--body); max-width: 600px; }
-strong { color: var(--cream); font-weight: 600; }
-em { font-style: italic; }
+/* checks: panel still + five families */
+.split{display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,56px);margin-top:clamp(28px,4.6vw,56px);align-items:start}
+@media(min-width:800px){.split{grid-template-columns:minmax(0,340px) 1fr}}
+.split .shot{max-width:340px;width:100%}
+@media(max-width:799px){.split .shot{margin:0 auto}}
+.fam{border-top:1px solid var(--edge)}
+.fam li{display:grid;grid-template-columns:clamp(54px,9vw,84px) 1fr;gap:0 clamp(8px,2vw,20px);padding:clamp(14px,2vw,20px) 0;border-bottom:1px solid var(--line);align-items:baseline}
+.fam b{font:400 clamp(34px,6vw,58px)/.9 var(--display);color:var(--zap);text-shadow:0 0 24px var(--glow)}
+.fam h3{font:600 clamp(18px,2.3vw,22px)/1.2 var(--sans);letter-spacing:-.01em}
+.fam p{font:400 14.5px/1.5 var(--sans);color:var(--dim);margin-top:4px}
 
-/* media leads every section, full column width */
-.media { border-radius: 12px; overflow: hidden; border: 1px solid var(--line);
-         box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
-.media video, .media img { width: 100%; aspect-ratio: 1280 / 984; object-fit: cover; }
-.hero .media { margin-top: 20px; }
+.lim{display:grid;grid-template-columns:1fr;gap:0 clamp(20px,4vw,56px);margin-top:clamp(24px,4vw,40px);border-top:1px solid var(--edge)}
+@media(min-width:700px){.lim{grid-template-columns:1fr 1fr}}
+.lim li{padding:clamp(16px,2.4vw,22px) 0;border-bottom:1px solid var(--line)}
+.lim h3{font:600 clamp(18px,2.2vw,21px)/1.25 var(--sans)}
+.lim h3::before{content:'> ';color:var(--zap);font-family:var(--mono)}
+.lim p{font:400 15px/1.5 var(--sans);color:var(--dim);margin-top:5px}
 
-/* section = eyebrow + short headline + big visual */
-.sec { padding: 30px 0 8px; }
-.head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
-        border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 20px; }
-.ey { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); flex: 0 0 auto; }
-.ey b { color: var(--zap); font-weight: 400; margin-right: 8px; }
-.new { color: var(--bg); background: var(--zap); border-radius: 3px; padding: 3px 7px; margin-left: 10px;
-       font: 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
-.head h2 { flex: 1 1 100%; }
-.note { font-size: 15px; line-height: 1.55; color: rgba(244,235,221,.62); margin-top: 16px; max-width: 620px; }
-.note a { color: var(--zap); text-decoration: underline; text-underline-offset: 3px; }
+.plans{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(28px,4vw,44px)}
+@media(min-width:700px){.plans{grid-template-columns:1fr 1fr}}
+.plan{padding:clamp(18px,2.6vw,26px);border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.plan.p{border-color:var(--zap);box-shadow:0 0 36px -8px var(--glow),inset 0 0 40px -24px var(--glow)}
+.plan .n{font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap)}
+.plan h3{font:600 clamp(20px,2.6vw,26px)/1.2 var(--sans);letter-spacing:-.01em;margin-top:12px}
+.plan p{font:400 15px/1.5 var(--sans);color:var(--dim);margin-top:8px}
+.plan ul{margin-top:12px}
+.plan li{font:400 15px/1.5 var(--sans);color:var(--ink);padding:9px 0;border-top:1px solid var(--line)}
+.plan li:first-child{border-top:0;padding-top:0}
+.note{font:400 14px/1.55 var(--sans);color:var(--dim);margin-top:16px;max-width:44em}
 
-/* updated strip */
-.upd { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.upd .wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; padding: 18px 20px; }
-.upd .tag { font: 700 12px/1.3 var(--mono); letter-spacing: .14em; text-transform: uppercase;
-            color: var(--bg); background: var(--zap); border-radius: 3px; padding: 5px 9px; flex: 0 0 auto; }
-.upd p { font-size: 16px; line-height: 1.5; color: var(--body); flex: 1 1 320px; }
+.req{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(28px,4vw,44px)}
+@media(min-width:700px){.req{grid-template-columns:repeat(3,1fr)}}
+.req li{padding:clamp(18px,2.4vw,24px);border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.req span{display:block;font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap)}
+.req strong{display:block;font:400 clamp(30px,4vw,44px)/1 var(--display);text-transform:uppercase;margin-top:14px}
+.req p{font:400 14.5px/1.5 var(--sans);color:var(--dim);margin-top:8px}
+.one{margin-top:14px}
 
-/* requirements = one compact strip */
-.strip { border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
-         padding: 16px 20px; font-size: 15px; line-height: 1.9; color: var(--body); }
-.strip b { color: var(--cream); font-family: 'Farax Label', 'Arial Narrow', sans-serif; font-weight: 400; letter-spacing: .04em; }
-.strip span { white-space: nowrap; }
-.strip .sep { color: var(--dim); margin: 0 6px; }
+details{border:1px solid var(--line);background:rgba(255,255,255,.02);margin-top:12px}
+summary{cursor:pointer;list-style:none;padding:18px 20px;display:flex;gap:12px;align-items:baseline;font:600 clamp(16px,2vw,19px)/1.35 var(--sans);color:var(--ink)}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'+';font:500 16px var(--mono);color:var(--zap)}
+details[open] summary::before{content:'\2013'}
+details p{font:400 15.5px/1.6 var(--sans);color:var(--dim);padding:0 20px 20px 44px;max-width:44em}
+details[open]{border-color:var(--edge)}
 
-/* collapsibles (native, no script) */
-details { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 14px; overflow: hidden; }
-summary { cursor: pointer; list-style: none; padding: 18px 20px; display: flex; align-items: baseline; gap: 12px;
-          font: 700 17px/1.35 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .03em; color: var(--cream); }
-summary::-webkit-details-marker { display: none; }
-summary::before { content: '+'; font: 400 18px var(--mono); color: var(--zap); }
-details[open] summary::before { content: '\2013'; }
-summary .c { margin-left: auto; font: 12px/1 var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
-.dbody { padding: 2px 20px 8px; }
-.faq details p { font-size: 16px; line-height: 1.6; color: var(--body); padding: 0 20px 20px; max-width: 640px; }
-
-/* checks table (inside details) */
-.checks .row { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 15px 0; border-bottom: 1px solid var(--line); }
-.checks .row:last-child { border-bottom: 0; }
-.checks .cat { flex: 0 0 140px; font: 13px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--cream); }
-.checks .cat i { font-style: normal; color: var(--zap); margin-left: 8px; }
-.checks .list { flex: 1 1 300px; font-size: 15px; line-height: 1.6; color: var(--body); }
-
-.cta { text-align: center; padding: 40px 0 6px; }
-.cta h2 { margin-bottom: 14px; }
-.cta p { font-size: 17px; line-height: 1.6; color: var(--body); max-width: 32em; margin: 0 auto; }
-.foot { padding: 30px 0 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
-
-@media (max-width: 520px) {
-  .hero { padding-top: 40px; }
-  .checks .cat { flex-basis: 100%; }
-  summary { font-size: 16px; }
-}
+.close h2{font-size:clamp(46px,13vw,132px);color:var(--zap);text-shadow:0 0 40px var(--glow)}
+.pill{display:inline-flex;align-items:center;margin-top:clamp(22px,3.4vw,32px);font:500 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--zap);border:1px solid var(--zap);padding:15px 20px 14px;box-shadow:0 0 22px -6px var(--glow);transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+.pill:hover{background:var(--zap);color:#0B0B0B;box-shadow:0 0 34px -2px var(--glow)}
+.foot{margin-top:clamp(36px,6vw,72px);padding-top:14px;border-top:1px solid var(--line);font:500 11px/1.7 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 </style>
 </head>
 <body>
+<div class="bar"><div class="in"><b>1.3</b><span>Zap Doctor v1.3.0</span><span>34 checks + Render Guard</span><a href="/zap-doctor/changelog.html" target="_blank" rel="noopener">View changelog</a></div></div>
 
-<div class="rel">
-  <span class="name"><span class="dot"></span>Zap Doctor v1.3.0</span>
-  <span class="ed">Render preflight for Blender</span>
-  <a href="/zap-doctor/changelog.html" target="_blank" rel="noopener">Changelog &rarr;</a>
-</div>
+<section class="band void hero"><div class="in">
+  <span class="k">Zap Doctor &middot; Render preflight for Blender</span>
+  <h1 data-r>Catch the render mistakes <em>before you hit F12.</em></h1>
+  <p class="lead" data-r data-d="80">Zap Doctor scans your scene for the classic overnight-render killers and fixes most of them in one click.</p>
+  <ul class="works" data-r data-d="140"><li class="l">Works with</li><li>Blender 4.3 to 5.2</li><li>Cycles &amp; EEVEE</li><li>Windows</li><li>macOS</li><li>Linux</li></ul>
+  <div class="shot" data-r data-d="200"><img src="media/cover_vanishing.webp" width="2400" height="1200" alt="An object visible in the viewport is missing from the render: the classic overnight-render mistake" fetchpriority="high" decoding="async"></div>
+</div></section>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.3&ndash;5.2 &middot; Cycles &amp; EEVEE &middot; fully offline</div>
-    <h1>Zap Doctor</h1>
-    <p class="lead">Catch the mistakes that ruin an overnight render &mdash; before you press F12.</p>
-    <div class="media">
-      <video src="media/hero.mp4" poster="media/hero_poster.jpg" autoplay muted loop playsinline
-             aria-label="Zap Doctor scanning a Blender scene: one score, issues grouped by severity"></video>
-    </div>
+<section class="band void2"><div class="in">
+  <span class="k">01 / The problem</span>
+  <h2 data-r>You find out <em>in the morning.</em></h2>
+  <p class="lead" data-r data-d="80">The render finishes overnight. One object was switched off for render, a texture was missing, a render region was left on. Hours gone, and nothing warned you.</p>
+</div></section>
+
+<section class="band cream wide"><div class="in">
+  <span class="k">02 / The fix</span>
+  <h2 data-r>One button. <em>One score.</em></h2>
+  <p class="lead" data-r data-d="80">Press Check Scene Health before you render. Zap Doctor rolls every check into one number and lists what is wrong, grouped by severity.</p>
+  <div class="shot" data-r><img src="media/cover_ready.webp" width="2400" height="1200" alt="The Zap Doctor panel: Check Scene Health, an 80% health gauge and one error listed below" loading="lazy" decoding="async"></div>
+</div></section>
+
+<section class="band void wide"><div class="in">
+  <span class="k">03 / Core features</span>
+  <h2 data-r>Read it. Fix it. <em>Take it back.</em></h2>
+  <p class="lead" data-r data-d="80">Everything happens in the panel. Every fix is logged, and every fix can be reverted.</p>
+  <div class="shot" data-r><img src="media/cover_fix.webp" width="2400" height="1200" alt="Fix All in the Render group, and a note that every fix is logged and can be reverted" loading="lazy" decoding="async"></div>
+  <div class="cells">
+    <figure class="cell" data-r><div class="m panel"><video src="media/hero.mp4" poster="media/hero_poster.jpg" width="1280" height="984" muted loop playsinline preload="none" aria-label="Scrolling the Zap Doctor results panel: errors, warnings and suggestions grouped by severity"></video></div><figcaption><b>01</b><p>Scroll the results. Errors, warnings and suggestions, grouped.</p></figcaption></figure>
+    <figure class="cell" data-r data-d="80"><div class="m panel"><video src="media/fixall.mp4" poster="media/fixall_poster.jpg" width="1280" height="984" muted loop playsinline preload="none" aria-label="Fixing issues one after another; the scene health score rises from 27 to 45 percent"></video></div><figcaption><b>02</b><p>Fix issues one after another. The score climbs as rows clear.</p></figcaption></figure>
+    <figure class="cell" data-r data-d="160"><div class="m panel"><video src="media/revert.mp4" poster="media/revert_poster.jpg" width="1280" height="984" muted loop playsinline preload="none" aria-label="Reverting the applied fixes so the issues come back"></video></div><figcaption><b>03</b><p>Revert puts every applied fix back, and the issues return.</p></figcaption></figure>
   </div>
-</header>
+</div></section>
 
-<div class="upd">
-  <div class="wrap">
-    <span class="tag">v1.3.0 &middot; 2026-09-29</span>
-    <p>Four new checks bring it to <strong>34</strong>, plus an optional <strong>Render Guard</strong>. Off by default.</p>
+<section class="band void2"><div class="in">
+  <span class="k">04 / What it checks</span>
+  <h2 data-r>34 checks. <em>Five families.</em></h2>
+  <p class="lead" data-r data-d="80">The mistakes that cost a render, in the order you usually meet them.</p>
+  <div class="split">
+    <div class="shot" data-r><img src="media/cover_panel.webp" width="660" height="1068" alt="The Zap Doctor panel after a scan: 65% health, 1 error, 5 warnings, with one-click fixes" loading="lazy" decoding="async"></div>
+    <ol class="fam" data-r data-d="80">
+      <li><b>08</b><div><h3>Output</h3><p>Missing or read-only folder, frames that would be overwritten, animation sent to a video file, not enough disk space.</p></div></li>
+      <li><b>08</b><div><h3>Scene</h3><p>Visible in the viewport but off for render, no active camera, unbaked simulations, no light.</p></div></li>
+      <li><b>12</b><div><h3>Render</h3><p>Render region left on, resolution under 100%, Simplify on, Cycles on CPU with a GPU set up, Raw view transform.</p></div></li>
+      <li><b>03</b><div><h3>Assets</h3><p>Missing image textures, broken linked libraries, empty image files.</p></div></li>
+      <li><b>03</b><div><h3>Hygiene</h3><p>A file that was never saved, orphan data, unused material slots.</p></div></li>
+    </ol>
   </div>
-</div>
+</div></section>
 
-<section class="sec">
-  <div class="wrap">
-    <div class="head"><span class="ey"><b>01</b>One-click fixes</span><h2>Fix most in one click.</h2></div>
-    <div class="media">
-      <video src="media/fixall.mp4" poster="media/fixall_poster.jpg" autoplay muted loop playsinline
-             aria-label="Fixing render warnings in one click; the scene health score rises"></video>
-    </div>
+<section class="band cream"><div class="in">
+  <span class="k">05 / Safe by design</span>
+  <h2 data-r>It never <em>runs on its own.</em></h2>
+  <p class="lead" data-r data-d="80">A preflight tool should not add its own surprises to a farm or a long render.</p>
+  <ul class="lim">
+    <li data-r><h3>Nothing scans by itself</h3><p>By default it scans only when you press the button. Render Guard, off by default, is the one automatic check, and you turn it on yourself.</p></li>
+    <li data-r><h3>Every fix is logged</h3><p>Recently Fixed shows what changed in one line, with a Revert button where the change can be undone automatically.</p></li>
+    <li data-r><h3>It won&rsquo;t guess for you</h3><p>A modifier off in the viewport and on for render is often deliberate, so that row hands you the real toggles instead.</p></li>
+    <li data-r><h3>It sends nothing</h3><p>No network access. Report a Bug only opens your browser with your versions filled in.</p></li>
+  </ul>
+</div></section>
+
+<section class="band void"><div class="in">
+  <span class="k">06 / New in 1.3</span>
+  <h2 data-r>Render Guard, <em>plus four checks.</em></h2>
+  <p class="lead" data-r data-d="80">Version 1.3 brings the count from 30 to 34 and adds an optional guard at the moment you render.</p>
+  <div class="plans">
+    <div class="plan p" data-r><span class="n">Render Guard<span class="new">New</span></span><h3>It checks when you press F12.</h3><p>Off by default. When it is on, a short prompt lists what would spoil the render, and you choose Fix &amp; Render or Render Anyway.</p><p>It reports. It can&rsquo;t stop a render that is already running, and Blender gives an add-on no way to. The decision stays yours.</p></div>
+    <div class="plan" data-r data-d="80"><span class="n">Four new checks</span><h3>Bringing it to 34.</h3><ul><li>Render passes a file format can&rsquo;t store</li><li>Video output that splits into separate files at 2&nbsp;GB</li><li>A compositor File Output node that writes nothing</li><li>A frame range running well past the last keyframe</li></ul></div>
   </div>
-</section>
+</div></section>
 
-<section class="sec">
-  <div class="wrap">
-    <div class="head"><span class="ey"><b>02</b>Reversible</span><h2>Nothing it changes is permanent.</h2></div>
-    <div class="media">
-      <video src="media/revert.mp4" poster="media/revert_poster.jpg" autoplay muted loop playsinline
-             aria-label="Reverting every applied fix, restoring the scene to its scanned state"></video>
-    </div>
+<section class="band void2"><div class="in">
+  <span class="k">07 / What you get</span>
+  <h2 data-r>One edition. <em>Every check.</em></h2>
+  <p class="lead" data-r data-d="80">No Free and Pro split. All 34 checks and every fix, as a perpetual licence with free updates.</p>
+  <ul class="req">
+    <li data-r><span>Blender</span><strong>4.3 to 5.2</strong><p>Tested on 4.3, 4.4, 4.5, 5.1 and 5.2.</p></li>
+    <li data-r data-d="70"><span>Platform</span><strong>Win, Mac, Linux</strong><p>Cycles and EEVEE. No platform-specific setup.</p></li>
+    <li data-r data-d="140"><span>Account</span><strong>None</strong><p>Drag the zip onto Blender. No sign-in, no key to paste.</p></li>
+  </ul>
+</div></section>
+
+<section class="band cream"><div class="in">
+  <span class="k">08 / Questions</span>
+  <h2 data-r>Asked <em>first.</em></h2>
+  <div data-r data-d="80">
+    <details><summary>Does it run on its own or send anything anywhere?</summary><p>No. By default it scans only when you press the button, with no network access at all. Render Guard, off by default, is the one thing that adds an automatic scan, and you turn it on yourself.</p></details>
+    <details><summary>Can Render Guard stop a bad render for me?</summary><p>It stops you before the render starts, by showing what would go wrong. Once a render has begun, Blender gives an add-on no way to abort it, so we don&rsquo;t claim to. Renders started from the menu or the command line go around the shortcut.</p></details>
+    <details><summary>Will it slow down a heavy scene?</summary><p>Scan time follows how many textures you reference and where they live, not the object count. A big scene with local textures is quick.</p></details>
   </div>
-</section>
+</div></section>
 
-<section class="sec">
-  <div class="wrap">
-    <div class="head"><span class="ey"><b>03</b>Render Guard<span class="new">New</span></span><h2>It checks when you press F12.</h2></div>
-    <div class="media">
-      <video src="media/guard.mp4" poster="media/guard_poster.jpg" autoplay muted loop playsinline
-             aria-label="The Render Guard prompt shown at F12, listing what would spoil the render"></video>
-    </div>
-    <p class="note">It reports &mdash; it can&rsquo;t <em>stop</em> a render already running, and Blender gives an add-on no way to. The decision stays yours. <a href="/zap-doctor/changelog.html" target="_blank" rel="noopener">How it works &rarr;</a></p>
-  </div>
-</section>
+<section class="band zap close"><div class="in">
+  <span class="k">Zap Doctor</span>
+  <h2 data-r>Render once.</h2>
+  <p class="lead" data-r data-d="80">Catch the render-ruining mistakes before you hit F12, and fix most of them in one click.</p>
+  <a class="pill" href="/zap-doctor/changelog.html" target="_blank" rel="noopener">See what is new in 1.3 &rarr;</a>
+  <div class="foot">Zap Doctor by Farax Creative &middot; Zap series &middot; Blender 4.3 to 5.2 &middot; Windows, macOS, Linux &middot; GPL-3.0-or-later</div>
+</div></section>
 
-<section class="sec">
-  <div class="wrap">
-    <details>
-      <summary>See all 34 checks<span class="c">Output 8 &middot; Scene 8 &middot; Render 12 &middot; Assets 3 &middot; Hygiene 3</span></summary>
-      <div class="dbody">
-        <div class="checks">
-          <div class="row">
-            <div class="cat">Output <i>08</i></div>
-            <div class="list">Missing or read-only output folder &middot; frames that would be overwritten &middot; animation rendered straight to a video file &middot; suspicious frame ranges &middot; not enough disk space &middot; output path never set &middot; a compositor File Output node that writes nothing &middot; video output that splits into separate files at 2&nbsp;GB</div>
-          </div>
-          <div class="row">
-            <div class="cat">Scene <i>08</i></div>
-            <div class="list">Visible in the viewport but off for render, and the reverse &middot; modifier viewport/render mismatch &middot; no active camera &middot; unbaked simulations &middot; no light and a dark world &middot; objects outside the camera&rsquo;s clip range &middot; a frame range running well past the last keyframe</div>
-          </div>
-          <div class="row">
-            <div class="cat">Render <i>12</i></div>
-            <div class="list">Render region left on &middot; resolution below 100% &middot; Simplify limiting quality &middot; a leftover test sample count &middot; Cycles on CPU with a GPU configured &middot; Sequencer overriding the camera render &middot; compositor output not connected &middot; Raw view transform &middot; transparent film with a format that drops alpha &middot; a per-frame time limit &middot; render passes a format can&rsquo;t store &middot; Workbench left as the engine</div>
-          </div>
-          <div class="row">
-            <div class="cat">Assets <i>03</i></div>
-            <div class="list">Missing image textures &middot; broken linked libraries &middot; image files that exist but are empty</div>
-          </div>
-          <div class="row">
-            <div class="cat">Hygiene <i>03</i></div>
-            <div class="list">A never-saved file &middot; orphan data bloating the file &middot; unused material slots</div>
-          </div>
-        </div>
-        <p class="note">Four are new in v1.3: render passes a format can&rsquo;t store, video output splitting at 2&nbsp;GB, a compositor File Output node that writes nothing, and a frame range past the last keyframe.</p>
-      </div>
-    </details>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="head"><span class="ey"><b>04</b>Before you buy</span><h2>Requirements</h2></div>
-    <div class="strip">
-      <span><b>Blender</b> 4.3&ndash;5.2</span><span class="sep">&middot;</span>
-      <span><b>Renderers</b> Cycles &amp; EEVEE</span><span class="sep">&middot;</span>
-      <span><b>OS</b> Windows, macOS, Linux</span><span class="sep">&middot;</span>
-      <span><b>Network</b> none &mdash; no account</span><span class="sep">&middot;</span>
-      <span><b>Install</b> drag the zip onto Blender</span><span class="sep">&middot;</span>
-      <span><b>Licence</b> perpetual, free updates</span>
-    </div>
-  </div>
-</section>
-
-<section class="sec faq">
-  <div class="wrap">
-    <div class="head"><span class="ey"><b>05</b>Questions</span></div>
-    <details>
-      <summary>Does it run on its own or send anything anywhere?</summary>
-      <p>No. By default it scans only when you press the button, with no network access at all. Render Guard, off by default, is the one thing that adds an automatic scan &mdash; and you turn it on yourself.</p>
-    </details>
-    <details>
-      <summary>Can Render Guard stop a bad render for me?</summary>
-      <p>It stops <em>you</em> before the render starts, by showing what would go wrong. Once a render has begun, Blender gives an add-on no way to abort it, so we don&rsquo;t claim to. Renders started from the menu or command line go around the shortcut &mdash; the background report covers those.</p>
-    </details>
-    <details>
-      <summary>Will it slow down a heavy scene?</summary>
-      <p>Scan time follows how many textures you reference and where they live, not the object count &mdash; a big scene with local textures is quick.</p>
-    </details>
-  </div>
-</section>
-
-<section class="cta">
-  <div class="wrap">
-    <h2>Render with confidence.</h2>
-    <p>Catch the render-ruining mistakes before you hit F12 &mdash; and fix most of them in one click.</p>
-  </div>
-</section>
-
-<footer class="foot">
-  <div class="wrap">Zap Doctor by Farax Creative &middot; part of the Zap series.<br>Licence: GPL-3.0-or-later &middot; Blender 4.3&ndash;5.2 &middot; Cycles &amp; EEVEE.</div>
-</footer>
-
+<script>
+(function(){var RM=matchMedia('(prefers-reduced-motion: reduce)').matches,IO='IntersectionObserver' in window;
+var r=document.querySelectorAll('[data-r]');
+if(IO){var a=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in2');a.unobserve(e.target)}})},{threshold:.12});
+r.forEach(function(el){if(el.dataset.d)el.style.setProperty('--d',el.dataset.d+'ms');a.observe(el)})}else r.forEach(function(el){el.classList.add('in2')});
+var v=document.querySelectorAll('video');
+if(IO&&!RM){var b=new IntersectionObserver(function(es){es.forEach(function(e){var x=e.target;if(e.isIntersecting){var p=x.play();if(p&&p.catch)p.catch(function(){})}else x.pause()})},{threshold:.25});v.forEach(function(x){x.muted=true;b.observe(x)})}
+})();
+</script>
 </body>
 </html>
