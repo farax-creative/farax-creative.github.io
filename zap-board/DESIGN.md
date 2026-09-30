@@ -1,4 +1,21 @@
-# Zap Board Superhive 상세페이지 — 설계안 (2026-09-30 R3 개정)
+# Zap Board Superhive 상세페이지 — 설계안 (2026-09-30 R4 개정)
+
+**메인 레퍼런스 = Blaze AutoPose** (`blazeanimation.com/superhive/blaze-autopose`). 구조와 리듬만
+가져오고 브랜드·코드는 가져오지 않는다. (R3의 5안 v-a~v-e는 "그림만 붙인 제품 페이지가 아니다"로
+전부 폐기.)
+
+Blaze 구조 → Zap Board 대응: 릴리스 바 → 히어로(h1+한 줄+Works with 칩+미디어) → 결과 헤드라인
++영상(01 Focus) → 상호작용 섹션(짧은 h2 + 클립마다 번호+한 줄 캡션: 02 Build 6개, 03 Read 4개) →
+워크플로(04 Your file: 프레임·보드·.blend 저장) → 번호 요약 01–06(Free/Pro 표시)+가격 → 요구사항 →
+"What Zap Board is built for"(솔직한 한계: 라이브러리 아님, Image Editor 전용, 영상은 .blend 밖,
+Pack 용량, Reveal File Windows 전용 — 전부 zap_board README 근거) → 닫는 헤드라인.
+
+스타일은 Farax: 큰 Farax Display 대문자 헤드라인, Farax Label 라벨, 밴드 교차(void / void2 / cream /
+zap), 점 그리드, 크림 #F4EBDD·보이드 #0B0D10·zap #FFC828, 본문 산세. 아래 R3 내용은 이력이다.
+
+---
+
+(이하 R3 이력)
 
 방향: **Farax 메인 사이트와 같은 브랜드로 읽히되 더 현대적·정제된 하이엔드 제품
 상세페이지.** 큰 미디어 + 짧은 산문이 위→아래로 리듬을 타는 롱폼(카탈로그 아님).

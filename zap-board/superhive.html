@@ -1,362 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Zap Board — Superhive page</title>
-<meta name="robots" content="noindex" />
-<meta name="theme-color" content="#0E1013" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zap Board, Superhive page</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B0D10">
 <!--
-  Embedded in the Superhive product description through an <iframe>, the way
-  Prompt Motion does it. The store's rich-text field strips <script>, <style>
-  and <video>, so the videos and the styling live here inside the iframe page.
-  The host cannot resize a cross-origin iframe to fit, so the embed uses a
-  fixed height measured from this page at the widths the store column takes.
+  Zap Board, Superhive product description page.
+  Embed in the product description as an iframe (the store strips script, style and video,
+  so all of it lives in this page):
+  <iframe src="https://farax-creative.github.io/zap-board/superhive.html" title="Zap Board" width="100%" height="clamp(7682px,calc(10536.3px + -393.1548vw),9003px)" style="border:0;display:block;width:100%;max-width:100%;height:clamp(7682px,calc(10536.3px + -393.1548vw),9003px)" loading="lazy"></iframe>
+  Height: clamp(7682px,calc(10536.3px + -393.1548vw),9003px) (measured 8995px at 390, 7674px at 726)
 
-  Visual language: the Zap Board marketing set (Instagram carousel, shorts,
-  covers). Bold monospace all-caps headlines, amber used only as a highlighter,
-  a mono wordmark, Blender captures shown raw on near-black (no card, no glow),
-  and a mono meta strip. Single left-aligned column, one shared left edge.
+  Structure and rhythm follow the Blaze AutoPose page (main reference): release bar, hero,
+  outcome, per-interaction sections with one caption per clip, workflow, numbered summary,
+  requirements, honest limits, closing headline. Brand, type and code are Farax's own.
 -->
+<script>document.documentElement.className+=' js'</script>
 <style>
-:root {
-  --bg: #0E1013; --panel: #15181C; --panel-2: #101317; --bar: #0A0C0E;
-  --white: #F5F5F5; --grey: #9AA0A6; --dim: #6B7075;
-  --line: rgba(255,255,255,.09); --line-2: rgba(255,255,255,.055);
-  --amber: #FFC828; --amber-dim: rgba(255,200,40,.75);
-  --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --ease: cubic-bezier(.16,.84,.28,1);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { color-scheme: dark; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-body { position: relative; background: var(--bg); color: var(--white); font-family: var(--sans);
-       overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-/* faint dot grid + warm glow rising from the bottom edge, straight off the marketing set */
-body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.045) 1px, transparent 0);
-  background-size: 24px 24px; }
-body::after { content: ''; position: fixed; left: 0; right: 0; bottom: 0; height: 60vh; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse at 50% 130%, rgba(255,200,40,.09), transparent 62%); }
-body > * { position: relative; z-index: 1; }
-a { color: inherit; text-decoration: none; }
-img, video { display: block; max-width: 100%; height: auto; }
-::selection { background: var(--amber); color: var(--bg); }
-
-/* ---- shared container: one left edge for the whole page ---- */
-.wrap { max-width: 1000px; margin: 0 auto; padding: 0 28px; }
-
-/* ---- top wordmark bar ---- */
-.top { border-bottom: 1px solid var(--line); background: rgba(10,12,14,.6); }
-.top .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
-.mark { display: inline-flex; align-items: center; gap: 9px; font: 700 14px/1 var(--mono); letter-spacing: .06em; color: var(--white); }
-.mark svg { width: 16px; height: 16px; color: var(--amber); }
-.top a.chg { font: 500 12px/1 var(--mono); letter-spacing: .06em; color: var(--dim); transition: color .2s var(--ease); }
-.top a.chg:hover { color: var(--white); }
-
-/* ---- eyebrow (rationed: hero + 2 more max) ---- */
-.eyebrow { font: 700 11px/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--amber-dim); }
-
-/* ---- headings ---- */
-h1 { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: -.01em;
-     font-size: clamp(34px, 6.6vw, 62px); line-height: 1.02; color: var(--white); margin: 20px 0 0; }
-h1 .hl { color: var(--amber); }
-h2 { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: -.01em;
-     font-size: clamp(26px, 4.4vw, 40px); line-height: 1.06; color: var(--white); margin: 0; }
-h2 .hl { color: var(--amber); }
-h3 { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .01em;
-     font-size: clamp(19px, 2.6vw, 24px); line-height: 1.12; color: var(--white); }
-.sub { font-family: var(--sans); font-weight: 400; font-size: clamp(15px, 1.8vw, 17px); line-height: 1.62;
-       color: var(--grey); max-width: 56ch; }
-.lead { font-size: clamp(16px, 2vw, 19px); line-height: 1.55; }
-p.sub + p.sub { margin-top: 13px; }
-
-/* ---- sections + rhythm ---- */
-.sec { padding: 52px 0; }
-.sec.hairline { border-top: 1px solid var(--line-2); }
-.stack > * + * { margin-top: 18px; }
-
-/* ---- media: raw on the dark, thin hairline, no card / no glow / no tilt ---- */
-.media { margin-top: 26px; border: 1px solid var(--line); background: #05070a; overflow: hidden; }
-.media video, .media img { width: 100%; }
-
-/* ---- meta strip ---- */
-.meta { border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); background: rgba(16,19,23,.5); }
-.meta .wrap { padding-top: 16px; padding-bottom: 16px; }
-.meta .row { font: 600 12px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim);
-             display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
-.meta .row b { color: var(--amber); font-weight: 700; }
-.meta .row .s { color: rgba(255,255,255,.16); }
-
-/* ---- feature list (varied family: kicker + title + line + full media) ---- */
-.feat + .feat { margin-top: 46px; }
-.feat .k { font: 700 11px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
-.feat h3 { margin-top: 12px; }
-.feat .sub { margin-top: 9px; }
-
-/* ---- also in 2.0: two-up grid + pro rollup (a different family) ---- */
-.grid2 { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-.gcard h3 { font-size: 18px; text-transform: none; letter-spacing: -.01em; }
-.gcard .badge { font: 700 9px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--amber);
-                border: 1px solid var(--amber-dim); padding: 4px 6px 3px; margin-left: 8px; vertical-align: 2px; }
-.gcard .sub { margin-top: 8px; font-size: 15px; }
-.gcard .media { margin-top: 14px; }
-.rollup { margin-top: 30px; border-top: 1px solid var(--line-2); padding-top: 22px; }
-.rollup .rh { font: 700 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--white); }
-.rollup .rh b { color: var(--amber); }
-.rollup ul { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; }
-.rollup li { list-style: none; padding-left: 18px; position: relative; font-family: var(--sans);
-             font-size: 15px; line-height: 1.5; color: var(--grey); }
-.rollup li::before { content: ''; position: absolute; left: 0; top: 8px; width: 8px; height: 2px; background: var(--amber); }
-.rollup li b { color: var(--white); font-weight: 600; }
-
-/* ---- pricing ---- */
-.plans { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.plan { border: 1px solid var(--line); background: var(--panel); padding: 24px; }
-.plan.pro { border-color: var(--amber-dim); }
-.plan .ph { display: flex; align-items: baseline; gap: 12px; }
-.plan .pt { font: 700 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--grey); }
-.plan.pro .pt { color: var(--amber); }
-.plan .amt { margin-left: auto; font: 700 26px/1 var(--mono); letter-spacing: -.02em; color: var(--white);
-             font-variant-numeric: tabular-nums; }
-.plan .amt small { font: 500 12px/1 var(--mono); color: var(--dim); margin-left: 6px; text-transform: uppercase; }
-.plan .sub { margin-top: 14px; font-size: 15px; }
-
-/* ---- requirements ---- */
-.req { margin-top: 26px; }
-.req div { display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 16px 0; border-top: 1px solid var(--line-2);
-           font-family: var(--sans); font-size: 15.5px; line-height: 1.55; color: var(--grey); }
-.req div:last-child { border-bottom: 1px solid var(--line-2); }
-.req .k { flex: 0 0 120px; font: 700 12px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--white); }
-.req .t { flex: 1 1 260px; }
-.req .t b { color: var(--white); font-weight: 600; }
-
-/* ---- FAQ ---- */
-.faq { margin-top: 24px; }
-.faq details { border-top: 1px solid var(--line-2); }
-.faq details:last-of-type { border-bottom: 1px solid var(--line-2); }
-.faq summary { list-style: none; cursor: pointer; display: flex; gap: 14px; align-items: baseline; padding: 18px 0;
-               font: 700 15px/1.4 var(--mono); letter-spacing: .01em; text-transform: uppercase; color: var(--white); }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::before { content: '+'; color: var(--amber); font: 700 16px/1.3 var(--mono); transition: transform .2s var(--ease); }
-.faq details[open] summary::before { transform: rotate(45deg); }
-.faq details .sub { padding: 0 0 18px 30px; font-size: 15.5px; }
-
-/* ---- CTA ---- */
-.cta { padding: 56px 0; border-top: 1px solid var(--line); }
-.cta h2 { margin-bottom: 14px; }
-.cta .sub { font-size: 16px; }
-.cta .pill { margin-top: 24px; display: inline-flex; align-items: center; gap: 12px; background: var(--amber);
-             color: #1a1300; font: 700 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
-             padding: 13px 16px 13px 20px; }
-.cta .pill .arw { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
-                  border-radius: 50%; background: rgba(26,19,0,.16); }
-.cta .pill .arw svg { width: 12px; height: 12px; }
-
-.foot { border-top: 1px solid var(--line-2); background: var(--bar); }
-.foot .wrap { padding-top: 22px; padding-bottom: 40px; }
-.foot .row { font: 500 12px/1.9 var(--mono); letter-spacing: .06em; color: var(--dim); }
-.foot .row b { color: var(--grey); }
-
-/* reveal on scroll (script lives in this iframe page); reduced-motion = no transform */
-.rise { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.rise.in { opacity: 1; transform: none; }
-
-@media (max-width: 640px) {
-  .wrap { padding: 0 20px; }
-  .grid2, .plans, .rollup ul { grid-template-columns: 1fr; }
-  .sec { padding: 42px 0; }
-  .req .k { flex-basis: 100%; }
-}
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .rise { opacity: 1; transform: none; transition: opacity .3s ease; }
-  .faq summary::before { transition: none; }
-}
+@font-face{font-family:'Farax Display';src:url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Farax Label';src:url('https://farax-creative.github.io/assets/fonts/farax-label.ttf') format('truetype');font-weight:400;font-display:swap}
+:root{--void:#0B0D10;--void2:#12151A;--cream:#F4EBDD;--ink:#15120D;--zap:#FFC828;--deep:#8F6400;--line:rgba(244,235,221,.13);--line-i:rgba(21,18,13,.16);
+--pad:clamp(18px,5vw,56px);--disp:'Farax Display','Arial Narrow','Helvetica Neue Condensed',Impact,sans-serif;--lab:'Farax Label','Arial Narrow',ui-monospace,Menlo,Consolas,monospace;
+--sans:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;--spring:cubic-bezier(.34,1.34,.5,1);--out:cubic-bezier(.16,.84,.28,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--void);color:var(--cream);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--zap);outline-offset:3px}
+.in{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+.band{padding:clamp(56px,9vw,116px) 0}
+.void{background:var(--void);background-image:radial-gradient(circle at 1px 1px,rgba(244,235,221,.05) 1px,transparent 0);background-size:26px 26px}
+.void2{background:var(--void2)}
+.cream{background:var(--cream);color:var(--ink)}
+.zap{background:var(--zap);color:var(--ink)}
+.k{display:inline-block;font:400 12px/1 var(--lab);letter-spacing:.2em;text-transform:uppercase;color:var(--ink);background:var(--zap);padding:7px 10px 6px;margin-bottom:clamp(14px,2.4vw,24px)}
+.zap .k{background:var(--ink);color:var(--zap)}
+h1,h2{font:400 clamp(46px,12.6vw,124px)/.9 var(--disp);letter-spacing:.005em;text-transform:uppercase}
+h2{font-size:clamp(40px,10.6vw,96px)}
+h1 em,h2 em{font-style:normal;color:var(--zap)}
+.cream h2 em{color:var(--deep)}
+.lead{font:500 clamp(17px,2.3vw,22px)/1.45 var(--sans);max-width:36em;margin-top:clamp(16px,2.6vw,26px);color:rgba(244,235,221,.82)}
+.cream .lead{color:rgba(21,18,13,.74)}
+/* release bar */
+.bar{background:var(--zap);color:var(--ink);font:400 12px/1.4 var(--lab);letter-spacing:.16em;text-transform:uppercase}
+.bar .in{display:flex;flex-wrap:wrap;gap:4px 18px;padding-top:11px;padding-bottom:10px;align-items:center}
+.bar b{font-weight:400;border:1px solid var(--ink);padding:3px 7px 2px}
+.bar a{margin-left:auto;text-decoration:underline;text-underline-offset:3px}
+/* hero */
+.hero{padding-top:clamp(40px,7vw,84px)}
+.works{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:clamp(22px,3.4vw,34px);list-style:none;align-items:center}
+.works .l{font:400 11px/1 var(--lab);letter-spacing:.2em;text-transform:uppercase;color:var(--zap);margin-right:6px}
+.works li:not(.l){font:500 13px/1 var(--sans);padding:9px 13px;border:1px solid var(--line);border-radius:99px;color:rgba(244,235,221,.86)}
+.shot{position:relative;overflow:hidden;border-radius:clamp(10px,1.6vw,18px);background:#050607;border:1px solid var(--line);box-shadow:0 36px 80px -36px rgba(0,0,0,.85),0 0 60px -30px rgba(255,200,40,.22)}
+.shot>*{width:100%;height:auto}
+.hero .shot{margin-top:clamp(30px,5vw,60px)}
+/* cells */
+.cells{display:grid;grid-template-columns:1fr;gap:clamp(30px,4.4vw,52px) clamp(16px,2.4vw,28px);margin-top:clamp(30px,5vw,60px)}
+@media(min-width:600px){.cells{grid-template-columns:1fr 1fr}}
+.cell{min-width:0}
+.m{position:relative;overflow:hidden;border-radius:clamp(10px,1.4vw,16px);background:#050607;aspect-ratio:16/9;border:1px solid var(--line-i);transition:transform .55s var(--spring),box-shadow .4s ease;box-shadow:0 26px 50px -30px rgba(21,18,13,.55)}
+.void .m,.void2 .m{border-color:var(--line);box-shadow:0 26px 50px -30px #000}
+.m video,.m img{width:100%;height:100%;object-fit:cover}
+.cell:hover .m{transform:translateY(-4px)}
+.cell figcaption{display:grid;grid-template-columns:auto 1fr;gap:0 14px;margin-top:14px;align-items:baseline}
+.cell figcaption b{font:400 clamp(26px,3.4vw,34px)/1 var(--disp);color:var(--deep)}
+.void .cell figcaption b,.void2 .cell figcaption b{color:var(--zap)}
+.cell figcaption p{font:500 15px/1.4 var(--sans);opacity:.86}
+.pro{display:inline-block;font:400 11px/1 var(--lab);letter-spacing:.16em;text-transform:uppercase;background:var(--zap);color:var(--ink);padding:5px 7px 4px;margin-left:10px;vertical-align:middle}
+.free{display:inline-block;font:400 11px/1 var(--lab);letter-spacing:.16em;text-transform:uppercase;border:1px solid currentColor;padding:4px 6px 3px;margin-left:10px;vertical-align:middle;opacity:.7}
+.m .pro{position:absolute;left:10px;top:10px;margin:0;z-index:2}
+.m.still{aspect-ratio:auto}
+.m.still img{height:auto}
+/* outcome */
+.outcome .shot{margin-top:clamp(28px,4.6vw,56px)}
+/* your file */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(20px,3vw,30px);list-style:none}
+.chips li{font:500 13px/1 var(--sans);padding:9px 13px;border:1px solid var(--line);border-radius:99px;color:rgba(244,235,221,.86)}
+/* summary */
+.sum{list-style:none;margin-top:clamp(28px,4.4vw,52px);border-top:1px solid var(--line)}
+.sum li{display:grid;grid-template-columns:clamp(58px,10vw,104px) 1fr;gap:0 clamp(8px,2vw,24px);padding:clamp(18px,2.6vw,28px) 0;border-bottom:1px solid var(--line);align-items:baseline}
+.sum b{font:400 clamp(40px,8.4vw,80px)/.9 var(--disp);color:var(--zap)}
+.sum h3{font:700 clamp(19px,2.6vw,26px)/1.2 var(--sans);letter-spacing:-.015em}
+.sum p{font:400 15px/1.5 var(--sans);color:rgba(244,235,221,.72);margin-top:4px;max-width:36em}
+.plans{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(28px,4vw,48px)}
+@media(min-width:600px){.plans{grid-template-columns:1fr 1fr}}
+.plan{padding:clamp(18px,2.6vw,28px);border:1px solid var(--line);border-radius:14px}
+.plan.p{background:var(--zap);color:var(--ink);border-color:var(--zap)}
+.plan .n{font:400 12px/1 var(--lab);letter-spacing:.2em;text-transform:uppercase}
+.plan .a{font:400 clamp(48px,9vw,84px)/1 var(--disp);margin-top:10px}
+.plan .a small{font:500 14px var(--sans);letter-spacing:0;margin-left:8px}
+.plan p{font:500 15px/1.45 var(--sans);margin-top:8px;opacity:.86}
+/* requirements */
+.req{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(28px,4vw,48px);list-style:none}
+@media(min-width:700px){.req{grid-template-columns:repeat(3,1fr)}}
+.req li{padding:clamp(18px,2.4vw,26px);border:1px solid var(--line);border-radius:14px;background:rgba(244,235,221,.03)}
+.req span{display:block;font:400 11px/1 var(--lab);letter-spacing:.2em;text-transform:uppercase;color:var(--zap)}
+.req strong{display:block;font:400 clamp(28px,3.6vw,40px)/1 var(--disp);text-transform:uppercase;margin-top:14px}
+.req p{font:400 14px/1.5 var(--sans);color:rgba(244,235,221,.72);margin-top:8px}
+/* limits */
+.lim{display:grid;grid-template-columns:1fr;gap:0 clamp(20px,4vw,56px);list-style:none;margin-top:clamp(24px,4vw,44px);border-top:1px solid var(--line-i)}
+@media(min-width:700px){.lim{grid-template-columns:1fr 1fr}}
+.lim li{padding:clamp(16px,2.4vw,24px) 0;border-bottom:1px solid var(--line-i)}
+.lim h3{font:700 clamp(18px,2.2vw,21px)/1.25 var(--sans);letter-spacing:-.01em}
+.lim p{font:400 15px/1.5 var(--sans);color:rgba(21,18,13,.72);margin-top:5px}
+/* closing */
+.close h2{font-size:clamp(48px,14vw,150px);line-height:.88}
+.close .lead{color:rgba(21,18,13,.78)}
+.pill{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(22px,3.4vw,34px);background:var(--ink);color:var(--zap);font:400 13px/1 var(--lab);letter-spacing:.18em;text-transform:uppercase;padding:15px 20px 14px;border-radius:99px;transition:transform .5s var(--spring)}
+.pill:hover{transform:translateY(-3px)}
+.foot{margin-top:clamp(36px,6vw,72px);padding-top:16px;border-top:1px solid rgba(21,18,13,.3);font:400 11px/1.6 var(--lab);letter-spacing:.14em;text-transform:uppercase}
+/* motion */
+[data-r]{opacity:0;transform:translateY(28px);transition:opacity .7s var(--out) var(--d,0ms),transform .95s var(--spring) var(--d,0ms)}
+[data-r].in2{opacity:1;transform:none}
+html:not(.js) [data-r]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-r]{transform:none;transition:opacity .4s ease}.cell:hover .m,.pill:hover{transform:none}}
 </style>
 </head>
 <body>
+<div class="bar"><div class="in"><b>2.0</b><span>Zap Board is out</span><span>Free + $5 Pro, one-time</span><a href="/zap-board/changelog.html" target="_blank" rel="noopener">View changelog</a></div></div>
 
-<!-- wordmark bar -->
-<div class="top">
-  <div class="wrap">
-    <span class="mark"><svg viewBox="0 0 120 120" fill="currentColor" aria-hidden="true"><path d="M34 8 L34 65 L50 65 L50 112 L86 50 L65 50 L86 8 Z"/></svg>ZAP_BOARD</span>
-    <a class="chg" href="/zap-board/changelog.html" target="_blank" rel="noopener">CHANGELOG</a>
+<section class="band void hero"><div class="in">
+  <span class="k">Zap Board &middot; Blender 4.5+</span>
+  <h1 data-r>Your reference board, <em>inside Blender.</em></h1>
+  <p class="lead" data-r data-d="80">Drop images in, arrange them, mark them up, and it all saves in your .blend. No second window.</p>
+  <ul class="works" data-r data-d="140"><li class="l">Works with</li><li>Blender 4.5 to 5.2</li><li>Windows</li><li>macOS</li><li>Linux</li><li>Saved in the .blend</li></ul>
+  <div class="shot" data-r data-d="200"><img src="media/s_workspace.webp" width="1920" height="1118" alt="Zap Board open in a Blender Image Editor next to a 3D scene" fetchpriority="high" decoding="async"></div>
+</div></section>
+
+<section class="band void2 outcome"><div class="in">
+  <span class="k">01 / Focus</span>
+  <h2 data-r>Stop alt-tabbing <em>for reference.</em></h2>
+  <p class="lead" data-r data-d="80">The board sits on the same canvas as your work. Drag, place, glance, keep going.</p>
+  <div class="shot" data-r><video src="media/solution.mp4" poster="media/solution-poster.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Dragging reference cards around a Zap Board inside Blender"></video></div>
+</div></section>
+
+<section class="band cream"><div class="in">
+  <span class="k">02 / Build</span>
+  <h2 data-r>A board in <em>a few keys.</em></h2>
+  <p class="lead" data-r data-d="80">Bring a folder in and shape it. Every move is one gesture.</p>
+  <div class="cells"><figure class="cell" data-r><div class="m"><video src="media/d10_importfolder.mp4" poster="media/d10_importfolder.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Import"></video></div><figcaption><b>01</b><p>Drag a folder in. Every image lands on the board.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d09_autoscale.mp4" poster="media/d09_autoscale.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Autoscale"></video></div><figcaption><b>02</b><p>Mixed sizes shrink to fit, so nothing lands off screen.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d02_align.mp4" poster="media/d02_align.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Align"></video></div><figcaption><b>03</b><p>One key lines them up. No dragging edges by eye.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d04_grid.mp4" poster="media/d04_grid.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Grid"></video></div><figcaption><b>04</b><p>Snap the pile into a grid, spaced evenly.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d01_move.mp4" poster="media/d01_move.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Move"></video></div><figcaption><b>05</b><p>Select many, move once. The layout stays yours to nudge.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d05_resize.mp4" poster="media/d05_resize.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Resize"></video></div><figcaption><b>06</b><p>Fine-tune the sizes until they sit together.</p></figcaption></figure></div>
+</div></section>
+
+<section class="band void"><div class="in">
+  <span class="k">03 / Read</span>
+  <h2 data-r>Read your work <em>against it.</em></h2>
+  <p class="lead" data-r data-d="80">Check the match without leaving Blender.</p>
+  <div class="cells"><figure class="cell" data-r><div class="m"><video src="media/d03_pen.mp4" poster="media/d03_pen.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Pen"></video></div><figcaption><b>01</b><p>Draw straight on a card to call out what matters.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d07_opacity.mp4" poster="media/d07_opacity.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Opacity"></video></div><figcaption><b>02</b><p>Fade a card over your render to check the match.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d08_blackwhite.mp4" poster="media/d08_blackwhite.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Black and white"></video></div><figcaption><b>03</b><p>Drop the color to judge the values on their own.</p></figcaption></figure><figure class="cell" data-r><div class="m"><video src="media/d06_solo.mp4" poster="media/d06_solo.jpg" width="1280" height="720" muted loop playsinline preload="none" aria-label="Solo"></video></div><figcaption><b>04</b><p>Show one image and hide the rest. Bring them back in one key.</p></figcaption></figure></div>
+</div></section>
+
+<section class="band void2"><div class="in">
+  <span class="k">04 / Your file</span>
+  <h2 data-r>It travels <em>with the .blend.</em></h2>
+  <p class="lead" data-r data-d="80">Frames, several boards and every image save inside the file. Whoever opens it sees the board. They do not need Zap Board installed.</p>
+  <ul class="chips" data-r data-d="120"><li>Named frames</li><li>Several boards per file</li><li>Saved in the .blend</li><li>Opens without the add-on</li></ul>
+  <div class="cells">
+    <figure class="cell" data-r><div class="m still"><img src="media/frames_two.png" width="1280" height="756" alt="Two named frames grouping reference cards on a Zap Board" loading="lazy" decoding="async"></div><figcaption><b>01</b><p>Named frames hold a set of references and move as one.</p></figcaption></figure>
+    <figure class="cell" data-r data-d="80"><div class="m still"><img src="media/video_card.png" width="1280" height="756" alt="A video card on a Zap Board with its transport bar" loading="lazy" decoding="async"><span class="pro">Pro</span></div><figcaption><b>02</b><p>Loop a clip on the board and pull any frame out as a still.</p></figcaption></figure>
   </div>
-</div>
+</div></section>
 
-<!-- hero -->
-<header class="sec" style="padding-top:64px;">
-  <div class="wrap stack">
-    <div class="eyebrow">A Blender add-on &nbsp;/&nbsp; 2.0 &middot; Free and Pro</div>
-    <h1>Your references,<br>live in the <span class="hl">.blend</span></h1>
-    <p class="sub lead">Drop images into any Image Editor, arrange and mark them up, and it saves with your file. No second app, nothing added to your 3D scene.</p>
+<section class="band void"><div class="in">
+  <span class="k">05 / Everything in it</span>
+  <h2 data-r>Six tools. <em>One board.</em></h2>
+  <ol class="sum"><li data-r><b>01</b><div><h3>Drop in<span class="free">Free</span></h3><p>Drag in images or a whole folder. Big and small ones fit themselves.</p></div></li><li data-r><b>02</b><div><h3>Arrange<span class="free">Free</span></h3><p>Align, grid, resize, and move many at once.</p></div></li><li data-r><b>03</b><div><h3>Mark up and compare<span class="free">Free</span></h3><p>Pen, opacity, black and white, solo.</p></div></li><li data-r><b>04</b><div><h3>Frames and boards<span class="free">Free</span></h3><p>Group cards in frames, keep several boards, all saved in the .blend.</p></div></li><li data-r><b>05</b><div><h3>Video and GIF<span class="pro">Pro</span></h3><p>Loop clips on the board and step through them frame by frame.</p></div></li><li data-r><b>06</b><div><h3>Color and reshape<span class="pro">Pro</span></h3><p>Palette and picker, image adjust, send to 3D, templates, board export.</p></div></li></ol>
+  <div class="plans">
+    <div class="plan" data-r><span class="n">Free</span><div class="a">$0</div><p>Items 01 to 04. A complete reference board.</p></div>
+    <div class="plan p" data-r data-d="80"><span class="n">Pro</span><div class="a">$5<small>one-time</small></div><p>Adds items 05 and 06. No subscription, free updates.</p></div>
   </div>
-  <div class="wrap">
-    <div class="media rise"><img src="media/import-folder.webp" width="2000" height="1000" alt="A folder of reference images dropped onto a Zap Board and laid out as cards inside Blender" /></div>
-  </div>
-</header>
+</div></section>
 
-<!-- meta strip -->
-<div class="meta">
-  <div class="wrap"><div class="row">
-    <b>Free + Pro</b><span class="s">&middot;</span>Blender 4.5+<span class="s">&middot;</span>Windows<span class="s">&middot;</span>macOS<span class="s">&middot;</span>Linux<span class="s">&middot;</span>Saves in your .blend
-  </div></div>
-</div>
+<section class="band void2"><div class="in">
+  <span class="k">06 / Requirements</span>
+  <h2 data-r>Minimum <em>requirements.</em></h2>
+  <ul class="req">
+    <li data-r><span>Blender</span><strong>4.5 or newer</strong><p>Tested on 4.5, 5.0, 5.1 and 5.2.</p></li>
+    <li data-r data-d="70"><span>Platform</span><strong>Win, Mac, Linux</strong><p>All three. Reveal File is Windows only.</p></li>
+    <li data-r data-d="140"><span>Account</span><strong>None</strong><p>Pasting an image from a URL is the only online step, and only when you ask.</p></li>
+  </ul>
+</div></section>
 
-<!-- problem (text only, big statement) -->
-<section class="sec hairline">
-  <div class="wrap stack">
-    <h2>Reference lives<br>in another window</h2>
-    <p class="sub">It sits in a browser tab or on a second monitor, so every glance is a context switch. And the file you ship has no memory that the reference was ever there.</p>
-    <p class="sub">Zap Board puts the board on the same canvas as the work and saves it inside the .blend, so it opens with the scene on any machine.</p>
-  </div>
-</section>
+<section class="band cream"><div class="in">
+  <span class="k">07 / Limits</span>
+  <h2 data-r>What Zap Board <em>is built for.</em></h2>
+  <p class="lead" data-r data-d="80">A reference board inside one Blender file. Here is where that stops.</p>
+  <ul class="lim"><li data-r><h3>One file at a time</h3><p>A board lives in one .blend. It is a working reference board, not a searchable asset library.</p></li><li data-r><h3>Image Editor, not the viewport</h3><p>Boards live in Blender's Image Editor. Send to 3D (Pro) turns a card into an image plane in the scene.</p></li><li data-r><h3>Clips stay outside the .blend</h3><p>Blender cannot store video inside a .blend. Copy Files Next to .blend or Export Board + Images carries them.</p></li><li data-r><h3>Packing adds size</h3><p>Pack Pictures Into .blend makes the file about as large as the references you packed.</p></li><li data-r><h3>One Windows-only shortcut</h3><p>Reveal File opens Explorer on Windows. On macOS and Linux it tells you so and does nothing.</p></li></ul>
+</div></section>
 
-<!-- solution (full-bleed media) -->
-<section class="sec hairline">
-  <div class="wrap stack">
-    <h2>Drop it. Arrange it.<br>Keep working.</h2>
-    <p class="sub">Drag images onto the board and move them like anything else on the canvas. It behaves like the editor you already know, not a modal dialog you have to fight.</p>
-  </div>
-  <div class="wrap">
-    <div class="media rise"><video src="media/solution.mp4" poster="media/solution-poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="auto" aria-label="Dragging reference cards around a Zap Board inside Blender"></video></div>
-  </div>
-</section>
-
-<!-- core features -->
-<section class="sec hairline">
-  <div class="wrap">
-    <div class="feat">
-      <div class="k">Arrange</div>
-      <h3>One key tidies the board</h3>
-      <p class="sub">Let a pile of images fall into a clean grid, or align and space them by hand. The layout stays yours to nudge.</p>
-      <div class="media rise"><img src="media/arrange.webp" width="2000" height="1000" alt="Scattered reference cards snapping into a tidy grid on the board" /></div>
-    </div>
-
-    <div class="feat">
-      <div class="k">Move</div>
-      <h3>Grab many at once</h3>
-      <p class="sub">Box-select a cluster and move, scale or align it as one, at the speed you expect from Blender.</p>
-      <div class="media rise"><img src="media/move.webp" width="2000" height="1000" alt="Several reference cards selected together and moved across the board at once" /></div>
-    </div>
-
-    <div class="feat">
-      <div class="k">Mark up</div>
-      <h3>Draw straight on the board</h3>
-      <p class="sub">Arrows, boxes and notes to call out exactly what matters, in the colours you pick, right where the reference is.</p>
-      <div class="media rise"><img src="media/draw.webp" width="2000" height="1000" alt="Arrows, boxes and notes drawn over reference images on the board" /></div>
-    </div>
-
-    <div class="feat">
-      <div class="k">Compare</div>
-      <h3>Read your work against it</h3>
-      <p class="sub">Lay a card over your render, drop its opacity, and check the match. The oldest trick in the book, without leaving Blender.</p>
-      <div class="media rise"><img src="media/opacity.webp" width="2000" height="1000" alt="A reference card faded over a render to compare the two" /></div>
-    </div>
-  </div>
-</section>
-
-<!-- also in 2.0 -->
-<section class="sec hairline">
-  <div class="wrap">
-    <div class="eyebrow">Also in 2.0</div>
-    <div class="grid2">
-      <div class="gcard rise">
-        <h3>Group frames</h3>
-        <p class="sub">Named frames hold a cluster of cards and move as one, so a set of references stays a set.</p>
-        <div class="media"><img src="media/frames_two.png" width="1280" height="756" alt="Reference cards inside two labelled group frames, Characters and a blue-tinted Environment" /></div>
-      </div>
-      <div class="gcard rise">
-        <h3>Video and GIF<span class="badge">Pro</span></h3>
-        <p class="sub">Scrub a clip on the board and pull any frame out as a still to keep beside it.</p>
-        <div class="media"><img src="media/video_card.png" width="1280" height="756" alt="A video reference card on the board with a scrub bar and playback controls" /></div>
-      </div>
-    </div>
-
-    <div class="rollup">
-      <div class="rh"><b>Pro</b> &nbsp;also adds the tools that read and reshape a reference</div>
-      <ul>
-        <li><b>Palette and picker.</b> Pull the dominant colours off any image, or pick one straight into your shader.</li>
-        <li><b>Image adjust.</b> Brightness, contrast, temperature and saturation on the card, never touching the file.</li>
-        <li><b>Send to 3D.</b> Turn a card into an upright image plane, facing front in the viewport.</li>
-        <li><b>Templates and export.</b> Reusable board layouts, plus export the whole board as an image sheet.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- pricing -->
-<section class="sec hairline">
-  <div class="wrap">
-    <div class="plans">
-      <div class="plan rise">
-        <div class="ph"><span class="pt">Free</span><span class="amt">$0</span></div>
-        <p class="sub">A complete reference board. Drop images in, arrange and align, group frames, mark up, crop and grayscale, and keep as many boards as you like, all saved in your .blend.</p>
-      </div>
-      <div class="plan pro rise">
-        <div class="ph"><span class="pt">Pro</span><span class="amt">$5<small>one-time</small></span></div>
-        <p class="sub">Adds palette extraction and colour picking, image adjust, video and GIF cards, layout templates, send-to-3D and board export. No subscription, free updates.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- requirements -->
-<section class="sec hairline">
-  <div class="wrap">
-    <div class="eyebrow">Before you buy</div>
-    <div class="req">
-      <div><span class="k">Blender</span><span class="t"><b>4.5 or newer.</b> Tested on 4.5, 5.0, 5.1 and 5.2.</span></div>
-      <div><span class="k">Runs on</span><span class="t"><b>Windows, macOS and Linux.</b> Reveal File opens the containing folder on Windows only.</span></div>
-      <div><span class="k">Account</span><span class="t"><b>None, free updates.</b> Pasting an image from a URL is the only online step, and only when you ask. Blender's online access has to be on for it.</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="sec hairline">
-  <div class="wrap">
-    <h2 style="font-size:clamp(22px,3vw,30px);">Questions people<br>ask first</h2>
-    <div class="faq">
-      <details><summary>Where do the boards live?</summary><p class="sub">Inside your .blend file, images, notes and frames together. Open it on another machine and the board is still there, and you can keep several boards in one file.</p></details>
-      <details><summary>What is the difference between Free and Pro?</summary><p class="sub">Free is a complete reference board. Pro adds the colour tools, image adjust, video and GIF, layout templates, send-to-3D and board export, a one-time $5 unlock in this same listing.</p></details>
-      <details><summary>Does it work on Mac and Linux?</summary><p class="sub">Yes, all three platforms. The only exception is Reveal File, which opens the folder on Windows only.</p></details>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta">
-  <div class="wrap stack">
-    <h2>Start <span class="hl">free</span></h2>
-    <p class="sub">Install the add-on and build a board today. Pro is a one-time $5 unlock in this same listing. No subscription, free updates.</p>
-    <a class="pill" href="/zap-board/changelog.html" target="_blank" rel="noopener">
-      Free and $5 Pro
-      <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="#1a1300" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-    </a>
-  </div>
-</section>
-
-<!-- footer -->
-<footer class="foot">
-  <div class="wrap"><div class="row"><b>Zap Board</b> by Farax Creative &middot; Zap series &middot; Blender 4.5+ &middot; Windows, macOS, Linux</div></div>
-</footer>
+<section class="band zap close"><div class="in">
+  <span class="k">Zap Board</span>
+  <h2 data-r>Reference, on the canvas.</h2>
+  <p class="lead" data-r data-d="80">Free to start. Pro is $5, once.</p>
+  <a class="pill" href="/zap-board/changelog.html" target="_blank" rel="noopener">See what is new in 2.0 &rarr;</a>
+  <div class="foot">Zap Board by Farax Creative &middot; Zap series &middot; Blender 4.5+ &middot; Windows, macOS, Linux</div>
+</div></section>
 
 <script>
-  // Reveal-on-scroll. Honours reduced motion by simply leaving items visible.
-  (function () {
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var items = document.querySelectorAll('.rise');
-    if (reduce || !('IntersectionObserver' in window)) {
-      items.forEach(function (el) { el.classList.add('in'); });
-      return;
-    }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    items.forEach(function (el) { io.observe(el); });
-  })();
+(function(){var RM=matchMedia('(prefers-reduced-motion: reduce)').matches,IO='IntersectionObserver' in window;
+var r=document.querySelectorAll('[data-r]');
+if(IO){var a=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in2');a.unobserve(e.target)}})},{threshold:.12});
+r.forEach(function(el){if(el.dataset.d)el.style.setProperty('--d',el.dataset.d+'ms');a.observe(el)})}else r.forEach(function(el){el.classList.add('in2')});
+var v=document.querySelectorAll('video');
+if(IO&&!RM){var b=new IntersectionObserver(function(es){es.forEach(function(e){var x=e.target;if(e.isIntersecting){var p=x.play();if(p&&p.catch)p.catch(function(){})}else x.pause()})},{threshold:.25});v.forEach(function(x){x.muted=true;b.observe(x)})}
+})();
 </script>
 </body>
 </html>
