@@ -21,109 +21,152 @@
 <style>
 @font-face { font-family: 'Farax Display'; src: url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
 :root {
-  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
-  --cream: #F4EBDD; --body: rgba(244,235,221,.86); --dim: rgba(244,235,221,.5); --line: rgba(244,235,221,.13);
-  --zap: #FFC828;
+  --bg: #0B0D10; --panel: #12161B; --panel-2: #151A20; --bar: #070809;
+  --cream: #F4EBDD; --body: rgba(244,235,221,.72); --dim: rgba(244,235,221,.46); --faint: rgba(244,235,221,.28);
+  --line: rgba(244,235,221,.11); --line-2: rgba(244,235,221,.07);
+  --zap: #FFC828; --zap-dim: rgba(255,200,40,.72);
   --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ease: cubic-bezier(.16,.84,.28,1);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 500; overflow-x: hidden;
-       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+body { position: relative; background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 500;
+       overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+/* signature: faint dot grid across the whole page */
+body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(244,235,221,.05) 1px, transparent 0);
+  background-size: 26px 26px; -webkit-mask-image: linear-gradient(180deg, #000, #000); }
+body > * { position: relative; z-index: 1; }
 a { color: inherit; }
 img, video { display: block; max-width: 100%; height: auto; }
 ::selection { background: var(--zap); color: var(--bg); }
 
 /* ---- release bar ---- */
-.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-       gap: 8px 22px; padding: 13px 16px; font: 700 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
-.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); }
-.rel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
-.rel .ed { color: var(--zap); }
-.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
-.rel a:hover { text-decoration-color: var(--zap); }
+.rel { background: var(--bar); border-bottom: 1px solid var(--line-2); display: flex; flex-wrap: wrap;
+       justify-content: center; align-items: center; gap: 7px 20px; padding: 12px 16px;
+       font: 700 11.5px/1.3 var(--sans); letter-spacing: .04em; }
+.rel .name { display: inline-flex; align-items: center; gap: 9px; color: var(--cream); }
+.rel .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.16); }
+.rel .ed { color: var(--zap-dim); }
+.rel a { color: var(--dim); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: color .2s var(--ease); }
+.rel a:hover { color: var(--cream); }
 
 /* ---- shell ---- */
-.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-.col { max-width: 640px; margin: 0 auto; }
-.hero { padding: 62px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
-.kick { font: 700 12px/1.5 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
-.kick b { color: var(--zap); font-weight: 700; }
-h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(52px, 10.5vw, 100px);
-     line-height: .94; letter-spacing: .01em; margin: 18px 0 20px; }
-.lead { font-size: clamp(18px, 2.4vw, 22px); font-weight: 600; line-height: 1.5; color: var(--cream); max-width: 610px; }
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 22px; }
+.col { max-width: 660px; margin: 0 auto; }
+
+/* ---- hero ---- */
+.hero { padding: 78px 0 46px; text-align: left;
+        background: radial-gradient(1100px 560px at 72% -6%, rgba(255,200,40,.07), transparent 62%); }
+.badge { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--line);
+         border-radius: 999px; padding: 8px 15px 8px 12px; font: 700 12px/1 var(--sans); letter-spacing: .01em; color: var(--body); }
+.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.16); }
+.badge b { color: var(--cream); font-weight: 700; }
+h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(58px, 12vw, 108px);
+     line-height: .9; letter-spacing: .005em; margin: 22px 0 0; }
+.lead { font-size: clamp(19px, 2.5vw, 23px); font-weight: 600; line-height: 1.42; letter-spacing: -.01em;
+        color: var(--cream); max-width: 30ch; margin: 20px 0 0; }
 .lead span { color: var(--body); font-weight: 500; }
 
-.sec { padding: 34px 0 50px; }
-h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(30px, 5.2vw, 45px);
-     line-height: 1.04; letter-spacing: .01em; margin: 0 0 18px; }
-.label { font: 700 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
-         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
-.label b { color: var(--zap); font-weight: 700; margin-right: 10px; }
-.label .pro { color: var(--zap); margin-left: 10px; }
-p { font-size: 17px; font-weight: 500; line-height: 1.62; color: var(--body); }
-p + p { margin-top: 15px; }
+/* ---- sections ---- */
+.sec { padding: 30px 0 34px; }
+.sec.rule .col { border-top: 1px solid var(--line); padding-top: 46px; }
+.eyebrow { font: 700 11px/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--zap-dim); margin-bottom: 15px; }
+h2 { font-weight: 700; font-size: clamp(28px, 4.6vw, 41px); line-height: 1.05; letter-spacing: -.03em;
+     color: var(--cream); margin: 0 0 16px; }
+h2 .soft { color: var(--faint); }
+p { font-size: 17px; font-weight: 500; line-height: 1.6; color: var(--body); max-width: 60ch; }
+p + p { margin-top: 14px; }
 strong { color: var(--cream); font-weight: 700; }
 em { font-style: normal; color: var(--cream); font-weight: 600; }
 
-.media { margin-top: 30px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
-         box-shadow: 0 26px 70px rgba(0,0,0,.5); background: #000; }
+/* ---- media ---- */
+.media { margin-top: 26px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);
+         background: #05070a;
+         box-shadow: 0 1px 0 rgba(255,255,255,.05) inset,
+                     0 40px 90px -40px rgba(0,0,0,.85),
+                     0 0 0 1px rgba(255,200,40,.06),
+                     0 0 60px -30px rgba(255,200,40,.12); }
 .media video, .media img { width: 100%; }
+.cap { margin-top: 12px; font: 500 13px/1.5 var(--mono); letter-spacing: .01em; color: var(--faint); }
 
-/* ---- also-in-2.0 sub-blocks ---- */
+/* ---- also in 2.0 ---- */
 .also { margin-top: 30px; }
-.also:first-of-type { margin-top: 8px; }
-.also h3 { font: 700 20px/1.3 var(--sans); letter-spacing: .005em; color: var(--cream); margin-bottom: 6px; }
-.also h3 .pro { color: var(--zap); font: 700 10px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase;
-                border: 1px solid rgba(255,200,40,.5); border-radius: 3px; padding: 4px 6px 3px; margin-left: 9px;
-                vertical-align: 2px; }
+.also:first-of-type { margin-top: 4px; }
+.also h3 { font: 700 19px/1.3 var(--sans); letter-spacing: -.01em; color: var(--cream); margin-bottom: 7px;
+           display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pro { color: var(--zap); font: 700 9.5px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase;
+       border: 1px solid rgba(255,200,40,.45); border-radius: 4px; padding: 4px 6px 3px; vertical-align: 2px; }
 .also p { font-size: 16px; }
-.also .media { margin-top: 16px; }
+.also .media { margin-top: 15px; }
 
-/* ---- Free / Pro paragraphs ---- */
-.plans { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.plan { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 20px 20px 22px; }
-.plan.p { border-color: rgba(255,200,40,.4); }
-.plan .h { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
-.plan .t { font: 700 13px/1 var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); }
+/* ---- Pro roll-up list ---- */
+.rollup { margin-top: 26px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; }
+.rollup .top { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--line-2); }
+.rollup .top .pro { vertical-align: 0; }
+.rollup .top span { font: 700 14px/1 var(--sans); letter-spacing: .01em; color: var(--cream); }
+.rollup ul { list-style: none; padding: 6px 20px 12px; }
+.rollup li { padding: 11px 0 11px 26px; border-bottom: 1px solid var(--line-2); position: relative;
+             font-size: 15.5px; font-weight: 500; line-height: 1.5; color: var(--body); }
+.rollup li:last-child { border-bottom: 0; }
+.rollup li::before { content: ''; position: absolute; left: 4px; top: 18px; width: 7px; height: 7px;
+                     border-radius: 2px; background: var(--zap); opacity: .8; }
+.rollup li b { color: var(--cream); font-weight: 700; }
+
+/* ---- Free / Pro ---- */
+.plans { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.plan { border: 1px solid var(--line); border-radius: 16px; background: var(--panel); padding: 22px 22px 24px; }
+.plan.p { border-color: rgba(255,200,40,.34); background: linear-gradient(180deg, rgba(255,200,40,.05), var(--panel) 40%); }
+.plan .h { display: flex; align-items: baseline; gap: 11px; margin-bottom: 13px; }
+.plan .t { font: 700 12px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
 .plan.p .t { color: var(--zap); }
-.plan .amt { font: 800 26px/1 var(--sans); letter-spacing: -.02em; color: var(--cream);
-             font-variant-numeric: tabular-nums lining-nums; }
-.plan .amt small { font: 600 12px/1 var(--sans); color: var(--dim); margin-left: 6px; }
+.plan .amt { font: 800 27px/1 var(--sans); letter-spacing: -.03em; color: var(--cream);
+             font-variant-numeric: tabular-nums lining-nums; margin-left: auto; }
+.plan .amt small { font: 600 12px/1 var(--sans); color: var(--dim); margin-left: 6px; letter-spacing: 0; }
 .plan p { font-size: 15px; line-height: 1.55; }
 
 /* ---- requirements ---- */
-.req { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
-.req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
+.req { margin-top: 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); padding: 2px 20px; }
+.req div { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 16px 0; border-bottom: 1px solid var(--line-2);
            font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--body); }
 .req div:last-child { border-bottom: 0; }
-.req .k { flex: 0 0 100px; font-weight: 700; letter-spacing: .02em; color: var(--cream); }
+.req .k { flex: 0 0 96px; font-weight: 700; letter-spacing: .01em; color: var(--cream); }
 .req .t { flex: 1 1 260px; }
 .req .t strong { color: var(--cream); font-weight: 700; }
 
-/* ---- FAQ (native details) ---- */
-.faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin-top: 12px; }
-.faq summary { list-style: none; cursor: pointer; display: flex; gap: 12px; align-items: baseline;
-               padding: 17px 20px; font: 700 17px/1.35 var(--sans); color: var(--cream); }
+/* ---- FAQ ---- */
+.faq details { border: 1px solid var(--line); border-radius: 16px; background: var(--panel); margin-top: 12px;
+               transition: border-color .2s var(--ease); }
+.faq details[open] { border-color: rgba(255,200,40,.24); }
+.faq summary { list-style: none; cursor: pointer; display: flex; gap: 13px; align-items: baseline;
+               padding: 18px 20px; font: 700 17px/1.35 var(--sans); letter-spacing: -.01em; color: var(--cream); }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::before { content: '+'; font: 800 16px/1.35 var(--mono); color: var(--zap); transition: transform .2s ease; }
-.faq details[open] summary::before { content: '\2013'; }
-.faq details p { padding: 0 20px 18px; font-size: 16px; font-weight: 500; }
+.faq summary::before { content: '+'; font: 700 17px/1.2 var(--mono); color: var(--zap); transition: transform .2s var(--ease); }
+.faq details[open] summary::before { transform: rotate(45deg); }
+.faq details p { padding: 0 20px 19px; font-size: 16px; font-weight: 500; }
 
-.cta { text-align: center; padding: 10px 0 4px; }
-.cta .box { display: inline-block; text-align: left; max-width: 560px; border: 1px solid var(--line);
-            border-radius: 12px; background: var(--panel); padding: 22px 24px; }
-.cta p { font-size: 16px; font-weight: 500; }
-.foot { padding: 30px 0 56px; font: 500 13px/1.6 var(--mono); color: var(--dim); }
+/* ---- CTA ---- */
+.cta { padding: 12px 0 6px; }
+.cta .box { border: 1px solid var(--line); border-radius: 18px; padding: 30px 28px;
+            background: radial-gradient(600px 300px at 80% 0%, rgba(255,200,40,.08), var(--panel) 66%); }
+.cta h2 { margin-bottom: 12px; }
+.cta p { font-size: 16px; font-weight: 500; margin-bottom: 18px; }
+.pill { display: inline-flex; align-items: center; gap: 9px; border-radius: 999px; padding: 12px 20px;
+        background: var(--zap); color: #1a1300; font: 700 14px/1 var(--sans); letter-spacing: .01em; }
+.pill .k { opacity: .62; font-weight: 700; }
+
+.foot { padding: 34px 0 58px; font: 500 13px/1.7 var(--mono); color: var(--faint); }
+.foot .col { border-top: 1px solid var(--line-2); padding-top: 26px; }
 
 @media (max-width: 560px) {
-  .hero { padding-top: 44px; }
+  .hero { padding-top: 52px; }
   .plans { grid-template-columns: 1fr; }
   .req .k { flex-basis: 100%; }
+  .lead { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .faq summary::before { transition: none; }
+  .faq summary::before, .rel a { transition: none; }
 }
 </style>
 </head>
@@ -132,141 +175,133 @@ em { font-style: normal; color: var(--cream); font-weight: 600; }
 <div class="rel">
   <span class="name"><span class="dot"></span>Zap Board 2.0</span>
   <span class="ed">Free &amp; Pro</span>
-  <a href="/zap-board/changelog.html" target="_blank" rel="noopener">View changelog &rarr;</a>
+  <a href="/zap-board/changelog.html" target="_blank" rel="noopener">Changelog &rarr;</a>
 </div>
 
 <header class="hero">
+  <div class="wrap"><div class="col">
+    <span class="badge"><span class="dot"></span><b>Free &amp; Pro</b> &middot; Blender 4.5+</span>
+    <h1>Zap Board</h1>
+    <p class="lead">Your references, inside Blender. <span>A board that lives in your .blend &mdash; drop images in, arrange and mark them up, then keep working without leaving the window.</span></p>
+  </div></div>
   <div class="wrap">
-    <div class="col">
-      <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 4.5+ &middot; Windows &middot; macOS &middot; Linux</div>
-      <h1>Zap Board</h1>
-      <p class="lead">Your references, inside Blender. <span>A board that lives in your .blend &mdash; drop images in, arrange and mark them up, pull a palette or send a plane into the scene, without leaving the window you are working in.</span></p>
-    </div>
-    <div class="media"><video src="media/hero.mp4" width="1280" height="756" autoplay muted loop playsinline preload="auto" aria-label="A pile of reference images on a board, then Arrange laying them out into a tidy grid"></video></div>
+    <div class="media"><img src="media/import-folder.webp" width="2000" height="1000" alt="A folder of reference images dropped onto a Zap Board and laid out as cards inside Blender" /></div>
   </div>
 </header>
 
-<section class="sec">
+<section class="sec rule">
   <div class="wrap"><div class="col">
-    <div class="label"><b>01</b>The problem</div>
+    <div class="eyebrow">The problem</div>
     <h2>Your reference lives in another window.</h2>
     <p>It sits in a browser tab or on a second monitor, so every glance is a context switch &mdash; and the file you ship has no memory that the reference was ever there.</p>
     <p>Zap Board puts the board on the same canvas as the work and saves it <strong>inside the .blend</strong>, so it opens with the scene on any machine.</p>
   </div></div>
 </section>
 
-<section class="sec">
+<section class="sec rule">
   <div class="wrap">
     <div class="col">
-      <div class="label"><b>02</b>The board</div>
+      <div class="eyebrow">The board</div>
       <h2>Drop it. Arrange it. Keep working.</h2>
-      <p>Drag images onto the board and <em>Arrange</em> lays them out for you. Move, scale and align stay under your hands &mdash; it behaves like the editor you already know, not a modal dialog you have to fight.</p>
+      <p>Drag images onto the board and move them around like anything else on the canvas. It behaves like the editor you already know, not a modal dialog you have to fight.</p>
     </div>
-    <div class="media"><video src="media/solution.mp4" width="1280" height="720" autoplay muted loop playsinline preload="auto" aria-label="Dragging reference cards around a Zap Board inside Blender's image editor"></video></div>
+    <div class="media"><video src="media/solution.mp4" width="1280" height="720" autoplay muted loop playsinline preload="auto" aria-label="Dragging reference cards around a Zap Board inside Blender"></video></div>
   </div>
 </section>
 
-<section class="sec">
+<section class="sec rule">
   <div class="wrap">
     <div class="col">
-      <div class="label"><b>03</b>Compare</div>
+      <div class="eyebrow">Arrange</div>
+      <h2>One key tidies the whole board.</h2>
+      <p>Let a pile of images fall into a clean grid, or align and space them by hand. The layout is yours to nudge at any point.</p>
+    </div>
+    <div class="media"><img src="media/arrange.webp" width="2000" height="1000" alt="Scattered reference cards snapping into a tidy grid on the board" /></div>
+  </div>
+</section>
+
+<section class="sec rule">
+  <div class="wrap">
+    <div class="col">
+      <div class="eyebrow">Move</div>
+      <h2>Grab many at once.</h2>
+      <p>Box-select a cluster and move, scale or align it as one. The whole board stays under your hands, at the speed you expect from Blender.</p>
+    </div>
+    <div class="media"><img src="media/move.webp" width="2000" height="1000" alt="Several reference cards selected together and moved across the board at once" /></div>
+  </div>
+</section>
+
+<section class="sec rule">
+  <div class="wrap">
+    <div class="col">
+      <div class="eyebrow">Mark up</div>
+      <h2>Draw straight on the board.</h2>
+      <p>Arrows, boxes and notes to call out exactly what matters &mdash; in the colours you pick, right where the reference is.</p>
+    </div>
+    <div class="media"><img src="media/draw.webp" width="2000" height="1000" alt="Arrows, boxes and notes drawn over reference images on the board" /></div>
+  </div>
+</section>
+
+<section class="sec rule">
+  <div class="wrap">
+    <div class="col">
+      <div class="eyebrow">Compare</div>
       <h2>Read your work against the reference.</h2>
-      <p>Lay your render over the board, drop its opacity, then switch both to grayscale to check values. The oldest trick in the book, without ever leaving Blender.</p>
+      <p>Lay a card over your render, drop its opacity, and check the match &mdash; the oldest trick in the book, without ever leaving Blender.</p>
     </div>
-    <div class="media"><video src="media/compare.mp4" width="1280" height="756" autoplay muted loop playsinline preload="auto" aria-label="A work-in-progress card faded over a reference, then both shown in grayscale to compare values"></video></div>
+    <div class="media"><img src="media/opacity.webp" width="2000" height="1000" alt="A reference card faded over a render to compare the two" /></div>
   </div>
 </section>
 
-<section class="sec">
-  <div class="wrap">
-    <div class="col">
-      <div class="label"><b>04</b>Colour<span class="pro">Pro</span></div>
-      <h2>Pull a palette off any reference.</h2>
-      <p>Extract the dominant colours as swatch cards you can keep on the board, then pick a colour straight off the image into whatever you are shading.</p>
-    </div>
-    <div class="media"><video src="media/colour.mp4" width="1280" height="756" autoplay muted loop playsinline preload="auto" aria-label="A reference selected, then a row of colour swatch cards extracted from it"></video></div>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="col">
-      <div class="label"><b>05</b>Adjust<span class="pro">Pro</span></div>
-      <h2>Brighten a reference that is too dark.</h2>
-      <p>Brightness, contrast, temperature and saturation live on the card and update as you drag &mdash; and never touch the file on disk.</p>
-    </div>
-    <div class="media"><video src="media/adjust.mp4" width="1280" height="756" autoplay muted loop playsinline preload="auto" aria-label="A dark portrait reference brightened and given more contrast directly on the board"></video></div>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="col">
-      <div class="label"><b>06</b>Send to 3D<span class="pro">Pro</span></div>
-      <h2>Put a reference into the scene.</h2>
-      <p>Turn a card into an upright image plane, facing front in the viewport &mdash; modelling reference you can orbit around and line your mesh up against.</p>
-    </div>
-    <div class="media"><video src="media/send3d.mp4" width="1280" height="534" autoplay muted loop playsinline preload="auto" aria-label="Reference cards on the board, then the same images standing upright and facing front in the 3D viewport"></video></div>
-  </div>
-</section>
-
-<section class="sec">
+<section class="sec rule">
   <div class="wrap"><div class="col">
-    <div class="label"><b>07</b>Also in 2.0</div>
+    <div class="eyebrow">Also in 2.0</div>
     <h2>The rest of what 2.0 adds.</h2>
 
     <div class="also">
-      <h3>Draw on top.</h3>
-      <p>Arrows, boxes and ellipses to call out exactly what matters, in the colours you pick.</p>
-      <div class="media"><video src="media/annotate.mp4" width="1280" height="534" autoplay muted loop playsinline preload="auto" aria-label="A yellow box, a red ellipse and a red arrow appearing on a portrait reference"></video></div>
-    </div>
-
-    <div class="also">
-      <h3>A board per shot.</h3>
-      <p>Keep separate boards in one file and switch between them &mdash; characters on one, environment on the next.</p>
-      <div class="media"><video src="media/boards.mp4" width="1280" height="534" autoplay muted loop playsinline preload="auto" aria-label="Switching between a Characters board and an Environment board in the same file"></video></div>
-    </div>
-
-    <div class="also">
-      <h3>Paste straight off the web.</h3>
-      <p>Copy an image address, paste it onto the board, and it downloads and lands as a card &mdash; the one time anything goes online, and only when you ask.</p>
-      <div class="media"><video src="media/urlpaste.mp4" width="1280" height="534" autoplay muted loop playsinline preload="auto" aria-label="An image pasted from a URL landing as a new card on the board"></video></div>
-    </div>
-
-    <div class="also">
       <h3>Group what belongs together.</h3>
-      <p>Named frames hold a cluster of cards and move as one, so a set of references stays a set.</p>
-      <div class="media"><img src="media/frames_two.png" alt="Reference cards inside two labelled group frames, Characters and a blue-tinted Environment" /></div>
+      <p>Named frames hold a cluster of cards and move as one, so a set of references stays a set &mdash; characters on one frame, environment on the next.</p>
+      <div class="media"><img src="media/frames_two.png" width="1280" height="756" alt="Reference cards inside two labelled group frames, Characters and a blue-tinted Environment" /></div>
     </div>
 
     <div class="also">
       <h3>Video and GIF references.<span class="pro">Pro</span></h3>
       <p>Scrub a clip on the board and pull any frame out as a still to keep beside it.</p>
-      <div class="media"><img src="media/video_card.png" alt="A video reference card on the board with a scrub bar and playback controls" /></div>
+      <div class="media"><img src="media/video_card.png" width="1280" height="756" alt="A video reference card on the board with a scrub bar and playback controls" /></div>
+    </div>
+
+    <div class="rollup">
+      <div class="top"><span class="pro">Pro</span><span>And the tools that read and reshape a reference</span></div>
+      <ul>
+        <li><b>Palette &amp; picker.</b> Pull the dominant colours off any image as swatch cards, or pick a colour straight into what you are shading.</li>
+        <li><b>Image adjust.</b> Brightness, contrast, temperature and saturation live on the card and never touch the file on disk.</li>
+        <li><b>Send to 3D.</b> Turn a card into an upright image plane, facing front in the viewport for modelling reference.</li>
+        <li><b>Layout templates &amp; export.</b> Reusable board layouts, plus export the whole board out as an image sheet.</li>
+      </ul>
     </div>
   </div></div>
 </section>
 
-<section class="sec">
+<section class="sec rule">
   <div class="wrap"><div class="col">
-    <div class="label"><b>08</b>Free &amp; Pro</div>
-    <h2>Free to use. $5 unlocks the rest.</h2>
+    <div class="eyebrow">Pricing</div>
+    <h2>Free to use. <span class="soft">$5 unlocks the rest.</span></h2>
     <div class="plans">
       <div class="plan">
         <div class="h"><span class="t">Free</span><span class="amt">$0</span></div>
-        <p>A complete reference board: drop images in, arrange and align, group frames, annotate, crop and grayscale, and keep as many boards as you like &mdash; all saved in your .blend.</p>
+        <p>A complete reference board: drop images in, arrange and align, group frames, mark up, crop and grayscale, and keep as many boards as you like &mdash; all saved in your .blend.</p>
       </div>
       <div class="plan p">
         <div class="h"><span class="t">Pro</span><span class="amt">$5<small>one-time</small></span></div>
-        <p>Adds the tools that read and reshape a reference: palette extraction and colour picking, image adjust, video and GIF, layout templates, send-to-3D and board export. No subscription, free updates.</p>
+        <p>Adds palette extraction and colour picking, image adjust, video and GIF cards, layout templates, send-to-3D and board export. No subscription, free updates.</p>
       </div>
     </div>
   </div></div>
 </section>
 
-<section class="sec">
+<section class="sec rule">
   <div class="wrap"><div class="col">
-    <div class="label"><b>09</b>Before you buy</div>
+    <div class="eyebrow">Before you buy</div>
     <h2>Requirements</h2>
     <div class="req">
       <div><span class="k">Blender</span><span class="t"><strong>4.5 or newer.</strong> Tested on 4.5, 5.0, 5.1 and 5.2.</span></div>
@@ -276,9 +311,9 @@ em { font-style: normal; color: var(--cream); font-weight: 600; }
   </div></div>
 </section>
 
-<section class="sec faq">
+<section class="sec rule faq">
   <div class="wrap"><div class="col">
-    <div class="label"><b>10</b>Questions</div>
+    <div class="eyebrow">Questions</div>
     <h2>Questions people ask first</h2>
     <details><summary>Where do the boards live?</summary><p>Inside your .blend file &mdash; images, notes and frames together. Open it on another machine and the board is still there, and you can keep several boards in one file.</p></details>
     <details><summary>What is the difference between Free and Pro?</summary><p>Free is a complete reference board. Pro adds the colour tools, image adjust, video and GIF, layout templates, send-to-3D and board export &mdash; a one-time $5 unlock in this same listing.</p></details>
@@ -286,16 +321,18 @@ em { font-style: normal; color: var(--cream); font-weight: 600; }
   </div></div>
 </section>
 
-<section class="cta">
-  <div class="wrap">
+<section class="sec cta">
+  <div class="wrap"><div class="col">
     <div class="box">
-      <p><strong>Start free.</strong> Install the add-on and build a board today. Pro is a one-time $5 unlock in this same listing &mdash; no subscription, free updates.</p>
+      <h2>Start free.</h2>
+      <p>Install the add-on and build a board today. Pro is a one-time $5 unlock in this same listing &mdash; no subscription, free updates.</p>
+      <span class="pill"><span class="k">In this listing</span>Free &middot; $5 Pro</span>
     </div>
-  </div>
+  </div></div>
 </section>
 
 <footer class="foot">
-  <div class="wrap"><div class="col">Zap Board by Farax Creative &middot; Blender 4.5+ &middot; Windows, macOS, Linux<br>Reference images shown are procedurally generated placeholders.</div></div>
+  <div class="wrap"><div class="col">Zap Board by Farax Creative &middot; Blender 4.5+ &middot; Windows, macOS, Linux</div></div>
 </footer>
 
 </body>
