@@ -42,11 +42,9 @@ body { background: var(--bg); color: var(--ink); font-family: var(--sans); overf
 .col { flex: 0 0 auto; width: var(--fw); max-width: 96vw; scroll-snap-align: start;
        display: flex; flex-direction: column; height: 100%; }
 .lab { display: flex; align-items: baseline; gap: 8px; padding: 0 4px 12px; }
-.lab .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: 0 0 auto; align-self: center; }
+.lab .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dc, var(--accent)); flex: 0 0 auto; align-self: center; }
 .lab .t { font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
 .lab .w { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--dim); }
-.col.b .dot { background: #5aa9ff; }
-.col.c .dot { background: #8a8a92; }
 .frame { flex: 1 1 auto; min-height: 0; border-radius: 16px; overflow: hidden;
          border: 1px solid var(--line); background: #000; box-shadow: 0 24px 60px -34px rgba(0,0,0,.9); }
 .frame iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
@@ -71,23 +69,35 @@ body { background: var(--bg); color: var(--ink); font-family: var(--sans); overf
       <button data-w="726" aria-pressed="true">스토어 <b>726</b></button>
       <button data-w="1440" aria-pressed="false">데스크톱 <b>1440</b></button>
     </div>
-    <span class="note desk">각 칸을 좌우로 스크롤해 비교하세요. 폭 버튼으로 폰·스토어 칼럼·데스크톱 렌더를 전환합니다.</span>
+    <span class="note desk">좌우로 넘겨 비교하고, 각 칸은 안에서 위아래로 스크롤하세요. 폭 버튼으로 폰·스토어·데스크톱을 전환합니다.</span>
     <span class="note" style="display:none" id="mnote">폰 폭 렌더 · 아래로 스크롤</span>
   </div>
 </header>
 
 <main class="rail" id="rail">
-  <section class="col a">
-    <div class="lab"><span class="dot"></span><span class="t">A안 · Zap 마케팅 (현재 선호)</span><span class="w"></span></div>
-    <div class="frame"><iframe src="superhive.html" title="A안 Zap 마케팅" loading="eager"></iframe></div>
+  <section class="col" style="--dc:#ffb02e">
+    <div class="lab"><span class="dot"></span><span class="t">A안 · 에디토리얼 매거진</span><span class="w"></span></div>
+    <div class="frame"><iframe src="v-a.html" title="A안 · 에디토리얼 매거진" loading="lazy"></iframe></div>
   </section>
-  <section class="col b">
-    <div class="lab"><span class="dot"></span><span class="t">B안 · Apple 다크</span><span class="w"></span></div>
-    <div class="frame"><iframe src="superhive-apple.html" title="B안 Apple 다크" loading="eager"></iframe></div>
+  <section class="col" style="--dc:#ff7a59">
+    <div class="lab"><span class="dot"></span><span class="t">B안 · 시네마틱 풀블리드</span><span class="w"></span></div>
+    <div class="frame"><iframe src="v-b.html" title="B안 · 시네마틱 풀블리드" loading="lazy"></iframe></div>
   </section>
-  <section class="col c">
-    <div class="lab"><span class="dot"></span><span class="t">C안 · 이전 v009</span><span class="w"></span></div>
-    <div class="frame"><iframe src="_v009.html" title="C안 이전 v009" loading="eager"></iframe></div>
+  <section class="col" style="--dc:#5aa9ff">
+    <div class="lab"><span class="dot"></span><span class="t">C안 · 벤토 모자이크</span><span class="w"></span></div>
+    <div class="frame"><iframe src="v-c.html" title="C안 · 벤토 모자이크" loading="lazy"></iframe></div>
+  </section>
+  <section class="col" style="--dc:#ffc828">
+    <div class="lab"><span class="dot"></span><span class="t">D안 · 캐러셀 슬라이드</span><span class="w"></span></div>
+    <div class="frame"><iframe src="v-d.html" title="D안 · 캐러셀 슬라이드" loading="lazy"></iframe></div>
+  </section>
+  <section class="col" style="--dc:#7be0a8">
+    <div class="lab"><span class="dot"></span><span class="t">E안 · 제품 쇼케이스</span><span class="w"></span></div>
+    <div class="frame"><iframe src="v-e.html" title="E안 · 제품 쇼케이스" loading="lazy"></iframe></div>
+  </section>
+  <section class="col" style="--dc:#8a8a92">
+    <div class="lab"><span class="dot"></span><span class="t">기준 · 현재 선호안 (Zap 마케팅)</span><span class="w"></span></div>
+    <div class="frame"><iframe src="superhive.html" title="기준 · 현재 선호안 (Zap 마케팅)" loading="lazy"></iframe></div>
   </section>
 </main>
 
