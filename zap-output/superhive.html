@@ -1,324 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Zap Output — Superhive page</title>
-<meta name="robots" content="noindex" />
-<meta name="theme-color" content="#0B0D10" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zap Output, Superhive page</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07080A">
 <!--
-  Embedded in the Superhive product description through an <iframe>, the same
-  way the Prompt Motion page is (prompt-motion/superhive.html). The store's
-  rich-text field strips <script>, <style> and <video>, so the coupon COPY
-  button, the brand fonts and the mp4 demos live here instead.
+  Zap Output, Superhive page. Skin and rhythm follow zap-board/superhive.html
+  (neon tech skin, Blaze AutoPose structure): release bar, hero, problem, fix,
+  core features, new in 1.2, Free/Pro, requirements, FAQ, closing headline.
 
-  The host cannot resize a cross-origin iframe to fit, so the embed has a
-  fixed height measured from this page at the widths the store column takes.
-  Change the length of this page and that height has to be measured again
-  (embed snippet: zap_output repo, docs/marketing/superhive-embed.html).
+  Embedded in the product description through an <iframe>. The store strips
+  script, style and video, so the fonts, the clips and the coupon button live
+  here. The host cannot resize a cross-origin iframe, so the embed carries a
+  fixed height measured from this page (snippet: zap_output repo,
+  docs/marketing/superhive-embed.html). Change the length of this page and
+  measure that height again.
 
-  Links open in a new tab: navigating inside the frame would leave the
-  visitor on our site with the store still wrapped around it.
+  Links open in a new tab: navigating inside the frame would leave the visitor
+  on our site with the store still wrapped around it.
 
-  Every claim here is checked against CHANGELOG.md 1.2.0. The clips are
-  screen captures of the add-on's real panels, with nothing drawn on top.
+  Every claim is checked against CHANGELOG.md 1.2.0 and README.md. The clips
+  are screen captures of the add-on's real panels, with nothing drawn on top.
 -->
+<script>document.documentElement.className+=' js'</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-@font-face { font-family: 'Farax Display'; src: url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Farax Label'; src: url('https://farax-creative.github.io/assets/fonts/farax-label.ttf') format('truetype'); font-display: swap; }
-:root {
-  --bg: #0B0D10; --panel: #11161B; --bar: #050506;
-  --cream: #F4EBDD; --body: rgba(244,235,221,.82); --dim: rgba(244,235,221,.45); --line: rgba(244,235,221,.13);
-  --zap: #FFC828;
-  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--cream); font-family: var(--sans); overflow-x: hidden; }
-a { color: inherit; }
-img, video { display: block; max-width: 100%; height: auto; }
-::selection { background: var(--zap); color: var(--bg); }
+@font-face{font-family:'Farax Display';src:url('https://farax-creative.github.io/assets/fonts/farax-display.ttf') format('truetype');font-weight:400;font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;color-scheme:dark}
+body{position:relative;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+ol,ul{list-style:none}
+::selection{background:var(--zap);color:#0B0B0B}
+:focus-visible{outline:2px solid var(--zap);outline-offset:3px}
+.in{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+.shot{position:relative;overflow:hidden;background:#050607}
+.shot>video{width:100%;height:auto}
+[data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,.84,.28,1) var(--d,0ms),transform .95s cubic-bezier(.16,.84,.28,1) var(--d,0ms)}
+[data-r].in2{opacity:1;transform:none}
+html:not(.js) [data-r]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-r]{transform:none!important;transition:opacity .4s ease var(--d,0ms)}.pill:hover,.copy{transition:none}}
 
-/* ---- release bar ---- */
-.rel { background: var(--bar); display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-       gap: 8px 22px; padding: 13px 16px; font: 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
-.rel .name { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
-.rel .dot { width: 8px; height: 8px; position: relative; top: -1px; border-radius: 50%; background: var(--zap); box-shadow: 0 0 0 3px rgba(255,200,40,.18); }
-.rel .ed { color: var(--zap); }
-.rel a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,235,221,.5); }
-.rel a:hover { text-decoration-color: var(--zap); }
+/* Neon tech skin, same tokens as Zap Board */
+:root{--bg:#07080A;--bg2:#0C0E11;--ink:#EDEAE2;--dim:#8B9097;--zap:#FFC828;--glow:rgba(255,200,40,.34);--edge:rgba(255,200,40,.42);--line:rgba(255,200,40,.16);--pad:clamp(18px,5vw,56px);
+--display:'Farax Display','Arial Narrow',sans-serif;--sans:'Space Grotesk','Helvetica Neue',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',Consolas,monospace}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans)}
+body::after{content:'';position:absolute;inset:0;z-index:60;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 4px)}
+.band{position:relative;padding:clamp(56px,9vw,116px) 0;border-top:1px solid var(--line)}
+.void{background:var(--bg);background-image:radial-gradient(circle at 1px 1px,rgba(255,200,40,.09) 1px,transparent 0);background-size:24px 24px}
+.void2{background:var(--bg2);background-image:radial-gradient(circle at 1px 1px,rgba(255,200,40,.07) 1px,transparent 0);background-size:24px 24px}
+.band::before{content:'';position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--zap) 20%,transparent 60%);opacity:.6}
+.k{display:inline-flex;align-items:center;gap:10px;font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap);margin-bottom:clamp(16px,2.6vw,26px)}
+.k::before{content:'';width:8px;height:8px;background:var(--zap);box-shadow:0 0 10px var(--zap);flex:none}
+h1,h2{font:400 clamp(46px,12.4vw,120px)/.92 var(--display);text-transform:uppercase;letter-spacing:.005em}
+h2{font-size:clamp(40px,10.4vw,92px)}
+h1 em,h2 em{font-style:normal;color:var(--zap);text-shadow:0 0 28px var(--glow),0 0 2px var(--zap)}
+.lead{font:400 clamp(16px,2.1vw,19px)/1.55 var(--sans);color:var(--dim);max-width:34em;margin-top:clamp(14px,2.4vw,24px)}
+code{font:500 .92em/1.4 var(--mono);color:var(--ink);overflow-wrap:anywhere}
 
-/* ---- coupon ---- */
-.coupon { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center;
-          background: var(--bar); border: 1px solid var(--line); border-radius: 4px; padding: 6px 6px 6px 14px; max-width: 100%;
-          font: 600 14px/1.2 -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--cream); }
-.coupon > span { padding: 4px 12px; }
-.coupon > span + span { border-left: 1px solid rgba(244,235,221,.2); }
-.coupon .who { padding-left: 0; }
-.coupon .off { color: var(--zap); }
-.coupon .code { font-family: var(--mono); letter-spacing: .06em; }
-.copy { margin-left: 6px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-        background: transparent; color: var(--cream); border: 1px solid rgba(244,235,221,.55); border-radius: 3px;
-        padding: 6px 10px; font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
-        transition: background-color .2s, color .2s, border-color .2s; }
-.copy:hover { border-color: var(--cream); }
-.copy.done { background: var(--zap); color: var(--bg); border-color: var(--zap); }
-.copy svg { width: 13px; height: 13px; }
+.bar{background:#0E0F12;border-bottom:1px solid var(--edge);font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.bar .in{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;padding-top:11px;padding-bottom:10px}
+.bar b{font-weight:500;color:#0B0B0B;background:var(--zap);padding:2px 6px;box-shadow:0 0 14px var(--glow)}
+.bar a{margin-left:auto;color:var(--zap)}
 
-/* ---- sections ---- */
-.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-.hero { padding: 64px 0 40px; background: radial-gradient(900px 520px at 70% 0%, #151A20 0%, var(--bg) 70%); }
-.kick { font: 12px/1.5 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
-.kick b { color: var(--zap); font-weight: 400; }
-h1 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(48px, 10vw, 96px);
-     line-height: .95; letter-spacing: .01em; margin: 18px 0 22px; }
-h2 { font-family: 'Farax Display', var(--sans); font-weight: 400; font-size: clamp(32px, 4.6vw, 48px);
-     line-height: 1.05; letter-spacing: .01em; margin: 0 0 20px; }
-.lead { font-size: clamp(18px, 2.4vw, 21px); line-height: 1.5; color: var(--body); max-width: 600px; }
-p { font-size: 17px; line-height: 1.65; color: var(--body); }
-p + p { margin-top: 16px; }
-em { font-style: italic; }
-strong { color: var(--cream); font-weight: 600; }
-code { font: 15px/1.4 var(--mono); color: var(--cream); background: rgba(244,235,221,.07);
-       border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
-.media { margin: 0 auto; width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
-         box-shadow: 0 30px 80px rgba(0,0,0,.5); background: #000; }
-.media video { width: 100%; }
-.hero-media { margin-top: 34px; max-width: 620px; }
-.one { font-size: 18px; line-height: 1.55; color: var(--body); max-width: 34em; }
-.grid { display: grid; gap: 24px; align-items: center; }
-.feat .media { max-width: 560px; }
-.feat .media.narrow { max-width: 300px; }
-@media (min-width: 560px) {
-  .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(22px, 5vw, 44px); }
-  .flip .txt { order: 2; }
-}
-.sec { padding: 30px 0 44px; }
-.label { font: 12px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
-         border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 18px; }
-.label b { color: var(--zap); font-weight: 400; margin-right: 8px; }
-.label .pro { color: var(--zap); border: 1px solid rgba(255,200,40,.45); border-radius: 3px; padding: 1px 6px; margin-left: 10px; letter-spacing: .14em; }
-.label .new { color: var(--bg); background: var(--zap); border-radius: 3px; padding: 1px 6px; margin-left: 6px; letter-spacing: .14em; }
-.note { font-size: 14px; line-height: 1.55; color: rgba(244,235,221,.6); margin-top: 16px; }
+.hero{padding-top:clamp(40px,7vw,84px)}
+.works{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(22px,3.4vw,32px);align-items:center}
+.works .l{font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap);margin-right:6px}
+.works li:not(.l),.chips li{font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--ink);border:1px solid var(--edge);padding:8px 10px;background:rgba(255,200,40,.04)}
+.shot{border-radius:4px;border:1px solid var(--edge);box-shadow:0 0 0 1px rgba(255,200,40,.08),0 0 44px -10px var(--glow),0 30px 60px -34px #000;margin-top:clamp(28px,4.6vw,56px)}
+.shot::before{content:'';position:absolute;inset:6px;z-index:3;pointer-events:none;background:
+linear-gradient(var(--zap),var(--zap)) 0 0/14px 2px no-repeat,linear-gradient(var(--zap),var(--zap)) 0 0/2px 14px no-repeat,
+linear-gradient(var(--zap),var(--zap)) 100% 100%/14px 2px no-repeat,linear-gradient(var(--zap),var(--zap)) 100% 100%/2px 14px no-repeat;opacity:.85}
+.shot .pro{position:absolute;left:10px;top:10px;margin:0;z-index:4}
 
+/* the problem: a folder of hand-typed names, set in type rather than a clip */
+.mess{margin-top:clamp(28px,4.6vw,48px);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:clamp(16px,2.6vw,24px)}
+.mess li{font:500 clamp(13px,1.7vw,15px)/1.4 var(--mono);color:var(--dim);padding:9px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+.mess li:last-child{border-bottom:0}
+.mess li span{overflow-wrap:anywhere;min-width:0}
+.mess li i{font-style:normal;color:#FF6B57;flex:none}
 
-.big { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 6px 0 18px; }
-.big .num { font-family: 'Farax Display', var(--sans); font-size: clamp(88px, 16vw, 140px); line-height: .9; color: var(--zap); }
-.big .cap { font: 13px/1.5 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); max-width: 16em; }
+/* one feature: caption beside or above the clip */
+.feat{margin-top:clamp(40px,6vw,72px)}
+.feat h3{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font:600 clamp(21px,2.8vw,28px)/1.2 var(--sans);letter-spacing:-.01em}
+.feat h3 b{font:500 13px/1 var(--mono);color:var(--zap);letter-spacing:.06em;position:relative;top:clamp(1.5px,.3vw,2.5px)}
+.feat h3 b::before{content:'['}
+.feat h3 b::after{content:']'}
+.feat p{font:400 16px/1.55 var(--sans);color:var(--dim);margin-top:8px;max-width:36em}
+.feat .shot{margin-top:clamp(18px,2.6vw,26px)}
+.split{display:grid;grid-template-columns:1fr;gap:0 clamp(24px,4vw,56px);align-items:center}
+.split .shot{max-width:320px}
+@media(min-width:600px){.split{grid-template-columns:minmax(0,1fr) minmax(0,300px)}.split .shot{margin-top:0}}
 
-.eds { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
-.ed-box { flex: 1 1 260px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 20px 20px 22px; }
-.ed-box.pro { border-color: rgba(255,200,40,.4); }
-.ed-box h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 4px;
-             font: 700 20px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
-.ed-box h3 span { font: 28px/1 'Farax Display', var(--sans); letter-spacing: .02em; color: var(--zap); }
-.ed-box .sub { font-size: 14px; color: var(--dim); margin-bottom: 12px; }
-.ed-box ul { list-style: none; }
-.ed-box li { font-size: 15px; line-height: 1.5; color: var(--body); padding: 7px 0 7px 18px; border-top: 1px solid var(--line); position: relative; }
-.ed-box li::before { content: ''; position: absolute; left: 2px; top: 15px; width: 6px; height: 6px; border-radius: 50%; background: var(--dim); }
-.ed-box.pro li::before { background: var(--zap); }
+.pro,.free{display:inline-block;font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:5px 7px 4px}
+.pro{background:var(--zap);color:#0B0B0B;box-shadow:0 0 14px var(--glow)}
+.free{border:1px solid var(--edge);color:var(--dim)}
 
-.req { margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 4px 18px; }
-.req div { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 15px 0; border-bottom: 1px solid var(--line);
-           font-size: 16px; line-height: 1.55; color: var(--body); }
-.req div:last-child { border-bottom: 0; }
-.req .k { flex: 0 0 110px; font-family: 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .05em; color: var(--cream); }
-.req .t { flex: 1 1 260px; }
+.zero{display:grid;grid-template-columns:auto 1fr;gap:0 clamp(16px,3vw,32px);align-items:center;margin-top:clamp(40px,6vw,72px);padding:clamp(18px,3vw,30px) 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge)}
+.zero b{font:400 clamp(88px,16vw,150px)/.8 var(--display);color:var(--zap);text-shadow:0 0 30px var(--glow)}
+.zero h3{font:600 clamp(19px,2.6vw,26px)/1.2 var(--sans);letter-spacing:-.01em}
+.zero p{font:400 15px/1.5 var(--sans);color:var(--dim);margin-top:6px;max-width:32em}
 
+.lim{display:grid;grid-template-columns:1fr;gap:0 clamp(20px,4vw,56px);margin-top:clamp(36px,5vw,56px);border-top:1px solid var(--edge)}
+@media(min-width:700px){.lim{grid-template-columns:1fr 1fr 1fr}}
+.lim li{padding:clamp(16px,2.4vw,22px) 0;border-bottom:1px solid var(--line)}
+.lim h4{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font:600 clamp(18px,2.2vw,21px)/1.25 var(--sans)}
+/* flex centring leaves the tag about 1px under the cap-height middle of the sans heading */
+.lim h4 span,.sum h3 span{position:relative;top:-1px}
+.lim p{font:400 15px/1.5 var(--sans);color:var(--dim);margin-top:6px}
 
-.series { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
-.series a { flex: 1 1 250px; display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px;
-            background: var(--panel); padding: 16px 18px; transition: border-color .2s; }
-.series a:hover { border-color: rgba(255,200,40,.5); }
-.series b { display: flex; justify-content: space-between; align-items: baseline; font: 700 17px/1.3 'Farax Label', 'Arial Narrow', sans-serif; letter-spacing: .04em; color: var(--cream); }
-.series b span { font: 20px/1.1 'Farax Display', var(--sans); color: var(--zap); }
-.series small { display: block; margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--dim); }
+.sum{margin-top:clamp(28px,4.4vw,48px);border-top:1px solid var(--edge)}
+.sum li{display:grid;grid-template-columns:clamp(60px,10vw,100px) 1fr;gap:0 clamp(8px,2vw,22px);padding:clamp(16px,2.4vw,26px) 0;border-bottom:1px solid var(--line);align-items:baseline}
+.sum b{font:400 clamp(40px,8vw,76px)/.9 var(--display);color:var(--zap);text-shadow:0 0 24px var(--glow)}
+.sum h3{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font:600 clamp(19px,2.6vw,26px)/1.2 var(--sans);letter-spacing:-.01em}
+.sum p{font:400 15px/1.5 var(--sans);color:var(--dim);margin-top:4px;max-width:36em}
+.plans{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(28px,4vw,44px)}
+@media(min-width:600px){.plans{grid-template-columns:1fr 1fr}}
+.plan{padding:clamp(18px,2.6vw,26px);border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.plan.p{border-color:var(--zap);box-shadow:0 0 36px -8px var(--glow),inset 0 0 40px -24px var(--glow)}
+.plan .n{font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap)}
+.plan .a{font:400 clamp(52px,9vw,84px)/1 var(--display);margin-top:10px}
+.plan.p .a{color:var(--zap);text-shadow:0 0 24px var(--glow)}
+.plan .a small{font:500 12px var(--mono);letter-spacing:.06em;margin-left:10px;color:var(--dim)}
+.plan p{font:400 15px/1.5 var(--sans);color:var(--dim);margin-top:8px}
 
-.cta { text-align: center; padding: 26px 0 10px; }
-.cta p { font-size: 15px; color: var(--dim); margin-bottom: 14px; }
-.foot { padding: 30px 0 56px; font: 13px/1.6 var(--mono); color: var(--dim); }
+.req{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(28px,4vw,44px)}
+@media(min-width:700px){.req{grid-template-columns:repeat(3,1fr)}}
+.req li{padding:clamp(18px,2.4vw,24px);border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.req span{display:block;font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--zap)}
+.req strong{display:block;font:400 clamp(30px,4vw,44px)/1 var(--display);text-transform:uppercase;margin-top:14px}
+.req p{font:400 14.5px/1.5 var(--sans);color:var(--dim);margin-top:8px}
 
-@media (max-width: 520px) {
-  .hero { padding-top: 44px; }
-  .req .k { flex-basis: 100%; }
-  .coupon { padding: 8px 10px; row-gap: 6px; }
-  .coupon .who { padding-left: 12px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .copy, .series a { transition: none; }
-}
+.faq{margin-top:clamp(28px,4vw,44px);border-top:1px solid var(--edge)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:clamp(16px,2.4vw,22px) 0;font:600 clamp(17px,2.2vw,20px)/1.3 var(--sans)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{font:500 18px/1 var(--mono);font-style:normal;color:var(--zap);transition:transform .3s cubic-bezier(.16,.84,.28,1)}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq details p{font:400 15.5px/1.6 var(--sans);color:var(--dim);padding:0 0 clamp(16px,2.4vw,22px);max-width:44em}
+
+.close h2{font-size:clamp(46px,13vw,132px);color:var(--zap);text-shadow:0 0 40px var(--glow)}
+.acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:clamp(22px,3.4vw,32px)}
+.pill{display:inline-flex;align-items:center;font:500 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--zap);border:1px solid var(--zap);padding:15px 20px 14px;box-shadow:0 0 22px -6px var(--glow);transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+.pill:hover{background:var(--zap);color:#0B0B0B;box-shadow:0 0 34px -2px var(--glow)}
+.coupon{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:clamp(28px,4vw,40px);padding:12px 12px 12px 16px;border:1px dashed var(--edge);font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);max-width:100%}
+.coupon strong{font-weight:500;color:var(--ink);letter-spacing:.14em}
+.copy{cursor:pointer;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#0B0B0B;background:var(--zap);border:0;padding:8px 10px 7px;box-shadow:0 0 14px var(--glow);transition:background .2s ease}
+.copy.done{background:var(--ink)}
+.foot{margin-top:clamp(36px,6vw,72px);padding-top:14px;border-top:1px solid var(--line);font:500 11px/1.7 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 </style>
 </head>
 <body>
+<div class="bar"><div class="in"><b>1.2</b><span>Zap Output 1.2 is out</span><span>Free + $5 Pro, one-time</span><a href="https://farax-creative.github.io/zap-output/changelog.html" target="_blank" rel="noopener">View changelog</a></div></div>
 
-<div class="rel">
-  <span class="name"><span class="dot"></span>Zap Output v1.2.0</span>
-  <span class="ed">Free + Pro</span>
-  <a href="https://farax-creative.github.io/zap-output/changelog.html" target="_blank" rel="noopener">View changelog &rarr;</a>
-</div>
+<section class="band void hero"><div class="in">
+  <span class="k">Zap Output &middot; Blender 5.0+</span>
+  <h1 data-r>Render paths, <em>in clicks.</em></h1>
+  <p class="lead" data-r data-d="80">Build the output path from buttons, see the filename before you render, and stop writing over the last take.</p>
+  <ul class="works" data-r data-d="140"><li class="l">Works with</li><li>Blender 5.0 to 5.2</li><li>Windows</li><li>macOS</li><li>Linux</li><li>Plain Blender paths</li></ul>
+  <div class="shot" data-r data-d="200"><video src="media/hero.mp4" width="1232" height="626" autoplay muted loop playsinline preload="auto" aria-label="Token buttons building a render path in the Output panel, with the live filename preview"></video></div>
+</div></section>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="kick"><b>Farax Creative</b> &nbsp;/&nbsp; Blender 5.0+ &middot; Windows &middot; macOS &middot; Linux</div>
-    <h1>Zap Output</h1>
-    <p class="lead">Render paths in clicks. No overwritten takes.</p>
-    <div class="media hero-media"><video src="media/hero.mp4" autoplay muted loop playsinline preload="auto" aria-label="Token buttons building a render path in the Output panel, with the live filename preview"></video></div>
+<section class="band void2"><div class="in">
+  <span class="k">01 / The problem</span>
+  <h2 data-r>One F12 <em>took the last take.</em></h2>
+  <p class="lead" data-r data-d="80">Paths typed by hand, versions bumped from memory. The render lands on a name that is already taken, and yesterday's frames are gone.</p>
+  <ul class="mess" data-r data-d="120" aria-label="A render folder with hand-typed names">
+    <li><span>shot_final.png</span><i>overwritten</i></li>
+    <li><span>shot_final_v2.png</span><i>overwritten</i></li>
+    <li><span>shot_final_v2_REAL.png</span><i>which one?</i></li>
+  </ul>
+</div></section>
+
+<section class="band void"><div class="in">
+  <span class="k">02 / The fix</span>
+  <h2 data-r>Version Up <em>checks the disk.</em></h2>
+  <p class="lead" data-r data-d="80">It skips any version that already holds renders and warns you before a render can land on one.</p>
+  <div class="shot" data-r><video src="media/versionup.mp4" width="1232" height="698" muted loop playsinline preload="auto" aria-label="Version Up skipping v002, which already holds renders, and landing on v003, with a preflight warning"></video></div>
+  <div class="zero" data-r><b>0</b><div><h3>Custom tokens.</h3><p>It writes Blender's own path tokens. Uninstall it and every path still renders, on your machine or a farm.</p></div></div>
+</div></section>
+
+<section class="band void2"><div class="in">
+  <span class="k">03 / Every render</span>
+  <h2 data-r>Every take, <em>kept.</em></h2>
+  <div class="feat split" data-r>
+    <div><h3><b>01</b>Auto-save every F12 <span class="pro">Pro</span></h3><p>Each still render saves to your output path by itself. A taken name gets <code>_1</code>, <code>_2</code> added, so nothing is written over.</p></div>
+    <div class="shot"><video src="media/autosave.mp4" width="608" height="1190" muted loop playsinline preload="auto" aria-label="Three F12 renders saved as three numbered files"></video></div>
   </div>
-</header>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="big"><span class="num">0</span><span class="cap">custom tokens.<br>Uninstall it. Paths still render.</span></div>
+  <div class="feat" data-r>
+    <h3><b>02</b>Folders and presets <span class="pro">Pro</span></h3><p>Your folder structure in one click: scene, camera and version folders from a saved preset.</p>
+    <div class="shot"><video src="media/folders.mp4" width="1232" height="740" muted loop playsinline preload="auto" aria-label="Applying a path preset that adds scene, camera and version folders"></video></div>
   </div>
-</section>
+</div></section>
 
-<section class="sec feat">
-  <div class="wrap grid">
-    <div class="txt">
-      <div class="label"><b>01</b>Version Up<span class="new">New</span></div>
-      <h2>Skips versions already on disk. Warns before you render.</h2>
-    </div>
-    <div class="media"><video src="media/versionup.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Version Up skipping v002, which already holds renders, and landing on v003, with a preflight warning"></video></div>
+<section class="band void"><div class="in">
+  <span class="k">04 / New in 1.2</span>
+  <h2 data-r>Crashes and passes, <em>covered.</em></h2>
+  <div class="feat" data-r>
+    <h3><b>01</b>Render Continuity <span class="pro">Pro</span></h3><p>A render died overnight? Scan Frames lists the holes, and Set Range to Gaps renders only those.</p>
+    <div class="shot"><video src="media/continuity.mp4" width="1232" height="1016" muted loop playsinline preload="auto" aria-label="Scan Frames reporting missing frames, then Set Range to Gaps narrowing the frame range to them"></video></div>
   </div>
-</section>
-
-<section class="sec feat flip">
-  <div class="wrap grid">
-    <div class="txt">
-      <div class="label"><b>02</b>Render Continuity<span class="pro">Pro</span><span class="new">New</span></div>
-      <h2>Find the frames a crash lost. Render only those.</h2>
-    </div>
-    <div class="media"><video src="media/continuity.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Scan Frames reporting missing frames, then Set Range to Gaps narrowing the frame range to them"></video></div>
+  <div class="feat" data-r>
+    <h3><b>02</b>File Output nodes follow <span class="pro">Pro</span></h3><p>Version Up moves compositor File Output nodes to the same version, so passes stop landing in the old folder.</p>
+    <div class="shot"><video src="media/nodes.mp4" width="1160" height="264" muted loop playsinline preload="auto" aria-label="A File Output node path moving from v001 to v003 with Version Up, skipping versions already on disk"></video></div>
   </div>
-</section>
+  <ul class="lim">
+    <li data-r><h4>Preflight warnings <span class="free">Free</span></h4><p>Says so before you render when files already sit at the path, the folder refuses writes, or a File Output node would write nothing.</p></li>
+    <li data-r data-d="70"><h4>Stereo takes kept <span class="pro">Pro</span></h4><p>Auto-save now checks the <code>_L</code> and <code>_R</code> files, so a second stereo F12 no longer writes over the first.</p></li>
+    <li data-r data-d="140"><h4>Version Up on Render <span class="pro">Pro</span></h4><p>The automatic bump now moves the File Output nodes too, the same as the button.</p></li>
+  </ul>
+</div></section>
 
-<section class="sec feat">
-  <div class="wrap grid">
-    <div class="txt">
-      <div class="label"><b>03</b>Auto-save<span class="pro">Pro</span></div>
-      <h2>Every F12 kept, numbered.</h2>
-    </div>
-    <div class="media narrow"><video src="media/autosave.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Three F12 renders saved as three numbered files"></video></div>
+<section class="band void2"><div class="in">
+  <span class="k">05 / Free or Pro</span>
+  <h2 data-r>Six tools. <em>One panel.</em></h2>
+  <ol class="sum"><li data-r><b>01</b><div><h3>Token buttons <span class="free">Free</span></h3><p>Build the path from buttons, with a live filename preview and a date stamp.</p></div></li><li data-r><b>02</b><div><h3>Version Up and Down <span class="free">Free</span></h3><p>Skips versions already on disk. Open, create or copy the output folder.</p></div></li><li data-r><b>03</b><div><h3>Preflight warnings <span class="free">Free</span></h3><p>Files already there, a folder you cannot write to, a node that writes nothing.</p></div></li><li data-r><b>04</b><div><h3>Auto-save and archive <span class="pro">Pro</span></h3><p>Every F12 kept. Version Up on Render. Old takes moved to an <code>_old</code> folder.</p></div></li><li data-r><b>05</b><div><h3>Render Continuity <span class="pro">Pro</span></h3><p>Find the frames a crash lost and render only those.</p></div></li><li data-r><b>06</b><div><h3>Presets and nodes <span class="pro">Pro</span></h3><p>Folder presets, camera folders, File Output nodes kept on the same version.</p></div></li></ol>
+  <div class="plans">
+    <div class="plan" data-r><span class="n">Free</span><div class="a">$0</div><p>Items 01 to 03. Clean paths and no overwritten versions.</p></div>
+    <div class="plan p" data-r data-d="80"><span class="n">Pro</span><div class="a">$5<small>one-time</small></div><p>Adds items 04 to 06. No subscription, free updates.</p></div>
   </div>
-</section>
+</div></section>
 
-<section class="sec feat flip">
-  <div class="wrap grid">
-    <div class="txt">
-      <div class="label"><b>04</b>File Output nodes<span class="pro">Pro</span><span class="new">New</span></div>
-      <h2>Compositor passes follow the version.</h2>
-    </div>
-    <div class="media"><video src="media/nodes.mp4" autoplay muted loop playsinline preload="metadata" aria-label="A File Output node path moving from v001 to v003 with Version Up, skipping versions already on disk"></video></div>
+<section class="band void"><div class="in">
+  <span class="k">06 / Requirements</span>
+  <h2 data-r>Minimum <em>requirements.</em></h2>
+  <ul class="req">
+    <li data-r><span>Blender</span><strong>5.0 or newer</strong><p>Tested on 5.0, 5.1 and 5.2.</p></li>
+    <li data-r data-d="70"><span>Platform</span><strong>Win, Mac, Linux</strong><p>All three.</p></li>
+    <li data-r data-d="140"><span>Account</span><strong>None</strong><p>Check for Updates goes online only when you click it.</p></li>
+  </ul>
+</div></section>
+
+<section class="band void2"><div class="in">
+  <span class="k">07 / FAQ</span>
+  <h2 data-r>Before <em>you buy.</em></h2>
+  <div class="faq">
+    <details data-r><summary>Does it change how Blender renders?<i>+</i></summary><p>No. It writes a normal output path with Blender's own tokens. Remove the add-on and the path still renders, so a render farm needs nothing installed.</p></details>
+    <details data-r><summary>Can it still overwrite a render?<i>+</i></summary><p>Version Up skips versions that already hold files, auto-save adds <code>_1</code>, <code>_2</code> to a taken name, and the preview warns when Overwrite is off with files already there. Blender itself will still write wherever you point it by hand.</p></details>
+    <details data-r><summary>Does anything run on its own?<i>+</i></summary><p>Auto-save for stills is on by default in Pro. Version Up on Render and Archive on Version Up stay off until you turn them on in Preferences.</p></details>
+    <details data-r><summary>How do updates arrive?<i>+</i></summary><p>Connect Superhive as a remote repository in Blender once, and Blender finds and installs new versions for you.</p></details>
+    <details data-r><summary>Anything it leaves alone?<i>+</i></summary><p>Folder per Version leaves the emptied version folder in place. File Output nodes with no version in their path are not touched.</p></details>
   </div>
-</section>
+</div></section>
 
-<section class="sec feat">
-  <div class="wrap grid">
-    <div class="txt">
-      <div class="label"><b>05</b>Folders &amp; presets<span class="pro">Pro</span></div>
-      <h2>Your folder structure in one click.</h2>
-    </div>
-    <div class="media"><video src="media/folders.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Applying a path preset that adds scene, camera and version folders"></video></div>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="label"><b>06</b>Editions</div>
-    <div class="eds">
-      <div class="ed-box">
-        <h3>Free <span>$0</span></h3>
-        <ul>
-          <li>Token buttons + live preview</li>
-          <li>Date stamp</li>
-          <li>Version Up / Down</li>
-          <li>Preflight warnings</li>
-          <li>Open, create, copy the output path</li>
-        </ul>
-      </div>
-      <div class="ed-box pro">
-        <h3>Pro <span>$5</span></h3>
-        <ul>
-          <li>Everything in Free</li>
-          <li>Auto-save every F12</li>
-          <li>Version Up on Render</li>
-          <li>Render Continuity</li>
-          <li>Archive old takes to <em>_old</em></li>
-          <li>Presets, folders, File Output nodes</li>
-        </ul>
-      </div>
-    </div>
-    <div class="req">
-      <div><span class="k">Blender</span><span class="t">5.0 or newer. Tested on 5.0, 5.1 and 5.2.</span></div>
-      <div><span class="k">OS</span><span class="t">Windows, macOS, Linux</span></div>
-      <div><span class="k">Licence</span><span class="t">GPL, free updates</span></div>
-    </div>
-    
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="label"><b>07</b>The Zap series</div>
-    <div class="series">
-      <a href="https://superhivemarket.com/products/zap-viewer" target="_blank" rel="noopener"><b>Zap Viewer <span>$19</span></b><small>Browse every render inside Blender.</small></a>
-      <a href="https://superhivemarket.com/products/zap-doctor" target="_blank" rel="noopener"><b>Zap Doctor <span>$9</span></b><small>Catch the settings that ruin a final render.</small></a>
-    </div>
-  </div>
-</section>
-
-<section class="cta">
-  <div class="wrap">
-    <p>Own a paid Zap add-on? Take 25% off any other one.</p>
-    <div class="coupon">
-      <span class="who">Zap owners</span>
-      <span class="off">25% off</span>
-      <span class="code">ZAP25</span>
-      <button class="copy" type="button" data-code="ZAP25" aria-label="Copy coupon code ZAP25">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
-        <span>Copy</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<footer class="foot">
-  <div class="wrap">Zap Output by Farax Creative.<br>Blender is a trademark of the Blender Foundation.</div>
-</footer>
+<section class="band void close"><div class="in">
+  <span class="k">Zap Output</span>
+  <h2 data-r>No more final_v2.</h2>
+  <p class="lead" data-r data-d="80">Free to start. Pro is $5, once.</p>
+  <div class="acts"><a class="pill" href="https://farax-creative.github.io/zap-output/changelog.html" target="_blank" rel="noopener">See what is new in 1.2 &rarr;</a></div>
+  <div class="coupon">Own another Zap add-on? 25% off <strong class="code">ZAP25</strong><button class="copy" type="button" data-code="ZAP25" aria-label="Copy coupon code ZAP25">Copy</button></div>
+  <div class="foot">Zap Output by Farax Creative &middot; Zap series &middot; Blender 5.0+ &middot; Windows, macOS, Linux<br>Blender is a trademark of the Blender Foundation</div>
+</div></section>
 
 <script>
-// Copy the coupon code. Inside the store's cross-origin iframe the async
-// Clipboard API is blocked unless the embed grants clipboard-write (the store
-// strips `allow`), so fall back to a hidden textarea + execCommand, which
-// works on a user click.
-function copyText(t) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(t).catch(function () { return legacy(t); });
-  }
-  return Promise.resolve(legacy(t));
-}
-function legacy(t) {
-  var ta = document.createElement('textarea');
-  ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
-  document.body.appendChild(ta); ta.select();
-  var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
-  document.body.removeChild(ta);
-  if (!ok) throw new Error('copy failed');
-}
-document.querySelectorAll('.copy').forEach(function (b) {
-  var label = b.querySelector('span');
-  b.addEventListener('click', function () {
-    copyText(b.dataset.code).then(function () {
-      b.classList.add('done'); label.textContent = 'Copied';
-      setTimeout(function () { b.classList.remove('done'); label.textContent = 'Copy'; }, 1600);
-    }, function () {
-      // Last resort: select the code so the visitor can press Ctrl+C.
-      var r = document.createRange(); r.selectNodeContents(b.parentNode.querySelector('.code'));
-      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
-    });
-  });
-});
+(function(){var RM=matchMedia('(prefers-reduced-motion: reduce)').matches,IO='IntersectionObserver' in window;
+var r=document.querySelectorAll('[data-r]');
+if(IO){var a=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in2');a.unobserve(e.target)}})},{threshold:.12});
+r.forEach(function(el){if(el.dataset.d)el.style.setProperty('--d',el.dataset.d+'ms');a.observe(el)})}else r.forEach(function(el){el.classList.add('in2')});
+var v=document.querySelectorAll('video');
+if(IO&&!RM){var b=new IntersectionObserver(function(es){es.forEach(function(e){var x=e.target;if(e.isIntersecting){var p=x.play();if(p&&p.catch)p.catch(function(){})}else x.pause()})},{threshold:.25});v.forEach(function(x){x.muted=true;b.observe(x)})}
+else if(RM)v.forEach(function(x){x.removeAttribute('autoplay');x.pause();x.controls=true});
+})();
+// Copy the coupon. Inside the store's cross-origin iframe the async Clipboard API
+// is blocked (the store strips `allow`), so fall back to execCommand on the click.
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var t=b.dataset.code,ok=false;
+  function done(){b.classList.add('done');b.textContent='Copied';setTimeout(function(){b.classList.remove('done');b.textContent='Copy'},1600)}
+  function legacy(){var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);
+    if(ok)done();else{var s=getSelection(),rg=document.createRange();rg.selectNodeContents(b.parentNode.querySelector('.code'));s.removeAllRanges();s.addRange(rg)}}
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done,legacy);else legacy();
+})});
 </script>
 </body>
 </html>
